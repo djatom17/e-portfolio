@@ -1,17 +1,12 @@
-FROM node:12
-
-# Create app directory
-WORKDIR /usr/src/app
-
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
+# Build the React application for production
+FROM node:alpine AS node_builder
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
-
-# Bundle app source
 COPY . .
+RUN npm run build
 
-CMD [ "node", "index.js" ]
+FROM nginx:stable-alpine
+COPY default.conf.template /etc/nginx/conf.d/default.conf.template
+COPY --from=node_builder /app/build /usr/share/nginx/html
+CMD /bin/sh -c "envsubst '\$PORT' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'
