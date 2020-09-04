@@ -1,11 +1,13 @@
 import React from 'react';
+//import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+    
     return (
-        <nav className="navbar navbar-expand-sm navbar-dark bg-dark ">
+        <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
             <div className="container">
                 <a className="navbar-brand" href="/">
-                    CAE-Project
+                    Ctrl Alt Elite
                 </a>
                 <button
                     className="navbar-toggler"
