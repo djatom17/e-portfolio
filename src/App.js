@@ -10,7 +10,11 @@ function App() {
   return (
     <div className="App">
         <Navbar />
-        <Landing />
+        <Route exact path="/" component={Landing} />
+        <div className={"container"}>
+            <Route exact path="/register" component={Register} />
+
+        </div>
         <Footer />
     </div>
   );
