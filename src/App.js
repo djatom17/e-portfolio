@@ -9,15 +9,18 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-        <Navbar />
-        <Route exact path="/" component={Landing} />
-        <div className={"container"}>
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
+      <Router>
+        <div className="App">
+            <Navbar />
+            <Route exact path="/" component={Landing} />
+            <div className={"container"}>
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+            </div>
+            <Footer />
         </div>
-        <Footer />
-    </div>
+      </Router>
+
   );
 }
 

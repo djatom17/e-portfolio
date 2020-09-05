@@ -1,5 +1,5 @@
 import React from 'react';
-//import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
     return (
@@ -16,12 +16,12 @@ const Landing = () => {
                                 Create a developer profile/portfolio, share your achievements and flex
                             </p>
                             <hr />
-                            {/* <Link to="/register" className={"btn btn-lg btn-info mr-2"}>
+                            <Link to="/register" className={"btn btn-lg btn-info mr-2"}>
                                 Start Flexing
                             </Link>
                             <Link to={"/login"} className={"btn btn-lg btn-light"}>
                                 Login
-                            </Link> */}
+                            </Link>
 
                         </div>
                     </div>
