@@ -5,6 +5,7 @@ import Landing from "./component/layout/Landing";
 import Footer from "./component/layout/Footer";
 import Register from "./component/auth/Register";
 import Login from "./component/auth/Login";
+import Browse from "./component/auth/Browse";
 import './App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
             <div className={"container"}>
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/browse" component={Browse} />
             </div>
             <Footer />
         </div>
