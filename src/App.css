@@ -60,6 +60,16 @@ img {
 .browse-profile-summary {
   width: auto;
   height: auto;
-  padding: 10px;
+  padding: 25px;
   float: left;
+  text-align: left;
+}
+
+.browse-name {
+  font-size: 30px;
+}
+
+.browse-details {
+  font-size: 20px;
+  line-height: 80%;
 }

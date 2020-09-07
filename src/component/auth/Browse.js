@@ -22,9 +22,19 @@ const Browse = props => {
                           <img src={placeholder}/>
                         </div>
                         <div className="container browse-profile-summary">
-                        <p>
-                        BRUH
+                        <h1 className="browse-name">
+                        Anuja Nautreel
+                        </h1>
+                        <p className="browse-details">
+                        Lead 3D Artist @ UnrealVirtualGames
                         </p>
+                        <p className="browse-details">
+                        Master of Animation @ RMIT
+                        </p>
+                        <p className="browse-details">
+                        Bachelor of Design @ University of Melbourne
+                        </p>
+
                         </div>
                       </div>
 
@@ -34,8 +44,17 @@ const Browse = props => {
                           <img src={placeholder2}/>
                         </div>
                         <div className="container browse-profile-summary">
-                        <p>
-                        BRUH
+                        <h1 className="browse-name">
+                        John Smith
+                        </h1>
+                        <p className="browse-details">
+                        Machine Learning Engineer @ UnrealMachineLearning
+                        </p>
+                        <p className="browse-details">
+                        Master of IT @ La Trobe University
+                        </p>
+                        <p className="browse-details">
+                        Bachelor of Science @ University of Melbourne
                         </p>
                         </div>
                       </div>
