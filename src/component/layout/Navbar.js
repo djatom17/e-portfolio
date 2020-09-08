@@ -1,8 +1,8 @@
 import React from 'react';
+
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
             <div className="container">
@@ -21,7 +21,7 @@ const Navbar = () => {
             <div className="collapse navbar-collapse" id="mobile-nav">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/profiles">
+                        <Link className="nav-link" to="/developer">
                             {' '}
                             Developers
                         </Link>
@@ -31,23 +31,37 @@ const Navbar = () => {
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
                         <Link className="nav-link" to="/browse">
-                            Browse 
+                            {' '}
+                            Browse Profiles
                         </Link>
-
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/profile">
+                            {' '}
+                            My Profile
+                        </Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/register">
+                            {' '}
                             Sign Up
                         </Link>
-
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/login">
+                            {' '}
                             Login
                         </Link>
                     </li>
                 </ul>
-
+                <ul className="navbar-nav ml-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/profiles">
+                            {' '}
+                            Help
+                        </Link>
+                    </li>
+                </ul>
             </div>
         </nav>
     );

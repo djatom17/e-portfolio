@@ -1,21 +1,25 @@
 img {
-  width: 100%;
+  /* default
+  idth: 100%;
+  */
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-.landing{
+.landing {
   position: relative;
-  background: url("./img/option5.png") no-repeat;
+  background: url('./img/landingIMG.png') no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
-  margin-top: -42px;
+  margin-top: -24px;
   margin-bottom: -50px;
 }
 
 .landing-inner {
   padding-top: 80px;
 }
-
 .dark-overlay {
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
