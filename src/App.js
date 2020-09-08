@@ -9,7 +9,7 @@ import Register from "./component/auth/Register";
 import Login from "./component/auth/Login";
 import Browse from "./component/auth/Browse";
 import Profile from "./component/auth/Profile";
-
+import About from "./component/auth/About";
 import './App.css';
 
 function App() {
@@ -21,9 +21,9 @@ function App() {
                 <div className={"container"}>
                     <Route exact path="/browse" component={Browse} />
                     <Route exact path="/profile" component={Profile} />
-
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/login" component={Login} />
+                    <Route exact path="/about" component={About} />
 
                 </div>
                 <Footer />
