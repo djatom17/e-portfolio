@@ -1,21 +1,25 @@
 img {
-  width: 100%;
+  /* default
+  idth: 100%;
+  */
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-.landing{
+.landing {
   position: relative;
-  background: url("./img/option5.png") no-repeat;
+  background: url('./img/landingIMG.png') no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
-  margin-top: -42px;
+  margin-top: -24px;
   margin-bottom: -50px;
 }
 
 .landing-inner {
   padding-top: 80px;
 }
-
 .dark-overlay {
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
@@ -36,4 +40,40 @@ img {
 
 .form-control::placeholder {
   color: #bbb !important;
+}
+
+.browse-outer {
+  margin: auto;
+  width: 100%;
+  border: 2px solid  #bbb;
+  padding: 10px;
+  overflow:auto;
+}
+
+.browse-inner {
+}
+
+.browse-profile-picture {
+  width: 240px;
+  height: 260px;
+  padding: 10px;
+  float: left;
+  clear: left;
+}
+
+.browse-profile-summary {
+  width: auto;
+  height: auto;
+  padding: 25px;
+  float: left;
+  text-align: left;
+}
+
+.browse-name {
+  font-size: 30px;
+}
+
+.browse-details {
+  font-size: 20px;
+  line-height: 80%;
 }
