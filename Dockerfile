@@ -31,7 +31,7 @@ RUN npm run build
 
 FROM node:alpine
 WORKDIR /app/server
-COPY --from=node_builder /app/package*.json ./
+COPY --from=node_builder /app/server/package*.json ./
 RUN npm install
 COPY --from=node_builder /app/server ./
 WORKDIR /app
