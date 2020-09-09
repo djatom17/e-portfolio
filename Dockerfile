@@ -28,12 +28,15 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-
-FROM node:alpine
 WORKDIR /app/server
-COPY --from=node_builder /app/server/package*.json ./
 RUN npm install
-COPY --from=node_builder /app/server ./
-WORKDIR /app
-COPY --from=node_builder /app/build ./
 CMD npm start
+
+# FROM node:alpine
+# WORKDIR /app/server
+# COPY --from=node_builder /app/server/package*.json ./
+# RUN npm install
+# COPY --from=node_builder /app/server ./
+# WORKDIR /app
+# COPY --from=node_builder /app/build ./
+# CMD npm start
