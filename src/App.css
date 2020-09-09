@@ -9,7 +9,7 @@ img {
 
 .landing {
   position: relative;
-  background: url('./img/landingIMG.png') no-repeat;
+  background: url("./img/option5-min.png") no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
