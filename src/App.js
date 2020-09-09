@@ -17,7 +17,7 @@ class App extends Component
 
   componentDidMount()
   {
-    fetch('/users')
+    fetch('/')
       .then(response => response.json())
       .then(res => {
         if (res.data)
