@@ -9,9 +9,10 @@ var busboy = require('connect-busboy');
 var busboyBodyParser = require('busboy-body-parser');
 
 var indexRouter = require('./routes/index');
-var s3u = require('./routes/api/s3upload');
+//var s3u = require('./routes/api/s3upload');
 
 var app = express();
+var s3 = require('./routes/api/s3');
 
 app.use(cors());
 app.use(busboy());
@@ -35,13 +36,15 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/../build', 'index.html'))
 });
 
-// Handle React routing, return all requests to React app
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, '/../build', 'index.html'));
-});
 
 //app.use('/', indexRouter);
+app.use('/image', s3);
 //app.use('/s3proxy', s3u);
+
+// Handle React routing, return all requests to React app
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '/../build', 'index.html'));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
