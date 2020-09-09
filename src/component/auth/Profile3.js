@@ -58,7 +58,7 @@ const Profile3 = () => {
                     </div>
                     <div className="col-lg-6">
                         <div className="about-avatar">
-                            <img src={require("../../img/placeholder3.png")} />
+                            <img src={require("../../img/placeholder3.png")} aria-hidden alt="description of image"/>
                         </div>
                     </div>
                 </div>
