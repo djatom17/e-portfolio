@@ -1,7 +1,4 @@
 img {
-  /* default
-  idth: 100%;
-  */
   display: block;
   max-width: 100%;
   height: auto;
@@ -10,11 +7,26 @@ img {
 .landing {
   position: relative;
   background: url('./img/landingIMG.png') no-repeat;
+
   background-size: cover;
   background-position: center;
   height: 100vh;
   margin-top: -24px;
   margin-bottom: -50px;
+}
+
+.about-page-text {
+  font-size: 28px;
+}
+
+.profile4 {
+  position: relative;
+  background: url('./img/placeholder4.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 130vh;
+  margin-top: 10px;
+  margin-bottom: 150px;
 }
 
 .landing-inner {
@@ -63,8 +75,9 @@ img {
 
 .browse-profile-summary {
   width: auto;
-  height: auto;
+  /*height: 350px;*/
   padding: 25px;
+  padding-top: 20px;
   float: left;
   text-align: left;
 }

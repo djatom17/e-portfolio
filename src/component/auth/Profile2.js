@@ -1,21 +1,22 @@
 import React from 'react';
-import placeholder from "../../img/placeholder.png";
-import {Link} from "react-router-dom";
+import placeholder2 from "../../img/placeholder2.png";
 
-const Profile = () => {
+
+
+const Profile2 = () => {
 
     return (
         <div className="profile">
             <div className="container">
-                <div className={"row"}>
+                <div className="row">
                     <div className="col-mid-8 m-auto">
-                        <h1 className="display-4 text-center">Anuja Nautreel's Flex page</h1>
-                        <p className={"lead text-center"}>
+                        <h1 className="display-4 text-center">John Smith's Flex</h1>
+                        <p className="lead text-center">
                             "Never fear, for I is here" Hackers(1995)
                         </p>
                         <div className="container browse-outer">
                             <div className="container browse-profile-picture">
-                                <img src={placeholder} aria-hidden alt="description of image"/>
+                                <img src={placeholder2} aria-hidden alt="description of image"/>
                             </div>
                             <div className="container browse-profile-summary">
                                 <h1 className="display-5 browse-name">
@@ -37,18 +38,7 @@ const Profile = () => {
                         <p>
 
                         </p>
-                        <Link to="/profile" className={"btn btn-lg btn-info mr-2"}>
-                            Edit
-                        </Link>
-                        <Link to="/profile" className={"btn btn-lg btn-info mr-2"}>
-                            Upload
-                        </Link>
-                        <Link to="/profile" className={"btn btn-lg btn-info mr-2"}>
-                            MySpace
-                        </Link>
-                        <p>
 
-                        </p>
                         <h1 className="display-5 text-lg">
                             Description Text
                         </h1>
@@ -84,4 +74,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default Profile2;
