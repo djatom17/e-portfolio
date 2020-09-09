@@ -30,10 +30,18 @@ app.use(busboyBodyParser());
 //require('./routes/api/file')(app);
 
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/../build')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '/../build', 'index.html'))
+});
 
-app.use('/', indexRouter);
-app.use('/s3proxy', s3u);
+// Handle React routing, return all requests to React app
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, '/../build', 'index.html'));
+});
+
+//app.use('/', indexRouter);
+//app.use('/s3proxy', s3u);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
