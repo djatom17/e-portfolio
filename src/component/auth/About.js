@@ -15,11 +15,11 @@ const About = () => {
                         </p>
                         <br/>
                         <p className={"lead text-center about-page-text"}>
-                            A check-me-out e-portfolio is a stylish way for you to show off you accomplishments to employers and recruiters
+                            A check-me-out e-portfolio is a stylish way for you to show off you accomplishments to employers and recruiters.
                         </p>
                         <br/>
                         <p className={"lead text-center about-page-text"}>
-                            Sign up with ctrl alt elite to get started!
+                            Sign up with ctrl alt elite to start flexing!
                         </p>
                         <br/>
                         <p className={"lead text-center about-page-text"}>
