@@ -26,35 +26,35 @@ const Navbar = () => {
                             About
                         </Link>
                     </li>
-                </ul>
 
-                <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
                         <Link className="nav-link" to="/browse">
                             {' '}
                             Browse
                         </Link>
                     </li>
+
                     <li className="nav-item">
                         <Link className="nav-link" to="/profile">
                             {' '}
                             My Profile
                         </Link>
                     </li>
+
                     <li className="nav-item">
                         <Link className="nav-link" to="/register">
                             {' '}
                             Sign Up
                         </Link>
                     </li>
+                    
                     <li className="nav-item">
                         <Link className="nav-link" to="/login">
                             {' '}
                             Login
                         </Link>
                     </li>
-                </ul>
-                <ul className="navbar-nav ml-auto">
+
                     <li className="nav-item">
                         <Link className="nav-link" to="/profiles">
                             {' '}
