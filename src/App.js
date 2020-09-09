@@ -12,7 +12,7 @@ class App extends Component
   constructor(props)
   {
     super(props);
-    this.state = { users: [] };
+    this.state = { apiResponse: "" };
   }
 
   componentDidMount()
@@ -22,7 +22,7 @@ class App extends Component
       .then(res => {
         if (res.data)
         {
-          this.setState({ users: [...this.state.users, ...res.data] })
+          this.setState({ apiResponse: res.data })
         }
       });
   }
@@ -53,10 +53,8 @@ class App extends Component
                 <Route exact path="/login" component={Login} />
             </div>
             <Footer />
-            { this.renderUsers() }
         </div>
       </Router>
-
     );
   }
 }
