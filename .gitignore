@@ -121,3 +121,6 @@ dist
 
 # VSCode metadata
 **/.vscode/
+
+# Mac-specific
+**/.DS_Store
