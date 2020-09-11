@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 const About = () => {
 
@@ -15,20 +14,20 @@ const About = () => {
                         </p>
                         <br/>
                         <p className={"lead text-center about-page-text"}>
-                            A check-me-out e-portfolio is a stylish way for you to show off you accomplishments to employers and recruiters.
+                            A check-me-out e-portfolio is a stylish way for you to show off you accomplishments to employers and recruiters
                         </p>
                         <br/>
                         <p className={"lead text-center about-page-text"}>
-                            Sign up with ctrl alt elite to start flexing!
+                            Sign up with ctrl alt elite to get started!
                         </p>
                         <br/>
                         <p className={"lead text-center about-page-text"}>
-                            Ctrl alt elite is group of 5 really hard working students and this is our project.
+                            Ctrl alt elite is group of 2+3 (5, quick math) really hard working students and this is our project.
                         </p>
                         <br/>
                         <p>
-                        Names, characters, businesses, places, events, locales, and incidents are either the products of the author’s imagination or used in a fictitious manner. Any resemblance to actual persons, living or dead, or actual events is purely coincidental.
-                        We do not own any of the images on this website.
+                            Names, characters, businesses, places, events, locales, and incidents are either the products of the author’s imagination or used in a fictitious manner. Any resemblance to actual persons, living or dead, or actual events is purely coincidental.
+                            We do not own any of the images on this website.
                         </p>
                     </div>
                 </div>
