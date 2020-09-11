@@ -6,8 +6,7 @@ img {
 
 .landing {
   position: relative;
-  background: url('./img/landingIMG.png') no-repeat;
-
+  background: url("./img/option5-min.png") no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -62,9 +61,6 @@ img {
   overflow:auto;
 }
 
-.browse-inner {
-}
-
 .browse-profile-picture {
   width: 240px;
   height: 260px;
@@ -89,4 +85,8 @@ img {
 .browse-details {
   font-size: 20px;
   line-height: 80%;
+}
+
+.about-page-text {
+  font-size: 28px;
 }

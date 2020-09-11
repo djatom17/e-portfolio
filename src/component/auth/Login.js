@@ -24,7 +24,7 @@ const Login = props => {
             <div className={"container"}>
                 <div className={"row"}>
                     <div className="col-mid-8 m-auto">
-                        <h1 className="display-4 text-center">Sign Up</h1>
+                        <h1 className="display-4 text-center">Login</h1>
                         <p className={"lead text-center"}>
                             Log in and Start Flexing
                         </p>
