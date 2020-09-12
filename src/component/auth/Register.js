@@ -51,8 +51,7 @@ const Register = props => {
                                     onChange={handleChange ('email')}
                                 />
                                 <small className="form-text text-muted">
-                                    This site uses Gravatar so if you want a profile image,
-                                    use a Gravatar email
+                                    Please use your professional/business email.
                                 </small>
                             </div>
                             <div className="form-group">
