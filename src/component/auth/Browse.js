@@ -118,44 +118,6 @@ const Browse = () => {
                                     </Link>
                                 </div>
                             </div>
-                            <div className="container browse-inner">
-                                <div className="container browse-profile-picture">
-                                    <img src={placeholder3} class="rounded float-left" aria-hidden alt="description of image"/>
-                                </div>
-                                <div className="container browse-profile-summary">
-                                    <h1 className="browse-name">
-                                        Bruce Wayne
-                                    </h1>
-                                    <p className="browse-details">
-                                        Software Engineering Intern @ Headbook
-                                    </p>
-                                    <p className="browse-details">
-                                        Master of IT @ University of California
-                                    </p>
-                                    <p className="browse-details">
-                                        Bachelor of Science @ University of Melbourne
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="container browse-inner">
-                                <div className="container browse-profile-picture">
-                                    <img src={placeholder4} class="rounded float-left" aria-hidden alt="description of image"/>
-                                </div>
-                                <div className="container browse-profile-summary">
-                                    <h1 className="browse-name">
-                                        Billie Eyelash
-                                    </h1>
-                                    <p className="browse-details">
-                                        CEO @ Ctrl Alt Elite
-                                    </p>
-                                    <p className="browse-details">
-                                        Master of IT @ University of Melbourne
-                                    </p>
-                                    <p className="browse-details">
-                                        Bachelor of Science @ University of Melbourne
-                                    </p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
