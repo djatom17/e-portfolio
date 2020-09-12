@@ -8,27 +8,9 @@ const s3 = new AWS.S3({
   secretAccessKey: AWSconfig.iamSecret
 });
 
-//async function getImage()
-//{
-//  var fileKey = 'Motivational Model Diagram.png';
-//
-//  console.log('Trying to download file', fileKey);
-//  var AWS = require('aws-sdk');
-//
-//  var options = {
-//      Bucket    : 'cae-eportfolio',
-//      Key    : fileKey,
-//  };
-//
-//  var res = await s3.getObject(options).promise();
-//  var img = res.Body.toString('base64');
-//  
-//  return img;
-//}
-
-s3router.get("/:imageId", function(req, res, next) {
-  var params = { Bucket: AWSBucket, Key: req.params.imageId };
-  console.log("Trying to get image", req.params.imageId);
+s3router.get("/*", function(req, res, next) {
+  var params = { Bucket: AWSBucket, Key: req.params[0] };
+  console.log("Trying to get image", req.params[0]);
   s3.getObject(params, function(err, data) {
     if (err) {
       return res.send({ error: err });
