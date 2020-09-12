@@ -1,5 +1,4 @@
 import React from 'react';
-import placeholder from "../../img/placeholder.png";
 import {Link} from "react-router-dom";
 
 const Profile = () => {
@@ -15,7 +14,7 @@ const Profile = () => {
                         </p>
                         <div className="container browse-outer">
                             <div className="container browse-profile-picture">
-                                <img src={placeholder} aria-hidden alt="description of image"/>
+                                <img src="/image/placeholderImages/placeholder.png" aria-hidden alt="description of image"/>
                             </div>
                             <div className="container browse-profile-summary">
                                 <h1 className="display-5 browse-name">

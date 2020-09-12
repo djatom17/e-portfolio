@@ -1,11 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-import placeholder from './../../img/placeholder.png';
-import placeholder2 from './../../img/placeholder2.png';
-import placeholder3 from './../../img/placeholder3.png';
-import placeholder4 from './../../img/placeholder4.jpg';
-
 const Browse = () => {
     return (
         <div className="browse">
@@ -20,7 +15,7 @@ const Browse = () => {
                         <div className="container browse-outer">
                             <div className="container browse-inner">
                                 <div className="container browse-profile-picture">
-                                    <img src={placeholder} class="rounded float-left" aria-hidden alt="description of image"/>
+                                    <img src="/image/placeholderImages/placeholder.png" class="rounded float-left" aria-hidden alt="description of image"/>
                                 </div>
                                 <div className="container browse-profile-summary">
                                     <h1 className="browse-name">
@@ -45,7 +40,7 @@ const Browse = () => {
                             </div>
                             <div className="container browse-inner">
                                 <div className="container browse-profile-picture">
-                                    <img src={placeholder2} class="rounded float-left" aria-hidden alt="description of image"/>
+                                    <img src="/image/placeholderImages/placeholder2.png" class="rounded float-left" aria-hidden alt="description of image"/>
                                 </div>
                                 <div className="container browse-profile-summary">
                                     <h1 className="browse-name">
@@ -70,7 +65,7 @@ const Browse = () => {
                             </div>
                             <div className="container browse-inner">
                                 <div className="container browse-profile-picture">
-                                    <img src={placeholder3} class="rounded float-left" aria-hidden alt="description of image"/>
+                                    <img src="/image/placeholderImages/placeholder3.png" class="rounded float-left" aria-hidden alt="description of image"/>
                                 </div>
                                 <div className="container browse-profile-summary">
                                     <h1 className="browse-name">
@@ -95,7 +90,7 @@ const Browse = () => {
                             </div>
                             <div className="container browse-inner">
                                 <div className="container browse-profile-picture">
-                                    <img src={placeholder4} class="rounded float-left" aria-hidden alt="description of image"/>
+                                    <img src="/image/placeholderImages/placeholder4.jpg" class="rounded float-left" aria-hidden alt="description of image"/>
                                 </div>
                                 <div className="container browse-profile-summary">
                                     <h1 className="browse-name">
