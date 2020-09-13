@@ -22,13 +22,13 @@ const Profile = () => {
                                 </h1>
                                 <div className="container browse-profile-summary">
                                     <p>
-                                        League of Legends avg kda: 15.3/8.9/1.2
+                                        Graduated with 4.0 GPA
                                     </p>
                                     <p>
-                                        Main Champ: Teemo (Top 8% OCE)
+                                        Charity Hackthon Winner
                                     </p>
                                     <p>
-                                        Cheering Team: T1 SKT (the best)
+                                        Guinness World Record Holder
                                     </p>
                                 </div>
                             </div>
@@ -43,21 +43,20 @@ const Profile = () => {
                             Upload
                         </Link>
                         <Link to="/profile" className={"btn btn-lg btn-info mr-2"}>
-                            MySpace
+                            Message
                         </Link>
                         <p>
 
                         </p>
                         <h1 className="display-5 text-lg">
-                            Description Text
+                            About Me
                         </h1>
                         <div className="container browse-profile-summary">
                             <p>
-                                As a child I realized you cannot be accepted in a society.
-                                But you can accept programming.
-                                Programming doesn’t care about your gender nor ur identity,
-                                I feel truly accepted when I program.
-                                Fresh out of rehab, let us code together :()
+                            Full stack developer with over 14 years of professional experience. Proficient in multiple programming languages including object oriented, procedural as well as functional programming.
+                            Apart from working in silicon valley, I have also worked as a lecturer at The University of Melbourne for two years teaching history and geology subjects. I have  multiple PhD's in data science and I'm more than confident in my data wrangling as well was analysis skills . Although Solving complicated mathematical derivatives is a cake-walk, I struggle with the composition of organic chemistry elements. I have discovered the antidote to various deadly poisons caused by the the venomous reptiles in Africa while researching as an archeologist.
+
+                            I have played basketball at the NBA as well as tennis at the Wimbledon. Despite serving in the army as a medic, I have received multiple accolades in long distance shooting including a silver medal at the Commonwealth Games. My next goal is to swim for my country at the Olympics but not before mastering the art of Taekwondo.
 
                             </p>
                         </div>
@@ -66,13 +65,10 @@ const Profile = () => {
                         </h1>
                         <div className="container browse-profile-summary">
                             <p>
-                                Facebook:
+                                facebook.com/ae394845
                             </p>
                             <p>
-                                LinkedIn:
-                            </p>
-                            <p>
-                                Minecraft Sever:
+                                LinkedIn: linkedin.com/ae394845
                             </p>
                         </div>
 

@@ -34,7 +34,7 @@ const Browse = () => {
                                         Browse
                                     </Link>
                                     <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Slide into her DM
+                                        Send Message
                                     </Link>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@ const Browse = () => {
                                         Browse
                                     </Link>
                                     <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Slide into his DM
+                                        Send Message
                                     </Link>
                                 </div>
                             </div>
@@ -84,7 +84,7 @@ const Browse = () => {
                                         Browse
                                     </Link>
                                     <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Turn on Bat Signal
+                                        Send Message
                                     </Link>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@ const Browse = () => {
                                         Browse
                                     </Link>
                                     <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Slide into her DM
+                                        Send Message
                                     </Link>
                                 </div>
                             </div>

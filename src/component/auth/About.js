@@ -22,7 +22,7 @@ const About = () => {
                         </p>
                         <br/>
                         <p className={"lead text-center about-page-text"}>
-                            Ctrl alt elite is group of 2+3 (5, quick math) really hard working students and this is our project.
+                            Ctrl alt elite is group of 5 really hard working students and this is our project.
                         </p>
                         <br/>
                         <p>
