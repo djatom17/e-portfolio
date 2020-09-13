@@ -5,6 +5,7 @@ import placeholder from './../../img/placeholder.png';
 import placeholder2 from './../../img/placeholder2.png';
 import placeholder3 from './../../img/placeholder3.png';
 import placeholder4 from './../../img/placeholder4.jpg';
+import placeholder4browse from './../../img/placeholder4browse.jpg'
 
 const Browse = () => {
     return (
@@ -39,7 +40,7 @@ const Browse = () => {
                                         Browse
                                     </Link>
                                     <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Slide into her DM
+                                        Send Message
                                     </Link>
                                 </div>
                             </div>
@@ -64,7 +65,7 @@ const Browse = () => {
                                         Browse
                                     </Link>
                                     <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Slide into his DM
+                                        Send Message
                                     </Link>
                                 </div>
                             </div>
@@ -89,13 +90,13 @@ const Browse = () => {
                                         Browse
                                     </Link>
                                     <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Turn on Bat Signal
+                                        Send Message
                                     </Link>
                                 </div>
                             </div>
                             <div className="container browse-inner">
                                 <div className="container browse-profile-picture">
-                                    <img src={placeholder4} class="rounded float-left" aria-hidden alt="description of image"/>
+                                    <img src={placeholder4browse} class="rounded float-left" aria-hidden alt="description of image"/>
                                 </div>
                                 <div className="container browse-profile-summary">
                                     <h1 className="browse-name">
@@ -114,7 +115,7 @@ const Browse = () => {
                                         Browse
                                     </Link>
                                     <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Slide into her DM
+                                        Send Message
                                     </Link>
                                 </div>
                             </div>

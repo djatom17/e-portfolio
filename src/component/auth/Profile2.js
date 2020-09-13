@@ -24,13 +24,13 @@ const Profile2 = () => {
                                 </h1>
                                 <div className="container browse-profile-summary">
                                     <p>
-                                        League of Legends avg kda: 15.3/8.9/1.2
+                                        Nobel Peace Prize Winner
                                     </p>
                                     <p>
-                                        Main Champ: Teemo (Top 8% OCE)
+                                        Oscar Winner
                                     </p>
                                     <p>
-                                        Cheering Team: T1 SKT (the best)
+                                        Grammy Winner
                                     </p>
                                 </div>
                             </div>
@@ -40,15 +40,12 @@ const Profile2 = () => {
                         </p>
 
                         <h1 className="display-5 text-lg">
-                            Description Text
+                            About me
                         </h1>
                         <div className="container browse-profile-summary">
                             <p>
-                                As a child I realized you cannot be accepted in a society.
-                                But you can accept programming.
-                                Programming doesn’t care about your gender nor ur identity,
-                                I feel truly accepted when I program.
-                                Fresh out of rehab, let us code together :()
+                                Inventor of RobotSpiders, working at Stark Industries.
+                                I fell in love with software development at the age of 9 and the rest is history.
 
                             </p>
                         </div>
@@ -57,13 +54,10 @@ const Profile2 = () => {
                         </h1>
                         <div className="container browse-profile-summary">
                             <p>
-                                Facebook:
+                                Facebook: facebook.com/i3u4roiqef
                             </p>
                             <p>
-                                LinkedIn:
-                            </p>
-                            <p>
-                                Minecraft Sever:
+                                LinkedIn: linkedin.com/i3u4roiqef
                             </p>
                         </div>
 
