@@ -90,7 +90,7 @@ const Browse = () => {
                             </div>
                             <div className="container browse-inner">
                                 <div className="container browse-profile-picture">
-                                    <img src="/image/placeholderImages/placeholder4.jpg" class="rounded float-left" aria-hidden alt="description of image"/>
+                                    <img src="/image/placeholderImages/placeholder4browse.jpg" class="rounded float-left" aria-hidden alt="description of image"/>
                                 </div>
                                 <div className="container browse-profile-summary">
                                     <h1 className="browse-name">
