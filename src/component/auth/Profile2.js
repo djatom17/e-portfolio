@@ -1,7 +1,4 @@
 import React from 'react';
-import placeholder2 from "../../img/placeholder2.png";
-
-
 
 const Profile2 = () => {
 
@@ -16,7 +13,7 @@ const Profile2 = () => {
                         </p>
                         <div className="container browse-outer">
                             <div className="container browse-profile-picture">
-                                <img src={placeholder2} aria-hidden alt="description of image"/>
+                                <img src="/image/placeholderImages/placeholder2.png" aria-hidden alt="description of image"/>
                             </div>
                             <div className="container browse-profile-summary">
                                 <h1 className="display-5 browse-name">
