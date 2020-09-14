@@ -38,9 +38,19 @@ Each user should be able to:
  The web-app UI is built from React JS components and can be divided into two parts, site-wide components such as the navbar and page-specific components for each page.
  
  The react components are arranged on the page using custom CSS. 
+ <p>
+  <img src="readme_images/CSS.PNG" width='140'>
+  <img src="readme_images/JS.PNG" width='300'>
+ </p>
+ 
  
  This way we have set up preset Layouts for the clients to select.
- 
+ <p>
+  <img src="readme_images/Layout1.PNG" width='512'>
+  </p>
+  <p>
+  <img src="readme_images/Layout2.PNG" width='512'>
+ </p>
 
  ## Image Storage and Retrieval
  
