@@ -35,8 +35,17 @@ Each user should be able to:
   
  ## User Interface
  
+ The web-app UI is built from React JS components and can be divided into two parts, site-wide components such as the navbar and page-specific components for each page.
+ 
+ The react components are arranged on the page using custom CSS. 
+ 
+ This way we have set up preset Layouts for the clients to select.
+ 
+
  ## Image Storage and Retrieval
  
  ## Routing
+ 
+ 
  
  
