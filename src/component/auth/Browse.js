@@ -2,8 +2,64 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-const Browse = () => {
-    return (
+class Browse extends Component
+{
+    state = {
+        profiles : []
+    };
+
+    constructor(props)
+    {
+        super(props);
+    }
+
+    componentDidMount = () => {
+        this.getProfiles();
+    };
+
+    getProfiles = () => {
+        axios.get('/info/profiles')
+        .then((res) => {
+            const data = res.data;
+            this.setState({ profiles : data });
+            console.log("data received");
+        });
+    }
+
+    displayProfile = (profiles) => {
+        if (!profiles.length) return null;
+        return profiles.map((profile, index) => (
+            <div className="container browse-inner">
+                <div className="container browse-profile-picture">
+                    <img src={profile.image} class="rounded float-left" aria-hidden alt="description of image"/>
+                </div>
+                <div className="container browse-profile-summary">
+                    <h1 className="browse-name">
+                        {profile.firstName.concat(' ', profile.lastName)}
+                    </h1>
+                    <p className="browse-details">
+                        {profile.keySkills.toString()}
+                    </p>
+                    <p className="browse-details">
+                        {profile.workHistory.toString()}
+                    </p>
+                    <p className="browse-details">
+                        {profile.education.toString()}
+                    </p>
+                    <Link to={profile.linkToProfile} className={"btn btn-lg btn-info mr-2"}>
+                        Browse
+                    </Link>
+                    <Link to={"/login"} className={"btn btn-lg btn-light"}>
+                        Send Message
+                    </Link>
+                </div>
+            </div>
+        ));
+    };
+
+    render() 
+    {
+        return(
         <div className="browse">
             <div className="container">
                 <div className="row">
@@ -14,112 +70,13 @@ const Browse = () => {
                         </h1>
                         <p/>
                         <div className="container browse-outer">
-                            <div className="container browse-inner">
-                                <div className="container browse-profile-picture">
-                                    <img src="/image/placeholderImages/placeholder.png" class="rounded float-left" aria-hidden alt="description of image"/>
-                                </div>
-                                <div className="container browse-profile-summary">
-                                    <h1 className="browse-name">
-                                        Anuja Nautreel
-                                    </h1>
-                                    <p className="browse-details">
-                                        Lead 3D Artist @ UnrealVirtualGames
-                                    </p>
-                                    <p className="browse-details">
-                                        Master of Animation @ RMIT
-                                    </p>
-                                    <p className="browse-details">
-                                        Bachelor of Design @ University of Melbourne
-                                    </p>
-                                    <Link to="/profile" className={"btn btn-lg btn-info mr-2"}>
-                                        Browse
-                                    </Link>
-                                    <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Send Message
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className="container browse-inner">
-                                <div className="container browse-profile-picture">
-                                    <img src="/image/placeholderImages/placeholder2.png" class="rounded float-left" aria-hidden alt="description of image"/>
-                                </div>
-                                <div className="container browse-profile-summary">
-                                    <h1 className="browse-name">
-                                        John Smith
-                                    </h1>
-                                    <p className="browse-details">
-                                        Machine Learning Engineer @ UnrealMachineLearning
-                                    </p>
-                                    <p className="browse-details">
-                                        Master of IT @ La Trobe University
-                                    </p>
-                                    <p className="browse-details">
-                                        Bachelor of Science @ University of Melbourne
-                                    </p>
-                                    <Link to="/profile2" className={"btn btn-lg btn-info mr-2"}>
-                                        Browse
-                                    </Link>
-                                    <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Send Message
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className="container browse-inner">
-                                <div className="container browse-profile-picture">
-                                    <img src="/image/placeholderImages/placeholder3.png" class="rounded float-left" aria-hidden alt="description of image"/>
-                                </div>
-                                <div className="container browse-profile-summary">
-                                    <h1 className="browse-name">
-                                        Bruce Wayne
-                                    </h1>
-                                    <p className="browse-details">
-                                        CEO @ Wayne Enterprises
-                                    </p>
-                                    <p className="browse-details">
-                                        Drop-out @ League of Assassins
-                                    </p>
-                                    <p className="browse-details">
-                                        Master ninja @ League of Assassins
-                                    </p>
-                                    <Link to="/profile3" className={"btn btn-lg btn-info mr-2"}>
-                                        Browse
-                                    </Link>
-                                    <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Send Message
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className="container browse-inner">
-                                <div className="container browse-profile-picture">
-                                    <img src="/image/placeholderImages/placeholder4browse.jpg" class="rounded float-left" aria-hidden alt="description of image"/>
-                                </div>
-                                <div className="container browse-profile-summary">
-                                    <h1 className="browse-name">
-                                        Билли Айлиш
-                                    </h1>
-                                    <p className="browse-details">
-                                        CEO @ Ctrl Alt Elite
-                                    </p>
-                                    <p className="browse-details">
-                                        Master of IT @ University of Melbourne
-                                    </p>
-                                    <p className="browse-details">
-                                        Bachelor of Science @ University of Melbourne
-                                    </p>
-                                    <Link to="/profile4" className={"btn btn-lg btn-info mr-2"}>
-                                        Browse
-                                    </Link>
-                                    <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                                        Send Message
-                                    </Link>
-                                </div>
-                            </div>
+                            {this.displayProfile(this.state.profiles)}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
-};
+        </div>);
+    }
+}
 
 export default Browse;
