@@ -13,6 +13,7 @@ var indexRouter = require('./routes/index');
 
 var app = express();
 var s3 = require('./routes/api/s3');
+var mongo = require('./routes/api/mongo');
 
 app.use(cors());
 app.use(busboy());
@@ -39,6 +40,7 @@ app.get('/', (req, res) => {
 
 //app.use('/', indexRouter);
 app.use('/image', s3);
+app.use('/info', mongo);
 //app.use('/s3proxy', s3u);
 
 // Handle React routing, return all requests to React app
