@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
-import axios from 'axios';
+// import axios from 'axios';
+import Api from '../../Api';
 
 class Profile extends Component
 {
@@ -16,32 +17,19 @@ class Profile extends Component
     }
 
     componentDidMount = () => {
-        this.getProfile();
-    };
-
-    getProfile = () => {
-        axios.get('/info/p/' + this.profileID)
-        .then((res) => {
-            const data = res.data;
-            this.setState({ profile : data });
+        Api.getProfile(this.profileID, (res) => {
+            this.setState({profiles: res});
         });
     };
+
+    // getProfile = () => {
+    //     axios.get('/info/p/' + this.profileID)
+    //     .then((res) => {
+    //         const data = res.data;
+    //         this.setState({ profile : data });
+    //     });
+    // };
     
-    getElements = (lst) => {
-        if(lst)
-        {
-            return lst.map((item, index) =>(
-            <p>{item}</p>
-            ));
-        }
-    }
-
-    getName = (profile) => {
-        return(
-            profile.firstName + ' ' + profile.lastName
-        );
-    }
-
     render()
     {
         return (
@@ -49,7 +37,7 @@ class Profile extends Component
                 <div className="container">
                     <div className={"row"}>
                         <div className="col-mid-8 m-auto">
-                            <h1 className="display-4 text-center"> {this.getName(this.state.profile)} Flex page</h1>
+                            <h1 className="display-4 text-center"> {Api.getName(this.state.profile)} Flex page</h1>
                             <p className={"lead text-center"}>
                                 {this.state.profile.subtitle}
                             </p>
@@ -62,7 +50,7 @@ class Profile extends Component
                                         Achievements
                                     </h1>
                                     <div className="container browse-profile-summary">
-                                        {this.getElements(this.state.profile.achievements)}
+                                        {Api.getElements(this.state.profile.achievements)}
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +81,7 @@ class Profile extends Component
                                 Social Media Links
                             </h1>
                             <div className="container browse-profile-summary">
-                                {this.getElements(this.state.profile.social)}
+                                {Api.getElements(this.state.profile.social)}
                             </div>
 
                         </div>
