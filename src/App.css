@@ -90,3 +90,16 @@ img {
 .about-page-text {
   font-size: 28px;
 }
+
+.testing-tab {
+  width: auto;
+}
+
+.testing-inner {
+  width: 100%;
+}
+
+.testing-inner2 {
+  width: 1080px;
+  float: right;
+}
