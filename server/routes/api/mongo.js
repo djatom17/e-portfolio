@@ -4,9 +4,13 @@ var mongorouter = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://cae-aman:EOvQly0wRkmob7z8@cluster0.6wjtw.mongodb.net/cae-users?retryWrites=true&w=majority&authSource=admin";
 
+function createNewClient()
+{
+  return new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true})
+}
 
 mongorouter.get('/profiles', function(req, res, next) {
-    const client = new MongoClient(uri, { useNewUrlParser: true });
+    const client = createNewClient();
     console.log("Trying to get profiles from mongo");
     client.connect(err => {
         const collection = client.db("cae_users").collection("profiles");
@@ -24,7 +28,7 @@ mongorouter.get('/profiles', function(req, res, next) {
 });
 
 mongorouter.get('/p/:ID', function(req, res, next) {
-  const client = new MongoClient(uri, { useNewUrlParser: true });
+  const client = createNewClient();
   console.log("Trying to get " + req.params.ID + "from mongo");
   client.connect(err => {
       const collection = client.db("cae_users").collection("profiles");
