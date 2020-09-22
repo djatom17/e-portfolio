@@ -80,7 +80,7 @@ mongorouter.post('/p-update/:ID', function(req, res, next){
 // Insert a profile's first-time login information.
 // User exists, but profile itself does not, yet.
 // TODO: must be authorised and logged in.
-mongorouter.post('/p-insert', function(req, res, next){
+mongorouter.post('/p-insert', auth, function(req, res, next){
   var profile = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
