@@ -93,12 +93,19 @@ img {
 .testing-tab {
   width: auto;
   clear: right;
-  padding-right: 150px;
 }
 
 .testing-social-media {
   float: left;
   clear: left;
+}
+
+.side-tab {
+  float: left;
+  clear: left;
+  width: 30%;
+  height: 100%;
+  background-color: black;
 }
 
 .testing-inner2 {
