@@ -8,11 +8,6 @@ class Browse extends Component
         profiles : []
     };
 
-    constructor(props)
-    {
-        super(props);
-    }
-
     componentDidMount = () => {
         this.getProfiles();
     };
