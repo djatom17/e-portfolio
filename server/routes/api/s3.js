@@ -1,11 +1,11 @@
 var express = require('express');
 var s3router = express.Router();
-const AWSconfig = require('../../config');
+const config = require('config');
 const AWS = require('aws-sdk');
 const AWSBucket = 'cae-eportfolio';
 const s3 = new AWS.S3({
-  accessKeyId: AWSconfig.iamUser,
-  secretAccessKey: AWSconfig.iamSecret
+  accessKeyId: config.get('iamUser'),
+  secretAccessKey: config.get('iamSecret')
 });
 
 s3router.get("/*", function(req, res, next) {

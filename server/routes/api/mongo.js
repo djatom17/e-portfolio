@@ -3,7 +3,8 @@ const { ObjectID } = require('mongodb');
 var mongorouter = express.Router();
 var assert = require('assert');
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://cae-aman:EOvQly0wRkmob7z8@cluster0.6wjtw.mongodb.net/cae-users?retryWrites=true&w=majority&authSource=admin";
+const uri = require('config').get('mongoURI');
+const auth = require('./auth');
 
 function createNewClient()
 {
