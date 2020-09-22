@@ -3,17 +3,28 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const config = require('config');
 
 var cors = require('cors');
 var busboy = require('connect-busboy');
 var busboyBodyParser = require('busboy-body-parser');
 
-var indexRouter = require('./routes/index');
+//var indexRouter = require('./routes/index');
 //var s3u = require('./routes/api/s3upload');
 
+// DB connect
+const mongoose = require('mongoose');
+const db = config.get('mongoURI');
+mongoose
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
+  .then(() => console.log('[Mongoose] MongoDB Connected'))
+  .catch(err => console.log(err));
+
 var app = express();
-var s3 = require('./routes/api/s3');
-var mongo = require('./routes/api/mongo');
 
 app.use(cors());
 app.use(busboy());
@@ -39,8 +50,9 @@ app.get('/', (req, res) => {
 
 
 //app.use('/', indexRouter);
-app.use('/image', s3);
-app.use('/info', mongo);
+app.use('/image', require('./routes/api/s3'));
+app.use('/info', require('./routes/api/mongo'));
+app.use('/api/auth', require('./routes/api/userAuth'));
 //app.use('/s3proxy', s3u);
 
 // Handle React routing, return all requests to React app
