@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 // import axios from 'axios';
-import Api from '../../Api';
+import * as ProfileData from '../../api/ProfileData';
 class Profile4 extends Component
 {
     profileID = "5f63035af4aa1e59a8d72bd0";
@@ -10,15 +10,10 @@ class Profile4 extends Component
         profile : {}
     };
 
-    constructor(props)
-    {
-        super(props);
-    }
-
     componentDidMount = () => {
-        const data =Api.getProfile(this.profileID);
-        console.log("check- ", data);
-        this.setState({profile: data});
+        ProfileData.getProfile(this.profileID, (res) => {
+            this.setState({profile: res});
+        });
     };
 
     render()
@@ -30,7 +25,7 @@ class Profile4 extends Component
                         <div className={"container"}>
                             <div className={"row"}>
                                 <div className="col-mid-8 m-auto">
-                                    <h1 className="display-4 text-center">{Api.getName(this.state.profile)}'s Flex page</h1>
+                                    <h1 className="display-4 text-center">{ProfileData.getName(this.state.profile)}'s Flex page</h1>
                                     <p className={"lead text-center"}>
                                         {this.state.profile.subtitle}
                                     </p>

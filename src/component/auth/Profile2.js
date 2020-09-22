@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
-import Api from '../../Api';
+import * as ProfileData from '../../api/ProfileData';
 
 class Profile2 extends Component
 {
@@ -10,14 +10,9 @@ class Profile2 extends Component
         profile : {}
     };
 
-    constructor(props)
-    {
-        super(props);
-    }
-
     componentDidMount = () => {
-        Api.getProfile(this.profileID, (res) => {
-            this.setState({profiles: res});
+        ProfileData.getProfile(this.profileID, (res) => {
+            this.setState({profile: res});
         });
     };
 
@@ -27,20 +22,20 @@ class Profile2 extends Component
                 <div className="container">
                     <div className="row">
                         <div className="col-mid-8 m-auto">
-                            <h1 className="display-4 text-center">{Api.getName(this.state.profile)}</h1>
+                            <h1 className="display-4 text-center">{ProfileData.getName(this.state.profile)}</h1>
                             <p className="lead text-center">
                                 {this.state.profile.subtitle}
                             </p>
                             <div className="container browse-outer">
                                 <div className="container browse-profile-picture">
-                                    <img src="/image/placeholderImages/placeholder2.png" aria-hidden alt="description of image"/>
+                                    <img src={this.state.profile.image} aria-hidden alt="description of image"/>
                                 </div>
                                 <div className="container browse-profile-summary">
                                     <h1 className="display-5 browse-name">
                                         Achievments
                                     </h1>
                                     <div className="container browse-profile-summary">
-                                        {Api.getElements(this.state.profile.achievements)}
+                                        {ProfileData.getElements(this.state.profile.achievements)}
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +56,7 @@ class Profile2 extends Component
                             </h1>
                             <div className="container browse-profile-summary">
                                 <p>
-                                    {Api.getElements(this.state.profile.social)}
+                                    {ProfileData.getElements(this.state.profile.social)}
                                 </p>
                             </div>
 

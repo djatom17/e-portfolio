@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
-import * as Api from '../../Api';
+import * as ProfileData from '../../api/ProfileData';
 import "./profile3.css";
 
 class Profile3 extends Component
@@ -12,14 +12,9 @@ class Profile3 extends Component
         profile : {}
     };
 
-    constructor(props)
-    {
-        super(props);
-    }
-
     componentDidMount = () => {
-        Api.getProfile(this.profileID, (res) => {
-            this.setState({profiles: res});
+        ProfileData.getProfile(this.profileID, (res) => {
+            this.setState({profile: res});
         });
     };
 
@@ -44,10 +39,10 @@ class Profile3 extends Component
                     <div className="row align-items-center flex-row-reverse">
                         <div className="col-lg-6">
                             <div className="about-text go-to">
-                                <h3 className="dark-color">{Api.getName(this.state.profile)}'s Flex</h3>
+                                <h3 className="dark-color">{ProfileData.getName(this.state.profile)}'s Flex</h3>
                                 <h6 className="theme-color lead">{this.state.profile.subtitle}</h6>
                                 <br/>
-                                {Api.getElements(this.state.profile.achievements)}
+                                {ProfileData.getElements(this.state.profile.achievements)}
                                 <br />
 
                                 <div className="row about-list">
@@ -80,7 +75,7 @@ class Profile3 extends Component
                         </div>
                         <div className="col-lg-6">
                             <div className="about-avatar">
-                                <img src="/image/placeholderImages/placeholder3.png" aria-hidden alt="description of image"/>
+                                <img src={this.state.profile.image} aria-hidden alt="description of image"/>
                             </div>
                         </div>
                     </div>

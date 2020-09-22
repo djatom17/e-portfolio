@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 // import axios from 'axios';
-import Api from '../../Api';
+import * as ProfileData from '../../api/ProfileData';
 
 class Profile extends Component
 {
@@ -11,14 +11,9 @@ class Profile extends Component
         profile : {}
     };
 
-    constructor(props)
-    {
-        super(props);
-    }
-
     componentDidMount = () => {
-        Api.getProfile(this.profileID, (res) => {
-            this.setState({profiles: res});
+        ProfileData.getProfile(this.profileID, (res) => {
+            this.setState({profile: res});
         });
     };
 
@@ -37,7 +32,7 @@ class Profile extends Component
                 <div className="container">
                     <div className={"row"}>
                         <div className="col-mid-8 m-auto">
-                            <h1 className="display-4 text-center"> {Api.getName(this.state.profile)} Flex page</h1>
+                            <h1 className="display-4 text-center"> {ProfileData.getName(this.state.profile)} Flex page</h1>
                             <p className={"lead text-center"}>
                                 {this.state.profile.subtitle}
                             </p>
@@ -50,7 +45,7 @@ class Profile extends Component
                                         Achievements
                                     </h1>
                                     <div className="container browse-profile-summary">
-                                        {Api.getElements(this.state.profile.achievements)}
+                                        {ProfileData.getElements(this.state.profile.achievements)}
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +76,7 @@ class Profile extends Component
                                 Social Media Links
                             </h1>
                             <div className="container browse-profile-summary">
-                                {Api.getElements(this.state.profile.social)}
+                                {ProfileData.getElements(this.state.profile.social)}
                             </div>
 
                         </div>
