@@ -74,7 +74,6 @@ img {
   /*height: 350px;*/
   padding: 25px;
   padding-top: 20px;
-  float: left;
   text-align: left;
 }
 
@@ -93,13 +92,15 @@ img {
 
 .testing-tab {
   width: auto;
+  clear: right;
+  padding-right: 150px;
 }
 
-.testing-inner {
-  width: 100%;
+.testing-social-media {
+  float: left;
+  clear: left;
 }
 
 .testing-inner2 {
   width: 1080px;
-  float: right;
 }

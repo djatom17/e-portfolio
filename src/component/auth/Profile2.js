@@ -33,49 +33,41 @@ class Profile2 extends Component
                             <div className="container browse-outer">
                                 <div className="container browse-profile-picture">
                                     <img src={this.state.profile.image} aria-hidden alt="description of image"/>
-
+                                </div>
                                 <Tabs onSelect={(index, label) => console.log(label + ' selected')} className = "testing-tab">
-                                  <Tab label="About Me">
-                                  <h1 className="display-5 text-lg">
+                                  <Tab label="About Me" className="testing-inner2 browse-profile-summary">
+
+                                  <h1 className="display-5 browse-name ">
                                       About me
                                   </h1>
-                                  <div className="container browse-profile-summary testing-inner2">
-                                      <p>
-                                          {this.state.profile.about}
-                                      </p>
-                                  </div>
+                                  <p>
+                                      {this.state.profile.about}
+                                  </p>
                                   </Tab>
 
-                                  <Tab label="Achievements">
-                                  <h1 className="display-5 browse-name ">
+                                  <Tab label="Achievements" className="testing-inner2 browse-profile-summary">
+                                  <h1 className="display-5 browse-name">
                                       Achievments
                                   </h1>
-                                  <div className="container browse-profile-summary testing-inner2">
                                       {ProfileData.getElements(this.state.profile.achievements)}
-                                  </div>
                                   </Tab>
 
                                 </Tabs>
-                                </div>
 
-                              <h1 className="display-5 text-lg">
+                              <div className = "text-left testing-social-media">
+                              <h3>
                                   Social Media Links
-                              </h1>
+                              </h3>
+                              <div>
+                                  <p>
+                                      {ProfileData.getElements(this.state.profile.social)}
+                                  </p>
+                              </div>
+                              </div>
                             </div>
                             <p>
 
                             </p>
-
-                            <h1 className="display-5 text-lg">
-                                About me
-                            </h1>
-
-
-                            <div className="container browse-profile-summary">
-                                <p>
-                                    {ProfileData.getElements(this.state.profile.social)}
-                                </p>
-                            </div>
 
                         </div>
                     </div>
