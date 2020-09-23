@@ -65,6 +65,13 @@ class Profile extends Component
 
                             </p>
                             <h1 className="display-5 text-lg">
+                                Skills
+                            </h1>
+                            <div className="container profile-skills-text">
+                                {ProfileData.getElements(this.state.profile.keySkills)}
+                            </div>
+
+                            <h1 className="display-5 text-lg">
                                 About Me
                             </h1>
                             <div className="container browse-profile-summary">

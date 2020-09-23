@@ -98,3 +98,9 @@ img {
 .tab-inner {
   width: 1080px;
 }
+
+.profile-skills-text{
+  font-size: 22px;
+  font-weight: bold;
+  color: rgb(1, 182, 199);
+}
