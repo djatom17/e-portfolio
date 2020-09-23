@@ -82,6 +82,14 @@ class Profile3 extends Component
                     <br />
                     <div>
                         <h3 className="display-5 text-lg">
+                            Skills
+                        </h3>
+                        <div className="container text-lg-left">
+                            <p>
+                                {ProfileData.getBar(this.state.profile)}
+                            </p>
+                        </div>
+                        <h3 className="display-5 text-lg">
                             About me
                         </h3>
                         <div className="container text-lg-left">

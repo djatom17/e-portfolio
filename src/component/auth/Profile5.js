@@ -52,6 +52,7 @@ class Profile5 extends Component
                                     </div>
                                         <Tab tabFor="vertical-tab-one">About Me</Tab>
                                         <Tab tabFor="vertical-tab-two">Achievements</Tab>
+                                        <Tab tabFor="vertical-tab-three">Skills</Tab>
                                         </TabList>
                                         <TabPanel tabId="vertical-tab-one" className="tab-inner">
                                         <h1 className="display-5 text-lg">
@@ -69,6 +70,14 @@ class Profile5 extends Component
                                         </h1>
                                         <div className="container browse-profile-summary">
                                             {ProfileData.getElements(this.state.profile.achievements)}
+                                        </div>
+                                        </TabPanel>
+                                        <TabPanel tabId="vertical-tab-three" className="tab-inner">
+                                        <h1 className="display-5 text-lg">
+                                            Skills
+                                        </h1>
+                                        <div className="container browse-profile-summary">
+                                            {ProfileData.getElements(this.state.profile.keySkills)}
                                         </div>
                                         </TabPanel>
                                 </Tabs>
