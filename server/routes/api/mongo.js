@@ -5,6 +5,8 @@ var assert = require('assert');
 const MongoClient = require('mongodb').MongoClient;
 const uri = require('config').get('mongoURI');
 const auth = require('./auth');
+const Profile = require('../../models/Profile');
+const { callbackify } = require('util');
 
 function createNewClient()
 {
@@ -13,45 +15,36 @@ function createNewClient()
 
 // Get all profiles
 mongorouter.get('/profiles', function(req, res, next) {
-    const client = createNewClient();
-    console.log("Trying to get profiles from mongo");
-    client.connect(err => {
-        const collection = client.db("cae_users").collection("profiles");
-        collection.find().toArray((err, profiles) => {
-            client.close();
-            if (err) {
-              // if an error happens
-              res.send("Error in GET req.");
-            } else {
-              // if all works
-              res.send(profiles);
-            }
-        });
-    });
+  //get all profile entries from MongoDB.profiles
+  Profile.find().lean().exec((err, profiles) => {
+    if (err) return res.send("[Mongoose] Error in fetching profiles.");
+
+    console.log("[Mongoose] Fetched all profiles.");
+    res.send(profiles);
+  });
 });
 
 // Get a specific profile based on ObjectID
 mongorouter.get('/p/:ID', function(req, res, next) {
-  const client = createNewClient();
-  console.log("Trying to get " + req.params.ID + "from mongo");
-  client.connect(err => {
-      const collection = client.db("cae_users").collection("profiles");
-      collection.find(ObjectID(req.params.ID)).toArray((err, p) => {
-          client.close();
-          if (err) {
-            // if an error happens
-            res.send("Error in GET req.");
-          } else {
-            // if all works
-            res.send(p[0]);
-          }
-      });
-  });
+  console.log("[Mongoose] Fetching "+req.params.ID+" from mongo.");
+  Profile.findOne(ObjectID(req.params.ID)).lean()
+    .exec((err, profile) => {
+      if (err) {
+        res.send("[Mongoose] Error in fetching "+req.params.ID+" from mongo.");
+      }
+      console.log("[Mongoose] Fetched "+req.params.ID);
+      res.send(profile);
+    });
 });
 
 // Update a profile's information
 // TODO: must be authorised to make this change.
 mongorouter.post('/p-update/:ID', function(req, res, next){
+  //Check if req.body fields are valid 
+  //Post updates to mongo
+  //???
+  //Profit
+
   var elements = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
