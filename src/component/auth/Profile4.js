@@ -22,24 +22,26 @@ class Profile4 extends Component
             <div>
                 <section>
                     <div className="profile4">
-                        <div className={"container"}>
-                            <div className={"row"}>
-                                <div className="col-mid-8 m-auto">
-                                    <h1 className="display-4 text-center">{ProfileData.getName(this.state.profile)}'s Flex page</h1>
-                                    <p className={"lead text-center"}>
-                                        {this.state.profile.subtitle}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="browse-profile-summary">
-                                    <h1 className="display-5 browse-name">
-                                        Little bout me..
-                                    </h1>
-                                    <div className="browse-profile-summary">
+                        <div className="profile4-overlay text-light">
+                            <div className={"container"}>
+                                <div className={"row"}>
+                                    <div className="col-mid-8 m-auto">
+                                        <h1 className="display-4 text-center">{ProfileData.getName(this.state.profile)}'s Flex page</h1>
                                         <p className={"lead text-center"}>
-                                            {this.state.profile.about}
+                                            {this.state.profile.subtitle}
                                         </p>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="browse-profile-summary">
+                                        <h1 className="display-5 browse-name">
+                                            Little bout me..
+                                        </h1>
+                                        <div className="browse-profile-summary">
+                                            <p className={"lead text-center"}>
+                                                {this.state.profile.about}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
