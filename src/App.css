@@ -20,11 +20,12 @@ img {
 
 .profile4 {
   position: relative;
-  background: url('./img/placeholder4.jpg') no-repeat;
+  background: url("./img/placeholder4.jpg") no-repeat;
   background-size: cover;
   background-position: center;
   height: 130vh;
-  margin-bottom: 50px;
+  margin-top: 10px;
+  margin-bottom: 150px;
 }
 
 .landing-inner {
@@ -68,9 +69,9 @@ img {
 .browse-outer {
   margin: auto;
   width: 100%;
-  border: 2px solid  #bbb;
+  border: 2px solid #bbb;
   padding: 10px;
-  overflow:auto;
+  overflow: auto;
 }
 
 .browse-profile-picture {
@@ -81,14 +82,9 @@ img {
   clear: left;
 }
 
-.browse-inner{
-  display: inline;
-}
-
 .browse-profile-summary {
   width: auto;
-  float: left;
-  /*height: 350px;*/
+  height: 350px;
   padding: 25px;
   padding-top: 20px;
   text-align: left;
