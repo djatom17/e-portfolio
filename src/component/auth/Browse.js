@@ -38,9 +38,9 @@ class Browse extends Component
                     <p className="browse-details">
                         {profile.workHistory.toString()}
                     </p>
-                    //<p className="browse-details">
-                        //{profile.education.toString()}
-                    //</p>
+                    <p className="browse-details">
+                        {profile.education.toString()}
+                    </p>
                     <Link to={profile.linkToProfile} className={"btn btn-lg btn-info mr-2"}>
                         Browse
                     </Link>

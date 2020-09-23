@@ -53,6 +53,10 @@ img {
   color: #bbb !important;
 }
 
+.browse-inner {
+  float: inline-end;
+}
+
 .browse-outer {
   margin: auto;
   width: 100%;
