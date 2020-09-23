@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router , Route } from 'react-router-dom';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Navbar from "./component/layout/Navbar";
 import Landing from "./component/layout/Landing";
@@ -16,13 +16,17 @@ import Profile3 from "./component/auth/Profile3";
 import Profile4 from "./component/auth/Profile4";
 import Profile5 from "./component/auth/Profile5";
 
+import { store } from "./store";
+import { loadUser } from "./actions/authActions";
 
-import './App.css';
+import "./App.css";
 
-class App extends Component
-{
-  render()
-  {
+class App extends Component {
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
+
+  render() {
     return (
         <Router>
             <div className="App">
