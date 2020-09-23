@@ -90,12 +90,7 @@ img {
   font-size: 28px;
 }
 
-.testing-tab {
-  width: auto;
-  clear: right;
-}
-
-.testing-social-media {
+.social-media-links {
   float: left;
   clear: left;
 }

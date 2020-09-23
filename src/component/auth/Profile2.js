@@ -61,7 +61,7 @@ class Profile2 extends Component
                                     
                                 </Tabs>
 
-                              <div className = "text-left testing-social-media">
+                              <div className = "text-left social-media-links">
                               <h3>
                                   Social Media Links
                               </h3>

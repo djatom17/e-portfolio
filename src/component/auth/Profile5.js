@@ -53,7 +53,7 @@ class Profile5 extends Component
                                         <Tab tabFor="vertical-tab-one">About Me</Tab>
                                         <Tab tabFor="vertical-tab-two">Achievements</Tab>
                                         </TabList>
-                                        <TabPanel tabId="vertical-tab-one" className="testing-inner2">
+                                        <TabPanel tabId="vertical-tab-one" className="tab-inner">
                                         <h1 className="display-5 text-lg">
                                             About Me
                                         </h1>
@@ -63,7 +63,7 @@ class Profile5 extends Component
                                             </p>
                                         </div>
                                         </TabPanel>
-                                        <TabPanel tabId="vertical-tab-two" className="testing-inner2">
+                                        <TabPanel tabId="vertical-tab-two" className="tab-inner">
                                         <h1 className="display-5 text-lg">
                                             Achievements
                                         </h1>
