@@ -63,7 +63,8 @@ img {
 }
 
 .browse-inner {
-  float: inline-end;
+  /* float: inline-end; */
+  display: inline-block;
 }
 
 .browse-outer {
@@ -84,7 +85,7 @@ img {
 
 .browse-profile-summary {
   width: 100%;
-/*   height: 350px; */
+  height: 100%;
   padding: 25px;
   padding-top: 20px;
   text-align: left;
@@ -112,7 +113,7 @@ img {
   width: 1080px;
 }
 
-.profile-skills-text{
+.profile-skills-text {
   font-size: 22px;
   font-weight: bold;
   color: rgb(1, 182, 199);
