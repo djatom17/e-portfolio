@@ -24,8 +24,7 @@ img {
   background-size: cover;
   background-position: center;
   height: 130vh;
-  margin-top: 10px;
-  margin-bottom: 150px;
+  margin-bottom: 50px;
 }
 
 .landing-inner {
@@ -33,6 +32,15 @@ img {
 }
 .dark-overlay {
   background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.profile4-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
   left: 0;
@@ -69,8 +77,13 @@ img {
   clear: left;
 }
 
+.browse-inner{
+  display: inline;
+}
+
 .browse-profile-summary {
   width: auto;
+  float: left;
   /*height: 350px;*/
   padding: 25px;
   padding-top: 20px;
