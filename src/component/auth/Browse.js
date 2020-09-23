@@ -52,7 +52,7 @@ class Browse extends Component
         ));
     };
 
-    render() 
+    render()
     {
         return(
         <div className="browse">
