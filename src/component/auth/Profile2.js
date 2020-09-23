@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
 import * as ProfileData from '../../api/ProfileData';
-import {Tabs, Tab} from 'react-bootstrap-tabs';
+import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';
+import 'react-web-tabs/dist/react-web-tabs.css';
 
 class Profile2 extends Component
 {
@@ -34,24 +35,30 @@ class Profile2 extends Component
                                 <div className="container browse-profile-picture">
                                     <img src={this.state.profile.image} aria-hidden alt="description of image"/>
                                 </div>
-                                <Tabs onSelect={(index, label) => console.log(label + ' selected')} className = "testing-tab">
-                                  <Tab label="About Me" className="testing-inner2 browse-profile-summary">
-
-                                  <h1 className="display-5 browse-name ">
+                                <Tabs defaultTab="basic-tab-one">
+                                    <TabList>
+                                    <Tab tabFor="basic-tab-one">About me</Tab>
+                                    <Tab tabFor="basic-tab-two">Achievements</Tab>
+                                    </TabList>
+                                    <TabPanel tabId="basic-tab-one">
+                                    <div className="tab-inner">
+                                    <h1 className="display-5 browse-name ">
                                       About me
-                                  </h1>
-                                  <p>
-                                      {this.state.profile.about}
-                                  </p>
-                                  </Tab>
-
-                                  <Tab label="Achievements" className="testing-inner2 browse-profile-summary">
-                                  <h1 className="display-5 browse-name">
+                                    </h1>
+                                    <p>
+                                        {this.state.profile.about}
+                                    </p>
+                                    </div>
+                                    </TabPanel>
+                                    <TabPanel tabId="basic-tab-two">
+                                    <div className="tab-inner">
+                                    <h1 className="display-5 browse-name">
                                       Achievments
-                                  </h1>
+                                    </h1>
                                       {ProfileData.getElements(this.state.profile.achievements)}
-                                  </Tab>
-
+                                    </div>
+                                    </TabPanel>
+                                    
                                 </Tabs>
 
                               <div className = "text-left testing-social-media">

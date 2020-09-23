@@ -6,7 +6,6 @@ import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';
 import 'react-web-tabs/dist/react-web-tabs.css';
 
 
-
 class Profile5 extends Component
 {
   profileID = "5f62ba079f21c8be9afd18b0";

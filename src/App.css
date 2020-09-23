@@ -100,14 +100,6 @@ img {
   clear: left;
 }
 
-.side-tab {
-  float: left;
-  clear: left;
-  width: 30%;
-  height: 100%;
-  background-color: black;
-}
-
-.testing-inner2 {
+.tab-inner {
   width: 1080px;
 }
