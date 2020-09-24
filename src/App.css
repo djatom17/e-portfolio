@@ -3,6 +3,9 @@ img {
   max-width: 100%;
   height: auto;
 }
+.navbar {
+  margin-top: -20px;
+}
 
 .landing {
   position: relative;
