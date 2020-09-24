@@ -35,7 +35,9 @@ app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 
 app.use(busboyBodyParser());
 
@@ -52,6 +54,7 @@ app.get("/", (req, res) => {
 app.use("/image", require("./routes/api/s3"));
 app.use("/info", require("./routes/api/mongo"));
 app.use("/api/auth", require("./routes/api/userAuth"));
+app.use('/my-profile', require("./routes/api/myProfile"));
 //app.use('/s3proxy', s3u);
 
 // Handle React routing, return all requests to React app

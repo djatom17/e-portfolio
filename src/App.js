@@ -9,6 +9,7 @@ import Register from "./component/auth/Register";
 import Login from "./component/auth/Login";
 import Browse from "./component/auth/Browse";
 import Profile from "./component/auth/Profile";
+import MyProfile from "./component/auth/MyProfile";
 import About from "./component/auth/About";
 
 import Profile2 from "./component/auth/Profile2";
@@ -35,6 +36,7 @@ class App extends Component {
                 <div className={"container"}>
                     <Route exact path="/browse" component={Browse} />
                     <Route exact path="/profile" component={Profile} />
+                    <Route exact path="/my-profile" component={MyProfile} />
                     <Route exact path="/profile2" component={Profile2} />
                     <Route exact path="/profile3" component={Profile3} />
                     <Route exact path="/profile4" component={Profile4} />
