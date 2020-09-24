@@ -78,6 +78,8 @@ Each user should be able to:
  
  <img src="readme_images/UI Directory.PNG" width='256'>
  
+ (more on components will be added once we have acquired them)
+ 
 These components create all the pages the user can interact with:
 - Home Page - our landing page which prompts the user to log in or find out more.
 - Log in - allows a user to login to be able to edit their profile.
