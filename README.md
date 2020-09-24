@@ -78,6 +78,7 @@ Each user should be able to:
  
 These components create all the pages the user can interact with:
 - Home Page - our landing page which prompts the user to log in or find out more.
+- Log in - allows a user to login to be able to edit their profile.
 - Browse - where all our users' summaries are displayed for visitors to see.
 - Profile - essentially the e-portfolio where a users' bio data, skills, work history and more are displayed in greater detail. 
 - About - a page that displays information about our product.
