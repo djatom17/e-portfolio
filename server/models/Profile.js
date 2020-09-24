@@ -28,6 +28,7 @@ const ProfileSchema = new mongoose.Schema({
     about: String,
     achievements: Array,
     subtitle: String
+    //TODO add a Boolean check if first time user init profile
 });
 
 module.exports = Profile = mongoose.model("profiles", ProfileSchema);
