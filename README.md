@@ -74,7 +74,7 @@ Each user should be able to:
  2. Specific pages
  The former can be found in *layout* and the later can be found in *auth*.
  
- <img src="UI Directory/Layout1.PNG" width='256'>
+ <img src="readme_images/UI Directory.PNG" width='256'>
  
 
  <p>
