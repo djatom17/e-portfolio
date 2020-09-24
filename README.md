@@ -69,14 +69,20 @@ Each user should be able to:
 }
  ```
  
- The UI consists of kinds of components:
+ The UI consists of two kinds of components:
  1. Site-wide components such as the navbar
- 2. Specific pages
+ 2. Specific JS pages
  The former can be found in *layout* and the later can be found in *auth*.
  
  <img src="readme_images/UI Directory.PNG" width='256'>
  
-
+These components create all the pages the user can interact with:
+- Home Page - our landing page which prompts the user to log in or find out more.
+- Browse - where all our users' summaries are displayed for visitors to see.
+- Profile - essentially the e-portfolio where a users' bio data, skills, work history and more are displayed in greater detail. 
+- About - a page that displays information about our product.
+ 
+We have implemented a 4 profile page **presets** for our clients to choose from. 
  <p>
   <img src="readme_images/Layout1.PNG" width='512'>
   </p>
