@@ -7,7 +7,7 @@ This readme intends to document the development process to provide a good unders
 ## Table of Contents
 * [Team Members](#team-members)
 * [About the Artifact](#about-the-artifact)
-* [Technology Stack](#technology Stack)
+* [Technology Stack](#technology-stack)
 * [User Interface](#user-interface)
 * [Data Storage and Retrieval](#data-storage-and-retrieval)
 
