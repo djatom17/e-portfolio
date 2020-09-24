@@ -120,7 +120,7 @@ mongorouter.get('/profiles', function(req, res, next) {
 ```
 
 3. The retrieved data is then process in React JS to be displayed appropriately on the web-app. 
-The code from *ProfileData.js* below shows an example of how functions are used format the data.
+The code from *ProfileData.js* below shows an example of how functions are used to format the data.
 
 ```
 export function getElements (lst)
