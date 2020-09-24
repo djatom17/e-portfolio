@@ -9,7 +9,9 @@ This readme intends to document the development process to provide a good unders
 * [About the Artifact](#about-the-artifact)
 * [Technology Stack](#technology-stack)
 * [User Interface](#user-interface)
+* [Website Structure](#website-structure)
 * [Data Storage and Retrieval](#data-storage-and-retrieval)
+* [Dependencies](#dependencies)
 
 ## Team Members
 
@@ -40,18 +42,41 @@ Each user should be able to:
   - Upload/delete social media links
 
 ## Technology Stack
+
+(describe stack)
+(possibly add diagram)
+
+(additional technologies used)
+
 ## User Interface
  
- The web-app UI is built from React JS components and can be divided into two parts, site-wide components such as the navbar and page-specific components for each page.
+ The web-app UI is built using React JS components. We have built custom CSS styles to control the overall aesthetic of our pages.
+ ```
+ .browse-outer {
+  margin: auto;
+  width: 100%;
+  border: 2px solid #bbb;
+  padding: 10px;
+  overflow: auto;
+}
+
+.browse-profile-picture {
+  width: 240px;
+  height: 260px;
+  padding: 10px;
+  float: left;
+  clear: left;
+}
+ ```
  
- The react components are arranged on the page using custom CSS. 
- <p>
-  <img src="readme_images/CSS.PNG" width='140'>
-  <img src="readme_images/JS.PNG" width='300'>
- </p>
+ The UI consists of kinds of components:
+ 1. Site-wide components such as the navbar
+ 2. Specific pages
+ The former can be found in *layout* and the later can be found in *auth*.
  
+ <img src="UI Directory/Layout1.PNG" width='256'>
  
- This way we have set up preset Layouts for the clients to select.
+
  <p>
   <img src="readme_images/Layout1.PNG" width='512'>
   </p>
@@ -60,6 +85,8 @@ Each user should be able to:
  </p>
 
 ## Data Storage and Retrieval
+
+## Dependencies
  
  
  
