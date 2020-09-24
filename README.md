@@ -102,11 +102,6 @@ Starting from the back, this is how our infrastructure handles data storage and 
 1. Profile data is stored in:
    - MongoDB if it is organised text data
    - S3 bucket if it is a file ( eg. profile picture, academic document)
-   
- <p>
-  <img src="readme_images/bro.PNG" width='512'>
-  <img src="readme_images/bro.PNG" width='512'>
- </p>
 
 2. Data is retrieved from the approiate storage using Node JS requests. *Mongoose API* is used to communicate with MongoDB - for authentication and retrieving specific profiles.
 The code from *mongo.js* below shows an example interaction between the back-end and the database.
