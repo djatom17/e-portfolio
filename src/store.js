@@ -16,17 +16,12 @@ const persistConfig = {
   whitelist: ["auth", "user"],
 };
 const pReducer = persistReducer(persistConfig, rootReducer);
-//export const store = createStore(pReducer);
-//export const persistor = persistStore(store);
 
 const initialState = {};
 
 const middleware = [thunk];
 
-const composeEnhancers =
-  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()
-    : compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enhancer = composeEnhancers(applyMiddleware(...middleware));
 
