@@ -50,7 +50,9 @@ Each user should be able to:
 
 ## User Interface
  
- The web-app UI is built using React JS components. We have built custom CSS styles to control the overall aesthetic of our pages.
+ The web-app UI is built using React JS components. We have built custom CSS styles to control the overall aesthetic of our pages. Here is a snippet of our *App.css* defining 
+ styles for our browse page.
+ 
  ```
  .browse-outer {
   margin: auto;
@@ -94,9 +96,20 @@ We have implemented a 4 profile page **presets** (like the early prototypes show
 
 ## Data Storage and Retrieval
 
-front-end: (code snippet from profileData.js)
-We use an API to retrieve data from other servers (MongoDB, S3). 
-Node.js acts as the middle man between the app and other service. It is what delivers the app on Heroku.
+In order to display the data on a profile: the front-end, back-end and data storage services have to interact with each other.
+
+Starting from the back, this is how our infrastructure handles data storage and retrieval.
+1. Profile data is stored in:
+   - MongoDB if it is organised text data
+   - S3 bucket if it is a file ( eg. profile picture, academic document)
+   
+ <p>
+  <img src="readme_images/bro.PNG" width='512'>
+  <img src="readme_images/bro.PNG" width='512'>
+ </p>
+
+2. Data is retrieved from the approiate storage using Node JS requests. *Mongoose API* is used to communicate with MongoDB - for authentication and retrieving specific profiles.
+The code from *mongo.js* below shows an example interaction between the back-end and the database.
 
 ```
 // Get all profiles
@@ -111,27 +124,31 @@ mongorouter.get('/profiles', function(req, res, next) {
 });
 ```
 
-Mongoose API is used to communicate with MongoDB - Authentication, and to retrieve a profile.
+3. The retrieved data is then process in React JS to be displayed appropriately on the web-app. 
+The code from *ProfileData.js* below shows an example of how functions are used format the data.
 
-(mongo db screenshot for one DUMMY profile)
-
-
-image and document retrieval, s3
-(add s3 code)
+```
+export function getElements (lst)
+{
+    if(lst)
+    {
+        return lst.map((item, index) =>(
+        <p>{item}</p>
+        ));
+    }
+}
+```
 
 ## Routing 
-Any request made for a page on the deployment is processed through express and node js. It is being served by express (framework for node). Express handles request for pages based on URLs.
+
+Any request made for a page on the web-app is processed and served using Node JS and express. Express is the server framework we are using that handles requests pages based on their URLs. The code below is a snippet of routing from *app.js*.
+
 ```
 // Handle React routing, return all requests to React app
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "/../build", "index.html"));
 });
 ```
-
-
-
-
-
 
 
 ## Dependencies
