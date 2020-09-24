@@ -38,8 +38,9 @@ Each user should be able to:
   - Upload/edit Work and Education history
   - Upload/delete files such as certificates/academic papers etc.
   - Upload/delete social media links
-  
- ## User Interface
+
+## Technology Stack
+## User Interface
  
  The web-app UI is built from React JS components and can be divided into two parts, site-wide components such as the navbar and page-specific components for each page.
  
