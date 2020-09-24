@@ -83,7 +83,7 @@ These components create all the pages the user can interact with:
 - Profile - essentially the e-portfolio where a users' bio data, skills, work history and more are displayed in greater detail. 
 - About - a page that displays information about our product.
  
-We have implemented a 4 profile page **presets** for our clients to choose from. 
+We have implemented a 4 profile page **presets** (like the early prototypes shown below) for our clients to choose from. 
  <p>
   <img src="readme_images/Layout1.PNG" width='512'>
   </p>
@@ -91,7 +91,48 @@ We have implemented a 4 profile page **presets** for our clients to choose from.
   <img src="readme_images/Layout2.PNG" width='512'>
  </p>
 
+
 ## Data Storage and Retrieval
+
+front-end: (code snippet from profileData.js)
+We use an API to retrieve data from other servers (MongoDB, S3). 
+Node.js acts as the middle man between the app and other service. It is what delivers the app on Heroku.
+
+```
+// Get all profiles
+mongorouter.get('/profiles', function(req, res, next) {
+  //get all profile entries from MongoDB.profiles
+  Profile.find().lean().exec((err, profiles) => {
+    if (err) return res.send("[Mongoose] Error in fetching profiles.");
+
+    console.log("[Mongoose] Fetched all profiles.");
+    res.send(profiles);
+  });
+});
+```
+
+Mongoose API is used to communicate with MongoDB - Authentication, and to retrieve a profile.
+
+(mongo db screenshot for one DUMMY profile)
+
+
+image and document retrieval, s3
+(add s3 code)
+
+## Routing 
+Any request made for a page on the deployment is processed through express and node js. It is being served by express (framework for node). Express handles request for pages based on URLs.
+```
+// Handle React routing, return all requests to React app
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "/../build", "index.html"));
+});
+```
+
+
+
+
+
+
 
 ## Dependencies
  
