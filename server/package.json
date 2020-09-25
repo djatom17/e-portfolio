@@ -20,11 +20,11 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.6",
-    "morgan": "~1.9.1",
-    "nodemon": "^2.0.4"
+    "morgan": "~1.9.1"
   },
   "devDependencies": {
     "config": "^3.3.1",
-    "mongodb": "^3.6.2"
+    "mongodb": "^3.6.2",
+    "nodemon": "^2.0.4"
   }
 }
