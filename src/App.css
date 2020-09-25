@@ -121,3 +121,7 @@ img {
   font-weight: bold;
   color: rgb(1, 182, 199);
 }
+
+.nav > li {
+  display: inline-block;
+}
