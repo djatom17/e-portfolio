@@ -53,8 +53,8 @@ app.use(express.static(path.join(__dirname, "/../build")));
 //});
 
 //app.use('/', indexRouter);
-app.use("/image", require("./routes/api/s3"));
-app.use("/info", require("./routes/api/mongo"));
+app.use("/api/file", require("./routes/api/s3"));
+app.use("/info", require("./routes/api/mongo").mongorouter);
 app.use("/api/auth", require("./routes/api/userAuth"));
 app.use("/my-profile", require("./routes/api/myProfile"));
 //app.use('/s3proxy', s3u);
