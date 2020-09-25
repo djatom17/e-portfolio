@@ -21,11 +21,11 @@
     "react-web-tabs": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cd server && npm install && npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "concurrently --kill-others-on-fail \"npm start\" \"cd server & nodemon ./bin/www\""
+    "dev": "concurrently --kill-others-on-fail \"react-scripts start\" \"cd server & nodemon ./bin/www\""
   },
   "eslintConfig": {
     "extends": "react-app"
