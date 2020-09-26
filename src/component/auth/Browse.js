@@ -2,7 +2,17 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "antd/dist/antd.css";
-import { Row, Col, Image, Tag, Divider, List, Typography, Button } from "antd";
+import {
+  Row,
+  Col,
+  Image,
+  Tag,
+  Divider,
+  List,
+  Typography,
+  Button,
+  Input,
+} from "antd";
 import {
   LinkedinOutlined,
   TwitterOutlined,
@@ -12,6 +22,7 @@ import {
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
+const { Search } = Input;
 const defaultIcons = ["in", "tw", "gh"];
 class Browse extends Component {
   state = {
@@ -171,11 +182,25 @@ class Browse extends Component {
   render() {
     return (
       <div>
-        <h1 className="d-flex justify-content-center">
-          {" "}
-          Browse to your heart's content!
-        </h1>
+        <Row justify="center">
+          <Col>
+            <h1 className="d-flex justify-content-center">
+              {" "}
+              Browse to your heart's content!
+            </h1>
+          </Col>
+        </Row>
         <p />
+        <Row justify="center">
+          <Col>
+            <Search
+              placeholder="Find your Expert"
+              enterButton="Search"
+              size="large"
+              onSearch={(value) => console.log(value)}
+            />
+          </Col>
+        </Row>
 
         {this.displayProfile(this.state.profiles)}
       </div>
