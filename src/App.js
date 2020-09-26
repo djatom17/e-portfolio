@@ -11,6 +11,9 @@ import Browse from "./component/auth/Browse";
 import Profile from "./component/auth/Profile";
 import About from "./component/auth/About";
 
+import addExperience from "./component/addCredentials/addExperience";
+import editProfile from "./component/addCredentials/editProfile";
+
 import Profile2 from "./component/auth/Profile2";
 import Profile3 from "./component/auth/Profile3";
 import Profile4 from "./component/auth/Profile4";
@@ -42,7 +45,8 @@ class App extends Component {
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/about" component={About} />
-
+                    <Route exact path="/add-experience" component={addExperience} />
+                    <Route exact path="/edit-profile" component={editProfile} />
                 </div>
             <Footer />
         </div>
