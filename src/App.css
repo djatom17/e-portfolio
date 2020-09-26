@@ -3,8 +3,12 @@ img {
   max-width: 100%;
   height: auto;
 }
-.navbar {
+.nb {
   margin-top: -20px;
+}
+
+.li {
+  display: inline-block !important;
 }
 
 .landing {
@@ -13,7 +17,7 @@ img {
   background-size: cover;
   background-position: center;
   height: 100vh;
-  margin-top: -24px;
+  /* margin-top: -24px; */
   margin-bottom: -50px;
 }
 
