@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "antd/dist/antd.css";
-import { Row, Col, Image, Tag, Divider, List } from "antd";
+import { Row, Col, Image, Tag, Divider, List, Typography, Button } from "antd";
 import {
   LinkedinOutlined,
   TwitterOutlined,
   GithubOutlined,
+  MailOutlined,
+  CheckOutlined,
 } from "@ant-design/icons";
 
+const { Paragraph } = Typography;
 const defaultIcons = ["in", "tw", "gh"];
 class Browse extends Component {
   state = {
@@ -98,37 +101,69 @@ class Browse extends Component {
   displayProfile = (profiles) => {
     if (!profiles.length) return null;
     return profiles.map((profile, index) => (
-      <div className="browse-outer m-5">
-        {/* Row contains: profile name, skills*/}
-        <Row type="flex" justify="space-between" className="mb-n3">
-          <Col className="ml-4">
-            <h1 className="browse-name">
-              {profile.firstName.concat(" ", profile.lastName)}
-            </h1>
-          </Col>
-          <Col className="browse-skills mt-2">
-            {this.displaySkillTags(profile.keySkills)}
-          </Col>
-        </Row>
-        <Divider />
-        {/* Row contains: pfp, (work, education) */}
-        <Row>
-          <Col>
-            <img className="rounded ml-4" width={200} src={profile.image} />
-          </Col>
-          <Col offset={1}>
-            <Row>
-              <Col>{this.displayJob(profile)}</Col>
-            </Row>
-            <Row>
-              <Col> {this.displayQualifications(profile.education)}</Col>
-            </Row>
-          </Col>
-        </Row>
-        {/* Row contains: social media icons  */}
-        <Row gutter={8} className="browse-social ml-4">
-          {this.displayIcons(defaultIcons)}
-        </Row>
+      <div>
+        <div className="browse-outer m-5">
+          {/* Row contains: profile name, skills*/}
+          <Row type="flex" justify="space-between" className="mb-n3">
+            <Col className="ml-4">
+              <h1 className="browse-name">
+                {profile.firstName.concat(" ", profile.lastName)}
+              </h1>
+            </Col>
+            <Col className="browse-skills mt-2">
+              {this.displaySkillTags(profile.keySkills)}
+            </Col>
+          </Row>
+          <Divider />
+          {/* Row contains: pfp, (work, education) */}
+          <Row>
+            <Col>
+              <img className="rounded ml-4" width={200} src={profile.image} />
+            </Col>
+            <Col offset={1}>
+              <Row>
+                <Col>{this.displayJob(profile)}</Col>
+              </Row>
+              <Row>
+                <Col> {this.displayQualifications(profile.education)}</Col>
+              </Row>
+            </Col>
+          </Row>
+          {/* Row contains: social media icons, email  */}
+          <Row justify="space-between" className="browse-social ml-4">
+            <Col>
+              <Row gutter={8}>{this.displayIcons(defaultIcons)}</Row>
+            </Col>
+            <Col className="browse-mail mt-2 mr-2">
+              <Paragraph
+                copyable={{
+                  icon: [
+                    <MailOutlined key="copy-icon" />,
+                    <CheckOutlined key="copied-icon" />,
+                  ],
+                  tooltips: ["Copy email!"],
+                }}
+              >
+                superfake@email.com
+              </Paragraph>
+            </Col>
+          </Row>
+        </div>
+        <div>
+          {/* Buttons go here */}
+          <Row justify="start" gutter={8} className="ml-5 mt-n3">
+            <Col>
+              <Button type="primary" size="large" href={profile.linkToProfile}>
+                View
+              </Button>
+            </Col>
+            <Col>
+              <Button type="primary" size="large">
+                Message
+              </Button>
+            </Col>
+          </Row>
+        </div>
       </div>
     ));
   };
