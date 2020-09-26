@@ -52,7 +52,7 @@ class Profile extends Component
                             <p>
 
                             </p>
-                            <Link to="/profile" className={"btn btn-lg btn-info mr-2"}>
+                            <Link to="/edit-profile" className={"btn btn-lg btn-info mr-2"}>
                                 Edit
                             </Link>
                             <Link to="/profile" className={"btn btn-lg btn-info mr-2"}>

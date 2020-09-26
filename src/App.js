@@ -15,6 +15,7 @@ import Profile2 from "./component/auth/Profile2";
 import Profile3 from "./component/auth/Profile3";
 import Profile4 from "./component/auth/Profile4";
 import AddExperience from "./component/add-credentials/AddExperience";
+import EditProfile from "./component/add-credentials/EditProfile";
 
 import './App.css';
 
@@ -38,6 +39,7 @@ class App extends Component
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/about" component={About} />
                     <Route exact path="/add-experience" component={AddExperience} />
+                    <Route exact path="/edit-profile" component={EditProfile} />
 
                 </div>
             <Footer />
