@@ -7,6 +7,7 @@ const uri = require("config").get("mongoURI");
 const auth = require("./auth");
 const Profile = require("../../models/Profile");
 const File = require("../../models/File");
+const UserProfile = require('../../models/UserProfile');
 
 function createNewClient() {
   return new MongoClient(uri, {
@@ -110,6 +111,30 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
   res.redirect("/");
 });
 
+// Fetches a user's profile data based on user's ID
+const fetchProfileByUID = (uid) => {
+  console.log("[Mongoose] Fetching profile of uid "+uid);
+  //Find authenticated user's profile from DB
+  UserProfile.findOne({
+    "uid": uid
+  })
+  .then((userMap) => {
+    //Handles non-existant user profile
+    if (!userMap) {
+      console.log("[Mongoose] User profile does not exist.");
+      return null;
+    }
+    console.log("[Mongoose] Found map entry.");
+    //Fecthes profile by pid mapped by given uid
+    Profile.findById(userMap.pid, (err, profile) => {
+        if (err) throw err;
+        console.log("[Mongoose] Successfully fetched user profile.");
+        return profile;
+    });
+});
+
+}
+
 // Post-upload from S3, performs match between file, its hash, and uploader ID
 const postUpload = (name, url, uid) => {
   console.log("[Mongoose] Creating file entry");
@@ -122,4 +147,8 @@ const postUpload = (name, url, uid) => {
     });
 };
 
-module.exports = { mongorouter: mongorouter, postUpload: postUpload };
+module.exports = { 
+  mongorouter: mongorouter, 
+  postUpload: postUpload,
+  fetchProfileByUID: fetchProfileByUID
+};

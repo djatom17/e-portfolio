@@ -7,7 +7,7 @@ class MyProfile extends Component {
 
     componentDidMount() {
         // GET user profile 
-        axios.get("/my-profile", 
+        axios.get("/api/my-profile", 
         {
             headers: {
                 "x-auth-token": this.props.token,
@@ -20,6 +20,8 @@ class MyProfile extends Component {
         });
     }
 
+    //TODO return a layout template defined by user, populated by
+    // user's data
     render() {
         console.log(this.temp);
         return null;

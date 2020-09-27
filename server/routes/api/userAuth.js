@@ -55,7 +55,6 @@ userrouter.post("/login", (req, res, next) => {
             },
           });
           //Redirect to user's profile after valid token signoff
-          console.log("REDIRECTING U RN.");
           return res.redirect('/my-profile');
         }
       );

@@ -56,7 +56,7 @@ app.use(express.static(path.join(__dirname, "/../build")));
 app.use("/api/file", require("./routes/api/s3"));
 app.use("/info", require("./routes/api/mongo").mongorouter);
 app.use("/api/auth", require("./routes/api/userAuth"));
-app.use("/my-profile", require("./routes/api/myProfile"));
+app.use("/api/my-profile", require("./routes/api/myProfile"));
 //app.use('/s3proxy', s3u);
 
 // Handle React routing, return all requests to React app
