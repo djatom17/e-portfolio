@@ -12,6 +12,7 @@ import {
   Typography,
   Button,
   Input,
+  Pagination,
 } from "antd";
 import {
   LinkedinOutlined,
@@ -182,17 +183,18 @@ class Browse extends Component {
   render() {
     return (
       <div>
-        <Row justify="center">
+        <p />
+        <Row justify="space-between">
+          <Col className="ml-2">
+            <Pagination defaultCurrent={1} total={50} />
+          </Col>
           <Col>
             <h1 className="d-flex justify-content-center">
               {" "}
               Browse to your heart's content!
             </h1>
           </Col>
-        </Row>
-        <p />
-        <Row justify="center">
-          <Col>
+          <Col className="mr-2">
             <Search
               placeholder="Find your Expert"
               enterButton="Search"
@@ -201,8 +203,10 @@ class Browse extends Component {
             />
           </Col>
         </Row>
-
-        {this.displayProfile(this.state.profiles)}
+        <p />
+        <div className="container">
+          {this.displayProfile(this.state.profiles)}
+        </div>
       </div>
     );
   }
