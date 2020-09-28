@@ -16,9 +16,9 @@ img {
   background: url("./img/option5-min.png") no-repeat;
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  height: 88vh;
   /* margin-top: -24px; */
-  margin-bottom: -50px;
+  /* margin-bottom: -50px; */
 }
 
 .about-page-text {

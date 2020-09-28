@@ -30,7 +30,9 @@ class NavBar extends Component {
 
     const authLinks = (
       <Fragment>
-        <Col className="nav-link">{user ? `Welcome, ${user.name}!` : ""}</Col>
+        <Col className="nav-link text-light">
+          {user ? `Welcome, ${user.name}!` : ""}
+        </Col>
         <Col>
           <Menu.Item>
             <Logout />
@@ -42,7 +44,7 @@ class NavBar extends Component {
       <Fragment>
         <Col>
           <Menu.Item>
-            <Link className="nav-link" to="/register">
+            <Link className="nav-link text-light" to="/register">
               {" "}
               Sign Up
             </Link>
@@ -50,7 +52,7 @@ class NavBar extends Component {
         </Col>
         <Col>
           <Menu.Item>
-            <Link className="nav-link" to="/login">
+            <Link className="nav-link text-light" to="/login">
               {" "}
               Login
             </Link>
@@ -60,63 +62,16 @@ class NavBar extends Component {
     );
 
     return (
-      // <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
-      //   <div className="container">
-      //     <Link className="navbar-brand" to="/">
-      //       Ctrl Alt Elite
-      //     </Link>
-      //     <button
-      //       className="navbar-toggler"
-      //       type="button"
-      //       data-toggle="collapse"
-      //       data-target="#mobile-nav"
-      //     >
-      //       <span className="navbar-toggler-icon" />
-      //     </button>
-      //   </div>
-      //   <div className="collapse navbar-collapse" id="mobile-nav">
-      //     <ul className="navbar-nav mr-auto">
-      //       <li className="nav-item">
-      // <Link className="nav-link" to="/about">
-      //   {" "}
-      //   About
-      // </Link>
-      //       </li>
-
-      //       <li className="nav-item">
-      // <Link className="nav-link" to="/browse">
-      //   {" "}
-      //   Browse
-      // </Link>
-      //       </li>
-
-      //       <li className="nav-item">
-      // <Link className="nav-link" to="/my-profile">
-      //   {" "}
-      //   My Profile
-      // </Link>
-      //       </li>
-
-      //       <li className="nav-item">
-      //         <Link className="nav-link" to="/profiles">
-      //           {" "}
-      //           Help
-      //         </Link>
-      //       </li>
-      //       {isAuthenticated ? authLinks : guestLinks}
-      //     </ul>
-      //   </div>
-      // </nav>
-
       <Menu
         onClick={this.handleClick}
         selectedKeys={[current]}
         mode="horizontal"
         className="nb"
+        theme="dark"
       >
         <Row className="mt-3">
           <Col offset={1}>
-            <Link className="navbar-brand" to="/">
+            <Link className="navbar-brand text-light" to="/">
               Ctrl Alt Elite
             </Link>
             <button
@@ -132,7 +87,7 @@ class NavBar extends Component {
             <Row justify="end">
               <Col>
                 <Menu.Item key="about">
-                  <Link className="nav-link" to="/about">
+                  <Link className="nav-link text-light" to="/about">
                     {" "}
                     About
                   </Link>
@@ -140,7 +95,7 @@ class NavBar extends Component {
               </Col>
               <Col>
                 <Menu.Item key="browse">
-                  <Link className="nav-link" to="/browse">
+                  <Link className="nav-link text-light" to="/browse">
                     {" "}
                     Browse
                   </Link>
@@ -148,7 +103,7 @@ class NavBar extends Component {
               </Col>
               <Col>
                 <Menu.Item key="My Profile">
-                  <Link className="nav-link" to="/my-profile">
+                  <Link className="nav-link text-light" to="/my-profile">
                     {" "}
                     My Profile
                   </Link>
