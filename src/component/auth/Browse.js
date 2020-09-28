@@ -5,7 +5,7 @@ import "antd/dist/antd.css";
 import {
   Row,
   Col,
-  Image,
+  Avatar,
   Tag,
   Divider,
   List,
@@ -130,7 +130,12 @@ class Browse extends Component {
           {/* Row contains: pfp, (work, education) */}
           <Row>
             <Col>
-              <img className="rounded ml-4" width={200} src={profile.image} />
+              <Avatar
+                src={profile.image}
+                shape="square"
+                size={200}
+                className="ml-4"
+              />
             </Col>
             <Col offset={1}>
               <Row>
