@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
+import EditableText from "./EditableText";
 import * as ProfileData from "../../api/ProfileData";
 import { Row, Col, Avatar, Typography, Slider } from "antd";
 
@@ -11,17 +12,18 @@ class Profile3 extends Component {
 
   state = {
     profile: {},
-    rows: 1,
-  };
-
-  onSliderChange = (rows) => {
-    this.setState({ rows });
+    text: "bro",
+    about: "im crying",
   };
 
   componentDidMount = () => {
     ProfileData.getProfile(this.profileID, (res) => {
-      this.setState({ profile: res });
+      this.setState({ profile: res, about: res.about });
     });
+  };
+
+  setText = (val) => {
+    this.setState;
   };
 
   getElements = (lst) => {
@@ -48,31 +50,14 @@ class Profile3 extends Component {
           </h2>
         </Row>
         {/* row contains: pfp, about me, social media icons */}
-        <Row justify="space-between" gutter={16} className="ml-5">
+        <Row gutter={24} className="ml-5">
           <Col>
             {" "}
             <Avatar src={this.state.profile.image} shape="square" size={200} />
           </Col>
           <Col xs={4} sm={6} md={6} lg={8} xl={10}>
             <h4>A little bit about me...</h4>
-            <Slider
-              value={rows}
-              min={1}
-              max={10}
-              onChange={this.onSliderChange}
-            />
-            <Paragraph
-              ellipsis={{
-                rows,
-                expandable: true,
-                onEllipsis: (ellipsis) => {
-                  console.log("Ellipsis changed:", ellipsis);
-                },
-              }}
-              title={this.state.profile.about}
-            >
-              {this.state.profile.about}
-            </Paragraph>
+            <EditableText text={this.state.about} />
           </Col>
         </Row>
       </div>
