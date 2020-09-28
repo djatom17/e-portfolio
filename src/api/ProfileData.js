@@ -19,3 +19,10 @@ export function getName(profile) {
     return profile.firstName + " " + profile.lastName;
   }
 }
+
+export function getCurrJob(profile) {
+  if (!profile.workHistory.length) return null;
+  if (profile.workHistory) {
+    return profile.workHistory[0];
+  }
+}

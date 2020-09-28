@@ -4,11 +4,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "antd/dist/antd.css";
 import { Menu, Col, Row } from "antd";
-import {
-  MailOutlined,
-  AppstoreOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
 import MenuItem from "antd/lib/menu/MenuItem";
@@ -119,7 +114,7 @@ class NavBar extends Component {
         mode="horizontal"
         className="nb"
       >
-        <Row>
+        <Row className="mt-3">
           <Col offset={1}>
             <Link className="navbar-brand" to="/">
               Ctrl Alt Elite
