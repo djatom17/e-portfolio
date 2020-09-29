@@ -29,11 +29,32 @@ class Profile5 extends Component {
       this.setState({ profile: res });
     });
   };
-  setEditableStr = (value, str) => {
-    var aman = { ...this.state.profile};
-    aman[value] = str;
-    this.setState({ profile: aman });
+  setEditableStr = (property, str) => {
+    var temp = { ...this.state.profile };
+    temp[property] = str;
+    this.setState({ profile: temp });
   };
+
+  setEditableStrArr = (property, index, str) => {
+    var temp = { ...this.state.profile };
+    temp[property][index] = str;
+    this.setState({ profile: temp });
+  };
+
+  getElements(lst, property) {
+    if (lst) {
+      return lst.map((item, index) => (
+        <Paragraph
+          className="psize"
+          editable={{
+            onChange: (e) => this.setEditableStrArr(property, index, e),
+          }}
+        >
+          {item}
+        </Paragraph>
+      ));
+    }
+  }
 
   displayProfileSeg = () => {
     if (this.state.tabdisp === "about") {
@@ -42,6 +63,7 @@ class Profile5 extends Component {
           <Title className="h1size">About Me</Title>
           <div>
             <Paragraph
+              className="psize"
               editable={{
                 onChange: (e) => this.setEditableStr("about", e),
               }}
@@ -57,8 +79,11 @@ class Profile5 extends Component {
         <div>
           <Title className="h1size">Achievements</Title>
           <div>
-            <Paragraph className="psize">
-              {ProfileData.getElements(this.state.profile.achievements)}
+            <Paragraph>
+              {this.getElements(
+                this.state.profile.achievements,
+                "achievements"
+              )}
             </Paragraph>
           </div>
         </div>
