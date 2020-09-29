@@ -20,17 +20,10 @@ export function getName(profile) {
   }
 }
 
-export function getBar(profile) {
-  if (profile.keySkills) {
-    return profile.keySkills.map((item, index) => (
-      <SkillBar
-        skills={[{ type: item.toString(), level: 85 }]}
-        colors={{
-          bar: "#01b6c7",
-          title: { text: "#fff", background: "#adadad" },
-        }}
-      />
-    ));
+export function getCurrJob(profile) {
+  if (!profile.workHistory.length) return null;
+  if (profile.workHistory) {
+    return profile.workHistory[0];
   }
 }
 
