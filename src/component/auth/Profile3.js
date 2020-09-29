@@ -94,9 +94,20 @@ class Profile3 extends Component {
               : this.renderNormalAbout()}
           </Col>
           <Col>
-            <Button type="dark" icon={<LinkedinOutlined />} className="mt-3" />
-            <Button type="dark" icon={<TwitterOutlined />} className="mt-3" />
-            <Button type="dark" icon={<GithubOutlined />} className="mt-3" />
+            <Row>
+              <Button
+                type="dark"
+                icon={<LinkedinOutlined />}
+                className="mt-3"
+              />
+            </Row>
+            <Row>
+              {" "}
+              <Button type="dark" icon={<TwitterOutlined />} className="mt-3" />
+            </Row>
+            <Row>
+              <Button type="dark" icon={<GithubOutlined />} className="mt-3" />
+            </Row>
           </Col>
         </Row>
       </div>
