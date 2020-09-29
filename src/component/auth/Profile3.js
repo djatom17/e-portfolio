@@ -22,10 +22,6 @@ class Profile3 extends Component {
     });
   };
 
-  setText = (val) => {
-    this.setState;
-  };
-
   getElements = (lst) => {
     if (lst) {
       return lst.map((item, index) => (
