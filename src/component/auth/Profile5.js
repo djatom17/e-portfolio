@@ -25,20 +25,30 @@ class Profile5 extends Component {
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
   };
+  setEditableStr = (value, str) => {
+    var aman = { ...this.state.profile};
+    aman[value] = str;
+    this.setState({ profile: aman });
+  };
 
   displayProfileSeg = () => {
-    if (this.state.tabdisp == "about") {
+    if (this.state.tabdisp === "about") {
       return (
         <div>
           <Title className="h1size">About Me</Title>
           <div>
-            <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "more" }}>
+            <Paragraph
+              editable={{
+                onChange: (e) => this.setEditableStr("about", e),
+              }}
+              ellipsis={{ rows: 2, expandable: true, symbol: "more" }}
+            >
               {this.state.profile.about}
             </Paragraph>
           </div>
         </div>
       );
-    } else if (this.state.tabdisp == "achievements") {
+    } else if (this.state.tabdisp === "achievements") {
       return (
         <div>
           <Title className="h1size">Achievements</Title>
@@ -49,7 +59,7 @@ class Profile5 extends Component {
           </div>
         </div>
       );
-    } else if (this.state.tabdisp == "skills") {
+    } else if (this.state.tabdisp === "skills") {
       return (
         <div>
           <Title className="h1size">Skills</Title>
