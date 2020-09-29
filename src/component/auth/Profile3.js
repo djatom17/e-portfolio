@@ -33,35 +33,11 @@ class Profile3 extends Component {
   state = {
     profile: {},
     about: "",
-    aboutEditMode: false,
   };
 
-  // functions for editing about text
-  changeAboutEditMode = () => {
-    this.setState({ aboutEditMode: !this.state.aboutEditMode });
-  };
-
-  changeAboutText = (e) => {
-    this.setState({ aboutEditMode: false, about: e.target.value });
-  };
-
-  renderNormalAbout = () => {
-    return (
-      <div onDoubleClick={this.changeAboutEditMode}>{this.state.about}</div>
-    );
-  };
-
-  renderEditAbout = () => {
-    return (
-      <div>
-        <TextArea
-          defaultValue={this.state.about}
-          onPressEnter={this.changeAboutText}
-          autoSize={{ minRows: 1, maxRows: 6 }}
-        />
-        <Button onClick={this.changeAboutEditMode}>Cancel</Button>
-      </div>
-    );
+  // functions for editing text
+  setAbout = (str) => {
+    this.setState({ about: str });
   };
 
   componentDidMount = () => {
@@ -99,9 +75,14 @@ class Profile3 extends Component {
           </Col>
           <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
-            {this.state.aboutEditMode
-              ? this.renderEditAbout()
-              : this.renderNormalAbout()}
+            <Paragraph
+              editable={{
+                onChange: this.setAbout,
+                autoSize: { minRows: 1, maxRows: 5 },
+              }}
+            >
+              {this.state.about}
+            </Paragraph>
           </Col>
           <Col>
             <Row>
