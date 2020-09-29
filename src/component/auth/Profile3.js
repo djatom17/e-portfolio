@@ -96,17 +96,17 @@ class Profile3 extends Component {
           <Col>
             <Row>
               <Button
-                type="dark"
+                type="link"
                 icon={<LinkedinOutlined />}
                 className="mt-3"
               />
             </Row>
             <Row>
               {" "}
-              <Button type="dark" icon={<TwitterOutlined />} className="mt-3" />
+              <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
             </Row>
             <Row>
-              <Button type="dark" icon={<GithubOutlined />} className="mt-3" />
+              <Button type="link" icon={<GithubOutlined />} className="mt-3" />
             </Row>
           </Col>
         </Row>
