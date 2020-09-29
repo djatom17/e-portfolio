@@ -2,7 +2,16 @@ import React, { Component } from "react";
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
 import * as ProfileData from "../../api/ProfileData";
-import { Row, Col, Avatar, Typography, Input, Button } from "antd";
+import {
+  Row,
+  Col,
+  Avatar,
+  Typography,
+  Input,
+  Button,
+  Divider,
+  Tabs,
+} from "antd";
 import {
   LinkedinOutlined,
   TwitterOutlined,
@@ -13,6 +22,12 @@ import {
 
 const { Paragraph } = Typography;
 const { TextArea } = Input;
+const { TabPane } = Tabs;
+
+// function for tabs
+function callback(key) {
+  console.log(key);
+}
 
 class Profile3 extends Component {
   profileID = "5f6302e6f4aa1e59a8d72bcf";
@@ -109,6 +124,24 @@ class Profile3 extends Component {
               <Button type="link" icon={<GithubOutlined />} className="mt-3" />
             </Row>
           </Col>
+        </Row>
+        <Divider />
+        {/* row contains: tabs  */}
+        <Row className=" my-4 ml-5">
+          <Tabs onChange={callback} type="card">
+            <TabPane tab="Achievements" key="1">
+              Content of Tab Pane 1
+            </TabPane>
+            <TabPane tab="Skills" key="2">
+              Content of Tab Pane 2
+            </TabPane>
+            <TabPane tab="Projects" key="3">
+              Content of Tab Pane 3
+            </TabPane>
+            <TabPane tab="Contact Details" key="4">
+              Content of Tab Pane 4
+            </TabPane>
+          </Tabs>
         </Row>
       </div>
     );
