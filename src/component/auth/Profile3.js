@@ -36,7 +36,9 @@ class Profile3 extends Component {
 
   // functions for editing text
   setText = (str, value) => {
-    this.setState({profile[value]: str });
+    var temp = { ...this.state.profile };
+    temp[value] = str;
+    this.setState({ profile: temp });
   };
 
   componentDidMount = () => {
