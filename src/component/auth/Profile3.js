@@ -138,8 +138,11 @@ class Profile3 extends Component {
             <TabPane tab="Projects" key="3">
               Content of Tab Pane 3
             </TabPane>
-            <TabPane tab="Contact Details" key="4">
+            <TabPane tab="Certificates" key="4">
               Content of Tab Pane 4
+            </TabPane>
+            <TabPane tab="Contact Details" key="5">
+              Content of Tab Pane 5
             </TabPane>
           </Tabs>
         </Row>
