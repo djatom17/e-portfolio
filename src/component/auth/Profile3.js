@@ -1,24 +1,60 @@
 import React, { Component } from "react";
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
-import EditableText from "./EditableText";
 import * as ProfileData from "../../api/ProfileData";
-import { Row, Col, Avatar, Typography, Slider } from "antd";
+import { Row, Col, Avatar, Typography, Input, Button } from "antd";
+import {
+  LinkedinOutlined,
+  TwitterOutlined,
+  GithubOutlined,
+  MailOutlined,
+  CheckOutlined,
+} from "@ant-design/icons";
 
 const { Paragraph } = Typography;
+const { TextArea } = Input;
 
 class Profile3 extends Component {
   profileID = "5f6302e6f4aa1e59a8d72bcf";
 
   state = {
     profile: {},
-    text: "bro",
-    about: "im crying",
+    about: "",
+    aboutEditMode: false,
+  };
+
+  // functions for editing about text
+  changeAboutEditMode = () => {
+    this.setState({ aboutEditMode: !this.state.aboutEditMode });
+  };
+
+  changeAboutText = (e) => {
+    this.setState({ aboutEditMode: false, about: e.target.value });
+  };
+
+  renderNormalAbout = () => {
+    return (
+      <div onDoubleClick={this.changeAboutEditMode}>{this.state.about}</div>
+    );
+  };
+
+  renderEditAbout = () => {
+    return (
+      <div>
+        <TextArea
+          defaultValue={this.state.about}
+          onPressEnter={this.changeAboutText}
+          autoSize={{ minRows: 1, maxRows: 6 }}
+        />
+        <Button onClick={this.changeAboutEditMode}>Cancel</Button>
+      </div>
+    );
   };
 
   componentDidMount = () => {
     ProfileData.getProfile(this.profileID, (res) => {
-      this.setState({ profile: res, about: res.about });
+      this.setState({ profile: res });
+      this.setState({ about: this.state.profile.about });
     });
   };
 
@@ -33,7 +69,7 @@ class Profile3 extends Component {
   };
 
   render() {
-    const { rows } = this.state;
+    const { about } = this.state;
     return (
       <div clasName="container-fluid mx-4">
         {/* row contains: name, curr job */}
@@ -51,9 +87,16 @@ class Profile3 extends Component {
             {" "}
             <Avatar src={this.state.profile.image} shape="square" size={200} />
           </Col>
-          <Col xs={4} sm={6} md={6} lg={8} xl={10}>
+          <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
-            <EditableText text={this.state.about} />
+            {this.state.aboutEditMode
+              ? this.renderEditAbout()
+              : this.renderNormalAbout()}
+          </Col>
+          <Col>
+            <Button type="dark" icon={<LinkedinOutlined />} className="mt-3" />
+            <Button type="dark" icon={<TwitterOutlined />} className="mt-3" />
+            <Button type="dark" icon={<GithubOutlined />} className="mt-3" />
           </Col>
         </Row>
       </div>
