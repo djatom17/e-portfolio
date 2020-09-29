@@ -140,3 +140,30 @@ img {
 .browse-mail {
   font-size: 20px;
 }
+
+.prof5 {
+  background-color: coral;
+  height: 89vh;
+  width: 25vw;
+}
+.prof5-img {
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15vw;
+  text-align: center;
+}
+.modified-item:hover {
+  border-bottom: 2px transparent !important;
+  color: white !important;
+}
+.prof5-about {
+  width: 50vw;
+}
+
+.h1size {
+  font-size: calc(12px + 2.5vw) !important;
+}
+.psize {
+  font-size: calc(8px + 0.8vw) !important;
+}
