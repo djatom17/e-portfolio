@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
+import { Redirect } from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -49,6 +50,9 @@ class Login extends Component {
   };
 
   render() {
+    const { error, isAuthenticated } = this.props;
+    if (isAuthenticated) return <Redirect to="/my-profile" />;
+
     return (
       <div className={"login"}>
         <div className={"container"}>
