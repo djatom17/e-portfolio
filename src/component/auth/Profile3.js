@@ -34,12 +34,11 @@ class Profile3 extends Component {
 
   state = {
     profile: {},
-    about: "",
   };
 
   // functions for editing text
-  setAbout = (str) => {
-    this.setState({ about: str });
+  setText = (str, value) => {
+    this.setState({profile[value]: str });
   };
 
   componentDidMount = () => {
@@ -82,11 +81,11 @@ class Profile3 extends Component {
             <h4>A little bit about me...</h4>
             <Paragraph
               editable={{
-                onChange: this.setAbout,
+                onChange: (str) => this.setText(str, "about"),
                 autoSize: { minRows: 1, maxRows: 5 },
               }}
             >
-              {this.state.about}
+              {this.state.profile.about}
             </Paragraph>
           </Col>
           <Col>
