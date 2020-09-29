@@ -30,12 +30,16 @@ app.use(cors());
 app.use(busboy());
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(
+  express.urlencoded({
+    extended: false,
+  })
+);
 
 app.use(busboyBodyParser());
 
@@ -44,14 +48,15 @@ app.use(busboyBodyParser());
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "/../build")));
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/../build", "index.html"));
-});
+//app.get("/", (req, res) => {
+//  res.sendFile(path.join(__dirname, "/../build", "index.html"));
+//});
 
 //app.use('/', indexRouter);
-app.use("/image", require("./routes/api/s3"));
-app.use("/info", require("./routes/api/mongo"));
+app.use("/api/file", require("./routes/api/s3"));
+app.use("/info", require("./routes/api/mongo").mongorouter);
 app.use("/api/auth", require("./routes/api/userAuth"));
+app.use("/api/my-profile", require("./routes/api/myProfile"));
 //app.use('/s3proxy', s3u);
 
 // Handle React routing, return all requests to React app
@@ -71,8 +76,10 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+  res.status(500).json({
+    message: err.message,
+    error: err,
+  });
 });
 
 module.exports = app;
