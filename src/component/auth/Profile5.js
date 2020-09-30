@@ -1,16 +1,39 @@
-import React, { Component, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
+// import { Link } from "react-router-dom";
 // import axios from 'axios';
 import * as ProfileData from "../../api/ProfileData";
-import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
+// import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
-import { Layout, Row, Col, Avatar, Menu } from "antd";
+import { Row, Col, Menu } from "antd";
 import { Typography } from "antd";
+import { Upload, message } from "antd";
+import { InboxOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
-const { Content, Sider } = Layout;
+// const { Content, Sider } = Layout;
+const { Dragger } = Upload;
+
+const uploadProps = {
+  name: "file",
+  //   accept: ".doc,.docx,.png,.pdf,.jpg",
+  action: "/404",
+  headers: {
+    authorization: "authorization-text",
+  },
+  defaultFileList: [],
+  onChange(info) {
+    if (info.file.status !== "uploading") {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === "done") {
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === "error") {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+};
 
 class Profile5 extends Component {
   state = {
@@ -27,6 +50,15 @@ class Profile5 extends Component {
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
+    uploadProps.defaultFileList = [
+      {
+        uid: "1",
+        name: "test.png",
+        status: "done",
+        response: "Server Error 500", // custom error message to show
+        url: "/404",
+      },
+    ];
   };
 
   // Text Editor
@@ -109,6 +141,23 @@ class Profile5 extends Component {
           </div>
         </div>
       );
+    } else if (this.state.tabdisp === "projects") {
+      return (
+        <div>
+          <Title className="h1size">Projects</Title>
+          <div>
+            <Dragger {...uploadProps}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+              <p className="ant-upload-hint">Upload your documents here!</p>
+            </Dragger>
+          </div>
+        </div>
+      );
     }
   };
 
@@ -161,6 +210,9 @@ class Profile5 extends Component {
                   </Menu.Item>
                   <Menu.Item key="skills" className="modified-item">
                     Skills
+                  </Menu.Item>
+                  <Menu.Item key="projects" className="modified-item">
+                    Projects
                   </Menu.Item>
                 </Menu>
               </div>
