@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 // import { Link } from "react-router-dom";
 import axios from "axios";
@@ -176,6 +176,21 @@ class Profile5 extends Component {
   render() {
     const { current } = this.state.tabdisp;
 
+    const editButt = (
+      <Fragment>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#mobile-nav"
+          onClick={this.handleButtonClick}
+          style={{ height: 50, color: "blue" }}
+        >
+          {this.state.canEdit ? "Save" : "Edit"}
+        </button>
+      </Fragment>
+    );
+
     return (
       <div className="container-fluid ml-n3">
         <Row>
@@ -234,16 +249,9 @@ class Profile5 extends Component {
           <Col offset={2} flex={5} className="prof5-about ml-n3">
             {this.displayProfileSeg()}
           </Col>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#mobile-nav"
-            onClick={this.handleButtonClick}
-            style={{ height: 50, color: "blue" }}
-          >
-            {this.state.canEdit ? "Save" : "Edit"}
-          </button>
+
+          {/* Need to add auth check here */}
+          {editButt}
         </Row>
       </div>
     );
