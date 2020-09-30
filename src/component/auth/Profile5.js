@@ -16,31 +16,22 @@ const { Title, Paragraph } = Typography;
 // const { Content, Sider } = Layout;
 const { Dragger } = Upload;
 
-const uploadProps = {
-  name: "file",
-  //   accept: ".doc,.docx,.png,.pdf,.jpg",
-  action: "/api/file/upload/",
-  headers: {
-    "x-auth-token": "",
-  },
-  defaultFileList: [],
-  onChange(info) {
-    if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-};
-
 class Profile5 extends Component {
   state = {
     profile: {},
     tabdisp: "about",
     canEdit: false,
+  };
+
+  uploadProps = {
+    name: "file",
+    //   accept: ".doc,.docx,.png,.pdf,.jpg",
+    action: "/api/file/upload/",
+    headers: {
+      "x-auth-token": "",
+    },
+    fileList: [],
+    onChange: this.handleChange,
   };
 
   // Tab click event handler
@@ -49,12 +40,32 @@ class Profile5 extends Component {
     this.setState({ tabdisp: e.key });
   };
 
+  handleChange = (info) => {
+    if (info.file.status !== "uploading") {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === "done") {
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === "error") {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+    let fileList = [...info.fileList];
+    fileList = fileList.map((file) => {
+      if (file.response) {
+        // Component will show file.url as link
+        file.url = file.response.url;
+      }
+      return file;
+    });
+    // this.setState({ profile.files });
+  };
+
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
     axios
       .get("/api/file/getlist")
-      .then((res) => (uploadProps.defaultFileList = res.data));
-    uploadProps.headers = { "x-auth-token": this.props.token };
+      .then((res) => (this.uploadProps.fileList = res.data));
+    this.uploadProps.headers = { "x-auth-token": this.props.token };
   };
 
   // Text Editor
@@ -142,7 +153,7 @@ class Profile5 extends Component {
         <div>
           <Title className="h1size">Projects</Title>
           <div>
-            <Dragger {...uploadProps}>
+            <Dragger {...this.uploadProps}>
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
@@ -159,6 +170,7 @@ class Profile5 extends Component {
 
   render() {
     const { current } = this.state.tabdisp;
+
     return (
       <div className="container-fluid ml-n3">
         <Row>
