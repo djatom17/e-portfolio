@@ -11,12 +11,10 @@ export class Logout extends Component {
 
   render() {
     return (
-      <li className="nav-item">
-        <Link className="nav-link" to="#" onClick={this.props.logout}>
-          {" "}
-          Logout
-        </Link>
-      </li>
+      <Link className="nav-link text-light" to="#" onClick={this.props.logout}>
+        {" "}
+        Logout
+      </Link>
     );
   }
 }

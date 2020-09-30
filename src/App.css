@@ -145,6 +145,7 @@ img {
   background-color: coral;
   height: 89vh;
   width: 25vw;
+  margin-bottom: -16px;
 }
 .prof5-img {
   padding: 10px;
