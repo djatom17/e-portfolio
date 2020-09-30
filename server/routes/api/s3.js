@@ -34,7 +34,7 @@ s3router.post("/upload", auth, function (req, res, next) {
 
   var busboy = new Busboy({ headers: req.headers });
   busboy.on("finish", function () {
-    var file = req.files.element2;
+    var file = req.files.file;
 
     // Obtain hashed name for storage
     var md5sum = crypto.createHash("md5");
@@ -43,8 +43,10 @@ s3router.post("/upload", auth, function (req, res, next) {
 
     var params = { Bucket: AWSBucket, Key: hashName, Body: file.data };
     s3.upload(params, function (err, res) {
-      if (err) console.log("[S3] Upload failed");
-      else {
+      if (err) {
+        console.log("[S3] Upload failed");
+        res.status(500);
+      } else {
         console.log("[S3] Upload success");
         postUpload(file.name, hashName, req.user.id);
       }
@@ -52,7 +54,47 @@ s3router.post("/upload", auth, function (req, res, next) {
   });
 
   req.pipe(busboy);
-  res.redirect("back");
+  res.status(200);
+  res.send(null);
+  //res.redirect("back");
+});
+
+s3router.post("/remove/:file", auth, function (req, res, next) {
+  console.log(
+    "[S3] Trying to remove file " + req.params.file + " owned by " + req.user.id
+  );
+
+  // TODO: check if req.user.id matches file owner before deleting
+
+  var params = { Bucket: AWSBucket, Key: req.params.file };
+  s3.deleteObject(params, (err, res) => {
+    if (err) console.log("[S3] File deletion failed.");
+    else {
+      console.log("[S3] File deletion successful.");
+    }
+  });
+
+  // TODO: proper res.send
+  res.send(null);
+});
+
+// TODO: make this dependent on profile id
+s3router.get("/getlist", function (req, res, next) {
+  console.log("[S3] Obtaining list of files for user ");
+
+  var params = { Bucket: AWSBucket };
+  s3.listObjects(params, (err, data) => {
+    if (err) console.log("[S3] Failed to retrieve file list.");
+    else {
+      console.log("[S3] Retrieved file list.");
+      data.Contents.forEach((file, i) => {
+        file.uid = i;
+        file.name = file.Key;
+        file.url = "/api/file/dl/" + file.Key;
+      });
+      res.send(data.Contents);
+    }
+  });
 });
 
 module.exports = s3router;

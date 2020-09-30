@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 // import { Link } from "react-router-dom";
-// import axios from 'axios';
+import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "react-web-tabs/dist/react-web-tabs.css";
@@ -18,9 +19,9 @@ const { Dragger } = Upload;
 const uploadProps = {
   name: "file",
   //   accept: ".doc,.docx,.png,.pdf,.jpg",
-  action: "/404",
+  action: "/api/file/upload/",
   headers: {
-    authorization: "authorization-text",
+    "x-auth-token": "",
   },
   defaultFileList: [],
   onChange(info) {
@@ -50,15 +51,10 @@ class Profile5 extends Component {
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
-    uploadProps.defaultFileList = [
-      {
-        uid: "1",
-        name: "test.png",
-        status: "done",
-        response: "Server Error 500", // custom error message to show
-        url: "/404",
-      },
-    ];
+    axios
+      .get("/api/file/getlist")
+      .then((res) => (uploadProps.defaultFileList = res.data));
+    uploadProps.headers = { "x-auth-token": this.props.token };
   };
 
   // Text Editor
@@ -227,4 +223,8 @@ class Profile5 extends Component {
   }
 }
 
-export default Profile5;
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+});
+
+export default connect(mapStateToProps, {})(Profile5);
