@@ -9,7 +9,6 @@ class Profile extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.profile);
     this.setState({ profile: this.props.profile });
   }
 
