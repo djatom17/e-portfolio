@@ -7,7 +7,7 @@ import {
   Col,
   Avatar,
   Typography,
-  Input,
+  // Input,
   Button,
   Divider,
   Tabs,
@@ -23,7 +23,7 @@ import {
 import SkillManager from "./SkillManager";
 
 const { Paragraph } = Typography;
-const { TextArea } = Input;
+// const { TextArea } = Input;
 const { TabPane } = Tabs;
 
 // function for tabs
