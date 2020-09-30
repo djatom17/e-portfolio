@@ -7,11 +7,8 @@ import Profile3 from "./Profile3";
 import Profile4 from "./Profile4";
 import Profile5 from "./Profile5";
 
-// TODO: pass profile as props to react.createelement
 class PlaceholderProfile extends Component {
-  state = {
-    profile: {},
-  };
+  state = {};
 
   components = {
     prf1: Profile,
@@ -21,17 +18,31 @@ class PlaceholderProfile extends Component {
     prf5: Profile5,
   };
 
-  componentDidMount() {
-    // Extract profile ID from the URL
-    const windowUrl = window.location.pathname;
-    const profilePath = windowUrl.substr(windowUrl.lastIndexOf("/") + 1);
-    ProfileData.getProfile(profilePath, (res) => {
-      this.setState({ profile: res });
-    });
+  //constructor(props) {
+  //  super(props);
+  //  console.log("HERE");
+  //  this.state = { profile: props.profile };
+  //  console.log(props);
+  //}
+
+  componentDidUpdate(prevProps) {
+    console.log(this.props.profile);
+    if (prevProps.profile !== this.props.profile) {
+      if (!this.props.profile) {
+        // Extract profile ID from the URL
+        const windowUrl = window.location.pathname;
+        const profilePath = windowUrl.substr(windowUrl.lastIndexOf("/") + 1);
+        ProfileData.getProfile(profilePath, (res) => {
+          this.setState({ profile: res });
+        });
+      } else {
+        this.setState({ profile: this.props.profile });
+      }
+    }
   }
 
   render() {
-    var temp;
+    console.log("ANOTHER HELLO");
     return (
       <div>
         {this.state &&

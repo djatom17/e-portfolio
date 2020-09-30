@@ -1,35 +1,43 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import PlaceholderProfile from "./PlaceholderProfile";
 
 class MyProfile extends Component {
-    temp = {};
+  state = { profile: {} };
 
-    componentDidMount() {
-        // GET user profile 
-        axios.get("/api/my-profile", 
-        {
-            headers: {
-                "x-auth-token": this.props.token,
+  componentDidMount() {
+    // GET user profile
+    axios
+      .get("/api/my-profile", {
+        headers: {
+          "x-auth-token": this.props.token,
+        },
+      })
+      //Returns profile fetched via GET into render
+      .then((res) => {
+        console.log("GOT PROFILE");
+        this.setState({ profile: res.data });
+      });
+  }
 
-            }
-        })
-        //Returns profile fetched via GET into render
-        .then((res) => {
-            this.temp = res;
-        });
+  render() {
+    let component;
+    console.log(this.state.profile);
+    if (!this.state.profile) {
+      // TODO: check for first-time login profile
+      component = null;
+    } else {
+      console.log(this.state.profile);
+      component = <PlaceholderProfile profile={this.state.profile} />;
     }
 
-    //TODO return a layout template defined by user, populated by
-    // user's data
-    render() {
-        console.log(this.temp);
-        return null;
-    }
+    return <div>{component}</div>;
+  }
 }
 
 const mapStateToProps = (state) => ({
-    token : state.auth.token
-  });
+  token: state.auth.token,
+});
 
 export default connect(mapStateToProps, {})(MyProfile);
