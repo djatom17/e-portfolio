@@ -7,7 +7,7 @@ import {
   Col,
   Avatar,
   Typography,
-  Input,
+  // Input,
   Button,
   Divider,
   Tabs,
@@ -23,7 +23,7 @@ import {
 import SkillManager from "./SkillManager";
 
 const { Paragraph } = Typography;
-const { TextArea } = Input;
+// const { TextArea } = Input;
 const { TabPane } = Tabs;
 
 // function for tabs
@@ -64,8 +64,10 @@ class Profile3 extends Component {
     }
   }
 
-  componentDidMount = () => {
-    this.setState({ profile: this.props.profile });
+  setEditableStrArr = (property, index, str) => {
+    var temp = { ...this.state.profile };
+    temp[property][index] = str;
+    this.setState({ profile: temp });
   };
 
   render() {
