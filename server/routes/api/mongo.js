@@ -16,6 +16,7 @@ const auth = require("./auth");
 const Profile = require("../../models/Profile");
 const File = require("../../models/File");
 const UserProfile = require("../../models/UserProfile");
+const { useCallback } = require("react");
 
 const validObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 
@@ -156,7 +157,7 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
  *
  * @returns {Object} A JSON object adhering to Profile.js Schema
  */
-const fetchProfileByUID = (uid) => {
+const fetchProfileByUID = (uid, callback) => {
   console.log("[Mongoose] Fetching profile of uid " + uid);
   //Find authenticated user's profile from DB
   UserProfile.findOne({
@@ -172,7 +173,8 @@ const fetchProfileByUID = (uid) => {
     Profile.findById(userMap.pid, (err, profile) => {
       if (err) throw err;
       console.log("[Mongoose] Successfully fetched user profile.");
-      return profile;
+      profile.image = "/api/file/dl/" + profile.image;
+      return callback(profile);
     });
   });
 };
