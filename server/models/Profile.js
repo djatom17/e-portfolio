@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const FileSchema = require('./File');
 
 //Schema for each Profile stored in MongoDB
 const ProfileSchema = new mongoose.Schema({
@@ -10,10 +11,17 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  keySkills: Array,
+  keySkills: {
+    type: Array,
+    of: String,
+  },
+  workHistory: {
+    type: Array,
+    of: String,
+  },
   education: {
     type: Array,
-    required: true,
+    default: {"0": "New User @ Check-Me-Out"}
   },
   image: String,
   linkToProfile: {
@@ -24,11 +32,24 @@ const ProfileSchema = new mongoose.Schema({
     type: Array,
     of: String,
   },
-  about: String,
-  achievements: Array,
-  subtitle: String,
-  layout: String,
-  //TODO add a Boolean check if first time user init profile
+  filesAndDocs: [FileSchema],
+  about: {
+    type: String,
+    default: "I am cool.",
+  },
+  achievements: {
+    type: Array,
+    of: String,
+  },
+  subtitle: {
+    type: String,
+    default: "Flex it!",
+  },
+  layout: {
+    type: String,
+    default: "1",
+  },
+  isNewUser: Boolean,
 });
 
 module.exports = Profile = mongoose.model("profiles", ProfileSchema);

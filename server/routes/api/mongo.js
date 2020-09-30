@@ -147,15 +147,16 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
 /**
  * Fetches profile JSON data stored in MongoDB.
  *
- * ASSUMES USER ALREADY AUTHENTICATED
+ * ASSUMES USER ALREADY AUTHENTICATED.
  * Firstly, finds a mapping of uid to pid from table users_to_profiles.
  * Then, fetches profile data from pid found.
  *
+ * @function [fetchProfileByUID]
  * @see profilerouter.get in myProfile.js
- *
- * @param {String} uid  User ID of requestee in MongoDB
- *
- * @returns {Object} A JSON object adhering to Profile.js Schema
+ *  
+ * @callback Requester~requestCallback
+ * @param {string} uid  User ID of requestee in MongoDB.
+ * @param {Requester~requestCallback} callback - The callback that handles the response.
  */
 const fetchProfileByUID = (uid, callback) => {
   console.log("[Mongoose] Fetching profile of uid " + uid);
@@ -166,14 +167,18 @@ const fetchProfileByUID = (uid, callback) => {
     //Handles non-existant user profile
     if (!userMap) {
       console.log("[Mongoose] User profile does not exist.");
-      return null;
+      return callback(null);
     }
     console.log("[Mongoose] Found map entry.");
-    //Fecthes profile by pid mapped by given uid
+    //Fetches profile by pid mapped by given uid
     Profile.findById(userMap.pid, (err, profile) => {
-      if (err) throw err;
+      if (err) {
+        console.log("[Mongoose] Error fetching profile.");
+        return callback(null);
+      }
       console.log("[Mongoose] Successfully fetched user profile.");
       profile.image = "/api/file/dl/" + profile.image;
+      //Successful operation
       return callback(profile);
     });
   });
@@ -186,11 +191,12 @@ const fetchProfileByUID = (uid, callback) => {
  * Triggered after file upload to S3 is successful. Stores the filename,
  * key and User ID into "files", for convenience of file retrieval/access.
  *
+ * @function [postUpload]
  * @see s3router.post in s3.js
  *
  * @param {String} name User-defined filename
  * @param {String} url The key for the file stored in S3
- * @param {String} uid User ID of owner.
+ * @param {String} uid User ID of file owner.
  */
 const postUpload = (name, url, uid) => {
   console.log("[Mongoose] Creating file entry");
