@@ -39,6 +39,11 @@ class Profile5 extends Component {
     console.log("click ", e);
     this.setState({ tabdisp: e.key });
   };
+  handleButtonClick = () => {
+    this.setState({
+      canEdit: !this.state.canEdit,
+    });
+  };
 
   handleChange = (info) => {
     if (info.file.status !== "uploading") {
@@ -229,6 +234,16 @@ class Profile5 extends Component {
           <Col offset={2} flex={5} className="prof5-about ml-n3">
             {this.displayProfileSeg()}
           </Col>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#mobile-nav"
+            onClick={this.handleButtonClick}
+            style={{ height: 50, color: "blue" }}
+          >
+            {this.state.canEdit ? "Save" : "Edit"}
+          </button>
         </Row>
       </div>
     );
