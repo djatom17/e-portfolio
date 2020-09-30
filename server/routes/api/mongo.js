@@ -35,6 +35,12 @@ mongorouter.get("/profiles", function (req, res, next) {
       if (err) return res.send("[Mongoose] Error in fetching profiles.");
 
       console.log("[Mongoose] Fetched all profiles.");
+      profiles.forEach((profile) => {
+        profile.image = "/api/file/dl/" + profile.image;
+        profile.linkToProfile =
+          "/profile/" +
+          (profile.linkToProfile ? profile.linkToProfile : profile._id);
+      });
       res.send(profiles);
     });
 });
@@ -68,6 +74,8 @@ mongorouter.get("/p/:ID", function (req, res, next) {
         // TODO: res.send
       } else {
         console.log("[Mongoose] Fetched " + req.params.ID);
+        profile.image = "/api/file/dl/" + profile.image;
+        profile.linkToProfile = "/profile/" + profile.linkToProfile;
         res.send(profile);
       }
     });

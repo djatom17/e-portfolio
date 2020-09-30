@@ -25,7 +25,3 @@ export function getCurrJob(profile) {
     return profile.workHistory[0];
   }
 }
-
-export function getFileSrc(location) {
-  return "/api/file/dl/" + location;
-}
