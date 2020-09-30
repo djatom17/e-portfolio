@@ -126,8 +126,14 @@ class Profile3 extends Component {
         {/* row contains: tabs  */}
         <Row className=" my-4 ml-5">
           <Tabs onChange={callback} type="card">
-            <TabPane tab="Achievements" key="1"></TabPane>
+            <TabPane tab="Achievements" key="1">
+              {this.getElements(
+                this.state.profile.achievements,
+                "achievements"
+              )}
+            </TabPane>
             <TabPane tab="Skills" key="2">
+              {this.getElements(this.state.profile.keySkills, "keySkills")}
               <SkillManager />
             </TabPane>
             <TabPane tab="Projects" key="3">
