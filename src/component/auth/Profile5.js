@@ -13,8 +13,6 @@ const { Title, Paragraph } = Typography;
 const { Content, Sider } = Layout;
 
 class Profile5 extends Component {
-  profileID = "5f62ba079f21c8be9afd18b0";
-
   state = {
     profile: {},
     tabdisp: "",
@@ -25,9 +23,7 @@ class Profile5 extends Component {
   };
 
   componentDidMount = () => {
-    ProfileData.getProfile(this.profileID, (res) => {
-      this.setState({ profile: res });
-    });
+    this.setState({ profile: this.props.profile });
   };
 
   displayProfileSeg = () => {

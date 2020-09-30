@@ -30,8 +30,6 @@ function callback(key) {
 }
 
 class Profile3 extends Component {
-  profileID = "5f6302e6f4aa1e59a8d72bcf";
-
   state = {
     profile: {},
     about: "",
@@ -67,10 +65,7 @@ class Profile3 extends Component {
   };
 
   componentDidMount = () => {
-    ProfileData.getProfile(this.profileID, (res) => {
-      this.setState({ profile: res });
-      this.setState({ about: this.state.profile.about });
-    });
+    this.setState({ profile: this.props.profile });
   };
 
   getElements = (lst) => {
