@@ -21,7 +21,7 @@ const ProfileSchema = new mongoose.Schema({
     unique: true,
   },
   social: {
-    type: Map,
+    type: Array,
     of: String,
   },
   about: String,
