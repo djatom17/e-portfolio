@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import SkillBar from "react-skillbars";
 
 export function getProfile(profileID, callback) {
   axios.get("/info/p/" + profileID).then((res) => {
@@ -25,8 +24,4 @@ export function getCurrJob(profile) {
   if (profile.workHistory) {
     return profile.workHistory[0];
   }
-}
-
-export function getFileSrc(location) {
-  return "/api/file/dl/" + location;
 }
