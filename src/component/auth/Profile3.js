@@ -64,6 +64,10 @@ class Profile3 extends Component {
     }
   }
 
+  componentDidMount = () => {
+    this.setState({ profile: this.props.profile });
+  };
+
   setEditableStrArr = (property, index, str) => {
     var temp = { ...this.state.profile };
     temp[property][index] = str;
