@@ -12,11 +12,12 @@
 var express = require("express");
 const { ObjectID } = require("mongodb");
 var mongorouter = express.Router();
-const uri = require("config").get("mongoURI");
 const auth = require("./auth");
 const Profile = require("../../models/Profile");
 const File = require("../../models/File");
 const UserProfile = require("../../models/UserProfile");
+
+const validObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 
 /**
  * Fetches all profile entries stored in "profiles" in MongoDB.
@@ -46,16 +47,29 @@ mongorouter.get("/profiles", function (req, res, next) {
  */
 mongorouter.get("/p/:ID", function (req, res, next) {
   console.log("[Mongoose] Fetching " + req.params.ID + " from mongo.");
-  Profile.findOne(ObjectID(req.params.ID))
+
+  var query = {};
+  //console.log(ObjectId(req.params.ID).toHexString());
+  // TODO: Limit custom link length to <24.
+  if (isValidObjectId(req.params.ID)) {
+    query = { _id: ObjectID(req.params.ID) };
+  } else {
+    query = { linkToProfile: req.params.ID };
+  }
+
+  Profile.findOne(query)
     .lean()
     .exec((err, profile) => {
-      if (err) {
-        res.send(
+      if (!profile || err) {
+        console.log(
           "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
         );
+        res.send(null);
+        // TODO: res.send
+      } else {
+        console.log("[Mongoose] Fetched " + req.params.ID);
+        res.send(profile);
       }
-      console.log("[Mongoose] Fetched " + req.params.ID);
-      res.send(profile);
     });
 });
 
@@ -66,6 +80,7 @@ mongorouter.get("/p/:ID", function (req, res, next) {
  * //TODO Put profile ID in the params?
  * //TODO Returns the updated JSON profile, should it redirect?
  * //TODO validate request body before updating
+ * //TODO validate user has authorisation to change profile
  *
  * Authenticates user before posting changes.
  * Finds the document entry in "profiles" table by profile ID.
@@ -176,6 +191,11 @@ const postUpload = (name, url, uid) => {
     .catch((err) => {
       console.log("[Mongoose] File entry creation failed ", err);
     });
+};
+
+// Confirm is valid ObjectID
+const isValidObjectId = (str) => {
+  return validObjectId.test(str);
 };
 
 module.exports = {
