@@ -7,23 +7,26 @@ import {
   Col,
   Avatar,
   Typography,
-  // Input,
+  Input,
   Button,
   Divider,
   Tabs,
   Form,
   Upload,
+  Tag,
+  Tooltip,
 } from "antd";
 import {
   LinkedinOutlined,
   TwitterOutlined,
   GithubOutlined,
   UploadOutlined,
+  PlusOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
-import SkillManager from "./SkillManager";
 
 const { Paragraph } = Typography;
-// const { TextArea } = Input;
+const { TextArea } = Input;
 const { TabPane } = Tabs;
 
 // function for tabs
@@ -34,6 +37,11 @@ function callback(key) {
 class Profile3 extends Component {
   state = {
     profile: {},
+    tags: ["Unremovable", "Tag 2", "Tag 3"],
+    inputVisible: false,
+    inputValue: "",
+    editInputIndex: -1,
+    editInputValue: "",
   };
 
   // functions for editing text
@@ -68,13 +76,83 @@ class Profile3 extends Component {
     this.setState({ profile: this.props.profile });
   };
 
-  setEditableStrArr = (property, index, str) => {
-    var temp = { ...this.state.profile };
-    temp[property][index] = str;
-    this.setState({ profile: temp });
+  // dynamic tag methods (delete, add, edit)
+  handleCloseTag = (str, removedTag) => {
+    const field = this.state.profile[str].filter((tag) => tag !== removedTag);
+    var profile = this.state.profile;
+    profile[str] = field;
+    this.setState({ profile });
   };
 
+  handleDeleteEntry = (str, removed) => {
+    const field = this.state.profile[str].filter((item) => item !== removed);
+    var profile = this.state.profile;
+    profile[str] = field;
+    this.setState({ profile });
+    this.setState({ inputVisible: false });
+  };
+
+  showInput = () => {
+    this.setState({ inputVisible: true }, () => this.input.focus());
+  };
+
+  handleInputChange = (e) => {
+    this.setState({ inputValue: e.target.value });
+  };
+
+  handleInputConfirm = (str) => {
+    const { inputValue } = this.state;
+    let { profile } = this.state;
+    if (inputValue && profile[str] && profile[str].indexOf(inputValue) === -1) {
+      profile[str] = [...profile[str], inputValue];
+    }
+    console.log(profile[str]);
+    this.setState({
+      profile,
+      inputVisible: false,
+      inputValue: "",
+    });
+  };
+
+  handleEditInputChange = (e) => {
+    this.setState({ editInputValue: e.target.value });
+  };
+
+  handleEditInputConfirm = (str) => {
+    this.setState(({ profile, tags, editInputIndex, editInputValue }) => {
+      const newTags = [...profile[str]];
+      newTags[editInputIndex] = editInputValue;
+      var temp = { ...this.state.profile };
+      temp[str] = newTags;
+
+      return {
+        profile: temp,
+        tags: newTags,
+        editInputIndex: -1,
+        editInputValue: "",
+      };
+    });
+  };
+
+  saveInputRef = (input) => {
+    this.input = input;
+  };
+
+  saveEditInputRef = (input) => {
+    this.editInput = input;
+  };
+  // end of tag methods
+
   render() {
+    // for tags
+    const {
+      tags,
+      inputVisible,
+      inputValue,
+      editInputIndex,
+      editInputValue,
+    } = this.state;
+
     // for upload
     const normFile = (e) => {
       console.log("Upload event:", e);
@@ -129,18 +207,138 @@ class Profile3 extends Component {
           </Col>
         </Row>
         <Divider />
+
         {/* row contains: tabs  */}
+        {/* tab 1: achievements */}
         <Row className=" my-4 ml-5">
           <Tabs onChange={callback} type="card">
             <TabPane tab="Achievements" key="1">
-              {this.getElements(
-                this.state.profile.achievements,
-                "achievements"
+              {this.state.profile.achievements &&
+                this.state.profile.achievements.map((item, index) => {
+                  if (editInputIndex === index) {
+                    return (
+                      <Input
+                        ref={this.saveEditInputRef}
+                        key={item}
+                        size="large"
+                        value={editInputValue}
+                        onChange={this.handleEditInputChange}
+                        onBlur={() =>
+                          this.handleEditInputConfirm("achievements")
+                        }
+                        onPressEnter={() =>
+                          this.handleEditInputConfirm("achievements")
+                        }
+                      />
+                    );
+                  }
+                  const achievement = (
+                    <Paragraph key={item}>
+                      <span
+                        onDoubleClick={(e) => {
+                          this.setState(
+                            { editInputIndex: index, editInputValue: item },
+                            () => {
+                              this.editInput.focus();
+                            }
+                          );
+                          e.preventDefault();
+                        }}
+                      >
+                        {item}
+                      </span>
+                    </Paragraph>
+                  );
+                  return achievement;
+                })}
+              {inputVisible && (
+                <Input
+                  ref={this.saveInputRef}
+                  type="text"
+                  size="small"
+                  value={inputValue}
+                  onChange={this.handleInputChange}
+                  onBlur={() => this.handleInputConfirm("achievements")}
+                  onPressEnter={() => this.handleInputConfirm("achievements")}
+                />
+              )}
+              {!inputVisible && (
+                <Tag className="site-tag-plus" onClick={this.showInput}>
+                  <PlusOutlined /> New Achievement
+                </Tag>
               )}
             </TabPane>
+
+            {/* Tab 2: skills  */}
             <TabPane tab="Skills" key="2">
-              {this.getElements(this.state.profile.keySkills, "keySkills")}
-              <SkillManager />
+              {this.state.profile.keySkills &&
+                this.state.profile.keySkills.map((tag, index) => {
+                  if (editInputIndex === index) {
+                    return (
+                      <Input
+                        ref={this.saveEditInputRef}
+                        key={tag}
+                        size={40}
+                        className="tag-input"
+                        value={editInputValue}
+                        onChange={this.handleEditInputChange}
+                        onBlur={() => this.handleEditInputConfirm("keySkills")}
+                        onPressEnter={() =>
+                          this.handleEditInputConfirm("keySkills")
+                        }
+                      />
+                    );
+                  }
+
+                  const isLongTag = tag.length > 20;
+
+                  const tagElem = (
+                    <Tag
+                      className="edit-tag"
+                      key={tag}
+                      closable={index !== 0}
+                      onClose={() => this.handleCloseTag("keySkills", tag)}
+                    >
+                      <span
+                        onDoubleClick={(e) => {
+                          this.setState(
+                            { editInputIndex: index, editInputValue: tag },
+                            () => {
+                              this.editInput.focus();
+                            }
+                          );
+                          e.preventDefault();
+                        }}
+                      >
+                        {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                      </span>
+                    </Tag>
+                  );
+                  return isLongTag ? (
+                    <Tooltip title={tag} key={tag}>
+                      {tagElem}
+                    </Tooltip>
+                  ) : (
+                    tagElem
+                  );
+                })}
+              {inputVisible && (
+                <Input
+                  ref={this.saveInputRef}
+                  type="text"
+                  size="small"
+                  className="tag-input"
+                  value={inputValue}
+                  onChange={this.handleInputChange}
+                  onBlur={() => this.handleInputConfirm("keySkills")}
+                  onPressEnter={() => this.handleInputConfirm("keySkills")}
+                />
+              )}
+              {!inputVisible && (
+                <Tag className="site-tag-plus" onClick={this.showInput}>
+                  <PlusOutlined /> New Tag
+                </Tag>
+              )}
             </TabPane>
             <TabPane tab="Projects" key="3">
               Content of Tab Pane 3
