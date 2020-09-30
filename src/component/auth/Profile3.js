@@ -73,21 +73,6 @@ class Profile3 extends Component {
     });
   };
 
-  getElements(lst, property) {
-    if (lst) {
-      return lst.map((item, index) => (
-        <Paragraph
-          className="psize"
-          editable={{
-            onChange: (e) => this.setEditableStrArr(property, index, e),
-          }}
-        >
-          {item}
-        </Paragraph>
-      ));
-    }
-  }
-
   render() {
     // for upload
     const normFile = (e) => {
