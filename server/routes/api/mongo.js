@@ -151,6 +151,8 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
  * Firstly, finds a mapping of uid to pid from table users_to_profiles.
  * Then, fetches profile data from pid found.
  *
+ * TODO: add boolean to check source of request
+ *
  * @function [fetchProfileByUID]
  * @see profilerouter.get in myProfile.js
  *
@@ -164,7 +166,7 @@ const fetchProfileByUID = (uid, callback) => {
   UserProfile.findOne({
     uid: uid,
   }).then((userMap) => {
-    //Handles non-existant user profile
+    //Handles non-existent user profile
     if (!userMap) {
       console.log("[Mongoose] User profile does not exist.");
       return callback(null);
@@ -178,9 +180,10 @@ const fetchProfileByUID = (uid, callback) => {
       }
       console.log("[Mongoose] Successfully fetched user profile.");
       profile.image = "/api/file/dl/" + profile.image;
+      profile.userid = uid;
       //Successful operation
       return callback(profile);
-    });
+    }).lean();
   });
 };
 
