@@ -15,6 +15,7 @@ import {
   Upload,
   Tag,
   Tooltip,
+  message,
 } from "antd";
 import {
   LinkedinOutlined,
@@ -23,11 +24,31 @@ import {
   UploadOutlined,
   PlusOutlined,
   DeleteOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 const { TextArea } = Input;
 const { TabPane } = Tabs;
+
+// functions for img upload
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+  return isJpgOrPng && isLt2M;
+}
 
 // function for tabs
 function callback(key) {
@@ -42,6 +63,7 @@ class Profile3 extends Component {
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
+    loading: false,
   };
 
   // functions for editing text
@@ -141,7 +163,23 @@ class Profile3 extends Component {
   saveEditInputRef = (input) => {
     this.editInput = input;
   };
-  // end of tag methods
+
+  // pfp image upload methods
+  handleChange = (info) => {
+    if (info.file.status === "uploading") {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === "done") {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl) =>
+        this.setState({
+          imageUrl,
+          loading: false,
+        })
+      );
+    }
+  };
 
   render() {
     // for tags
@@ -151,16 +189,17 @@ class Profile3 extends Component {
       inputValue,
       editInputIndex,
       editInputValue,
+      loading,
+      imageUrl,
     } = this.state;
 
-    // for upload
-    const normFile = (e) => {
-      console.log("Upload event:", e);
-      if (Array.isArray(e)) {
-        return e;
-      }
-      return e && e.fileList;
-    };
+    // img upload button
+    const uploadButton = (
+      <div>
+        {loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div style={{ marginTop: 8 }}>Upload</div>
+      </div>
+    );
     return (
       <div clasName="container-fluid mx-4">
         {/* row contains: name, curr job */}
@@ -176,7 +215,21 @@ class Profile3 extends Component {
         <Row justify="space-around" gutter={24} className="mx-5">
           <Col>
             {" "}
-            <Avatar src={this.state.profile.image} shape="square" size={200} />
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={beforeUpload}
+              onChange={this.handleChange}
+            >
+              {imageUrl ? (
+                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+              ) : (
+                uploadButton
+              )}
+            </Upload>
           </Col>
           <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
@@ -343,20 +396,7 @@ class Profile3 extends Component {
             <TabPane tab="Projects" key="3">
               Content of Tab Pane 3
             </TabPane>
-            <TabPane tab="Certificates" key="4">
-              <Form>
-                <Form.Item
-                  name="upload"
-                  label="New File"
-                  valuePropName="fileList"
-                  getValueFromEvent={normFile}
-                >
-                  <Upload name="logo" action="/upload.do" listType="picture">
-                    <Button icon={<UploadOutlined />}>Click to upload</Button>
-                  </Upload>
-                </Form.Item>
-              </Form>
-            </TabPane>
+            <TabPane tab="Certificates" key="4"></TabPane>
             <TabPane tab="Contact Details" key="5">
               Content of Tab Pane 5
             </TabPane>
