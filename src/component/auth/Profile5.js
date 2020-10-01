@@ -67,9 +67,7 @@ class Profile5 extends Component {
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
-    axios
-      .get("/api/file/getlist")
-      .then((res) => (this.uploadProps.fileList = res.data));
+    this.uploadProps.fileList = this.props.profile.filesAndDocs;
     this.uploadProps.headers = { "x-auth-token": this.props.token };
   };
 
@@ -250,8 +248,13 @@ class Profile5 extends Component {
             {this.displayProfileSeg()}
           </Col>
 
-          {/* Need to add auth check here */}
-          {editButt}
+          {this.props.isAuthenticated &&
+          this.props.profile.userid &&
+          this.props.user._id &&
+          this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
+            ? editButt
+            : null}
+          {console.log(this.props)}
         </Row>
       </div>
     );
@@ -260,6 +263,8 @@ class Profile5 extends Component {
 
 const mapStateToProps = (state) => ({
   token: state.auth.token,
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, {})(Profile5);
