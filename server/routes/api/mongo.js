@@ -64,22 +64,20 @@ mongorouter.get("/p/:ID", function (req, res, next) {
     query = { linkToProfile: req.params.ID };
   }
 
-  Profile.findOne(query)
-    .lean()
-    .exec((err, profile) => {
-      if (!profile || err) {
-        console.log(
-          "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
-        );
-        res.send(null);
-        // TODO: res.send
-      } else {
-        console.log("[Mongoose] Fetched " + req.params.ID);
-        profile.image = "/api/file/dl/" + profile.image;
-        profile.linkToProfile = "/profile/" + profile.linkToProfile;
-        res.send(profile);
-      }
-    });
+  Profile.findOne(query, (err, profile) => {
+    if (!profile || err) {
+      console.log(
+        "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
+      );
+      res.send(null);
+      // TODO: res.send
+    } else {
+      console.log("[Mongoose] Fetched " + req.params.ID);
+      profile.image = "/api/file/dl/" + profile.image;
+      profile.linkToProfile = "/profile/" + profile.linkToProfile;
+      res.send(profile);
+    }
+  }).lean();
 });
 
 /**
@@ -203,23 +201,22 @@ const fetchProfileByUID = (uid, callback) => {
  */
 const postUpload = (name, url, uid) => {
   console.log("[Mongoose] Creating file entry");
-  // File.create({ name, url, uid })
-  //  .then(() => {
-  //    console.log("[Mongoose] File entry created");
-  //  })
-  //  .catch((err) => {
-  //    console.log("[Mongoose] File entry creation failed ", err);
-  //  });
 
   // Find the profile corresponding to the user and retrieve it.
-  fetchProfileByUID(uid, (profile) => {
-    profile.filesAndDocs.push({ name, url });
-    profile.save((err) => {
-      if (err) console.log("[Mongoose] File entry creation failed ", err);
-      else {
-        console.log("[Mongoose] File entry created.");
-      }
-    });
+  fetchProfileByUID(uid, (e, profile) => {
+    if (!e && profile) {
+      // Hydrate object received as it is lean.
+      profile = Profile.hydrate(profile);
+      profile.filesAndDocs.push({ name, url });
+      profile.save((err) => {
+        if (err) console.log("[Mongoose] File entry creation failed ", err);
+        else {
+          console.log("[Mongoose] File entry created.");
+        }
+      });
+    } else {
+      console.log("[Mongoose] File entry creation unsuccessful.");
+    }
   });
 };
 
