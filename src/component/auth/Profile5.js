@@ -67,7 +67,9 @@ class Profile5 extends Component {
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
-    this.uploadProps.fileList = this.props.profile.filesAndDocs;
+    this.uploadProps.fileList = this.props.profile.filesAndDocs.map(
+      (item, index) => ({ ...item, uid: index })
+    );
     this.uploadProps.headers = { "x-auth-token": this.props.token };
   };
 
