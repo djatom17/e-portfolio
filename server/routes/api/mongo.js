@@ -153,7 +153,7 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
  *
  * @function [fetchProfileByUID]
  * @see profilerouter.get in myProfile.js
- *  
+ *
  * @callback Requester~requestCallback
  * @param {string} uid  User ID of requestee in MongoDB.
  * @param {Requester~requestCallback} callback - The callback that handles the response.
@@ -200,13 +200,24 @@ const fetchProfileByUID = (uid, callback) => {
  */
 const postUpload = (name, url, uid) => {
   console.log("[Mongoose] Creating file entry");
-  File.create({ name, url, uid })
-    .then(() => {
-      console.log("[Mongoose] File entry created");
-    })
-    .catch((err) => {
-      console.log("[Mongoose] File entry creation failed ", err);
+  // File.create({ name, url, uid })
+  //  .then(() => {
+  //    console.log("[Mongoose] File entry created");
+  //  })
+  //  .catch((err) => {
+  //    console.log("[Mongoose] File entry creation failed ", err);
+  //  });
+
+  // Find the profile corresponding to the user and retrieve it.
+  fetchProfileByUID(uid, (profile) => {
+    profile.filesAndDocs.push({ name, url });
+    profile.save((err) => {
+      if (err) console.log("[Mongoose] File entry creation failed ", err);
+      else {
+        console.log("[Mongoose] File entry created.");
+      }
     });
+  });
 };
 
 // Confirm is valid ObjectID
