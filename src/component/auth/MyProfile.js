@@ -38,6 +38,7 @@ class MyProfile extends Component {
 
 const mapStateToProps = (state) => ({
   token: state.auth.token,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, {})(MyProfile);
