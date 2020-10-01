@@ -78,23 +78,4 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
   res.send(null);
 });
 
-// TODO: make this dependent on profile id
-s3router.get("/getlist", function (req, res, next) {
-  console.log("[S3] Obtaining list of files for user ");
-
-  var params = { Bucket: AWSBucket };
-  s3.listObjects(params, (err, data) => {
-    if (err) console.log("[S3] Failed to retrieve file list.");
-    else {
-      console.log("[S3] Retrieved file list.");
-      data.Contents.forEach((file, i) => {
-        file.uid = i;
-        file.name = file.Key;
-        file.url = "/api/file/dl/" + file.Key;
-      });
-      res.send(data.Contents);
-    }
-  });
-});
-
 module.exports = s3router;
