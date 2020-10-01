@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 // import { Link } from "react-router-dom";
 import axios from "axios";
@@ -16,15 +16,36 @@ const { Title, Paragraph } = Typography;
 // const { Content, Sider } = Layout;
 const { Dragger } = Upload;
 
-const uploadProps = {
-  name: "file",
-  //   accept: ".doc,.docx,.png,.pdf,.jpg",
-  action: "/api/file/upload/",
-  headers: {
-    "x-auth-token": "",
-  },
-  defaultFileList: [],
-  onChange(info) {
+class Profile5 extends Component {
+  state = {
+    profile: {},
+    tabdisp: "about",
+    canEdit: false,
+  };
+
+  uploadProps = {
+    name: "file",
+    //   accept: ".doc,.docx,.png,.pdf,.jpg",
+    action: "/api/file/upload/",
+    headers: {
+      "x-auth-token": "",
+    },
+    fileList: [],
+    onChange: this.handleChange,
+  };
+
+  // Tab click event handler
+  handleClick = (e) => {
+    console.log("click ", e);
+    this.setState({ tabdisp: e.key });
+  };
+  handleButtonClick = () => {
+    this.setState({
+      canEdit: !this.state.canEdit,
+    });
+  };
+
+  handleChange = (info) => {
     if (info.file.status !== "uploading") {
       console.log(info.file, info.fileList);
     }
@@ -33,28 +54,23 @@ const uploadProps = {
     } else if (info.file.status === "error") {
       message.error(`${info.file.name} file upload failed.`);
     }
-  },
-};
-
-class Profile5 extends Component {
-  state = {
-    profile: {},
-    tabdisp: "about",
-    canEdit: false,
-  };
-
-  // Tab click event handler
-  handleClick = (e) => {
-    console.log("click ", e);
-    this.setState({ tabdisp: e.key });
+    let fileList = [...info.fileList];
+    fileList = fileList.map((file) => {
+      if (file.response) {
+        // Component will show file.url as link
+        file.url = file.response.url;
+      }
+      return file;
+    });
+    // this.setState({ profile.files });
   };
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
     axios
       .get("/api/file/getlist")
-      .then((res) => (uploadProps.defaultFileList = res.data));
-    uploadProps.headers = { "x-auth-token": this.props.token };
+      .then((res) => (this.uploadProps.fileList = res.data));
+    this.uploadProps.headers = { "x-auth-token": this.props.token };
   };
 
   // Text Editor
@@ -142,7 +158,7 @@ class Profile5 extends Component {
         <div>
           <Title className="h1size">Projects</Title>
           <div>
-            <Dragger {...uploadProps}>
+            <Dragger {...this.uploadProps}>
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
@@ -159,6 +175,22 @@ class Profile5 extends Component {
 
   render() {
     const { current } = this.state.tabdisp;
+
+    const editButt = (
+      <Fragment>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#mobile-nav"
+          onClick={this.handleButtonClick}
+          style={{ height: 50, color: "blue" }}
+        >
+          {this.state.canEdit ? "Save" : "Edit"}
+        </button>
+      </Fragment>
+    );
+
     return (
       <div className="container-fluid ml-n3">
         <Row>
@@ -217,6 +249,9 @@ class Profile5 extends Component {
           <Col offset={2} flex={5} className="prof5-about ml-n3">
             {this.displayProfileSeg()}
           </Col>
+
+          {/* Need to add auth check here */}
+          {editButt}
         </Row>
       </div>
     );

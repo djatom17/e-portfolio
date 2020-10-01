@@ -143,8 +143,9 @@ img {
 
 .prof5 {
   background-color: coral;
-  height: 89vh;
+  height: 100%;
   width: 25vw;
+  margin-bottom: -16px;
 }
 .prof5-img {
   padding: 10px;
