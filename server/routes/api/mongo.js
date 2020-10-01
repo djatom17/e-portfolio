@@ -169,20 +169,20 @@ const fetchProfileByUID = (uid, callback) => {
     //Handles non-existent user profile
     if (!userMap) {
       console.log("[Mongoose] User profile does not exist.");
-      return callback(null);
+      return callback(null, null);
     }
     console.log("[Mongoose] Found map entry.");
     //Fetches profile by pid mapped by given uid
     Profile.findById(userMap.pid, (err, profile) => {
       if (err) {
         console.log("[Mongoose] Error fetching profile.");
-        return callback(null);
+        return callback(err, null);
       }
       console.log("[Mongoose] Successfully fetched user profile.");
       profile.image = "/api/file/dl/" + profile.image;
       profile.userid = uid;
       //Successful operation
-      return callback(profile);
+      return callback(null, profile);
     }).lean();
   });
 };

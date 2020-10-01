@@ -27,25 +27,28 @@ class PlaceholderProfile extends Component {
 
   // Load profile on mount if not passed through as props.
   componentDidMount() {
-    if (!this.props.profile && !this.state.profile) {
+    if (
+      !this.props.profile
+      // && !this.state.profile
+    ) {
       // Extract profile ID from the URL
       const windowUrl = window.location.pathname;
       const profilePath = windowUrl.substr(windowUrl.lastIndexOf("/") + 1);
       ProfileData.getProfile(profilePath, (res) => {
         this.setState({ profile: res });
       });
-    }
+    } else this.setState({ profile: this.props.profile });
   }
 
   // For my-profile, only used when props are changing due to async.
-  componentDidUpdate(prevProps) {
-    if (prevProps.profile !== this.props.profile) {
-      this.setState({ profile: this.props.profile });
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   console.log("hello update");
+  //   if (prevProps.profile !== this.props.profile) {
+  //     this.setState({ profile: this.props.profile });
+  //   }
+  // }
 
   render() {
-    console.log("ANOTHER HELLO");
     return (
       <div>
         {this.state &&

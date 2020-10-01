@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import PlaceholderProfile from "./PlaceholderProfile";
+import { Redirect } from "react-router-dom";
 
 class MyProfile extends Component {
-  state = { profile: {} };
+  state = { profile: {}, profileLoading: true, profileLoaded: false };
 
   componentDidMount() {
     // GET user profile
@@ -16,20 +17,32 @@ class MyProfile extends Component {
       })
       //Returns profile fetched via GET into render
       .then((res) => {
-        console.log("GOT PROFILE");
-        this.setState({ profile: res.data });
+        this.setState({
+          profile: res.data,
+          profileLoading: false,
+          profileLoaded: true,
+        });
+      })
+      .catch((err) => {
+        console.log("Unable to fetch your profile. Redirecting... ", err);
+        this.setState({ profileLoading: false, profileLoaded: false });
       });
   }
 
   render() {
     let component;
-    console.log(this.state.profile);
-    if (!this.state.profile) {
-      // TODO: check for first-time login profile
+    if (
+      !this.props.isAuthenticated ||
+      (!this.state.profileLoading && !this.state.profileLoaded)
+    ) {
+      component = <Redirect to="/login" />;
+    } else if (this.state.profileLoading || !this.state.profile) {
       component = null;
     } else {
-      console.log(this.state.profile);
-      component = <PlaceholderProfile profile={this.state.profile} />;
+      if (this.state.profile) {
+        console.log("here else ", this.state.profile);
+        component = <PlaceholderProfile profile={this.state.profile} />;
+      }
     }
 
     return <div>{component}</div>;

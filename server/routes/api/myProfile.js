@@ -22,8 +22,13 @@ const fetchProfileByUID = require("./mongo").fetchProfileByUID;
  * The retrieved user profile is a JSON object, adhering to Profile.js Schema
  */
 profilerouter.get("/", auth, (req, res, next) => {
-  fetchProfileByUID(req.user.id, (profile) => {
-    res.send(profile);
+  fetchProfileByUID(req.user.id, (err, profile) => {
+    if (err || !profile) {
+      //res.status(400);
+      res.send(err);
+    } else {
+      res.send(profile);
+    }
   });
 });
 
