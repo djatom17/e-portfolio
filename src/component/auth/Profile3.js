@@ -64,6 +64,7 @@ class Profile3 extends Component {
     editInputIndex: -1,
     editInputValue: "",
     loading: false,
+    pfpVisible: true,
   };
 
   // functions for editing text
@@ -164,6 +165,15 @@ class Profile3 extends Component {
     this.editInput = input;
   };
 
+  // pfp hovering methods
+  onEnterPFP = () => {
+    this.setState({ pfpVisible: false });
+  };
+
+  onLeavePFP = () => {
+    this.setState({ pfpVisible: true });
+  };
+
   // pfp image upload methods
   handleChange = (info) => {
     if (info.file.status === "uploading") {
@@ -189,17 +199,26 @@ class Profile3 extends Component {
       inputValue,
       editInputIndex,
       editInputValue,
-      loading,
-      imageUrl,
+      pfpVisible,
     } = this.state;
 
-    // img upload button
-    const uploadButton = (
-      <div>
-        {loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div style={{ marginTop: 8 }}>Upload</div>
-      </div>
+    // pfp
+    const pfp = (
+      <Avatar
+        alt="pfp"
+        src={this.state.profile.image}
+        shape="square"
+        size={200}
+      />
     );
+
+    // upload button
+    const uploadButton = (
+      <Avatar shape="square" size={200}>
+        <Upload> Change </Upload>
+      </Avatar>
+    );
+
     return (
       <div clasName="container-fluid mx-4">
         {/* row contains: name, curr job */}
@@ -213,23 +232,13 @@ class Profile3 extends Component {
         </Row>
         {/* row contains: pfp, about me, social media icons */}
         <Row justify="space-around" gutter={24} className="mx-5">
-          <Col>
+          <Col
+            flex="200px"
+            onMouseEnter={() => this.onEnterPFP()}
+            onMouseLeave={() => this.onLeavePFP()}
+          >
             {" "}
-            <Upload
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              beforeUpload={beforeUpload}
-              onChange={this.handleChange}
-            >
-              {imageUrl ? (
-                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
-              ) : (
-                uploadButton
-              )}
-            </Upload>
+            {pfpVisible ? pfp : uploadButton}
           </Col>
           <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
