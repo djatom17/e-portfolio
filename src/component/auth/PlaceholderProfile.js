@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+
 import * as ProfileData from "../../api/ProfileData";
 
 import Profile from "./Profile";
@@ -51,16 +54,28 @@ class PlaceholderProfile extends Component {
   render() {
     return (
       <div>
-        {this.state &&
-          this.state.profile &&
-          this.state.profile.layout &&
-          React.createElement(
-            this.components["prf" + this.state.profile.layout],
-            { profile: this.state.profile }
-          )}
+        {/* Checks if the profile trying to be visited is self-profile, and 
+        correctly redirects to my-profile if not already there */}
+        {this.state.profile ? (
+          this.props.isAuthenticated &&
+          this.props.user.pid === this.state.profile._id &&
+          window.location.pathname !== "/my-profile" ? (
+            <Redirect to="/my-profile" />
+          ) : (
+            React.createElement(
+              this.components["prf" + this.state.profile.layout],
+              { profile: this.state.profile }
+            )
+          )
+        ) : null}
       </div>
     );
   }
 }
 
-export default PlaceholderProfile;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps, {})(PlaceholderProfile);

@@ -8,6 +8,9 @@ const auth = require("./auth");
 // User Model
 const User = require("../../models/User");
 
+// User to profile mapping Model
+const UserProfile = require("../../models/UserProfile");
+
 // Authenticate/login user
 userrouter.post("/login", (req, res, next) => {
   const { email, password } = req.body;
@@ -36,28 +39,34 @@ userrouter.post("/login", (req, res, next) => {
         });
 
       // Correct login details
-      jwt.sign(
-        {
-          id: user.id,
-        },
-        config.get("jwtSecret"),
-        {
-          expiresIn: 3600,
-        },
-        (err, token) => {
-          if (err) throw err;
-          res.json({
-            token,
-            user: {
-              _id: user.id,
-              name: user.name,
-              email: user.email,
+      // Attach corresponding profile ID to the "user" in the state.
+      UserProfile.findOne({ uid: user.id })
+        .lean()
+        .then((userMap) => {
+          jwt.sign(
+            {
+              id: user.id,
             },
-          });
-          //Redirect to user's profile after valid token signoff
-          return res.redirect("/my-profile");
-        }
-      );
+            config.get("jwtSecret"),
+            {
+              expiresIn: 3600,
+            },
+            (err, token) => {
+              if (err) throw err;
+              res.json({
+                token,
+                user: {
+                  _id: user.id,
+                  name: user.name,
+                  email: user.email,
+                  pid: userMap.pid,
+                },
+              });
+              //Redirect to user's profile after valid token signoff
+              return res.redirect("/my-profile");
+            }
+          );
+        });
     });
   });
 });
@@ -122,11 +131,18 @@ userrouter.post("/register", (req, res, next) => {
   });
 });
 
-// Get user data
+// Get user data, and attach their corresponding profile ID.
 userrouter.get("/user", auth, (req, res, next) => {
   User.findById(req.user.id)
     .select("-password")
-    .then((user) => res.json(user));
+    .lean()
+    .then((user) => {
+      UserProfile.findOne({ uid: req.user.id })
+        .lean()
+        .then((userMap) => {
+          res.json({ ...user, pid: userMap.pid });
+        });
+    });
 });
 
 module.exports = userrouter;
