@@ -105,14 +105,7 @@ class Profile3 extends Component {
     var profile = this.state.profile;
     profile[str] = field;
     this.setState({ profile });
-  };
-
-  handleDeleteEntry = (str, removed) => {
-    const field = this.state.profile[str].filter((item) => item !== removed);
-    var profile = this.state.profile;
-    profile[str] = field;
-    this.setState({ profile });
-    this.setState({ inputVisible: false });
+    this.setState({ editInputIndex: -1 });
   };
 
   showInput = () => {
@@ -279,19 +272,33 @@ class Profile3 extends Component {
                 this.state.profile.achievements.map((item, index) => {
                   if (editInputIndex === index) {
                     return (
-                      <Input
-                        ref={this.saveEditInputRef}
-                        key={item}
-                        size="large"
-                        value={editInputValue}
-                        onChange={this.handleEditInputChange}
-                        onBlur={() =>
-                          this.handleEditInputConfirm("achievements")
-                        }
-                        onPressEnter={() =>
-                          this.handleEditInputConfirm("achievements")
-                        }
-                      />
+                      <Row justify="space-between">
+                        <Col flex="auto">
+                          <Input.TextArea
+                            ref={this.saveEditInputRef}
+                            key={item}
+                            size="large"
+                            value={editInputValue}
+                            onChange={this.handleEditInputChange}
+                            onBlur={() =>
+                              this.handleEditInputConfirm("achievements")
+                            }
+                            onPressEnter={() =>
+                              this.handleEditInputConfirm("achievements")
+                            }
+                          />
+                        </Col>
+                        <Col flex="10px">
+                          <Button
+                            type="link"
+                            onClick={() =>
+                              this.handleCloseTag("achievements", item)
+                            }
+                          >
+                            <DeleteOutlined />
+                          </Button>
+                        </Col>
+                      </Row>
                     );
                   }
                   const achievement = (
@@ -352,7 +359,7 @@ class Profile3 extends Component {
                     );
                   }
 
-                  const isLongTag = tag.length > 20;
+                  const isLongTag = tag.length > 40;
 
                   const tagElem = (
                     <Tag
@@ -372,7 +379,7 @@ class Profile3 extends Component {
                           e.preventDefault();
                         }}
                       >
-                        {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                        {isLongTag ? `${tag.slice(0, 40)}...` : tag}
                       </span>
                     </Tag>
                   );
