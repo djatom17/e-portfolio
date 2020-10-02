@@ -105,7 +105,7 @@ class Profile3 extends Component {
     var profile = this.state.profile;
     profile[str] = field;
     this.setState({ profile });
-    this.setState({ editInputIndex: -1 });
+    this.setState({ editInputIndex: -1, editInputValue: "" });
   };
 
   showInput = () => {
@@ -187,7 +187,6 @@ class Profile3 extends Component {
   render() {
     // for tags
     const {
-      tags,
       inputVisible,
       inputValue,
       editInputIndex,
@@ -272,51 +271,51 @@ class Profile3 extends Component {
                 this.state.profile.achievements.map((item, index) => {
                   if (editInputIndex === index) {
                     return (
-                      <Row justify="space-between">
-                        <Col flex="auto">
-                          <Input.TextArea
-                            ref={this.saveEditInputRef}
-                            key={item}
-                            size="large"
-                            value={editInputValue}
-                            onChange={this.handleEditInputChange}
-                            onBlur={() =>
-                              this.handleEditInputConfirm("achievements")
-                            }
-                            onPressEnter={() =>
-                              this.handleEditInputConfirm("achievements")
-                            }
-                          />
-                        </Col>
-                        <Col flex="10px">
-                          <Button
-                            type="link"
-                            onClick={() =>
-                              this.handleCloseTag("achievements", item)
-                            }
-                          >
-                            <DeleteOutlined />
-                          </Button>
-                        </Col>
-                      </Row>
+                      <Input.TextArea
+                        ref={this.saveEditInputRef}
+                        key={item}
+                        size="large"
+                        value={editInputValue}
+                        onChange={this.handleEditInputChange}
+                        onBlur={() =>
+                          this.handleEditInputConfirm("achievements")
+                        }
+                        onPressEnter={() =>
+                          this.handleEditInputConfirm("achievements")
+                        }
+                      />
                     );
                   }
                   const achievement = (
-                    <Paragraph key={item}>
-                      <span
-                        onDoubleClick={(e) => {
-                          this.setState(
-                            { editInputIndex: index, editInputValue: item },
-                            () => {
-                              this.editInput.focus();
-                            }
-                          );
-                          e.preventDefault();
-                        }}
-                      >
-                        {item}
-                      </span>
-                    </Paragraph>
+                    <Row>
+                      <Col flex="auto">
+                        <Paragraph key={item}>
+                          <span
+                            onDoubleClick={(e) => {
+                              this.setState(
+                                { editInputIndex: index, editInputValue: item },
+                                () => {
+                                  this.editInput.focus();
+                                }
+                              );
+                              e.preventDefault();
+                            }}
+                          >
+                            {item}
+                          </span>
+                        </Paragraph>
+                      </Col>
+                      <Col flex="10px">
+                        <Button
+                          type="link"
+                          onClick={() =>
+                            this.handleCloseTag("achievements", item)
+                          }
+                        >
+                          <DeleteOutlined />
+                        </Button>
+                      </Col>
+                    </Row>
                   );
                   return achievement;
                 })}
