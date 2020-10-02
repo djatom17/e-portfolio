@@ -1,19 +1,17 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
-import { Row, Col, Menu } from "antd";
-import { Typography } from "antd";
-import { Upload, message } from "antd";
+import { Row, Col, Menu, Upload, message, Typography } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import { PaperClipOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
-// const { Content, Sider } = Layout;
 const { Dragger } = Upload;
 
 class Profile5 extends Component {
@@ -21,7 +19,21 @@ class Profile5 extends Component {
     profile: {},
     tabdisp: "about",
     canEdit: false,
+    isMyProfile: false,
   };
+  dragUpload = (
+    <Fragment>
+      <Dragger {...this.uploadProps}>
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">
+          Click or drag file to this area to upload
+        </p>
+        <p className="ant-upload-hint">Upload your documents here!</p>
+      </Dragger>
+    </Fragment>
+  );
 
   uploadProps = {
     name: "file",
@@ -30,7 +42,7 @@ class Profile5 extends Component {
     headers: {
       "x-auth-token": "",
     },
-    fileList: [],
+    // fileList: [],
     onChange: this.handleChange,
   };
 
@@ -54,23 +66,31 @@ class Profile5 extends Component {
     } else if (info.file.status === "error") {
       message.error(`${info.file.name} file upload failed.`);
     }
-    let fileList = [...info.fileList];
-    fileList = fileList.map((file) => {
-      if (file.response) {
-        // Component will show file.url as link
-        file.url = file.response.url;
-      }
-      return file;
-    });
-    // this.setState({ profile.files });
+    // let fileList = [...info.fileList];
+    // fileList = fileList.map((file) => {
+    //   if (file.response) {
+    //     // Component will show file.url as link
+    //     file.url = file.response.url;
+    //   }
+    //   return file;
+    // });
+    // // this.setState({ profile.files });
   };
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
-    this.uploadProps.fileList = this.props.profile.filesAndDocs.map(
-      (item, index) => ({ ...item, uid: index })
-    );
+    // this.uploadProps.fileList = this.props.profile.filesAndDocs.map(
+    //   (item, index) => ({ ...item, uid: index })
+    // );
+
+    //Authorisation check.
     this.uploadProps.headers = { "x-auth-token": this.props.token };
+    this.props.isAuthenticated &&
+    this.props.profile.userid &&
+    this.props.user._id &&
+    this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
+      ? this.setState({ isMyProfile: true })
+      : this.setState({ isMyProfile: false });
   };
 
   // Text Editor
@@ -93,7 +113,7 @@ class Profile5 extends Component {
         <Paragraph
           className="psize"
           editable={
-            this.state.canEdit
+            this.state.isMyProfile && this.state.canEdit
               ? {
                   onChange: (e) => this.setEditableStrArr(property, index, e),
                 }
@@ -102,6 +122,19 @@ class Profile5 extends Component {
         >
           {item}
         </Paragraph>
+      ));
+    }
+  }
+
+  getFiles(lst) {
+    if (lst) {
+      return lst.map((item, index) => (
+        <div>
+          <Link to={item.url}>
+            <PaperClipOutlined />
+            {item.name}
+          </Link>
+        </div>
       ));
     }
   }
@@ -115,13 +148,13 @@ class Profile5 extends Component {
             <Paragraph
               className="psize"
               editable={
-                this.state.canEdit
+                this.state.isMyProfile && this.state.canEdit
                   ? {
                       onChange: (e) => this.setEditableStr("about", e),
                     }
                   : false
               }
-              ellipsis={{ rows: 2, expandable: true, symbol: "more" }}
+              ellipsis={{ rows: 1, expandable: true, symbol: "more" }}
             >
               {this.state.profile.about}
             </Paragraph>
@@ -158,16 +191,12 @@ class Profile5 extends Component {
         <div>
           <Title className="h1size">Projects</Title>
           <div>
-            <Dragger {...this.uploadProps}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-              <p className="ant-upload-hint">Upload your documents here!</p>
-            </Dragger>
+            {this.state.isMyProfile && this.state.canEdit
+              ? this.dragUpload
+              : null}
+            {console.log(this.state.isMyProfile)}
           </div>
+          {this.getFiles(this.state.profile.filesAndDocs)}
         </div>
       );
     }
@@ -186,7 +215,7 @@ class Profile5 extends Component {
           onClick={this.handleButtonClick}
           style={{ height: 50, color: "blue" }}
         >
-          {this.state.canEdit ? "Save" : "Edit"}
+          {this.state.isMyProfile && this.state.canEdit ? "Done" : "Edit"}
         </button>
       </Fragment>
     );
@@ -212,7 +241,7 @@ class Profile5 extends Component {
                 <Paragraph
                   className={"text-center"}
                   editable={
-                    this.state.canEdit
+                    this.state.isMyProfile && this.state.canEdit
                       ? {
                           onChange: (e) => this.setEditableStr("subtitle", e),
                         }
@@ -250,12 +279,7 @@ class Profile5 extends Component {
             {this.displayProfileSeg()}
           </Col>
 
-          {this.props.isAuthenticated &&
-          this.props.profile.userid &&
-          this.props.user._id &&
-          this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
-            ? editButt
-            : null}
+          {this.state.isMyProfile ? editButt : null}
           {console.log(this.props)}
         </Row>
       </div>
