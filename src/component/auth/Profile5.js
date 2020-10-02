@@ -82,6 +82,8 @@ class Profile5 extends Component {
     // this.uploadProps.fileList = this.props.profile.filesAndDocs.map(
     //   (item, index) => ({ ...item, uid: index })
     // );
+
+    //Authorisation check.
     this.uploadProps.headers = { "x-auth-token": this.props.token };
     this.props.isAuthenticated &&
     this.props.profile.userid &&
@@ -111,7 +113,7 @@ class Profile5 extends Component {
         <Paragraph
           className="psize"
           editable={
-            this.state.canEdit
+            this.state.isMyProfile && this.state.canEdit
               ? {
                   onChange: (e) => this.setEditableStrArr(property, index, e),
                 }
@@ -146,7 +148,7 @@ class Profile5 extends Component {
             <Paragraph
               className="psize"
               editable={
-                this.state.canEdit
+                this.state.isMyProfile && this.state.canEdit
                   ? {
                       onChange: (e) => this.setEditableStr("about", e),
                     }
@@ -213,7 +215,7 @@ class Profile5 extends Component {
           onClick={this.handleButtonClick}
           style={{ height: 50, color: "blue" }}
         >
-          {this.state.canEdit ? "Done" : "Edit"}
+          {this.state.isMyProfile && this.state.canEdit ? "Done" : "Edit"}
         </button>
       </Fragment>
     );
@@ -239,7 +241,7 @@ class Profile5 extends Component {
                 <Paragraph
                   className={"text-center"}
                   editable={
-                    this.state.canEdit
+                    this.state.isMyProfile && this.state.canEdit
                       ? {
                           onChange: (e) => this.setEditableStr("subtitle", e),
                         }
