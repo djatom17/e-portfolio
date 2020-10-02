@@ -105,14 +105,7 @@ class Profile3 extends Component {
     var profile = this.state.profile;
     profile[str] = field;
     this.setState({ profile });
-  };
-
-  handleDeleteEntry = (str, removed) => {
-    const field = this.state.profile[str].filter((item) => item !== removed);
-    var profile = this.state.profile;
-    profile[str] = field;
-    this.setState({ profile });
-    this.setState({ inputVisible: false });
+    this.setState({ editInputIndex: -1, editInputValue: "" });
   };
 
   showInput = () => {
@@ -194,7 +187,6 @@ class Profile3 extends Component {
   render() {
     // for tags
     const {
-      tags,
       inputVisible,
       inputValue,
       editInputIndex,
@@ -279,7 +271,7 @@ class Profile3 extends Component {
                 this.state.profile.achievements.map((item, index) => {
                   if (editInputIndex === index) {
                     return (
-                      <Input
+                      <Input.TextArea
                         ref={this.saveEditInputRef}
                         key={item}
                         size="large"
@@ -295,21 +287,35 @@ class Profile3 extends Component {
                     );
                   }
                   const achievement = (
-                    <Paragraph key={item}>
-                      <span
-                        onDoubleClick={(e) => {
-                          this.setState(
-                            { editInputIndex: index, editInputValue: item },
-                            () => {
-                              this.editInput.focus();
-                            }
-                          );
-                          e.preventDefault();
-                        }}
-                      >
-                        {item}
-                      </span>
-                    </Paragraph>
+                    <Row>
+                      <Col flex="auto">
+                        <Paragraph key={item}>
+                          <span
+                            onDoubleClick={(e) => {
+                              this.setState(
+                                { editInputIndex: index, editInputValue: item },
+                                () => {
+                                  this.editInput.focus();
+                                }
+                              );
+                              e.preventDefault();
+                            }}
+                          >
+                            {item}
+                          </span>
+                        </Paragraph>
+                      </Col>
+                      <Col flex="10px">
+                        <Button
+                          type="link"
+                          onClick={() =>
+                            this.handleCloseTag("achievements", item)
+                          }
+                        >
+                          <DeleteOutlined />
+                        </Button>
+                      </Col>
+                    </Row>
                   );
                   return achievement;
                 })}
@@ -352,7 +358,7 @@ class Profile3 extends Component {
                     );
                   }
 
-                  const isLongTag = tag.length > 20;
+                  const isLongTag = tag.length > 40;
 
                   const tagElem = (
                     <Tag
@@ -372,7 +378,7 @@ class Profile3 extends Component {
                           e.preventDefault();
                         }}
                       >
-                        {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                        {isLongTag ? `${tag.slice(0, 40)}...` : tag}
                       </span>
                     </Tag>
                   );
