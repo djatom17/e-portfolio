@@ -220,6 +220,27 @@ const postUpload = (name, url, uid) => {
   });
 };
 
+const postDelete = (url, uid) => {
+  console.log("[Mongoose] Deleting file entry from user.");
+
+  fetchProfileByUID(uid, (e, profile) => {
+    if (!e && profile) {
+      profile = Profile.hydrate(profile);
+      profile.filesAndDocs = profile.filesAndDocs.filter(
+        (item) => item.url !== url
+      );
+      profile.save((err) => {
+        if (err) console.log("[Mongoose] File entry deletion failed ", err);
+        else {
+          console.log("[Mongoose] File entry deleted.");
+        }
+      });
+    } else {
+      console.log("[Mongoose] File entry creation unsuccesful.");
+    }
+  });
+};
+
 // Confirm is valid ObjectID
 const isValidObjectId = (str) => {
   return validObjectId.test(str);
@@ -228,5 +249,6 @@ const isValidObjectId = (str) => {
 module.exports = {
   mongorouter: mongorouter,
   postUpload: postUpload,
+  postDelete: postDelete,
   fetchProfileByUID: fetchProfileByUID,
 };

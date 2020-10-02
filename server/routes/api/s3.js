@@ -5,7 +5,7 @@ const config = require("config");
 const AWS = require("aws-sdk");
 const Busboy = require("busboy");
 const auth = require("./auth");
-const postUpload = require("./mongo").postUpload;
+const mongo = require("./mongo");
 const AWSBucket = "cae-eportfolio";
 const s3 = new AWS.S3({
   accessKeyId: config.get("iamUser"),
@@ -48,7 +48,7 @@ s3router.post("/upload", auth, function (req, res, next) {
         res.status(500);
       } else {
         console.log("[S3] Upload success");
-        postUpload(file.name, hashName, req.user.id);
+        mongo.postUpload(file.name, hashName, req.user.id);
       }
     });
   });
@@ -59,6 +59,7 @@ s3router.post("/upload", auth, function (req, res, next) {
   //res.redirect("back");
 });
 
+// Delete file from S3 and remove database entry.
 s3router.post("/remove/:file", auth, function (req, res, next) {
   console.log(
     "[S3] Trying to remove file " + req.params.file + " owned by " + req.user.id
@@ -71,6 +72,7 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
     if (err) console.log("[S3] File deletion failed.");
     else {
       console.log("[S3] File deletion successful.");
+      mongo.postDelete(req.params.file, req.user.id);
     }
   });
 
