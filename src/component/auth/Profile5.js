@@ -6,9 +6,23 @@ import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
-import { Row, Col, Menu, Upload, message, Typography } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
-import { PaperClipOutlined } from "@ant-design/icons";
+import {
+  Row,
+  Col,
+  Menu,
+  Upload,
+  message,
+  Typography,
+  Input,
+  Button,
+  Tag,
+} from "antd";
+import {
+  InboxOutlined,
+  DeleteOutlined,
+  PaperClipOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
@@ -20,6 +34,10 @@ class Profile5 extends Component {
     tabdisp: "about",
     canEdit: false,
     isMyProfile: false,
+    inputVisible: false,
+    inputValue: "",
+    editInputIndex: -1,
+    editInputValue: "",
   };
   dragUpload = (
     <Fragment>
@@ -107,6 +125,77 @@ class Profile5 extends Component {
     this.setState({ profile: temp });
   };
 
+  // dynamic tag methods (delete, add, edit)
+  handleCloseTag = (str, removedTag) => {
+    const field = this.state.profile[str].filter((tag) => tag !== removedTag);
+    var profile = this.state.profile;
+    profile[str] = field;
+    this.setState({ profile });
+    this.setState({ editInputIndex: -1, editInputValue: "" });
+  };
+
+  showInput = () => {
+    this.setState({ inputVisible: true }, () => this.input.focus());
+  };
+
+  handleInputChange = (e) => {
+    this.setState({ inputValue: e.target.value });
+  };
+
+  handleInputConfirm = (str) => {
+    const { inputValue } = this.state;
+    let { profile } = this.state;
+    if (inputValue && profile[str] && profile[str].indexOf(inputValue) === -1) {
+      profile[str] = [...profile[str], inputValue];
+    }
+    console.log(profile[str]);
+    this.setState({
+      profile,
+      inputVisible: false,
+      inputValue: "",
+    });
+  };
+
+  handleEditInputChange = (e) => {
+    this.setState({ editInputValue: e.target.value });
+  };
+
+  handleEditInputConfirm = (str) => {
+    this.setState(({ profile, tags, editInputIndex, editInputValue }) => {
+      const newTags = [...profile[str]];
+      newTags[editInputIndex] = editInputValue;
+      var temp = { ...this.state.profile };
+      temp[str] = newTags;
+
+      return {
+        profile: temp,
+        tags: newTags,
+        editInputIndex: -1,
+        editInputValue: "",
+      };
+    });
+  };
+
+  saveInputRef = (input) => {
+    this.input = input;
+  };
+
+  saveEditInputRef = (input) => {
+    this.editInput = input;
+  };
+
+  // delete button for achievements
+  deleteButt = (item) => {
+    return (
+      <Button
+        type="link"
+        onClick={() => this.handleCloseTag("achievements", item)}
+      >
+        <DeleteOutlined />
+      </Button>
+    );
+  };
+
   getElements(lst, property) {
     if (lst) {
       return lst.map((item, index) => (
@@ -162,14 +251,88 @@ class Profile5 extends Component {
         </div>
       );
     } else if (this.state.tabdisp === "achievements") {
+      const {
+        inputVisible,
+        inputValue,
+        editInputIndex,
+        editInputValue,
+      } = this.state;
+
       return (
         <div>
           <Title className="h1size">Achievements</Title>
           <div>
             <Paragraph>
-              {this.getElements(
-                this.state.profile.achievements,
-                "achievements"
+              {" "}
+              {this.state.profile.achievements &&
+                this.state.profile.achievements.map((item, index) => {
+                  if (editInputIndex === index) {
+                    return (
+                      <Input.TextArea
+                        ref={this.saveEditInputRef}
+                        key={item}
+                        size="large"
+                        value={editInputValue}
+                        onChange={this.handleEditInputChange}
+                        onBlur={() =>
+                          this.handleEditInputConfirm("achievements")
+                        }
+                        onPressEnter={() =>
+                          this.handleEditInputConfirm("achievements")
+                        }
+                      />
+                    );
+                  }
+                  const achievement = (
+                    <Row>
+                      <Col flex="auto">
+                        <Paragraph key={item}>
+                          <span
+                            onDoubleClick={
+                              this.state.isMyProfile &&
+                              this.state.canEdit &&
+                              ((e) => {
+                                this.setState(
+                                  {
+                                    editInputIndex: index,
+                                    editInputValue: item,
+                                  },
+                                  () => {
+                                    this.editInput.focus();
+                                  }
+                                );
+                                e.preventDefault();
+                              })
+                            }
+                          >
+                            {item}
+                          </span>
+                        </Paragraph>
+                      </Col>
+                      <Col flex="10px">
+                        {this.state.isMyProfile && this.state.canEdit
+                          ? this.deleteButt(item)
+                          : null}
+                      </Col>
+                    </Row>
+                  );
+                  return achievement;
+                })}
+              {inputVisible && (
+                <Input
+                  ref={this.saveInputRef}
+                  type="text"
+                  size="small"
+                  value={inputValue}
+                  onChange={this.handleInputChange}
+                  onBlur={() => this.handleInputConfirm("achievements")}
+                  onPressEnter={() => this.handleInputConfirm("achievements")}
+                />
+              )}
+              {!inputVisible && this.state.isMyProfile && this.state.canEdit && (
+                <Tag className="site-tag-plus" onClick={this.showInput}>
+                  <PlusOutlined /> New Achievement
+                </Tag>
               )}
             </Paragraph>
           </div>

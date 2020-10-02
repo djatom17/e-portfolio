@@ -171,6 +171,14 @@ class Profile3 extends Component {
     });
   };
 
+  saveInputRef = (input) => {
+    this.input = input;
+  };
+
+  saveEditInputRef = (input) => {
+    this.editInput = input;
+  };
+
   deleteButt = (item) => {
     return (
       <Button
@@ -180,14 +188,6 @@ class Profile3 extends Component {
         <DeleteOutlined />
       </Button>
     );
-  };
-
-  saveInputRef = (input) => {
-    this.input = input;
-  };
-
-  saveEditInputRef = (input) => {
-    this.editInput = input;
   };
 
   // pfp hovering methods
