@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+
+import { connect } from "react-redux";
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
 import * as ProfileData from "../../api/ProfileData";
@@ -58,13 +60,14 @@ function callback(key) {
 class Profile3 extends Component {
   state = {
     profile: {},
-    tags: ["Unremovable", "Tag 2", "Tag 3"],
     inputVisible: false,
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
     loading: false,
     pfpVisible: true,
+    canEdit: false,
+    isMyProfile: false,
   };
 
   // functions for editing text
@@ -80,14 +83,24 @@ class Profile3 extends Component {
     this.setState({ profile: temp });
   };
 
+  handleButtonClick = () => {
+    this.setState({
+      canEdit: !this.state.canEdit,
+    });
+  };
+
   getElements(lst, property) {
     if (lst) {
       return lst.map((item, index) => (
         <Paragraph
           className="psize"
-          editable={{
-            onChange: (e) => this.setEditableStrArr(property, index, e),
-          }}
+          editable={
+            this.state.canEdit
+              ? {
+                  onChange: (e) => this.setEditableStrArr(property, index, e),
+                }
+              : false
+          }
         >
           {item}
         </Paragraph>
@@ -97,6 +110,14 @@ class Profile3 extends Component {
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
+
+    //Authorisation check.
+    this.props.isAuthenticated &&
+    this.props.profile.userid &&
+    this.props.user._id &&
+    this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
+      ? this.setState({ isMyProfile: true })
+      : this.setState({ isMyProfile: false });
   };
 
   // dynamic tag methods (delete, add, edit)
@@ -148,6 +169,17 @@ class Profile3 extends Component {
         editInputValue: "",
       };
     });
+  };
+
+  deleteButt = (item) => {
+    return (
+      <Button
+        type="link"
+        onClick={() => this.handleCloseTag("achievements", item)}
+      >
+        <DeleteOutlined />
+      </Button>
+    );
   };
 
   saveInputRef = (input) => {
@@ -211,16 +243,37 @@ class Profile3 extends Component {
       </Avatar>
     );
 
+    const editButt = (
+      <Fragment>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#mobile-nav"
+          onClick={this.handleButtonClick}
+          style={{ height: 50, color: "blue" }}
+        >
+          {this.state.canEdit ? "Done" : "Edit"}
+        </button>
+      </Fragment>
+    );
+
     return (
       <div clasName="container-fluid mx-4">
         {/* row contains: name, curr job */}
 
-        <Row className=" mt-4 ml-5">
-          <h2>
-            {ProfileData.getName(this.state.profile)}
-            {", "}
-            <small>[get job from db]</small>
-          </h2>
+        <Row className=" mt-4 ml-5" justify="space-between">
+          <Col>
+            <h2>
+              {ProfileData.getName(this.state.profile)}
+              {", "}
+              <small>[get job from db]</small>
+            </h2>
+          </Col>
+          <Col className="mr-5">
+            {this.state.isMyProfile ? editButt : null}{" "}
+            {console.log(this.state.isMyProfile)}
+          </Col>
         </Row>
         {/* row contains: pfp, about me, social media icons */}
         <Row justify="space-around" gutter={24} className="mx-5">
@@ -230,15 +283,21 @@ class Profile3 extends Component {
             onMouseLeave={() => this.onLeavePFP()}
           >
             {" "}
-            {pfpVisible ? pfp : uploadButton}
+            {this.state.isMyProfile && this.state.canEdit && !pfpVisible
+              ? uploadButton
+              : pfp}
           </Col>
           <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
             <Paragraph
-              editable={{
-                onChange: (str) => this.setEditableStr("about", str),
-                autoSize: { minRows: 1, maxRows: 5 },
-              }}
+              editable={
+                this.state.canEdit
+                  ? {
+                      onChange: (str) => this.setEditableStr("about", str),
+                      autoSize: { minRows: 1, maxRows: 5 },
+                    }
+                  : false
+              }
             >
               {this.state.profile.about}
             </Paragraph>
@@ -291,29 +350,31 @@ class Profile3 extends Component {
                       <Col flex="auto">
                         <Paragraph key={item}>
                           <span
-                            onDoubleClick={(e) => {
-                              this.setState(
-                                { editInputIndex: index, editInputValue: item },
-                                () => {
-                                  this.editInput.focus();
-                                }
-                              );
-                              e.preventDefault();
-                            }}
+                            onDoubleClick={
+                              this.state.isMyProfile &&
+                              this.state.canEdit &&
+                              ((e) => {
+                                this.setState(
+                                  {
+                                    editInputIndex: index,
+                                    editInputValue: item,
+                                  },
+                                  () => {
+                                    this.editInput.focus();
+                                  }
+                                );
+                                e.preventDefault();
+                              })
+                            }
                           >
                             {item}
                           </span>
                         </Paragraph>
                       </Col>
                       <Col flex="10px">
-                        <Button
-                          type="link"
-                          onClick={() =>
-                            this.handleCloseTag("achievements", item)
-                          }
-                        >
-                          <DeleteOutlined />
-                        </Button>
+                        {this.state.isMyProfile && this.state.canEdit
+                          ? this.deleteButt(item)
+                          : null}
                       </Col>
                     </Row>
                   );
@@ -330,7 +391,7 @@ class Profile3 extends Component {
                   onPressEnter={() => this.handleInputConfirm("achievements")}
                 />
               )}
-              {!inputVisible && (
+              {!inputVisible && this.state.isMyProfile && this.state.canEdit && (
                 <Tag className="site-tag-plus" onClick={this.showInput}>
                   <PlusOutlined /> New Achievement
                 </Tag>
@@ -364,19 +425,27 @@ class Profile3 extends Component {
                     <Tag
                       className="edit-tag"
                       key={tag}
-                      closable={index !== 0}
+                      closable={
+                        index !== 0 &&
+                        this.state.isMyProfile &&
+                        this.state.canEdit
+                      }
                       onClose={() => this.handleCloseTag("keySkills", tag)}
                     >
                       <span
-                        onDoubleClick={(e) => {
-                          this.setState(
-                            { editInputIndex: index, editInputValue: tag },
-                            () => {
-                              this.editInput.focus();
-                            }
-                          );
-                          e.preventDefault();
-                        }}
+                        onDoubleClick={
+                          this.state.isMyProfile &&
+                          this.state.canEdit &&
+                          ((e) => {
+                            this.setState(
+                              { editInputIndex: index, editInputValue: tag },
+                              () => {
+                                this.editInput.focus();
+                              }
+                            );
+                            e.preventDefault();
+                          })
+                        }
                       >
                         {isLongTag ? `${tag.slice(0, 40)}...` : tag}
                       </span>
@@ -402,7 +471,7 @@ class Profile3 extends Component {
                   onPressEnter={() => this.handleInputConfirm("keySkills")}
                 />
               )}
-              {!inputVisible && (
+              {!inputVisible && this.state.isMyProfile && this.state.canEdit && (
                 <Tag className="site-tag-plus" onClick={this.showInput}>
                   <PlusOutlined /> New Tag
                 </Tag>
@@ -422,4 +491,10 @@ class Profile3 extends Component {
   }
 }
 
-export default Profile3;
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps, {})(Profile3);
