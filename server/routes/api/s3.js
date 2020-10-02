@@ -5,7 +5,7 @@ const config = require("config");
 const AWS = require("aws-sdk");
 const Busboy = require("busboy");
 const auth = require("./auth");
-const postUpload = require("./mongo").postUpload;
+const mongo = require("./mongo");
 const AWSBucket = "cae-eportfolio";
 const s3 = new AWS.S3({
   accessKeyId: config.get("iamUser"),
@@ -34,7 +34,7 @@ s3router.post("/upload", auth, function (req, res, next) {
 
   var busboy = new Busboy({ headers: req.headers });
   busboy.on("finish", function () {
-    var file = req.files.element2;
+    var file = req.files.file;
 
     // Obtain hashed name for storage
     var md5sum = crypto.createHash("md5");
@@ -43,16 +43,41 @@ s3router.post("/upload", auth, function (req, res, next) {
 
     var params = { Bucket: AWSBucket, Key: hashName, Body: file.data };
     s3.upload(params, function (err, res) {
-      if (err) console.log("[S3] Upload failed");
-      else {
+      if (err) {
+        console.log("[S3] Upload failed");
+        res.status(500);
+      } else {
         console.log("[S3] Upload success");
-        postUpload(file.name, hashName, req.user.id);
+        mongo.postUpload(file.name, hashName, req.user.id);
       }
     });
   });
 
   req.pipe(busboy);
-  res.redirect("back");
+  res.status(200);
+  res.send(null);
+  //res.redirect("back");
+});
+
+// Delete file from S3 and remove database entry.
+s3router.post("/remove/:file", auth, function (req, res, next) {
+  console.log(
+    "[S3] Trying to remove file " + req.params.file + " owned by " + req.user.id
+  );
+
+  // TODO: check if req.user.id matches file owner before deleting
+
+  var params = { Bucket: AWSBucket, Key: req.params.file };
+  s3.deleteObject(params, (err, res) => {
+    if (err) console.log("[S3] File deletion failed.");
+    else {
+      console.log("[S3] File deletion successful.");
+      mongo.postDelete(req.params.file, req.user.id);
+    }
+  });
+
+  // TODO: proper res.send
+  res.send(null);
 });
 
 module.exports = s3router;

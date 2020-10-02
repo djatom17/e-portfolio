@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+
+import { connect } from "react-redux";
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
 import * as ProfileData from "../../api/ProfileData";
@@ -11,18 +13,44 @@ import {
   Button,
   Divider,
   Tabs,
+  Form,
+  Upload,
+  Tag,
+  Tooltip,
+  message,
 } from "antd";
 import {
   LinkedinOutlined,
   TwitterOutlined,
   GithubOutlined,
-  MailOutlined,
-  CheckOutlined,
+  UploadOutlined,
+  PlusOutlined,
+  DeleteOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 const { TextArea } = Input;
 const { TabPane } = Tabs;
+
+// functions for img upload
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+  return isJpgOrPng && isLt2M;
+}
 
 // function for tabs
 function callback(key) {
@@ -32,76 +60,247 @@ function callback(key) {
 class Profile3 extends Component {
   state = {
     profile: {},
-    about: "",
-    aboutEditMode: false,
+    inputVisible: false,
+    inputValue: "",
+    editInputIndex: -1,
+    editInputValue: "",
+    loading: false,
+    pfpVisible: true,
+    canEdit: false,
+    isMyProfile: false,
   };
 
-  // functions for editing about text
-  changeAboutEditMode = () => {
-    this.setState({ aboutEditMode: !this.state.aboutEditMode });
+  // functions for editing text
+  setEditableStr = (value, str) => {
+    var temp = { ...this.state.profile };
+    temp[value] = str;
+    this.setState({ profile: temp });
   };
 
-  changeAboutText = (e) => {
-    this.setState({ aboutEditMode: false, about: e.target.value });
+  setEditableStrArr = (property, index, str) => {
+    var temp = { ...this.state.profile };
+    temp[property][index] = str;
+    this.setState({ profile: temp });
   };
 
-  renderNormalAbout = () => {
-    return (
-      <div onDoubleClick={this.changeAboutEditMode}>{this.state.about}</div>
-    );
+  handleButtonClick = () => {
+    this.setState({
+      canEdit: !this.state.canEdit,
+    });
   };
 
-  renderEditAbout = () => {
-    return (
-      <div>
-        <TextArea
-          defaultValue={this.state.about}
-          onPressEnter={this.changeAboutText}
-          autoSize={{ minRows: 1, maxRows: 6 }}
-        />
-        <Button onClick={this.changeAboutEditMode}>Cancel</Button>
-      </div>
-    );
-  };
+  getElements(lst, property) {
+    if (lst) {
+      return lst.map((item, index) => (
+        <Paragraph
+          className="psize"
+          editable={
+            this.state.canEdit
+              ? {
+                  onChange: (e) => this.setEditableStrArr(property, index, e),
+                }
+              : false
+          }
+        >
+          {item}
+        </Paragraph>
+      ));
+    }
+  }
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
+
+    //Authorisation check.
+    this.props.isAuthenticated &&
+    this.props.profile.userid &&
+    this.props.user._id &&
+    this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
+      ? this.setState({ isMyProfile: true })
+      : this.setState({ isMyProfile: false });
   };
 
-  getElements = (lst) => {
-    if (lst) {
-      return lst.map((item, index) => (
-        <div className="media">
-          <p>{item}</p>
-        </div>
-      ));
+  // dynamic tag methods (delete, add, edit)
+  handleCloseTag = (str, removedTag) => {
+    const field = this.state.profile[str].filter((tag) => tag !== removedTag);
+    var profile = this.state.profile;
+    profile[str] = field;
+    this.setState({ profile });
+    this.setState({ editInputIndex: -1, editInputValue: "" });
+  };
+
+  showInput = () => {
+    this.setState({ inputVisible: true }, () => this.input.focus());
+  };
+
+  handleInputChange = (e) => {
+    this.setState({ inputValue: e.target.value });
+  };
+
+  handleInputConfirm = (str) => {
+    const { inputValue } = this.state;
+    let { profile } = this.state;
+    if (inputValue && profile[str] && profile[str].indexOf(inputValue) === -1) {
+      profile[str] = [...profile[str], inputValue];
+    }
+    console.log(profile[str]);
+    this.setState({
+      profile,
+      inputVisible: false,
+      inputValue: "",
+    });
+  };
+
+  handleEditInputChange = (e) => {
+    this.setState({ editInputValue: e.target.value });
+  };
+
+  handleEditInputConfirm = (str) => {
+    this.setState(({ profile, tags, editInputIndex, editInputValue }) => {
+      const newTags = [...profile[str]];
+      newTags[editInputIndex] = editInputValue;
+      var temp = { ...this.state.profile };
+      temp[str] = newTags;
+
+      return {
+        profile: temp,
+        tags: newTags,
+        editInputIndex: -1,
+        editInputValue: "",
+      };
+    });
+  };
+
+  deleteButt = (item) => {
+    return (
+      <Button
+        type="link"
+        onClick={() => this.handleCloseTag("achievements", item)}
+      >
+        <DeleteOutlined />
+      </Button>
+    );
+  };
+
+  saveInputRef = (input) => {
+    this.input = input;
+  };
+
+  saveEditInputRef = (input) => {
+    this.editInput = input;
+  };
+
+  // pfp hovering methods
+  onEnterPFP = () => {
+    this.setState({ pfpVisible: false });
+  };
+
+  onLeavePFP = () => {
+    this.setState({ pfpVisible: true });
+  };
+
+  // pfp image upload methods
+  handleChange = (info) => {
+    if (info.file.status === "uploading") {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === "done") {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl) =>
+        this.setState({
+          imageUrl,
+          loading: false,
+        })
+      );
     }
   };
 
   render() {
-    const { about } = this.state;
+    // for tags
+    const {
+      inputVisible,
+      inputValue,
+      editInputIndex,
+      editInputValue,
+      pfpVisible,
+    } = this.state;
+
+    // pfp
+    const pfp = (
+      <Avatar
+        alt="pfp"
+        src={this.state.profile.image}
+        shape="square"
+        size={200}
+      />
+    );
+
+    // upload button
+    const uploadButton = (
+      <Avatar shape="square" size={200}>
+        <Upload> Change </Upload>
+      </Avatar>
+    );
+
+    const editButt = (
+      <Fragment>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#mobile-nav"
+          onClick={this.handleButtonClick}
+          style={{ height: 50, color: "blue" }}
+        >
+          {this.state.canEdit ? "Done" : "Edit"}
+        </button>
+      </Fragment>
+    );
+
     return (
       <div clasName="container-fluid mx-4">
         {/* row contains: name, curr job */}
 
-        <Row className=" mt-4 ml-5">
-          <h2>
-            {ProfileData.getName(this.state.profile)}
-            {", "}
-            <small>[get job from db]</small>
-          </h2>
+        <Row className=" mt-4 ml-5" justify="space-between">
+          <Col>
+            <h2>
+              {ProfileData.getName(this.state.profile)}
+              {", "}
+              <small>[get job from db]</small>
+            </h2>
+          </Col>
+          <Col className="mr-5">
+            {this.state.isMyProfile ? editButt : null}{" "}
+            {console.log(this.state.isMyProfile)}
+          </Col>
         </Row>
         {/* row contains: pfp, about me, social media icons */}
-        <Row gutter={24} className="ml-5">
-          <Col>
+        <Row justify="space-around" gutter={24} className="mx-5">
+          <Col
+            flex="200px"
+            onMouseEnter={() => this.onEnterPFP()}
+            onMouseLeave={() => this.onLeavePFP()}
+          >
             {" "}
-            <Avatar src={this.state.profile.image} shape="square" size={200} />
+            {this.state.isMyProfile && this.state.canEdit && !pfpVisible
+              ? uploadButton
+              : pfp}
           </Col>
           <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
-            {this.state.aboutEditMode
-              ? this.renderEditAbout()
-              : this.renderNormalAbout()}
+            <Paragraph
+              editable={
+                this.state.canEdit
+                  ? {
+                      onChange: (str) => this.setEditableStr("about", str),
+                      autoSize: { minRows: 1, maxRows: 5 },
+                    }
+                  : false
+              }
+            >
+              {this.state.profile.about}
+            </Paragraph>
           </Col>
           <Col>
             <Row>
@@ -121,21 +320,167 @@ class Profile3 extends Component {
           </Col>
         </Row>
         <Divider />
+
         {/* row contains: tabs  */}
+        {/* tab 1: achievements */}
         <Row className=" my-4 ml-5">
           <Tabs onChange={callback} type="card">
             <TabPane tab="Achievements" key="1">
-              Content of Tab Pane 1
+              {this.state.profile.achievements &&
+                this.state.profile.achievements.map((item, index) => {
+                  if (editInputIndex === index) {
+                    return (
+                      <Input.TextArea
+                        ref={this.saveEditInputRef}
+                        key={item}
+                        size="large"
+                        value={editInputValue}
+                        onChange={this.handleEditInputChange}
+                        onBlur={() =>
+                          this.handleEditInputConfirm("achievements")
+                        }
+                        onPressEnter={() =>
+                          this.handleEditInputConfirm("achievements")
+                        }
+                      />
+                    );
+                  }
+                  const achievement = (
+                    <Row>
+                      <Col flex="auto">
+                        <Paragraph key={item}>
+                          <span
+                            onDoubleClick={
+                              this.state.isMyProfile &&
+                              this.state.canEdit &&
+                              ((e) => {
+                                this.setState(
+                                  {
+                                    editInputIndex: index,
+                                    editInputValue: item,
+                                  },
+                                  () => {
+                                    this.editInput.focus();
+                                  }
+                                );
+                                e.preventDefault();
+                              })
+                            }
+                          >
+                            {item}
+                          </span>
+                        </Paragraph>
+                      </Col>
+                      <Col flex="10px">
+                        {this.state.isMyProfile && this.state.canEdit
+                          ? this.deleteButt(item)
+                          : null}
+                      </Col>
+                    </Row>
+                  );
+                  return achievement;
+                })}
+              {inputVisible && (
+                <Input
+                  ref={this.saveInputRef}
+                  type="text"
+                  size="small"
+                  value={inputValue}
+                  onChange={this.handleInputChange}
+                  onBlur={() => this.handleInputConfirm("achievements")}
+                  onPressEnter={() => this.handleInputConfirm("achievements")}
+                />
+              )}
+              {!inputVisible && this.state.isMyProfile && this.state.canEdit && (
+                <Tag className="site-tag-plus" onClick={this.showInput}>
+                  <PlusOutlined /> New Achievement
+                </Tag>
+              )}
             </TabPane>
+
+            {/* Tab 2: skills  */}
             <TabPane tab="Skills" key="2">
-              Content of Tab Pane 2
+              {this.state.profile.keySkills &&
+                this.state.profile.keySkills.map((tag, index) => {
+                  if (editInputIndex === index) {
+                    return (
+                      <Input
+                        ref={this.saveEditInputRef}
+                        key={tag}
+                        size={40}
+                        className="tag-input"
+                        value={editInputValue}
+                        onChange={this.handleEditInputChange}
+                        onBlur={() => this.handleEditInputConfirm("keySkills")}
+                        onPressEnter={() =>
+                          this.handleEditInputConfirm("keySkills")
+                        }
+                      />
+                    );
+                  }
+
+                  const isLongTag = tag.length > 40;
+
+                  const tagElem = (
+                    <Tag
+                      className="edit-tag"
+                      key={tag}
+                      closable={
+                        index !== 0 &&
+                        this.state.isMyProfile &&
+                        this.state.canEdit
+                      }
+                      onClose={() => this.handleCloseTag("keySkills", tag)}
+                    >
+                      <span
+                        onDoubleClick={
+                          this.state.isMyProfile &&
+                          this.state.canEdit &&
+                          ((e) => {
+                            this.setState(
+                              { editInputIndex: index, editInputValue: tag },
+                              () => {
+                                this.editInput.focus();
+                              }
+                            );
+                            e.preventDefault();
+                          })
+                        }
+                      >
+                        {isLongTag ? `${tag.slice(0, 40)}...` : tag}
+                      </span>
+                    </Tag>
+                  );
+                  return isLongTag ? (
+                    <Tooltip title={tag} key={tag}>
+                      {tagElem}
+                    </Tooltip>
+                  ) : (
+                    tagElem
+                  );
+                })}
+              {inputVisible && (
+                <Input
+                  ref={this.saveInputRef}
+                  type="text"
+                  size="small"
+                  className="tag-input"
+                  value={inputValue}
+                  onChange={this.handleInputChange}
+                  onBlur={() => this.handleInputConfirm("keySkills")}
+                  onPressEnter={() => this.handleInputConfirm("keySkills")}
+                />
+              )}
+              {!inputVisible && this.state.isMyProfile && this.state.canEdit && (
+                <Tag className="site-tag-plus" onClick={this.showInput}>
+                  <PlusOutlined /> New Tag
+                </Tag>
+              )}
             </TabPane>
             <TabPane tab="Projects" key="3">
               Content of Tab Pane 3
             </TabPane>
-            <TabPane tab="Certificates" key="4">
-              Content of Tab Pane 4
-            </TabPane>
+            <TabPane tab="Certificates" key="4"></TabPane>
             <TabPane tab="Contact Details" key="5">
               Content of Tab Pane 5
             </TabPane>
@@ -146,98 +491,10 @@ class Profile3 extends Component {
   }
 }
 
-//   render() {
-//     return (
-//       <section className="section about-section gray-bg" id="about">
-//         <div className="container">
-//           <div className="row align-items-center flex-row-reverse">
-//             <div className="col-lg-6">
-//               <div className="about-text go-to">
-//                 <h3 className="dark-color">
-//                   {ProfileData.getName(this.state.profile)}'s Flex
-//                 </h3>
-//                 <h6 className="theme-color lead">
-//                   {this.state.profile.subtitle}
-//                 </h6>
-//                 <br />
-//                 {ProfileData.getElements(this.state.profile.achievements)}
-//                 <br />
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+});
 
-//                 <div className="row about-list">
-//                   <div className="col-md-6">
-//                     {this.getElements(this.state.profile.shitdone)}
-//                     <div className="media"></div>
-//                   </div>
-//                   <div className="col-md-6">
-//                     <div className="media">
-//                       <label>E-mail</label>
-//                       <p>LuciousFox@wayne.com</p>
-//                     </div>
-//                     <div className="media">
-//                       <label>Contact</label>
-//                       <p>Bat-Signal</p>
-//                     </div>
-//                     <div className="media">
-//                       <label>MySpace</label>
-//                       <p>BillionaireBruce</p>
-//                     </div>
-//                     <div className="media">
-//                       <label>Justice</label>
-//                       <p>Available</p>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//             <div className="col-lg-6">
-//               <div className="about-avatar">
-//                 <img
-//                   src={this.state.profile.image}
-//                   aria-hidden
-//                   alt="description of image"
-//                 />
-//               </div>
-//             </div>
-//           </div>
-//           <br />
-//           <div>
-//             <h3 className="display-5 text-lg">Skills</h3>
-//             <div className="container text-lg-left">
-//               <p></p>
-//             </div>
-//             <h3 className="display-5 text-lg">About me</h3>
-//             <div className="container text-lg-left">
-//               <p>{this.state.profile.about}</p>
-//             </div>
-//             <br />
-//             <h3 className="display-5 text-lg">Social Media Links</h3>
-//             <div className="row">
-//               <div className="col-6 col-lg-3">
-//                 <div className="count-data text-center">
-//                   <h6 className="count h4" data-to="500" data-speed="500">
-//                     Facebook
-//                   </h6>
-//                   <p className="m-0px font-w-600">
-//                     http://facebook/therealbatman
-//                   </p>
-//                 </div>
-//               </div>
-//               <div className="col-6 col-lg-3">
-//                 <div className="count-data text-center">
-//                   <h6 className="count h4" data-to="500" data-speed="500">
-//                     LinkedIn
-//                   </h6>
-//                   <p className="m-0px font-w-600">
-//                     http://LinkedIn/therealbatman
-//                   </p>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-//     );
-//   }
-// }
-
-export default Profile3;
+export default connect(mapStateToProps, {})(Profile3);

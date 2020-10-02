@@ -10,14 +10,10 @@ const FileSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  uid: {
-    type: String,
-    required: true,
-  },
   url: {
     type: String,
     required: true,
   },
 });
 
-module.exports = File = mongoose.model("files", FileSchema);
+module.exports = FileSchema;

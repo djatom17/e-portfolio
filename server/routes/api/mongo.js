@@ -16,6 +16,7 @@ const auth = require("./auth");
 const Profile = require("../../models/Profile");
 const File = require("../../models/File");
 const UserProfile = require("../../models/UserProfile");
+const { useCallback } = require("react");
 
 const validObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 
@@ -63,22 +64,20 @@ mongorouter.get("/p/:ID", function (req, res, next) {
     query = { linkToProfile: req.params.ID };
   }
 
-  Profile.findOne(query)
-    .lean()
-    .exec((err, profile) => {
-      if (!profile || err) {
-        console.log(
-          "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
-        );
-        res.send(null);
-        // TODO: res.send
-      } else {
-        console.log("[Mongoose] Fetched " + req.params.ID);
-        profile.image = "/api/file/dl/" + profile.image;
-        profile.linkToProfile = "/profile/" + profile.linkToProfile;
-        res.send(profile);
-      }
-    });
+  Profile.findOne(query, (err, profile) => {
+    if (!profile || err) {
+      console.log(
+        "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
+      );
+      res.send(null);
+      // TODO: res.send
+    } else {
+      console.log("[Mongoose] Fetched " + req.params.ID);
+      profile.image = "/api/file/dl/" + profile.image;
+      profile.linkToProfile = "/profile/" + profile.linkToProfile;
+      res.send(profile);
+    }
+  }).lean();
 });
 
 /**
@@ -146,34 +145,43 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
 /**
  * Fetches profile JSON data stored in MongoDB.
  *
- * ASSUMES USER ALREADY AUTHENTICATED
+ * ASSUMES USER ALREADY AUTHENTICATED.
  * Firstly, finds a mapping of uid to pid from table users_to_profiles.
  * Then, fetches profile data from pid found.
  *
+ * TODO: add boolean to check source of request
+ *
+ * @function [fetchProfileByUID]
  * @see profilerouter.get in myProfile.js
  *
- * @param {String} uid  User ID of requestee in MongoDB
- *
- * @returns {Object} A JSON object adhering to Profile.js Schema
+ * @callback Requester~requestCallback
+ * @param {string} uid  User ID of requestee in MongoDB.
+ * @param {Requester~requestCallback} callback - The callback that handles the response.
  */
-const fetchProfileByUID = (uid) => {
+const fetchProfileByUID = (uid, callback) => {
   console.log("[Mongoose] Fetching profile of uid " + uid);
   //Find authenticated user's profile from DB
   UserProfile.findOne({
     uid: uid,
   }).then((userMap) => {
-    //Handles non-existant user profile
+    //Handles non-existent user profile
     if (!userMap) {
       console.log("[Mongoose] User profile does not exist.");
-      return null;
+      return callback(null, null);
     }
     console.log("[Mongoose] Found map entry.");
-    //Fecthes profile by pid mapped by given uid
+    //Fetches profile by pid mapped by given uid
     Profile.findById(userMap.pid, (err, profile) => {
-      if (err) throw err;
+      if (err) {
+        console.log("[Mongoose] Error fetching profile.");
+        return callback(err, null);
+      }
       console.log("[Mongoose] Successfully fetched user profile.");
-      return profile;
-    });
+      profile.image = "/api/file/dl/" + profile.image;
+      profile.userid = uid;
+      //Successful operation
+      return callback(null, profile);
+    }).lean();
   });
 };
 
@@ -184,21 +192,53 @@ const fetchProfileByUID = (uid) => {
  * Triggered after file upload to S3 is successful. Stores the filename,
  * key and User ID into "files", for convenience of file retrieval/access.
  *
+ * @function [postUpload]
  * @see s3router.post in s3.js
  *
  * @param {String} name User-defined filename
  * @param {String} url The key for the file stored in S3
- * @param {String} uid User ID of owner.
+ * @param {String} uid User ID of file owner.
  */
 const postUpload = (name, url, uid) => {
   console.log("[Mongoose] Creating file entry");
-  File.create({ name, url, uid })
-    .then(() => {
-      console.log("[Mongoose] File entry created");
-    })
-    .catch((err) => {
-      console.log("[Mongoose] File entry creation failed ", err);
-    });
+
+  // Find the profile corresponding to the user and retrieve it.
+  fetchProfileByUID(uid, (e, profile) => {
+    if (!e && profile) {
+      // Hydrate object received as it is lean.
+      profile = Profile.hydrate(profile);
+      profile.filesAndDocs.push({ name, url });
+      profile.save((err) => {
+        if (err) console.log("[Mongoose] File entry creation failed ", err);
+        else {
+          console.log("[Mongoose] File entry created.");
+        }
+      });
+    } else {
+      console.log("[Mongoose] File entry creation unsuccessful.");
+    }
+  });
+};
+
+const postDelete = (url, uid) => {
+  console.log("[Mongoose] Deleting file entry from user.");
+
+  fetchProfileByUID(uid, (e, profile) => {
+    if (!e && profile) {
+      profile = Profile.hydrate(profile);
+      profile.filesAndDocs = profile.filesAndDocs.filter(
+        (item) => item.url !== url
+      );
+      profile.save((err) => {
+        if (err) console.log("[Mongoose] File entry deletion failed ", err);
+        else {
+          console.log("[Mongoose] File entry deleted.");
+        }
+      });
+    } else {
+      console.log("[Mongoose] File entry creation unsuccesful.");
+    }
+  });
 };
 
 // Confirm is valid ObjectID
@@ -209,5 +249,6 @@ const isValidObjectId = (str) => {
 module.exports = {
   mongorouter: mongorouter,
   postUpload: postUpload,
+  postDelete: postDelete,
   fetchProfileByUID: fetchProfileByUID,
 };

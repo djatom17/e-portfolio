@@ -16,9 +16,9 @@ img {
   background: url("./img/option5-min.png") no-repeat;
   background-size: cover;
   background-position: center;
-  height: 88vh;
+  height: 89vh;
   /* margin-top: -24px; */
-  /* margin-bottom: -50px; */
+  margin-bottom: -16px;
 }
 
 .about-page-text {
@@ -143,8 +143,9 @@ img {
 
 .prof5 {
   background-color: coral;
-  height: 89vh;
+  height: 100%;
   width: 25vw;
+  margin-bottom: -16px;
 }
 .prof5-img {
   padding: 10px;
