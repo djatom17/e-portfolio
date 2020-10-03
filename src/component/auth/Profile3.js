@@ -18,6 +18,7 @@ import {
   Tag,
   Tooltip,
   message,
+  Space,
 } from "antd";
 import {
   LinkedinOutlined,
@@ -27,6 +28,7 @@ import {
   PlusOutlined,
   DeleteOutlined,
   LoadingOutlined,
+  CaretRightOutlined,
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
@@ -289,6 +291,7 @@ class Profile3 extends Component {
           <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
             <Paragraph
+              ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
               editable={
                 this.state.canEdit
                   ? {
@@ -347,8 +350,11 @@ class Profile3 extends Component {
                   }
                   const achievement = (
                     <Row>
+                      <Col className="mr-4">
+                        <CaretRightOutlined />
+                      </Col>
                       <Col flex="auto">
-                        <Paragraph key={item}>
+                        <Paragraph className="achievements-text" key={item}>
                           <span
                             onDoubleClick={
                               this.state.isMyProfile &&
@@ -424,7 +430,7 @@ class Profile3 extends Component {
 
                   const tagElem = (
                     <Tag
-                      className="edit-tag"
+                      className="skills-tag"
                       key={tag}
                       closable={
                         index !== 0 &&
@@ -434,6 +440,7 @@ class Profile3 extends Component {
                       onClose={() => this.handleCloseTag("keySkills", tag)}
                     >
                       <span
+                        className="skills-span"
                         onDoubleClick={
                           this.state.isMyProfile &&
                           this.state.canEdit &&

@@ -165,6 +165,22 @@ img {
 .h1size {
   font-size: calc(12px + 2.5vw) !important;
 }
+
 .psize {
   font-size: calc(8px + 0.8vw) !important;
+}
+
+.achievements-text {
+  font-size: calc(8px + 0.8vw);
+}
+
+.skills-tag {
+  font-size: 20px;
+  height: 30px;
+  background-color: #0074e1;
+  color: white;
+}
+
+.skills-span {
+  vertical-align: middle !important;
 }
