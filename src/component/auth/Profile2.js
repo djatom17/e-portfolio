@@ -27,6 +27,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 
+const { Title, Paragraph } = Typography;
 class Profile2 extends Component {
   state = {
     profile: {},
@@ -44,18 +45,42 @@ class Profile2 extends Component {
 
   render() {
     return (
-      <Row
-        style={{ background: this.state.profile.image }}
-        className="prof4-img"
-      >
-        <div className="prof4-img" background={this.state.profile.image}></div>
-        {/* <img
-          src={this.state.profile.image}
-          aria-hidden
-          alt="description of image"
-          className="prof4-img"
-        /> */}
-      </Row>
+      <Col>
+        <Row>
+          <img
+            src={this.state.profile.image}
+            aria-hidden
+            alt="description of image"
+            className="prof2-img"
+          />
+          <div className=" size prof2-text-overlay text-center">
+            <p className=" h1 "> {ProfileData.getName(this.state.profile)}</p>
+            <p className="psize ">{this.state.profile.subtitle}</p>
+            <p className="psize "> Work at home in my penthouse </p>
+          </div>
+        </Row>
+        <Row>
+          <div>
+            <Title className="h1size">About Me</Title>
+            <div>
+              <Paragraph
+                className="psize"
+                editable={
+                  this.state.isMyProfile && this.state.canEdit
+                    ? {
+                        onChange: (e) => this.setEditableStr("about", e),
+                      }
+                    : false
+                }
+                ellipsis={{ rows: 1, expandable: true, symbol: "more" }}
+              >
+                {this.state.profile.about}
+              </Paragraph>
+            </div>
+          </div>
+        </Row>
+      </Col>
+
       // <div className="profile">
       //   <div className="container">
       //     <div className="row">

@@ -383,7 +383,13 @@ img {
 .skills-span {
   vertical-align: middle !important;
 }
-.prof4-img {
+.prof2-img {
   height: 100%;
   width: 100%;
+}
+
+.prof2-text-overlay {
+  right: 200px;
+  top: 200px;
+  position: absolute;
 }
