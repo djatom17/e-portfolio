@@ -486,6 +486,7 @@ class Profile5 extends Component {
               />
             ) : null}
           </Col>
+          <Col>{this.state.isMyProfile ? editButt : null}</Col>
         </Row>
       </div>
     );
