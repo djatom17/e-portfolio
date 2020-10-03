@@ -393,3 +393,12 @@ img {
   top: 200px;
   position: absolute;
 }
+
+.prof2-anchor-overlay {
+  left: 30px;
+  top: 55px;
+  position: fixed;
+  padding: 10px;
+  border: black !important;
+  border-width: 2px !important;
+}
