@@ -30,7 +30,6 @@ import {
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
-const { TextArea } = Input;
 const { TabPane } = Tabs;
 
 // functions for img upload
@@ -326,6 +325,7 @@ class Profile3 extends Component {
         <Row className=" my-4 ml-5">
           <Tabs onChange={callback} type="card">
             <TabPane tab="Achievements" key="1">
+              <Typography.Title>Achievements</Typography.Title>
               {this.state.profile.achievements &&
                 this.state.profile.achievements.map((item, index) => {
                   if (editInputIndex === index) {
@@ -400,6 +400,7 @@ class Profile3 extends Component {
 
             {/* Tab 2: skills  */}
             <TabPane tab="Skills" key="2">
+              <Typography.Title>Key Skills</Typography.Title>
               {this.state.profile.keySkills &&
                 this.state.profile.keySkills.map((tag, index) => {
                   if (editInputIndex === index) {
@@ -478,10 +479,15 @@ class Profile3 extends Component {
               )}
             </TabPane>
             <TabPane tab="Projects" key="3">
+              <Typography.Title>Projects</Typography.Title>
               Content of Tab Pane 3
             </TabPane>
-            <TabPane tab="Certificates" key="4"></TabPane>
+            <TabPane tab="Certificates" key="4">
+              <Typography.Title>Certificates</Typography.Title>
+            </TabPane>
+
             <TabPane tab="Contact Details" key="5">
+              <Typography.Title>Contact Details</Typography.Title>
               Content of Tab Pane 5
             </TabPane>
           </Tabs>
