@@ -16,7 +16,6 @@ const auth = require("./auth");
 const Profile = require("../../models/Profile");
 const File = require("../../models/File");
 const UserProfile = require("../../models/UserProfile");
-const { useCallback } = require("react");
 
 const validObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 
