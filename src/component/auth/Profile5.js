@@ -6,6 +6,7 @@ import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
+import Settings from "./Settings";
 import {
   Row,
   Col,
@@ -245,6 +246,10 @@ class Profile5 extends Component {
   handleCancel = () => {
     this.setState({ visible: false });
   };
+
+  changeLayout = (str, info) => {
+    this.setState({ layout: str });
+  };
   // End of modal Functions
 
   getFiles(lst) {
@@ -413,100 +418,6 @@ class Profile5 extends Component {
         </button>
       </Fragment>
     );
-    const settingsButton = (
-      <Fragment>
-        <Button type="primary" onClick={this.showModal}>
-          Settings
-        </Button>
-        <Modal
-          visible={this.state.visible}
-          title="Customisablity Settings"
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={[
-            <Button key="back" onClick={this.handleCancel}>
-              Return
-            </Button>,
-            <Button
-              key="save"
-              type="primary"
-              loading={this.state.loading}
-              onClick={(e) => this.handleOk(this.state.layout, e)}
-            >
-              Submit
-            </Button>,
-          ]}
-        >
-          <div>
-            <Row gutter={20}>
-              <Col>
-                {" "}
-                <Avatar
-                  shape="square"
-                  size={64}
-                  style={{
-                    color: "white",
-                    cursor: "pointer",
-                    backgroundColor: "purple",
-                  }}
-                  onClick={() => this.setState({ layout: "1" })}
-                >
-                  Layout 1
-                </Avatar>
-              </Col>
-              <Col>
-                <Avatar
-                  shape="square"
-                  size={64}
-                  style={{
-                    color: "white",
-                    backgroundColor: "#40E0D0",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => this.setState({ layout: "2" })}
-                  cursor="pointer"
-                >
-                  Layout 2
-                </Avatar>
-              </Col>
-            </Row>
-            <br />
-            <Row gutter={20}>
-              <Col>
-                {" "}
-                <Avatar
-                  shape="square"
-                  size={64}
-                  style={{
-                    color: "white",
-                    cursor: "pointer",
-                    backgroundColor: "blue",
-                  }}
-                  onClick={() => this.setState({ layout: "3" })}
-                >
-                  Layout 3
-                </Avatar>
-              </Col>
-              <Col>
-                <Avatar
-                  shape="square"
-                  size={64}
-                  style={{
-                    color: "white",
-                    cursor: "pointer",
-                    backgroundColor: "orange",
-                  }}
-                  onClick={() => this.setState({ layout: "4" })}
-                >
-                  Layout 4
-                </Avatar>
-              </Col>
-            </Row>
-          </div>
-        </Modal>
-      </Fragment>
-    );
-
     return (
       <div className="container-fluid ml-n3">
         <Row>
@@ -564,9 +475,17 @@ class Profile5 extends Component {
           </Col>
           <Col offset={2} flex={5} className="prof5-about ml-n3">
             {this.displayProfileSeg()}
-            {this.state.isMyProfile ? settingsButton : null}
+            {this.state.isMyProfile ? (
+              <Settings
+                handleOk={this.handleOk}
+                handleCancel={this.handleCancel}
+                showModal={this.showModal}
+                layout={this.state.layout}
+                visible={this.state.visible}
+                loading={this.state.loading}
+              />
+            ) : null}
           </Col>
-          {this.state.isMyProfile ? editButt : null}
         </Row>
       </div>
     );
