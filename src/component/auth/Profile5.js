@@ -13,12 +13,15 @@ import {
   Upload,
   message,
   Typography,
+  Avatar,
   Input,
   Button,
+  Modal,
   Tag,
 } from "antd";
 import {
   InboxOutlined,
+  UserOutlined,
   DeleteOutlined,
   PaperClipOutlined,
   PlusOutlined,
@@ -34,6 +37,9 @@ class Profile5 extends Component {
     tabdisp: "about",
     canEdit: false,
     isMyProfile: false,
+    loading: false,
+    visible: false,
+    layout: "0",
     inputVisible: false,
     inputValue: "",
     editInputIndex: -1,
@@ -102,6 +108,7 @@ class Profile5 extends Component {
     // );
 
     //Authorisation check.
+    this.setState({ layout: this.props.profile.layout });
     this.uploadProps.headers = { "x-auth-token": this.props.token };
     this.props.isAuthenticated &&
     this.props.profile.userid &&
@@ -214,6 +221,31 @@ class Profile5 extends Component {
       ));
     }
   }
+
+  //Modal  helper Functions
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = (num, info) => {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+    }, 3000);
+    var temp = { ...this.state.profile };
+    temp["layout"] = num;
+    this.setState({ profile: temp });
+    console.log("PLEASEEEEEEE", num);
+    console.log(this.state.profile);
+    window.location.reload(false);
+  };
+
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
+  // End of modal Functions
 
   getFiles(lst) {
     if (lst) {
@@ -367,6 +399,9 @@ class Profile5 extends Component {
 
   render() {
     const { current } = this.state.tabdisp;
+    const visible = this.state.visible;
+    const loading = this.state.loading;
+    var layout = this.state.layout;
 
     const editButt = (
       <Fragment>
@@ -380,6 +415,99 @@ class Profile5 extends Component {
         >
           {this.state.isMyProfile && this.state.canEdit ? "Done" : "Edit"}
         </button>
+      </Fragment>
+    );
+    const settingsButton = (
+      <Fragment>
+        <Button type="primary" onClick={this.showModal}>
+          Settings
+        </Button>
+        <Modal
+          visible={this.state.visible}
+          title="Customisablity Settings"
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button key="back" onClick={this.handleCancel}>
+              Return
+            </Button>,
+            <Button
+              key="save"
+              type="primary"
+              loading={this.state.loading}
+              onClick={(e) => this.handleOk(layout, e)}
+            >
+              Submit
+            </Button>,
+          ]}
+        >
+          <div>
+            <Row gutter={20}>
+              <Col>
+                {" "}
+                <Avatar
+                  shape="square"
+                  size={64}
+                  style={{
+                    color: "white",
+                    cursor: "pointer",
+                    backgroundColor: "purple",
+                  }}
+                  onClick={() => this.setState({ layout: "1" })}
+                >
+                  Layout 1
+                </Avatar>
+              </Col>
+              <Col>
+                <Avatar
+                  shape="square"
+                  size={64}
+                  style={{
+                    color: "white",
+                    backgroundColor: "#40E0D0",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => this.setState({ layout: "2" })}
+                  cursor="pointer"
+                >
+                  Layout 2
+                </Avatar>
+              </Col>
+            </Row>
+            <br />
+            <Row gutter={20}>
+              <Col>
+                {" "}
+                <Avatar
+                  shape="square"
+                  size={64}
+                  style={{
+                    color: "white",
+                    cursor: "pointer",
+                    backgroundColor: "blue",
+                  }}
+                  onClick={() => this.setState({ layout: "3" })}
+                >
+                  Layout 3
+                </Avatar>
+              </Col>
+              <Col>
+                <Avatar
+                  shape="square"
+                  size={64}
+                  style={{
+                    color: "white",
+                    cursor: "pointer",
+                    backgroundColor: "orange",
+                  }}
+                  onClick={() => this.setState({ layout: "4" })}
+                >
+                  Layout 4
+                </Avatar>
+              </Col>
+            </Row>
+          </div>
+        </Modal>
       </Fragment>
     );
 
@@ -440,10 +568,9 @@ class Profile5 extends Component {
           </Col>
           <Col offset={2} flex={5} className="prof5-about ml-n3">
             {this.displayProfileSeg()}
+            {this.state.isMyProfile ? settingsButton : null}
           </Col>
-
           {this.state.isMyProfile ? editButt : null}
-          {console.log(this.props)}
         </Row>
       </div>
     );
