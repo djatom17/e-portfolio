@@ -399,10 +399,6 @@ class Profile5 extends Component {
 
   render() {
     const { current } = this.state.tabdisp;
-    const visible = this.state.visible;
-    const loading = this.state.loading;
-    var layout = this.state.layout;
-
     const editButt = (
       <Fragment>
         <button
@@ -435,7 +431,7 @@ class Profile5 extends Component {
               key="save"
               type="primary"
               loading={this.state.loading}
-              onClick={(e) => this.handleOk(layout, e)}
+              onClick={(e) => this.handleOk(this.state.layout, e)}
             >
               Submit
             </Button>,
