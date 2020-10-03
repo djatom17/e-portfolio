@@ -4,7 +4,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer
-      className="d-flex justify-content-center p-2 text-white mt-3"
+      className="footer-height d-flex justify-content-center text-white mt-3"
       style={{ background: "black" }}
     >
       Copyright &copy; {new Date().getFullYear()} Control Alt Elite
