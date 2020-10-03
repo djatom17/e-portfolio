@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "react-web-tabs/dist/react-web-tabs.css";
@@ -27,6 +26,7 @@ import {
   PaperClipOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import Axios from "axios";
 
 const { Title, Paragraph } = Typography;
 
@@ -35,6 +35,7 @@ const { Dragger } = Upload;
 class Profile5 extends Component {
   state = {
     profile: {},
+    profileChanges: {},
     tabdisp: "about",
     canEdit: false,
     isMyProfile: false,
@@ -46,6 +47,7 @@ class Profile5 extends Component {
     editInputIndex: -1,
     editInputValue: "",
   };
+
   dragUpload = (
     <Fragment>
       <Dragger {...this.uploadProps}>
@@ -77,8 +79,15 @@ class Profile5 extends Component {
     this.setState({ tabdisp: e.key });
   };
   handleButtonClick = () => {
+    // Make changes reflect on database
+    ProfileData.updateProfile(
+      this.state.profile._id,
+      this.state.profileChanges,
+      this.props.token
+    );
     this.setState({
       canEdit: !this.state.canEdit,
+      profileChanges: {},
     });
   };
 
@@ -121,9 +130,12 @@ class Profile5 extends Component {
 
   // Text Editor
   setEditableStr = (property, str) => {
-    var temp = { ...this.state.profile };
-    temp[property] = str;
-    this.setState({ profile: temp });
+    var addChange = {};
+    addChange[property] = str;
+    this.setState({
+      profileChanges: { ...this.state.profileChanges, ...addChange },
+      profile: { ...this.state.profile, ...addChange },
+    });
   };
 
   //Text Editor in arrays
@@ -134,14 +146,6 @@ class Profile5 extends Component {
   };
 
   // dynamic tag methods (delete, add, edit)
-  handleCloseTag = (str, removedTag) => {
-    const field = this.state.profile[str].filter((tag) => tag !== removedTag);
-    var profile = this.state.profile;
-    profile[str] = field;
-    this.setState({ profile });
-    this.setState({ editInputIndex: -1, editInputValue: "" });
-  };
-
   showInput = () => {
     this.setState({ inputVisible: true }, () => this.input.focus());
   };
@@ -150,34 +154,59 @@ class Profile5 extends Component {
     this.setState({ inputValue: e.target.value });
   };
 
-  handleInputConfirm = (str) => {
-    const { inputValue } = this.state;
-    let { profile } = this.state;
-    if (inputValue && profile[str] && profile[str].indexOf(inputValue) === -1) {
-      profile[str] = [...profile[str], inputValue];
+  handleEditInputChange = (e) => {
+    this.setState({ editInputValue: e.target.value });
+  };
+
+  handleInputConfirm = (fieldName) => {
+    //const { inputValue } = this.state;
+    let { profile, inputValue, profileChanges } = this.state;
+
+    // confirm if array, and item to be add is not empty
+    // checks for duplicates, but maybe not do that here (?)
+    if (
+      inputValue &&
+      profile[fieldName] &&
+      profile[fieldName].indexOf(inputValue) === -1
+    ) {
+      profile[fieldName] = [...profile[fieldName], inputValue];
+      profileChanges[fieldName] = [...profile[fieldName]];
     }
-    console.log(profile[str]);
+    console.log(profile[fieldName]);
     this.setState({
       profile,
+      profileChanges,
       inputVisible: false,
       inputValue: "",
     });
   };
 
-  handleEditInputChange = (e) => {
-    this.setState({ editInputValue: e.target.value });
+  handleCloseTag = (fieldName, removedTag) => {
+    const field = this.state.profile[fieldName].filter(
+      (tag) => tag !== removedTag
+    );
+    let { profile, profileChanges } = this.state;
+    profile[fieldName] = field;
+    profileChanges[fieldName] = field;
+    this.setState({
+      profile,
+      profileChanges,
+      editInputIndex: -1,
+      editInputValue: "",
+    });
+    // this.setState({ editInputIndex: -1, editInputValue: "" });
   };
 
-  handleEditInputConfirm = (str) => {
-    this.setState(({ profile, tags, editInputIndex, editInputValue }) => {
-      const newTags = [...profile[str]];
+  handleEditInputConfirm = (fieldName) => {
+    this.setState(({ profile, editInputIndex, editInputValue }) => {
+      var newTags = [...profile[fieldName]];
       newTags[editInputIndex] = editInputValue;
-      var temp = { ...this.state.profile };
-      temp[str] = newTags;
+      var addChange = {};
+      addChange[fieldName] = newTags;
 
       return {
-        profile: temp,
-        tags: newTags,
+        profile: { ...this.state.profile, ...addChange },
+        profileChanges: { ...this.state.profileChanges, ...addChange },
         editInputIndex: -1,
         editInputValue: "",
       };
@@ -235,12 +264,13 @@ class Profile5 extends Component {
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
     }, 3000);
-    var temp = { ...this.state.profile };
-    temp["layout"] = num;
-    this.setState({ profile: temp });
-    console.log("PLEASEEEEEEE", num);
-    console.log(this.state.profile);
-    window.location.reload(false);
+
+    ProfileData.updateProfile(
+      this.state.profile._id,
+      { layout: num },
+      this.props.token
+    );
+    window.location.reload();
   };
 
   handleCancel = () => {
@@ -486,6 +516,7 @@ class Profile5 extends Component {
               />
             ) : null}
           </Col>
+          <Col>{this.state.isMyProfile ? editButt : null}</Col>
         </Row>
       </div>
     );
