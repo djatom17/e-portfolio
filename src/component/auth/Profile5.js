@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "react-web-tabs/dist/react-web-tabs.css";
@@ -48,6 +49,48 @@ class Profile5 extends Component {
     editInputValue: "",
   };
 
+  componentDidMount = () => {
+    this.setState({ profile: this.props.profile });
+    // this.uploadProps.fileList = this.props.profile.filesAndDocs.map(
+    //   (item, index) => ({ ...item, uid: index })
+    // );
+
+    //Authorisation check.
+    this.setState({ layout: this.props.profile.layout });
+    this.uploadProps.headers = { "x-auth-token": this.props.token };
+    this.props.isAuthenticated &&
+    this.props.profile.userid &&
+    this.props.user._id &&
+    this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
+      ? this.setState({ isMyProfile: true })
+      : this.setState({ isMyProfile: false });
+  };
+
+  uploadProps = {
+    name: "file",
+    //   accept: ".doc,.docx,.png,.pdf,.jpg",
+    action: "/api/file/upload/",
+    headers: {
+      "x-auth-token": "",
+    },
+    // fileList: [],
+    onChange: this.handleChange,
+    customRequest: ({ file }) => {
+      // console.log(file);
+      const data = new FormData();
+      data.append("file", file);
+      axios
+        .post("/api/file/upload", data, {
+          headers: {
+            "x-auth-token": this.props.token,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => console.log("Upload successful.", res))
+        .catch((err) => console.log("Upload unsuccessful. ", err));
+    },
+  };
+
   dragUpload = (
     <Fragment>
       <Dragger {...this.uploadProps}>
@@ -61,17 +104,6 @@ class Profile5 extends Component {
       </Dragger>
     </Fragment>
   );
-
-  uploadProps = {
-    name: "file",
-    //   accept: ".doc,.docx,.png,.pdf,.jpg",
-    action: "/api/file/upload/",
-    headers: {
-      "x-auth-token": "",
-    },
-    // fileList: [],
-    onChange: this.handleChange,
-  };
 
   // Tab click event handler
   handleClick = (e) => {
@@ -92,6 +124,7 @@ class Profile5 extends Component {
   };
 
   handleChange = (info) => {
+    console.log("uploading", info);
     if (info.file.status !== "uploading") {
       console.log(info.file, info.fileList);
     }
@@ -109,23 +142,6 @@ class Profile5 extends Component {
     //   return file;
     // });
     // // this.setState({ profile.files });
-  };
-
-  componentDidMount = () => {
-    this.setState({ profile: this.props.profile });
-    // this.uploadProps.fileList = this.props.profile.filesAndDocs.map(
-    //   (item, index) => ({ ...item, uid: index })
-    // );
-
-    //Authorisation check.
-    this.setState({ layout: this.props.profile.layout });
-    this.uploadProps.headers = { "x-auth-token": this.props.token };
-    this.props.isAuthenticated &&
-    this.props.profile.userid &&
-    this.props.user._id &&
-    this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
-      ? this.setState({ isMyProfile: true })
-      : this.setState({ isMyProfile: false });
   };
 
   // Text Editor
