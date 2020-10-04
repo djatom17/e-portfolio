@@ -102,7 +102,7 @@ export class Settings extends Component {
                     cursor: "pointer",
                     backgroundColor: "orange",
                   }}
-                  onClick={() => this.setState({ layout: "4" })}
+                  onClick={() => this.setState({ layout: "5" })}
                 >
                   Layout 4
                 </Avatar>

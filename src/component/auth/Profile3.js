@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-
+import Settings from "./Settings";
 import { connect } from "react-redux";
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
@@ -242,6 +242,35 @@ class Profile3 extends Component {
       );
     }
   };
+  //Modal  helper Functions
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = (num, info) => {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+    }, 3000);
+
+    ProfileData.updateProfile(
+      this.state.profile._id,
+      { layout: num },
+      this.props.token
+    );
+    window.location.reload();
+  };
+
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
+
+  changeLayout = (str, info) => {
+    this.setState({ layout: str });
+  };
+  // End of modal Functions
 
   render() {
     // for tags
@@ -329,6 +358,16 @@ class Profile3 extends Component {
             >
               {this.state.profile.about}
             </Paragraph>
+            {this.state.isMyProfile ? (
+              <Settings
+                handleOk={this.handleOk}
+                handleCancel={this.handleCancel}
+                showModal={this.showModal}
+                layout={this.state.layout}
+                visible={this.state.visible}
+                loading={this.state.loading}
+              />
+            ) : null}
           </Col>
           <Col>
             <Row>
