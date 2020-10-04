@@ -6,8 +6,8 @@ name: Node.js CI
 on:
   push:
     branches: [master]
-  # pull_request:
-  #   branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [12.x, 14.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -23,7 +23,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-
       - name: Cache node modules
         uses: actions/cache@v2
         env:
@@ -36,15 +35,12 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-
       - name: Install dependencies
         run: npm ci
-
       - name: Build
         run: npm run build --if-present
         env:
           CI: ""
-
       - name: Test
         run: npm test
 
@@ -53,8 +49,50 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
-      - name: Add Heroku remote origin
-        run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: latest
+      - name: Build and push Docker image to Heroku
+        uses: docker/build-push-action@v2
+        with:
+          # Username used to log in to a Docker registry. If not set then no login will occur
+          username: ${{ secrets.HEROKU_EMAIL }}
+          # Password or personal access token used to log in to a Docker registry. If not set then no login will occur
+          password: ${{ secrets.HEROKU_API_KEY }}
+          # Server address of Docker registry. If not set then will default to Docker Hub
+          registry: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+          # Docker repository to tag the image with
+          repository: cae-eportfolio
+          # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
+          tags: 1.0
+          # Automatically tags the built image with the git reference as per the readme
+          # tag_with_ref: # optional
+          # Automatically tags the built image with the git short SHA as per the readme
+          # tag_with_sha: # optional
+          # Path to the build context
+          path: .
+          # Path to the Dockerfile (Default is '{path}/Dockerfile')
+          dockerfile: ./Dockerfile
+          # Sets the target stage to build
+          # target: # optional
+          # Always attempt to pull a newer version of the image
+          # always_pull: # optional
+          # Comma-delimited list of build-time variables
+          # build_args: # optional
+          # Comma-delimited list of images to consider as cache sources
+          # cache_froms: # optional
+          # Comma-delimited list of labels to add to the built image
+          # labels: # optional
+          # Adds labels with git repository information to the built image
+          # add_git_labels: # optional
+          # Whether to push the image
+          push: true
+      - name: Release app on Heroku
 
-      - name: Deploy to Heroku
-        run: git push heroku HEAD:master --force
+  #     - name: Add Heroku remote origin
+  #       run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+
+  #     - name: Deploy to Heroku
+  #       run: git push heroku HEAD:master --force
