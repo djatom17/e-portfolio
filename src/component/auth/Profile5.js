@@ -86,7 +86,11 @@ class Profile5 extends Component {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => console.log("Upload successful.", res))
+        .then((res) => {
+          console.log("Upload successful.", res);
+          file.status = "done";
+          message.success(`${file.name} file uploaded succesfully.`);
+        })
         .catch((err) => console.log("Upload unsuccessful. ", err));
     },
   };
