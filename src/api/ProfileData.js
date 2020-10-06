@@ -85,3 +85,21 @@ export function getCurrJob(profile) {
     return work_str.split("@ ");
   }
 }
+
+export function updateProfile(pid, profileChanges, token) {
+  if (
+    Object.keys(profileChanges).length !== 0 &&
+    profileChanges.constructor === Object
+  ) {
+    axios
+      .post("/info/p-update/" + pid, profileChanges, {
+        headers: { "x-auth-token": token, "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        if (!res) console.log("Edit unsuccessful.");
+        else {
+          console.log("Edit successful, profile saved.");
+        }
+      });
+  }
+}

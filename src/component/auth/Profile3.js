@@ -18,6 +18,7 @@ import {
   Tag,
   Tooltip,
   message,
+  Space,
 } from "antd";
 import {
   LinkedinOutlined,
@@ -27,10 +28,10 @@ import {
   PlusOutlined,
   DeleteOutlined,
   LoadingOutlined,
+  CaretRightOutlined,
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
-const { TextArea } = Input;
 const { TabPane } = Tabs;
 
 // functions for img upload
@@ -60,6 +61,7 @@ function callback(key) {
 class Profile3 extends Component {
   state = {
     profile: {},
+    profileChanges: {},
     inputVisible: false,
     inputValue: "",
     editInputIndex: -1,
@@ -71,21 +73,28 @@ class Profile3 extends Component {
   };
 
   // functions for editing text
-  setEditableStr = (value, str) => {
+  setEditablefieldName = (value, fieldName) => {
     var temp = { ...this.state.profile };
-    temp[value] = str;
+    temp[value] = fieldName;
     this.setState({ profile: temp });
   };
 
-  setEditableStrArr = (property, index, str) => {
+  setEditablefieldNameArr = (property, index, fieldName) => {
     var temp = { ...this.state.profile };
-    temp[property][index] = str;
+    temp[property][index] = fieldName;
     this.setState({ profile: temp });
   };
 
   handleButtonClick = () => {
+    // Make changes reflect on database
+    ProfileData.updateProfile(
+      this.state.profile._id,
+      this.state.profileChanges,
+      this.props.token
+    );
     this.setState({
       canEdit: !this.state.canEdit,
+      profileChanges: {},
     });
   };
 
@@ -97,7 +106,8 @@ class Profile3 extends Component {
           editable={
             this.state.canEdit
               ? {
-                  onChange: (e) => this.setEditableStrArr(property, index, e),
+                  onChange: (e) =>
+                    this.setEditablefieldNameArr(property, index, e),
                 }
               : false
           }
@@ -121,14 +131,6 @@ class Profile3 extends Component {
   };
 
   // dynamic tag methods (delete, add, edit)
-  handleCloseTag = (str, removedTag) => {
-    const field = this.state.profile[str].filter((tag) => tag !== removedTag);
-    var profile = this.state.profile;
-    profile[str] = field;
-    this.setState({ profile });
-    this.setState({ editInputIndex: -1, editInputValue: "" });
-  };
-
   showInput = () => {
     this.setState({ inputVisible: true }, () => this.input.focus());
   };
@@ -137,17 +139,58 @@ class Profile3 extends Component {
     this.setState({ inputValue: e.target.value });
   };
 
-  handleInputConfirm = (str) => {
-    const { inputValue } = this.state;
-    let { profile } = this.state;
-    if (inputValue && profile[str] && profile[str].indexOf(inputValue) === -1) {
-      profile[str] = [...profile[str], inputValue];
+  handleInputConfirm = (fieldName) => {
+    //const { inputValue } = this.state;
+    let { profile, inputValue, profileChanges } = this.state;
+
+    // confirm if array, and item to be add is not empty
+    // checks for duplicates, but maybe not do that here (?)
+    if (
+      inputValue &&
+      profile[fieldName] &&
+      profile[fieldName].indexOf(inputValue) === -1
+    ) {
+      profile[fieldName] = [...profile[fieldName], inputValue];
+      profileChanges[fieldName] = [...profile[fieldName]];
     }
-    console.log(profile[str]);
+    console.log(profile[fieldName]);
     this.setState({
       profile,
+      profileChanges,
       inputVisible: false,
       inputValue: "",
+    });
+  };
+
+  handleCloseTag = (fieldName, removedTag) => {
+    const field = this.state.profile[fieldName].filter(
+      (tag) => tag !== removedTag
+    );
+    let { profile, profileChanges } = this.state;
+    profile[fieldName] = field;
+    profileChanges[fieldName] = field;
+    this.setState({
+      profile,
+      profileChanges,
+      editInputIndex: -1,
+      editInputValue: "",
+    });
+    // this.setState({ editInputIndex: -1, editInputValue: "" });
+  };
+
+  handleEditInputConfirm = (fieldName) => {
+    this.setState(({ profile, editInputIndex, editInputValue }) => {
+      var newTags = [...profile[fieldName]];
+      newTags[editInputIndex] = editInputValue;
+      var addChange = {};
+      addChange[fieldName] = newTags;
+
+      return {
+        profile: { ...this.state.profile, ...addChange },
+        profileChanges: { ...this.state.profileChanges, ...addChange },
+        editInputIndex: -1,
+        editInputValue: "",
+      };
     });
   };
 
@@ -155,20 +198,12 @@ class Profile3 extends Component {
     this.setState({ editInputValue: e.target.value });
   };
 
-  handleEditInputConfirm = (str) => {
-    this.setState(({ profile, tags, editInputIndex, editInputValue }) => {
-      const newTags = [...profile[str]];
-      newTags[editInputIndex] = editInputValue;
-      var temp = { ...this.state.profile };
-      temp[str] = newTags;
+  saveInputRef = (input) => {
+    this.input = input;
+  };
 
-      return {
-        profile: temp,
-        tags: newTags,
-        editInputIndex: -1,
-        editInputValue: "",
-      };
-    });
+  saveEditInputRef = (input) => {
+    this.editInput = input;
   };
 
   deleteButt = (item) => {
@@ -180,14 +215,6 @@ class Profile3 extends Component {
         <DeleteOutlined />
       </Button>
     );
-  };
-
-  saveInputRef = (input) => {
-    this.input = input;
-  };
-
-  saveEditInputRef = (input) => {
-    this.editInput = input;
   };
 
   // pfp hovering methods
@@ -272,7 +299,6 @@ class Profile3 extends Component {
           </Col>
           <Col className="mr-5">
             {this.state.isMyProfile ? editButt : null}{" "}
-            {console.log(this.state.isMyProfile)}
           </Col>
         </Row>
         {/* row contains: pfp, about me, social media icons */}
@@ -290,10 +316,12 @@ class Profile3 extends Component {
           <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
             <Paragraph
+              ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
               editable={
                 this.state.canEdit
                   ? {
-                      onChange: (str) => this.setEditableStr("about", str),
+                      onChange: (fieldName) =>
+                        this.setEditablefieldName("about", fieldName),
                       autoSize: { minRows: 1, maxRows: 5 },
                     }
                   : false
@@ -326,6 +354,7 @@ class Profile3 extends Component {
         <Row className=" my-4 ml-5">
           <Tabs onChange={callback} type="card">
             <TabPane tab="Achievements" key="1">
+              <Typography.Title>Achievements</Typography.Title>
               {this.state.profile.achievements &&
                 this.state.profile.achievements.map((item, index) => {
                   if (editInputIndex === index) {
@@ -347,8 +376,11 @@ class Profile3 extends Component {
                   }
                   const achievement = (
                     <Row>
+                      <Col className="mr-4">
+                        <CaretRightOutlined />
+                      </Col>
                       <Col flex="auto">
-                        <Paragraph key={item}>
+                        <Paragraph className="achievements-text" key={item}>
                           <span
                             onDoubleClick={
                               this.state.isMyProfile &&
@@ -400,6 +432,7 @@ class Profile3 extends Component {
 
             {/* Tab 2: skills  */}
             <TabPane tab="Skills" key="2">
+              <Typography.Title>Key Skills</Typography.Title>
               {this.state.profile.keySkills &&
                 this.state.profile.keySkills.map((tag, index) => {
                   if (editInputIndex === index) {
@@ -423,7 +456,7 @@ class Profile3 extends Component {
 
                   const tagElem = (
                     <Tag
-                      className="edit-tag"
+                      className="skills-tag"
                       key={tag}
                       closable={
                         index !== 0 &&
@@ -433,6 +466,7 @@ class Profile3 extends Component {
                       onClose={() => this.handleCloseTag("keySkills", tag)}
                     >
                       <span
+                        className="skills-span"
                         onDoubleClick={
                           this.state.isMyProfile &&
                           this.state.canEdit &&
@@ -478,10 +512,15 @@ class Profile3 extends Component {
               )}
             </TabPane>
             <TabPane tab="Projects" key="3">
+              <Typography.Title>Projects</Typography.Title>
               Content of Tab Pane 3
             </TabPane>
-            <TabPane tab="Certificates" key="4"></TabPane>
+            <TabPane tab="Certificates" key="4">
+              <Typography.Title>Certificates</Typography.Title>
+            </TabPane>
+
             <TabPane tab="Contact Details" key="5">
+              <Typography.Title>Contact Details</Typography.Title>
               Content of Tab Pane 5
             </TabPane>
           </Tabs>

@@ -3,7 +3,10 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="d-flex justify-content-center p-2 bg-dark text-white mt-3">
+    <footer
+      className="footer-height d-flex justify-content-center text-white mt-3"
+      style={{ background: "black" }}
+    >
       Copyright &copy; {new Date().getFullYear()} Control Alt Elite
     </footer>
   );
