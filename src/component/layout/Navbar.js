@@ -53,7 +53,7 @@ class NavBar extends Component {
     );
 
     return (
-      <Row style={{ background: "black" }}>
+      <Row className="nav-height" style={{ background: "black" }}>
         <Col offset={1}>
           <Link className="navbar-brand text-light" to="/">
             Ctrl Alt Elite

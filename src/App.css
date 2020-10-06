@@ -16,6 +16,205 @@ img {
   background: url("./img/option5-min.png") no-repeat;
   background-size: cover;
   background-position: center;
+  height: 89vh !important;
+  /* margin-top: -24px; */
+  margin-bottom: -16px;
+}
+
+.nav-height {
+  height: 7vh;
+}
+
+.body-height {
+  height: 89vh;
+  margin-bottom: -16px;
+}
+
+.footer-height {
+  height: 4vh;
+}
+
+.about-page-text {
+  font-size: 28px;
+}
+
+.profile4 {
+  position: relative;
+  background: url("./img/placeholder4.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 130vh;
+  margin-top: 10px;
+  margin-bottom: 150px;
+}
+
+.landing-inner {
+  padding-top: 80px;
+}
+.dark-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.profile4-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card-form {
+  opacity: 0.9;
+}
+
+.latest-profiles-img {
+  width: 40px;
+  height: 40px;
+}
+
+.form-control::placeholder {
+  color: #bbb !important;
+}
+
+.browse-inner {
+  /* float: inline-end; */
+  display: inline-block;
+}
+
+.browse-profile-summary {
+  width: 100%;
+  height: 100%;
+  padding: 25px;
+  padding-top: 20px;
+  text-align: left;
+}
+
+.browse-name {
+  font-size: 30px;
+}
+
+.browse-details {
+  font-size: 20px;
+  line-height: 80%;
+}
+
+.about-page-text {
+  font-size: 28px;
+}
+
+.social-media-links {
+  float: left;
+  clear: left;
+}
+
+.tab-inner {
+  width: 1080px;
+}
+
+.profile-skills-text {
+  font-size: 22px;
+  font-weight: bold;
+  color: rgb(1, 182, 199);
+}
+
+.nav > li {
+  display: inline-block;
+}
+
+/* needed by anjali */
+.browse-outer {
+  border: 2px solid #bbb;
+  padding: 10px;
+}
+
+.browse-profile-pfp {
+  width: 240px;
+  border-radius: 0px !important;
+}
+
+.browse-education {
+  font-size: 20px;
+}
+
+.browse-career {
+  font-size: 20px;
+}
+
+.browse-social {
+  font-size: 24px;
+}
+
+.browse-mail {
+  font-size: 20px;
+}
+
+.prof5 {
+  background-color: coral;
+  height: 100%;
+  width: 25vw;
+  margin-bottom: -16px;
+}
+.prof5-img {
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15vw;
+  text-align: center;
+}
+.modified-item:hover {
+  border-bottom: 2px transparent !important;
+  color: white !important;
+}
+.prof5-about {
+  width: 50vw;
+}
+
+.h1size {
+  font-size: calc(12px + 2.5vw) !important;
+}
+
+.psize {
+  font-size: calc(8px + 0.8vw) !important;
+}
+
+.achievements-text {
+  font-size: calc(8px + 0.8vw);
+}
+
+.skills-tag {
+  font-size: 20px;
+  height: 30px;
+  background-color: #0074e1;
+  color: white;
+}
+
+.skills-span {
+  vertical-align: middle !important;
+}
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.nb {
+  margin-top: -20px;
+}
+
+.li {
+  display: inline-block !important;
+}
+
+.landing {
+  position: relative;
+  background: url("./img/option5-min.png") no-repeat;
+  background-size: cover;
+  background-position: center;
   height: 89vh;
   /* margin-top: -24px; */
   margin-bottom: -16px;
@@ -165,6 +364,41 @@ img {
 .h1size {
   font-size: calc(12px + 2.5vw) !important;
 }
+
 .psize {
   font-size: calc(8px + 0.8vw) !important;
+}
+
+.achievements-text {
+  font-size: calc(8px + 0.8vw);
+}
+
+.skills-tag {
+  font-size: 20px;
+  height: 30px;
+  background-color: #0074e1;
+  color: white;
+}
+
+.skills-span {
+  vertical-align: middle !important;
+}
+.prof2-img {
+  height: 100%;
+  width: 100%;
+}
+
+.prof2-text-overlay {
+  right: 200px;
+  top: 200px;
+  position: absolute;
+}
+
+.prof2-anchor-overlay {
+  left: 30px;
+  top: 55px;
+  position: fixed;
+  padding: 10px;
+  border: black !important;
+  border-width: 2px !important;
 }

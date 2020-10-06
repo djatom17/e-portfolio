@@ -104,7 +104,7 @@ mongorouter.post("/p-update/:ID", auth, function (req, res, next) {
   ).then((updated_profile) => {
     if (!updated_profile) {
       console.log("[Mongoose] Profile update unsuccessful.");
-      res.status(500);
+      return res.status(500);
       //TODO: stop here
     }
     console.log("[Mongoose] Successfully posted updates to MongoDB.");
