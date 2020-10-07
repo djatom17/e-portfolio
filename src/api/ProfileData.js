@@ -8,6 +8,8 @@
  */
 import React from "react";
 import axios from "axios";
+import { Typography } from "antd";
+const { Paragraph } = Typography;
 
 /**
  * Handles API calls to fetch data of a specified profile
@@ -102,4 +104,55 @@ export function updateProfile(pid, profileChanges, token) {
         }
       });
   }
+}
+
+// Text Editor
+export function setEditableStr(property, str) {
+  var addChange = {};
+  addChange[property] = str;
+  this.setState({
+    profileChanges: { ...this.state.profileChanges, ...addChange },
+    profile: { ...this.state.profile, ...addChange },
+  });
+}
+
+//Text Editor in arrays
+export function setEditableStrArr(property, index, str) {
+  var temp = { ...this.state.profile };
+  temp[property][index] = str;
+  this.setState({ profile: temp });
+}
+
+//Currently used for skills in prof 5
+export function getElementsNew(lst, property) {
+  if (lst) {
+    return lst.map((item, index) => (
+      <Paragraph
+        className="psize"
+        editable={
+          this.state.isMyProfile && this.state.canEdit
+            ? {
+                onChange: (e) => this.setEditableStrArr(property, index, e),
+              }
+            : false
+        }
+      >
+        {item}
+      </Paragraph>
+    ));
+  }
+}
+
+//Handling of Edit Button
+export function handleEditButtonClick() {
+  // Make changes reflect on database
+  updateProfile(
+    this.state.profile._id,
+    this.state.profileChanges,
+    this.props.token
+  );
+  this.setState({
+    canEdit: !this.state.canEdit,
+    profileChanges: {},
+  });
 }

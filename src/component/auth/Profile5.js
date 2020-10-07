@@ -7,6 +7,7 @@ import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
 import Settings from "./Settings";
 import DragUpload from "./DragUpload";
+import EditButton from "./EditButton";
 import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
 import {
   DeleteOutlined,
@@ -44,39 +45,18 @@ class Profile5 extends Component {
       : this.setState({ isMyProfile: false });
   };
 
+  constructor() {
+    super();
+    this.setEditableStr = ProfileData.setEditableStr.bind(this);
+    this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
+    this.getElementsNew = ProfileData.getElementsNew.bind(this);
+    this.handleEditButtonClick = ProfileData.handleEditButtonClick.bind(this);
+  }
+
   // Tab click event handler
-  handleClick = (e) => {
+  handleTabClick = (e) => {
     console.log("click ", e);
     this.setState({ tabdisp: e.key });
-  };
-  handleButtonClick = () => {
-    // Make changes reflect on database
-    ProfileData.updateProfile(
-      this.state.profile._id,
-      this.state.profileChanges,
-      this.props.token
-    );
-    this.setState({
-      canEdit: !this.state.canEdit,
-      profileChanges: {},
-    });
-  };
-
-  // Text Editor
-  setEditableStr = (property, str) => {
-    var addChange = {};
-    addChange[property] = str;
-    this.setState({
-      profileChanges: { ...this.state.profileChanges, ...addChange },
-      profile: { ...this.state.profile, ...addChange },
-    });
-  };
-
-  //Text Editor in arrays
-  setEditableStrArr = (property, index, str) => {
-    var temp = { ...this.state.profile };
-    temp[property][index] = str;
-    this.setState({ profile: temp });
   };
 
   // dynamic tag methods (delete, add, edit)
@@ -166,25 +146,6 @@ class Profile5 extends Component {
       </Button>
     );
   };
-
-  getElements(lst, property) {
-    if (lst) {
-      return lst.map((item, index) => (
-        <Paragraph
-          className="psize"
-          editable={
-            this.state.isMyProfile && this.state.canEdit
-              ? {
-                  onChange: (e) => this.setEditableStrArr(property, index, e),
-                }
-              : false
-          }
-        >
-          {item}
-        </Paragraph>
-      ));
-    }
-  }
 
   //Modal  helper Functions
   showModal = () => {
@@ -345,7 +306,7 @@ class Profile5 extends Component {
           <Title className="h1size">Skills</Title>
           <div>
             <Paragraph className="psize">
-              {this.getElements(this.state.profile.keySkills, "keySkills")}
+              {this.getElementsNew(this.state.profile.keySkills, "keySkills")}
             </Paragraph>
           </div>
         </div>
@@ -368,20 +329,6 @@ class Profile5 extends Component {
 
   render() {
     const { current } = this.state.tabdisp;
-    const editButt = (
-      <Fragment>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#mobile-nav"
-          onClick={this.handleButtonClick}
-          style={{ height: 50, color: "blue" }}
-        >
-          {this.state.isMyProfile && this.state.canEdit ? "Done" : "Edit"}
-        </button>
-      </Fragment>
-    );
     return (
       <div className="container-fluid ml-n3">
         <Row>
@@ -415,7 +362,7 @@ class Profile5 extends Component {
               </div>
               <div>
                 <Menu
-                  onClick={this.handleClick}
+                  onClick={this.handleTabClick}
                   selectedKeys={[current]}
                   mode="vertical"
                   style={{ backgroundColor: "coral" }}
@@ -450,7 +397,18 @@ class Profile5 extends Component {
               />
             ) : null}
           </Col>
-          <Col>{this.state.isMyProfile ? editButt : null}</Col>
+          <Col>
+            {this.state.isMyProfile ? (
+              <EditButton
+                _id={this.state.profile._id}
+                profileChanges={this.state.profileChanges}
+                token={this.props.token}
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+                changeEdit={this.handleEditButtonClick}
+              />
+            ) : null}
+          </Col>
         </Row>
       </div>
     );
