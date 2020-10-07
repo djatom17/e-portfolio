@@ -3,35 +3,18 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
-// import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
 import Settings from "./Settings";
+import DragUpload from "./DragUpload";
+import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
 import {
-  Row,
-  Col,
-  Menu,
-  Upload,
-  message,
-  Typography,
-  Avatar,
-  Input,
-  Button,
-  Modal,
-  Tag,
-} from "antd";
-import {
-  InboxOutlined,
-  UserOutlined,
   DeleteOutlined,
   PaperClipOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
-import Axios from "axios";
 
 const { Title, Paragraph } = Typography;
-
-const { Dragger } = Upload;
 
 class Profile5 extends Component {
   state = {
@@ -51,13 +34,8 @@ class Profile5 extends Component {
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
-    // this.uploadProps.fileList = this.props.profile.filesAndDocs.map(
-    //   (item, index) => ({ ...item, uid: index })
-    // );
-
     //Authorisation check.
     this.setState({ layout: this.props.profile.layout });
-    this.uploadProps.headers = { "x-auth-token": this.props.token };
     this.props.isAuthenticated &&
     this.props.profile.userid &&
     this.props.user._id &&
@@ -65,49 +43,6 @@ class Profile5 extends Component {
       ? this.setState({ isMyProfile: true })
       : this.setState({ isMyProfile: false });
   };
-
-  uploadProps = {
-    name: "file",
-    //   accept: ".doc,.docx,.png,.pdf,.jpg",
-    action: "/api/file/upload/",
-    headers: {
-      "x-auth-token": "",
-    },
-    // fileList: [],
-    onChange: this.handleChange,
-    customRequest: ({ file }) => {
-      // console.log(file);
-      const data = new FormData();
-      data.append("file", file);
-      axios
-        .post("/api/file/upload", data, {
-          headers: {
-            "x-auth-token": this.props.token,
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          console.log("Upload successful.", res);
-          file.status = "done";
-          message.success(`${file.name} file uploaded succesfully.`);
-        })
-        .catch((err) => console.log("Upload unsuccessful. ", err));
-    },
-  };
-
-  dragUpload = (
-    <Fragment>
-      <Dragger {...this.uploadProps}>
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to upload
-        </p>
-        <p className="ant-upload-hint">Upload your documents here!</p>
-      </Dragger>
-    </Fragment>
-  );
 
   // Tab click event handler
   handleClick = (e) => {
@@ -125,27 +60,6 @@ class Profile5 extends Component {
       canEdit: !this.state.canEdit,
       profileChanges: {},
     });
-  };
-
-  handleChange = (info) => {
-    console.log("uploading", info);
-    if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-    // let fileList = [...info.fileList];
-    // fileList = fileList.map((file) => {
-    //   if (file.response) {
-    //     // Component will show file.url as link
-    //     file.url = file.response.url;
-    //   }
-    //   return file;
-    // });
-    // // this.setState({ profile.files });
   };
 
   // Text Editor
@@ -441,9 +355,9 @@ class Profile5 extends Component {
         <div>
           <Title className="h1size">Projects</Title>
           <div>
-            {this.state.isMyProfile && this.state.canEdit
-              ? this.dragUpload
-              : null}
+            {this.state.isMyProfile && this.state.canEdit ? (
+              <DragUpload token={this.props.token} />
+            ) : null}
             {console.log(this.state.isMyProfile)}
           </div>
           {this.getFiles(this.state.profile.filesAndDocs)}
