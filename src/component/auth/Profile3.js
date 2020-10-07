@@ -72,18 +72,24 @@ class Profile3 extends Component {
     isMyProfile: false,
   };
 
-  // functions for editing text
-  setEditablefieldName = (value, fieldName) => {
-    var temp = { ...this.state.profile };
-    temp[value] = fieldName;
-    this.setState({ profile: temp });
-  };
+  constructor() {
+    super();
+    this.setEditablefieldName = ProfileData.setEditableStr.bind(this);
+    this.setEditablefieldNameArr = ProfileData.setEditableStrArr.bind(this);
+  }
 
-  setEditablefieldNameArr = (property, index, fieldName) => {
-    var temp = { ...this.state.profile };
-    temp[property][index] = fieldName;
-    this.setState({ profile: temp });
-  };
+  // // functions for editing text
+  // setEditablefieldName = (value, fieldName) => {
+  //   var temp = { ...this.state.profile };
+  //   temp[value] = fieldName;
+  //   this.setState({ profile: temp });
+  // };
+
+  // setEditablefieldNameArr = (property, index, fieldName) => {
+  //   var temp = { ...this.state.profile };
+  //   temp[property][index] = fieldName;
+  //   this.setState({ profile: temp });
+  // };
 
   handleButtonClick = () => {
     // Make changes reflect on database
