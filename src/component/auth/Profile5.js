@@ -51,6 +51,10 @@ class Profile5 extends Component {
     this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
     this.getElementsNew = ProfileData.getElementsNew.bind(this);
     this.handleEditButtonClick = ProfileData.handleEditButtonClick.bind(this);
+    this.showModal = ProfileData.showModal.bind(this);
+    this.handleOk = ProfileData.handleOk.bind(this);
+    this.handleCancel = ProfileData.handleCancel.bind(this);
+    this.changeLayout = ProfileData.changeLayout.bind(this);
   }
 
   // Tab click event handler
@@ -146,36 +150,6 @@ class Profile5 extends Component {
       </Button>
     );
   };
-
-  //Modal  helper Functions
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleOk = (num, info) => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 3000);
-
-    ProfileData.updateProfile(
-      this.state.profile._id,
-      { layout: num },
-      this.props.token
-    );
-    window.location.reload();
-  };
-
-  handleCancel = () => {
-    this.setState({ visible: false });
-  };
-
-  changeLayout = (str, info) => {
-    this.setState({ layout: str });
-  };
-  // End of modal Functions
 
   getFiles(lst) {
     if (lst) {

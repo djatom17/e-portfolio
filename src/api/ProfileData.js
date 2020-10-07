@@ -156,3 +156,29 @@ export function handleEditButtonClick() {
     profileChanges: {},
   });
 }
+
+//Modal  helper Functions
+export function showModal() {
+  this.setState({
+    visible: true,
+  });
+}
+
+export function handleOk(num, info) {
+  this.setState({ loading: true });
+  setTimeout(() => {
+    this.setState({ loading: false, visible: false });
+  }, 3000);
+
+  updateProfile(this.state.profile._id, { layout: num }, this.props.token);
+  window.location.reload();
+}
+
+export function handleCancel() {
+  this.setState({ visible: false });
+}
+
+export function changeLayout(str, info) {
+  this.setState({ layout: str });
+}
+// End of modal Functions
