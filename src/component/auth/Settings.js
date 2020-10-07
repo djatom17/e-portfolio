@@ -1,13 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Modal, Button, Row, Col, Avatar } from "antd";
 import "antd/dist/antd.css";
-import {
-  InboxOutlined,
-  UserOutlined,
-  DeleteOutlined,
-  PaperClipOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
 
 export class Settings extends Component {
   state = {
