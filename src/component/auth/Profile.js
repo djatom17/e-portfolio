@@ -1,75 +1,181 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-// import axios from 'axios';
+import { connect } from "react-redux";
 import * as ProfileData from "../../api/ProfileData";
+import "react-web-tabs/dist/react-web-tabs.css";
+import {
+  Row, Col,
+  Typography, UserOutlined, Descriptions, Badge,
+  Input, Button, Tag, Avatar, Tooltip, Anchor,
+  Carousel,} from "antd";
+import {DeleteOutlined, PlusOutlined,} from "@ant-design/icons";
+import "antd/dist/antd.css";
 
+const { Title, Paragraph } = Typography;
+const { Link } = Anchor;
 class Profile extends Component {
   state = {
     profile: {},
+    profileChanges: {},
+    inputVisible: false,
+    inputValue: "",
+    editInputIndex: -1,
+    editInputValue: "",
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.setState({ profile: this.props.profile });
-  }
+    this.props.isAuthenticated &&
+    this.props.profile.userid &&
+    this.props.user._id &&
+    this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
+        ? this.setState({ isMyProfile: true })
+        : this.setState({ isMyProfile: false });
+  };
+
+  handleCloseTag = (fieldName, removedTag) => {
+    const field = this.state.profile[fieldName].filter(
+        (tag) => tag !== removedTag
+    );
+    let { profile, profileChanges } = this.state;
+    profile[fieldName] = field;
+    profileChanges[fieldName] = field;
+    this.setState({
+      profile,
+      profileChanges,
+      editInputIndex: -1,
+      editInputValue: "",
+    });
+    // this.setState({ editInputIndex: -1, editInputValue: "" });
+  };
+
+  handleEditInputConfirm = (fieldName) => {
+    this.setState(({ profile, editInputIndex, editInputValue }) => {
+      var newTags = [...profile[fieldName]];
+      newTags[editInputIndex] = editInputValue;
+      var addChange = {};
+      addChange[fieldName] = newTags;
+
+      return {
+        profile: { ...this.state.profile, ...addChange },
+        profileChanges: { ...this.state.profileChanges, ...addChange },
+        editInputIndex: -1,
+        editInputValue: "",
+      };
+    });
+  };
+
+  handleEditInputChange = (e) => {
+    this.setState({ editInputValue: e.target.value });
+  };
+
+  saveInputRef = (input) => {
+    this.input = input;
+  };
+
+  saveEditInputRef = (input) => {
+    this.editInput = input;
+  };
+
+  deleteButt = (item) => {
+    return (
+        <Button
+            type="link"
+            onClick={() => this.handleCloseTag("achievements", item)}
+        >
+          <DeleteOutlined />
+        </Button>
+    );
+  };
 
   render() {
-    return (
-      <div className="profile">
-        <div className="container">
-          <div className={"row"}>
-            <div className="col-mid-8 m-auto">
-              <h1 className="display-4 text-center">
-                {" "}
-                {ProfileData.getName(this.state.profile)} Flex page
-              </h1>
-              <p className={"lead text-center"}>
-                {this.state.profile.subtitle}
-              </p>
-              <div className="container browse-outer">
-                <div className="container browse-profile-picture">
-                  <img
-                    src={this.state.profile.image}
-                    aria-hidden
-                    alt="description of image"
-                  />
-                </div>
-                <div className="container browse-profile-summary">
-                  <h1 className="display-5 browse-name">Achievements</h1>
-                  <div className="container browse-profile-summary">
-                    {ProfileData.getElements(this.state.profile.achievements)}
-                  </div>
-                </div>
-              </div>
-              <p></p>
-              <Link to="/profile" className={"btn btn-lg btn-info mr-2"}>
-                Edit
-              </Link>
-              <Link to="/profile" className={"btn btn-lg btn-info mr-2"}>
-                Upload
-              </Link>
-              <Link to="/profile" className={"btn btn-lg btn-info mr-2"}>
-                Message
-              </Link>
-              <p></p>
-              <h1 className="display-5 text-lg">Skills</h1>
-              <div className="container profile-skills-text">
-                {ProfileData.getElements(this.state.profile.keySkills)}
-              </div>
+    // for tags
+    const {
+      inputVisible,
+      inputValue,
+      editInputIndex,
+      editInputValue,
+    } = this.state;
 
-              <h1 className="display-5 text-lg">About Me</h1>
-              <div className="container browse-profile-summary">
-                <p>{this.state.profile.about}</p>
-              </div>
-              <h1 className="display-5 text-lg">Social Media Links</h1>
-              <div className="container browse-profile-summary">
-                {ProfileData.getElements(this.state.profile.social)}
-              </div>
+    // Adjustment setting box
+    const contentStyle = {
+      height: "160px",
+      color: "#fff",
+      lineHeight: "160px",
+      textAlign: "center",
+      background: "#364d79"
+    };
+
+    function onChange(a, b, c) {
+      console.log(a, b, c);
+    }
+
+    return (
+        <div className="App">
+          <Row>
+            <Col span={18} push={5}>
+              <h1>Importster's Profile</h1>
+            </Col>
+            <Col span={6} pull={17}>
+
+            </Col>
+          </Row>
+          <h2></h2>
+          <Carousel afterChange={onChange}>
+            <div>
+              <h3 style={contentStyle}>1</h3>
             </div>
-          </div>
+            <div>
+              <h3 style={contentStyle}>2</h3>
+            </div>
+            <div>
+              <h3 style={contentStyle}>3</h3>
+            </div>
+            <div>
+              <h3 style={contentStyle}>4</h3>
+            </div>
+          </Carousel>
+          <h2></h2>
+          <Descriptions title="User Info Card" bordered>
+            <Descriptions.Item label="Name" span={2}>
+              Red
+            </Descriptions.Item>
+            <Descriptions.Item label="Sex" span={2}>
+              Yes please
+            </Descriptions.Item>
+            <Descriptions.Item label="Occupation Status">Crewmate</Descriptions.Item>
+            <Descriptions.Item label="Date of Brith">2018-04-24</Descriptions.Item>
+            <Descriptions.Item label="Usage Time" span={2}>
+              2019-04-24 18:00:00
+            </Descriptions.Item>
+            <Descriptions.Item label="Status" span={3}>
+              <Badge status="processing" text="In Medbay" />
+            </Descriptions.Item>
+            <Descriptions.Item label="GPA">$80.00</Descriptions.Item>
+            <Descriptions.Item label="Discount">$20.00</Descriptions.Item>
+            <Descriptions.Item label="Official Receipts">$60.00</Descriptions.Item>
+            <Descriptions.Item label="Config Info">
+              Data disk type: MongoDB
+              <br />
+              Database version: 3.4
+              <br />
+              Package: dds.mongo.mid
+              <br />
+              Storage space: 10 GB
+              <br />
+              Replication factor: 3
+              <br />
+              Region: East China 1<br />
+            </Descriptions.Item>
+          </Descriptions>
         </div>
-      </div>
     );
   }
 }
 
-export default Profile;
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps, {})(Profile);
