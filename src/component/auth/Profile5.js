@@ -450,17 +450,14 @@ class Profile5 extends Component {
           </div>
           {/* {this.getFiles(this.state.profile.filesAndDocs)} */}
           <Document
-            file={{
-              url: this.state.profile.filesAndDocs[
+            file={
+              this.state.profile.filesAndDocs[
                 this.state.profile.filesAndDocs.length - 1
-              ],
-              httpHeaders: {
-                "Access-Control-Request-Method": "GET",
-                "Access-Control-Allow-Origin": "*",
-              },
-              withCredentials: true,
-            }}
-          ></Document>
+              ]
+            }
+          >
+            <Page pageNumber={1}></Page>
+          </Document>
         </div>
       );
     }
