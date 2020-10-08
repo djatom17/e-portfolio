@@ -16,7 +16,6 @@ const auth = require("./auth");
 const Profile = require("../../models/Profile");
 const File = require("../../models/File");
 const UserProfile = require("../../models/UserProfile");
-const { useCallback } = require("react");
 
 const validObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 
@@ -75,6 +74,9 @@ mongorouter.get("/p/:ID", function (req, res, next) {
       console.log("[Mongoose] Fetched " + req.params.ID);
       profile.image = "/api/file/dl/" + profile.image;
       profile.linkToProfile = "/profile/" + profile.linkToProfile;
+      profile.filesAndDocs.map(
+        (item) => (item.url = "/api/file/dl/" + item.url)
+      );
       res.send(profile);
     }
   }).lean();
@@ -178,6 +180,9 @@ const fetchProfileByUID = (uid, callback) => {
       }
       console.log("[Mongoose] Successfully fetched user profile.");
       profile.image = "/api/file/dl/" + profile.image;
+      profile.filesAndDocs.map(
+        (item) => (item.url = "/api/file/dl/" + item.url)
+      );
       profile.userid = uid;
       //Successful operation
       return callback(null, profile);
