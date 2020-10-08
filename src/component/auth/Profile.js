@@ -4,10 +4,11 @@ import * as ProfileData from "../../api/ProfileData";
 import "react-web-tabs/dist/react-web-tabs.css";
 import {
   Row, Col,
-  Typography, UserOutlined, Descriptions, Badge,
+  Typography, Descriptions, Badge,
   Input, Button, Tag, Avatar, Tooltip, Anchor,
-  Carousel,} from "antd";
-import {DeleteOutlined, PlusOutlined,} from "@ant-design/icons";
+  Carousel} from "antd";
+import {DeleteOutlined, PlusOutlined, UserOutlined} from "@ant-design/icons";
+import { Layout, Menu, Breadcrumb } from "antd";
 import "antd/dist/antd.css";
 
 const { Title, Paragraph } = Typography;
@@ -45,7 +46,6 @@ class Profile extends Component {
       editInputIndex: -1,
       editInputValue: "",
     });
-    // this.setState({ editInputIndex: -1, editInputValue: "" });
   };
 
   handleEditInputConfirm = (fieldName) => {
@@ -88,22 +88,16 @@ class Profile extends Component {
   };
 
   render() {
-    // for tags
-    const {
-      inputVisible,
-      inputValue,
-      editInputIndex,
-      editInputValue,
-    } = this.state;
-
     // Adjustment setting box
     const contentStyle = {
-      height: "160px",
+      height: "480px",
       color: "#fff",
-      lineHeight: "160px",
+      lineHeight: "480px",
       textAlign: "center",
       background: "#364d79"
     };
+
+    const { Header, Content, Footer } = Layout;
 
     function onChange(a, b, c) {
       console.log(a, b, c);
@@ -111,65 +105,76 @@ class Profile extends Component {
 
     return (
         <div className="App">
-          <Row>
-            <Col span={18} push={5}>
-              <h1>Importster's Profile</h1>
-            </Col>
-            <Col span={6} pull={17}>
-
-            </Col>
-          </Row>
-          <h2></h2>
-          <Carousel afterChange={onChange}>
-            <div>
-              <h3 style={contentStyle}>1</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>2</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>3</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>4</h3>
-            </div>
-          </Carousel>
-          <h2></h2>
-          <Descriptions title="User Info Card" bordered>
-            <Descriptions.Item label="Name" span={2}>
-              Red
-            </Descriptions.Item>
-            <Descriptions.Item label="Sex" span={2}>
-              Yes please
-            </Descriptions.Item>
-            <Descriptions.Item label="Occupation Status">Crewmate</Descriptions.Item>
-            <Descriptions.Item label="Date of Brith">2018-04-24</Descriptions.Item>
-            <Descriptions.Item label="Usage Time" span={2}>
-              2019-04-24 18:00:00
-            </Descriptions.Item>
-            <Descriptions.Item label="Status" span={3}>
-              <Badge status="processing" text="In Medbay" />
-            </Descriptions.Item>
-            <Descriptions.Item label="GPA">$80.00</Descriptions.Item>
-            <Descriptions.Item label="Discount">$20.00</Descriptions.Item>
-            <Descriptions.Item label="Official Receipts">$60.00</Descriptions.Item>
-            <Descriptions.Item label="Config Info">
-              Data disk type: MongoDB
-              <br />
-              Database version: 3.4
-              <br />
-              Package: dds.mongo.mid
-              <br />
-              Storage space: 10 GB
-              <br />
-              Replication factor: 3
-              <br />
-              Region: East China 1<br />
-            </Descriptions.Item>
-          </Descriptions>
+          <Content style={{ padding: "0 50px" }}>
+            <Breadcrumb style={{ margin: "16px 0" }}>
+              <Breadcrumb.Item>Browse</Breadcrumb.Item>
+              <Breadcrumb.Item>Profile</Breadcrumb.Item>
+              <Breadcrumb.Item>{ProfileData.getName(this.state.profile)}</Breadcrumb.Item>
+            </Breadcrumb>
+            <Row>
+              <Col span={18} push={3}>
+                <h1>{ProfileData.getName(this.state.profile)}</h1>
+              </Col>
+              <Col span={6} pull={17}>
+                <Avatar size={128} icon={<UserOutlined />} />
+              </Col>
+            </Row>
+            <h2></h2>
+            <Carousel afterChange={onChange}>
+              <div>
+                <h3 style={contentStyle}>1</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>2</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>3</h3>
+              </div>
+            </Carousel>
+            <Descriptions title="User Info Card" bordered>
+              <Descriptions.Item label="Name" span={2}>
+                {ProfileData.getName(this.state.profile)}
+              </Descriptions.Item>
+              <Descriptions.Item label="Gender" span={2}>
+                Male
+              </Descriptions.Item>
+              <Descriptions.Item label="Occupation Status">Crewmate</Descriptions.Item>
+              <Descriptions.Item label="Date of Brith">2018-04-24</Descriptions.Item>
+              <Descriptions.Item label="Work hour" span={2}>
+                Korean Standard Time (GMT +9)
+              </Descriptions.Item>
+              <Descriptions.Item label="Status" span={3}>
+                <Badge status="processing" text="Junior developer that Naver" />
+              </Descriptions.Item>
+              <Descriptions.Item label="GPA">9000</Descriptions.Item>
+              <Descriptions.Item label="Skills">C, C++, Python, React</Descriptions.Item>
+              <Descriptions.Item label="Speciality">Front end development</Descriptions.Item>
+              <Descriptions.Item label="Education">
+                University of Melbourne/ Computing/ under grad/ 2010~2013
+                <br />
+                RMIT/ Computing Graphics/ masters/ 2016~2018
+                <br />
+                University of Melbourne/ Law/ masters/ 2020~2024
+                <br />
+              </Descriptions.Item>
+              <Descriptions.Item label="Job Experience">
+                MicroSoft/ Senior developer/ 3years/ 2003~2006
+                <br />
+                Naver/ Senior developer/ 3years/ 2003~2006
+                <br />
+                Nintendo/ Senior developer/ 3years/ 2003~2006
+                <br />
+                Bethsesda/ Senior developer/ 3years/ 2003~2006
+                <br />
+                Samsong/ Junior developer/ 3years/ 2003~2006
+              </Descriptions.Item>
+            </Descriptions>
+          </Content>
+          <Footer style={{ textAlign: "center" }}>
+            Different Footer Style Attempt
+          </Footer>
         </div>
-    );
-  }
+    )}
 }
 
 const mapStateToProps = (state) => ({
