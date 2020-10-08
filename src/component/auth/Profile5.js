@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Document, Page, pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
@@ -446,7 +448,19 @@ class Profile5 extends Component {
               : null}
             {console.log(this.state.isMyProfile)}
           </div>
-          {this.getFiles(this.state.profile.filesAndDocs)}
+          {/* {this.getFiles(this.state.profile.filesAndDocs)} */}
+          <Document
+            file={{
+              url: this.state.profile.filesAndDocs[
+                this.state.profile.filesAndDocs.length - 1
+              ],
+              httpHeaders: {
+                "Access-Control-Request-Method": "GET",
+                "Access-Control-Allow-Origin": "*",
+              },
+              withCredentials: true,
+            }}
+          ></Document>
         </div>
       );
     }
