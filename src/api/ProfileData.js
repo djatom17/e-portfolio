@@ -143,20 +143,6 @@ export function getElementsNew(lst, property) {
   }
 }
 
-//Handling of Edit Button
-export function handleEditButtonClick() {
-  // Make changes reflect on database
-  updateProfile(
-    this.state.profile._id,
-    this.state.profileChanges,
-    this.props.token
-  );
-  this.setState({
-    canEdit: !this.state.canEdit,
-    profileChanges: {},
-  });
-}
-
 //Modal  helper Functions
 export function showModal() {
   this.setState({

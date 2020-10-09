@@ -4,6 +4,7 @@ import "antd/dist/antd.css";
 import * as ProfileData from "../../api/ProfileData";
 
 export class EditButton extends Component {
+  componentDidMount() {}
   //Edit Button
   handleEditButtonClick = () => {
     // Make changes reflect on database
@@ -13,10 +14,7 @@ export class EditButton extends Component {
       this.props.token
     );
     // this.props.changeEdit();
-    this.setState({
-      canEdit: !this.props.canEdit,
-      profileChanges: {},
-    });
+    this.props.changeEdit();
   };
   render() {
     return (
@@ -26,7 +24,7 @@ export class EditButton extends Component {
           type="button"
           data-toggle="collapse"
           data-target="#mobile-nav"
-          onClick={this.props.changeEdit}
+          onClick={() => this.handleEditButtonClick()}
           style={{ height: 50, color: "blue" }}
         >
           {this.props.isMyProfile && this.props.canEdit ? "Done" : "Edit"}
