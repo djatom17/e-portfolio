@@ -5,10 +5,10 @@ import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
-// import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
 import Settings from "./Settings";
+import DocPreview from "./DocPreview";
 import {
   Row,
   Col,
@@ -474,6 +474,9 @@ class Profile5 extends Component {
                     this.state.profile.filesAndDocs.length - 1
                   ]
                 }
+                onClick={(file) => (
+                  <DocPreview title="placeholder" url={file}></DocPreview>
+                )}
               >
                 <Page
                   pageNumber={1}

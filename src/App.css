@@ -404,7 +404,7 @@ img {
 }
 
 .project {
-  display: inline-flexbox;
+  display: inline-block;
 }
 
 .pdf {
