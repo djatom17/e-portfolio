@@ -11,13 +11,22 @@ export class DocPreview extends Component {
   };
 
   componentDidMount = () => {
-    this.setState({ title: this.props.title, url: this.props.url });
+    this.setState({
+      title: this.props.title,
+      url: this.props.url,
+    });
   };
 
   render() {
     return (
       <Fragment>
-        <Modal title={this.state.title} centered={true} closable={true}>
+        <Modal
+          title={this.state.title}
+          visible={this.props.visible}
+          centered={true}
+          closable={true}
+          width="auto"
+        >
           <Document file={this.state.url}>
             <Page pageNumber={1}></Page>
           </Document>

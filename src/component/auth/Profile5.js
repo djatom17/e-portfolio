@@ -44,6 +44,7 @@ class Profile5 extends Component {
     isMyProfile: false,
     loading: false,
     visible: false,
+    previewVisible: false,
     layout: "0",
     inputVisible: false,
     inputValue: "",
@@ -474,9 +475,7 @@ class Profile5 extends Component {
                     this.state.profile.filesAndDocs.length - 1
                   ]
                 }
-                onClick={(file) => (
-                  <DocPreview title="placeholder" url={file}></DocPreview>
-                )}
+                onClick={() => this.setState({ previewVisible: true })}
               >
                 <Page
                   pageNumber={1}
@@ -486,6 +485,16 @@ class Profile5 extends Component {
                   renderTextLayer={false}
                 ></Page>
               </Document>
+              {console.log(this.state.previewVisible)}
+              <DocPreview
+                title="placeholder"
+                visible={this.state.previewVisible}
+                url={
+                  this.state.profile.filesAndDocs[
+                    this.state.profile.filesAndDocs.length - 1
+                  ]
+                }
+              ></DocPreview>
             </Col>
           </Row>
         </div>
