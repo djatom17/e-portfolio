@@ -441,23 +441,50 @@ class Profile5 extends Component {
     } else if (this.state.tabdisp === "projects") {
       return (
         <div>
-          <Title className="h1size">Projects</Title>
-          <div>
-            {this.state.isMyProfile && this.state.canEdit
-              ? this.dragUpload
-              : null}
-            {console.log(this.state.isMyProfile)}
-          </div>
+          <Row>
+            <Title className="h1size">Projects</Title>
+          </Row>
+          <Row>
+            <div>
+              {this.state.isMyProfile && this.state.canEdit
+                ? this.dragUpload
+                : null}
+              {console.log(this.state.isMyProfile)}
+            </div>
+          </Row>
           {/* {this.getFiles(this.state.profile.filesAndDocs)} */}
-          <Document
-            file={
-              this.state.profile.filesAndDocs[
-                this.state.profile.filesAndDocs.length - 1
-              ]
-            }
-          >
-            <Page pageNumber={1}></Page>
-          </Document>
+          <Row>
+            <h3>Project Title</h3>
+          </Row>
+          <Row className="project">
+            <Col>
+              <Button type="link" className="ml-n3">
+                www.donotgotothislink.com
+              </Button>
+
+              <Typography.Paragraph>
+                This is my project, i worked on it for 2 months in 2018. I think
+                its very nice. My mom thinks its very nice.
+              </Typography.Paragraph>
+            </Col>
+            <Col>
+              <Document
+                file={
+                  this.state.profile.filesAndDocs[
+                    this.state.profile.filesAndDocs.length - 1
+                  ]
+                }
+              >
+                <Page
+                  pageNumber={1}
+                  width={300}
+                  className="pdf"
+                  renderAnnotationLayer={false}
+                  renderTextLayer={false}
+                ></Page>
+              </Document>
+            </Col>
+          </Row>
         </div>
       );
     }

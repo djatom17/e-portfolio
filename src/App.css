@@ -402,3 +402,12 @@ img {
   border: black !important;
   border-width: 2px !important;
 }
+
+.project {
+  display: inline-flexbox;
+}
+
+.pdf {
+  position: unset !important;
+  display: unset !important;
+}
