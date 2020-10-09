@@ -494,6 +494,7 @@ class Profile5 extends Component {
                     this.state.profile.filesAndDocs.length - 1
                   ]
                 }
+                handleCancel={() => this.setState({ previewVisible: false })}
               ></DocPreview>
             </Col>
           </Row>

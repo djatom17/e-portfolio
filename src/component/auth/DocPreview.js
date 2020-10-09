@@ -26,6 +26,7 @@ export class DocPreview extends Component {
           centered={true}
           closable={true}
           width="auto"
+          onCancel={this.props.handleCancel}
         >
           <Document file={this.state.url}>
             <Page pageNumber={1}></Page>
