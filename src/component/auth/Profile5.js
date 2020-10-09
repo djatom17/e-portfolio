@@ -8,6 +8,7 @@ import "antd/dist/antd.css";
 import Settings from "./Settings";
 import DragUpload from "./DragUpload";
 import EditButton from "./EditButton";
+import DispAchievements from "./DispAchievements";
 import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
 import {
   DeleteOutlined,
@@ -65,6 +66,19 @@ class Profile5 extends Component {
   // dynamic tag methods (delete, add, edit)
   showInput = () => {
     this.setState({ inputVisible: true }, () => this.input.focus());
+  };
+
+  openEditBox = (index, item, e) => {
+    this.setState(
+      {
+        editInputIndex: index,
+        editInputValue: item,
+      },
+      () => {
+        this.editInput.focus();
+      }
+    );
+    e.preventDefault();
   };
 
   handleInputChange = (e) => {
@@ -186,92 +200,25 @@ class Profile5 extends Component {
         </div>
       );
     } else if (this.state.tabdisp === "achievements") {
-      const {
-        inputVisible,
-        inputValue,
-        editInputIndex,
-        editInputValue,
-      } = this.state;
-
       return (
-        <div>
-          <Title className="h1size">Achievements</Title>
-          <div>
-            <Paragraph>
-              {" "}
-              {this.state.profile.achievements &&
-                this.state.profile.achievements.map((item, index) => {
-                  if (editInputIndex === index) {
-                    return (
-                      <Input.TextArea
-                        ref={this.saveEditInputRef}
-                        key={item}
-                        size="large"
-                        value={editInputValue}
-                        onChange={this.handleEditInputChange}
-                        onBlur={() =>
-                          this.handleEditInputConfirm("achievements")
-                        }
-                        onPressEnter={() =>
-                          this.handleEditInputConfirm("achievements")
-                        }
-                      />
-                    );
-                  }
-                  const achievement = (
-                    <Row>
-                      <Col flex="auto">
-                        <Paragraph key={item}>
-                          <span
-                            onDoubleClick={
-                              this.state.isMyProfile &&
-                              this.state.canEdit &&
-                              ((e) => {
-                                this.setState(
-                                  {
-                                    editInputIndex: index,
-                                    editInputValue: item,
-                                  },
-                                  () => {
-                                    this.editInput.focus();
-                                  }
-                                );
-                                e.preventDefault();
-                              })
-                            }
-                          >
-                            {item}
-                          </span>
-                        </Paragraph>
-                      </Col>
-                      <Col flex="10px">
-                        {this.state.isMyProfile && this.state.canEdit
-                          ? this.deleteButt(item)
-                          : null}
-                      </Col>
-                    </Row>
-                  );
-                  return achievement;
-                })}
-              {inputVisible && (
-                <Input
-                  ref={this.saveInputRef}
-                  type="text"
-                  size="small"
-                  value={inputValue}
-                  onChange={this.handleInputChange}
-                  onBlur={() => this.handleInputConfirm("achievements")}
-                  onPressEnter={() => this.handleInputConfirm("achievements")}
-                />
-              )}
-              {!inputVisible && this.state.isMyProfile && this.state.canEdit && (
-                <Tag className="site-tag-plus" onClick={this.showInput}>
-                  <PlusOutlined /> New Achievement
-                </Tag>
-              )}
-            </Paragraph>
-          </div>
-        </div>
+        <DispAchievements
+          title="Achievements"
+          data={this.state.profile.achievements}
+          inputVisible={this.state.inputVisible}
+          inputValue={this.state.inputValue}
+          isMyProfile={this.state.isMyProfile}
+          canEdit={this.state.canEdit}
+          editInputIndex={this.state.editInputIndex}
+          editInputValue={this.state.editInputValue}
+          handleInputChange={() => this.handleInputChange()}
+          handleEditInputChange={() => this.handleEditInputChange()}
+          saveInputRef={() => this.saveInputRef()}
+          saveEditInputRef={() => this.saveEditInputRef()}
+          handleInputConfirm={() => this.handleInputConfirm()}
+          openEditBox={() => this.openEditBox()}
+          deleteButt={() => this.deleteButt()}
+          showInput={() => this.showInput()}
+        />
       );
     } else if (this.state.tabdisp === "skills") {
       return (
@@ -279,7 +226,7 @@ class Profile5 extends Component {
           <Title className="h1size">Skills</Title>
           <div>
             <Paragraph className="psize">
-              {this.getElementsNew(this.state.profile.keySkills, "keySkills")}
+              {this.getElementsNew(this.state.profile.keyackills, "keySkills")}
             </Paragraph>
           </div>
         </div>
