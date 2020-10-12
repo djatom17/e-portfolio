@@ -8,7 +8,7 @@ import "antd/dist/antd.css";
 import Settings from "./Settings";
 import DragUpload from "./DragUpload";
 import EditButton from "./EditButton";
-import DispAchievements from "./DispAchievements";
+import AchievementManager from "./AchievementManager";
 import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
 import {
   DeleteOutlined,
@@ -114,7 +114,7 @@ class Profile5 extends Component {
       );
     } else if (this.state.tabdisp === "achievements") {
       return (
-        <DispAchievements
+        <AchievementManager
           title="Achievements"
           data={this.state.profile.achievements}
           inputVisible={this.state.inputVisible}
