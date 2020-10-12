@@ -116,7 +116,7 @@ class Profile5 extends Component {
     } else if (this.state.tabdisp === "achievements") {
       return (
         <AchievementManager
-          data={this.state.profile.achievements}
+          
           
           isMyProfile={this.state.isMyProfile}
           canEdit={this.state.canEdit}
@@ -129,7 +129,6 @@ class Profile5 extends Component {
     } else if (this.state.tabdisp === "skills") {
       return (
         <SkillManager
-          data={this.state.profile.keySkills}
           
           isMyProfile={this.state.isMyProfile}
           canEdit={this.state.canEdit}

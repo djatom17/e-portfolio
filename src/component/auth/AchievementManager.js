@@ -129,11 +129,14 @@ export class AchievementManager extends Component {
     return (
       <div>
         <Title>Achievements</Title>
+        {console.log(this.state.profile.achievements)}
         <div>
           <Paragraph>
             {" "}
+            
             {this.state.profile.achievements &&
               this.state.profile.achievements.map((item, index) => {
+                
                 if (editInputIndex === index) {
                   return (
                     <Input.TextArea

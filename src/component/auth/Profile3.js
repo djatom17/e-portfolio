@@ -293,9 +293,9 @@ class Profile3 extends Component {
         {/* tab 1: achievements */}
         <Row className=" my-4 ml-5">
           <Tabs onChange={callback} type="card">
+          <TabPane key="0"></TabPane>
             <TabPane tab="Achievements" key="1">
             <AchievementManager
-          data={this.state.profile.achievements}
           
           isMyProfile={this.state.isMyProfile}
           canEdit={this.state.canEdit}
@@ -308,7 +308,6 @@ class Profile3 extends Component {
             {/* Tab 2: skills  */}
             <TabPane tab="Skills" key="2">
             <SkillManager
-          data={this.state.profile.keySkills}
           
           isMyProfile={this.state.isMyProfile}
           canEdit={this.state.canEdit}
@@ -316,16 +315,8 @@ class Profile3 extends Component {
           profile={this.state.profile}
           profileChanges={this.state.profileChanges}
           changeSkill={this.changeList}/>
+
           
-          <AchievementManager
-          data={this.state.profile.achievements}
-          
-          isMyProfile={this.state.isMyProfile}
-          canEdit={this.state.canEdit}
-          
-          profile={this.state.profile}
-          profileChanges={this.state.profileChanges}
-          changeAchievement={this.changeList}/>
               
             </TabPane>
             <TabPane tab="Projects" key="3">
