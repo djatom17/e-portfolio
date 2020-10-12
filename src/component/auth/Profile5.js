@@ -106,7 +106,7 @@ class Profile5 extends Component {
                     }
                   : false
               }
-              ellipsis={{ rows: 1, expandable: true, symbol: "more" }}
+              ellipsis={{ rows: 3, expandable: true, symbol: "more" }}
             >
               {this.state.profile.about}
             </Paragraph>
@@ -116,7 +116,6 @@ class Profile5 extends Component {
     } else if (this.state.tabdisp === "achievements") {
       return (
         <AchievementManager
-          title="Achievements"
           data={this.state.profile.achievements}
           
           isMyProfile={this.state.isMyProfile}

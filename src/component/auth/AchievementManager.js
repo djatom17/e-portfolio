@@ -128,7 +128,7 @@ export class AchievementManager extends Component {
     } = this.state;
     return (
       <div>
-        <Title className="h1size">{this.props.title}</Title>
+        <Title>Achievements</Title>
         <div>
           <Paragraph>
             {" "}
