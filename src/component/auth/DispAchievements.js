@@ -73,46 +73,35 @@ export class DispAchievements extends Component {
       editInputIndex: -1,
       editInputValue: "",
     });
-    // this.props.changeAchievement(
-    //   this.state.inputVisible,
-    //   this.state.inputValue,
-    //   this.state.editInputIndex,
-    //   this.state.editInputValue,
-    //   this.state.profile,
-    //   this.state.profileChanges
-    // );
+    this.props.changeAchievement(
+      this.state.profile,
+      this.state.profileChanges
+    );
     // this.setState({ editInputIndex: -1, editInputValue: "" });
   };
 
   handleEditInputConfirm = (fieldName) => {
-    this.setState(({ profile, editInputIndex, editInputValue }) => {
+    let { profile, profileChanges,  editInputValue, editInputIndex  } = this.state;
+    
       var newTags = [...profile[fieldName]];
       newTags[editInputIndex] = editInputValue;
-      var addChange = {};
-      addChange[fieldName] = newTags;
+      profile[fieldName] = newTags;
+      profileChanges[fieldName] = newTags;
 
+      console.log(this.state.profile)
       this.setState({
-        profile: { ...this.state.profile, ...addChange },
-        profileChanges: { ...this.state.profileChanges, ...addChange },
+        profile,
+        profileChanges,
         editInputIndex: -1,
         editInputValue: "",
       });
-      // this.props.changeAchievement(
-      //   this.state.inputVisible,
-      //   this.state.inputValue,
-      //   this.state.editInputIndex,
-      //   this.state.editInputValue,
-      //   this.state.profile,
-      //   this.state.profileChanges
-      // );
+      console.log(this.state.profile)
 
-      return {
-        profile: { ...this.state.profile, ...addChange },
-        profileChanges: { ...this.state.profileChanges, ...addChange },
-        editInputIndex: -1,
-        editInputValue: "",
-      };
-    });
+      
+    this.props.changeAchievement(
+      this.state.profile,
+      this.state.profileChanges
+    );
   };
 
   saveInputRef = (input) => {
@@ -148,8 +137,8 @@ export class DispAchievements extends Component {
         <div>
           <Paragraph>
             {" "}
-            {this.props.data &&
-              this.props.data.map((item, index) => {
+            {this.state.profile.achievements &&
+              this.state.profile.achievements.map((item, index) => {
                 if (editInputIndex === index) {
                   return (
                     <Input.TextArea
