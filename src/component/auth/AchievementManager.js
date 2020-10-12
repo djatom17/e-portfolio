@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Modal, Button, Row, Col, Avatar, Typography, Input, Tag } from "antd";
+import {Button, Row, Col, Typography, Input, Tag } from "antd";
 import "antd/dist/antd.css";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
@@ -21,11 +21,6 @@ export class AchievementManager extends Component {
     });
   }
   // dynamic tag methods (delete, add, edit)
-  showInput = () => {
-    this.setState({ inputVisible: true });
-    this.input.focus();
-  };
-
   handleInputChange = (e) => {
     this.setState({ inputValue: e.target.value });
   };

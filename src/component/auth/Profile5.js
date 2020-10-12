@@ -9,6 +9,7 @@ import Settings from "./Settings";
 import DragUpload from "./DragUpload";
 import EditButton from "./EditButton";
 import AchievementManager from "./AchievementManager";
+import SkillManager from "./SkillManager";
 import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
 import {
   DeleteOutlined,
@@ -63,7 +64,7 @@ class Profile5 extends Component {
     this.setState({ tabdisp: e.key });
   };
 
-  changeAchievement = (
+  changeList = (
     profile,
     profileChanges
   ) => {
@@ -117,27 +118,27 @@ class Profile5 extends Component {
         <AchievementManager
           title="Achievements"
           data={this.state.profile.achievements}
-          inputVisible={this.state.inputVisible}
-          inputValue={this.state.inputValue}
+          
           isMyProfile={this.state.isMyProfile}
           canEdit={this.state.canEdit}
-          editInputIndex={this.state.editInputIndex}
-          editInputValue={this.state.editInputValue}
+          
           profile={this.state.profile}
           profileChanges={this.state.profileChanges}
-          changeAchievement={this.changeAchievement}
+          changeAchievement={this.changeList}
         />
       );
     } else if (this.state.tabdisp === "skills") {
       return (
-        <div>
-          <Title className="h1size">Skills</Title>
-          <div>
-            <Paragraph className="psize">
-              {this.getElementsNew(this.state.profile.keyackills, "keySkills")}
-            </Paragraph>
-          </div>
-        </div>
+        <SkillManager
+          data={this.state.profile.keySkills}
+          
+          isMyProfile={this.state.isMyProfile}
+          canEdit={this.state.canEdit}
+          
+          profile={this.state.profile}
+          profileChanges={this.state.profileChanges}
+          changeSkill={this.changeList}
+        />
       );
     } else if (this.state.tabdisp === "projects") {
       return (
