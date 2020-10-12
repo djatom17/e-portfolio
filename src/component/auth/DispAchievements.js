@@ -7,8 +7,8 @@ const { Title, Paragraph } = Typography;
 
 export class DispAchievements extends Component {
   state = {
-    profile: this.props.profile,
-    profileChanges: this.props.profileChanges,
+    profile: {},
+    profileChanges: {},
     inputVisible: false,
     inputValue: "",
     editInputIndex: -1,
@@ -16,25 +16,14 @@ export class DispAchievements extends Component {
   };
   componentDidMount() {
     this.setState({
-      // inputVisible: this.props.inputVisible,
-      // inputValue: this.props.inputValue,
-      // editInputIndex: this.props.editInputIndex,
-      // editInputValue: this.props.editInputValue,
       profile: this.props.profile,
-      profileChanges: this.props.profileChanges,
+      profileChanges: this.props.profileChanges
     });
   }
   // dynamic tag methods (delete, add, edit)
   showInput = () => {
     this.setState({ inputVisible: true });
     this.input.focus();
-  };
-
-  callBackAchieve = (editInputIndex, editInputValue) => {
-    this.setState({
-      editInputIndex: editInputIndex,
-      editInputValue: editInputValue,
-    });
   };
 
   handleInputChange = (e) => {
@@ -46,7 +35,6 @@ export class DispAchievements extends Component {
   };
 
   handleInputConfirm = (fieldName) => {
-    //const { inputValue } = this.state;
     let { profile, inputValue, profileChanges } = this.state;
 
     // confirm if array, and item to be add is not empty
@@ -65,15 +53,11 @@ export class DispAchievements extends Component {
       inputVisible: false,
       inputValue: "",
     });
-    // this.props.changeAchievement(
-    //   this.state.inputVisible,
-    //   this.state.inputValue,
-    //   this.state.editInputIndex,
-    //   this.state.editInputValue,
-    //   this.state.profile,
-    //   this.state.profileChanges
-    // );
-    // console.log(this.state.profileChanges);
+
+    this.props.changeAchievement(
+      this.state.profile,
+      this.state.profileChanges
+    );
   };
 
   handleCloseTag = (fieldName, removedTag) => {
