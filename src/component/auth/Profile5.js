@@ -63,106 +63,121 @@ class Profile5 extends Component {
     this.setState({ tabdisp: e.key });
   };
 
+  changeAchievement = (
+    inputVisible,
+    inputValue,
+    editInputIndex,
+    editInputValue,
+    profile,
+    profileChanges
+  ) => {
+    console.log(this.state.profile);
+
+    this.setState({
+      inputValue: inputValue,
+      inputVisible: inputVisible,
+      editInputIndex: editInputIndex,
+      editInputValue: editInputValue,
+      profile: profile,
+      profileChanges: profileChanges,
+    });
+    console.log(this.state.profile);
+  };
+
   // dynamic tag methods (delete, add, edit)
-  showInput = () => {
-    this.setState({ inputVisible: true }, () => this.input.focus());
-  };
+  // showInput = () => {
+  //   this.setState({ inputVisible: true }, () => this.input.focus());
+  // };
 
-  openEditBox = (index, item, e) => {
-    this.setState(
-      {
-        editInputIndex: index,
-        editInputValue: item,
-      },
-      () => {
-        this.editInput.focus();
-      }
-    );
-    e.preventDefault();
-  };
+  // callBackAchieve = (editInputIndex, editInputValue) => {
+  //   this.setState({
+  //     editInputIndex: editInputIndex,
+  //     editInputValue: editInputValue,
+  //   });
+  // };
 
-  handleInputChange = (e) => {
-    this.setState({ inputValue: e.target.value });
-  };
+  // handleInputChange = (e) => {
+  //   this.setState({ inputValue: e.target.value });
+  // };
 
-  handleEditInputChange = (e) => {
-    this.setState({ editInputValue: e.target.value });
-  };
+  // handleEditInputChange = (e) => {
+  //   this.setState({ editInputValue: e.target.value });
+  // };
 
-  handleInputConfirm = (fieldName) => {
-    //const { inputValue } = this.state;
-    let { profile, inputValue, profileChanges } = this.state;
+  // handleInputConfirm = (fieldName) => {
+  //   //const { inputValue } = this.state;
+  //   let { profile, inputValue, profileChanges } = this.state;
 
-    // confirm if array, and item to be add is not empty
-    // checks for duplicates, but maybe not do that here (?)
-    if (
-      inputValue &&
-      profile[fieldName] &&
-      profile[fieldName].indexOf(inputValue) === -1
-    ) {
-      profile[fieldName] = [...profile[fieldName], inputValue];
-      profileChanges[fieldName] = [...profile[fieldName]];
-    }
-    console.log(profile[fieldName]);
-    this.setState({
-      profile,
-      profileChanges,
-      inputVisible: false,
-      inputValue: "",
-    });
-  };
+  //   // confirm if array, and item to be add is not empty
+  //   // checks for duplicates, but maybe not do that here (?)
+  //   if (
+  //     inputValue &&
+  //     profile[fieldName] &&
+  //     profile[fieldName].indexOf(inputValue) === -1
+  //   ) {
+  //     profile[fieldName] = [...profile[fieldName], inputValue];
+  //     profileChanges[fieldName] = [...profile[fieldName]];
+  //   }
+  //   console.log(profile[fieldName]);
+  //   this.setState({
+  //     profile,
+  //     profileChanges,
+  //     inputVisible: false,
+  //     inputValue: "",
+  //   });
+  // };
 
-  handleCloseTag = (fieldName, removedTag) => {
-    const field = this.state.profile[fieldName].filter(
-      (tag) => tag !== removedTag
-    );
-    let { profile, profileChanges } = this.state;
-    profile[fieldName] = field;
-    profileChanges[fieldName] = field;
-    this.setState({
-      profile,
-      profileChanges,
-      editInputIndex: -1,
-      editInputValue: "",
-    });
-    // this.setState({ editInputIndex: -1, editInputValue: "" });
-  };
+  // handleCloseTag = (fieldName, removedTag) => {
+  //   const field = this.state.profile[fieldName].filter(
+  //     (tag) => tag !== removedTag
+  //   );
+  //   let { profile, profileChanges } = this.state;
+  //   profile[fieldName] = field;
+  //   profileChanges[fieldName] = field;
+  //   this.setState({
+  //     profile,
+  //     profileChanges,
+  //     editInputIndex: -1,
+  //     editInputValue: "",
+  //   });
+  //   // this.setState({ editInputIndex: -1, editInputValue: "" });
+  // };
 
-  handleEditInputConfirm = (fieldName) => {
-    this.setState(({ profile, editInputIndex, editInputValue }) => {
-      var newTags = [...profile[fieldName]];
-      newTags[editInputIndex] = editInputValue;
-      var addChange = {};
-      addChange[fieldName] = newTags;
+  // handleEditInputConfirm = (fieldName) => {
+  //   this.setState(({ profile, editInputIndex, editInputValue }) => {
+  //     var newTags = [...profile[fieldName]];
+  //     newTags[editInputIndex] = editInputValue;
+  //     var addChange = {};
+  //     addChange[fieldName] = newTags;
 
-      return {
-        profile: { ...this.state.profile, ...addChange },
-        profileChanges: { ...this.state.profileChanges, ...addChange },
-        editInputIndex: -1,
-        editInputValue: "",
-      };
-    });
-  };
+  //     return {
+  //       profile: { ...this.state.profile, ...addChange },
+  //       profileChanges: { ...this.state.profileChanges, ...addChange },
+  //       editInputIndex: -1,
+  //       editInputValue: "",
+  //     };
+  //   });
+  // };
 
-  saveInputRef = (input) => {
-    this.input = input;
-  };
+  // saveInputRef = (input) => {
+  //   this.input = input;
+  // };
 
-  saveEditInputRef = (input) => {
-    this.editInput = input;
-  };
+  // saveEditInputRef = (input) => {
+  //   this.editInput = input;
+  // };
 
-  // delete button for achievements
-  deleteButt = (item) => {
-    return (
-      <Button
-        type="link"
-        onClick={() => this.handleCloseTag("achievements", item)}
-      >
-        <DeleteOutlined />
-      </Button>
-    );
-  };
+  // // delete button for achievements
+  // deleteButt = (item) => {
+  //   return (
+  //     <Button
+  //       type="link"
+  //       onClick={() => this.handleCloseTag("achievements", item)}
+  //     >
+  //       <DeleteOutlined />
+  //     </Button>
+  //   );
+  // };
 
   getFiles(lst) {
     if (lst) {
@@ -210,14 +225,9 @@ class Profile5 extends Component {
           canEdit={this.state.canEdit}
           editInputIndex={this.state.editInputIndex}
           editInputValue={this.state.editInputValue}
-          handleInputChange={() => this.handleInputChange()}
-          handleEditInputChange={() => this.handleEditInputChange()}
-          saveInputRef={() => this.saveInputRef()}
-          saveEditInputRef={() => this.saveEditInputRef()}
-          handleInputConfirm={() => this.handleInputConfirm()}
-          openEditBox={() => this.openEditBox()}
-          deleteButt={() => this.deleteButt()}
-          showInput={() => this.showInput()}
+          profile={this.state.profile}
+          profileChanges={this.state.profileChanges}
+          changeAchievement={() => this.changeAchievement()}
         />
       );
     } else if (this.state.tabdisp === "skills") {
