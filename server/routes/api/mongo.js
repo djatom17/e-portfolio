@@ -6,7 +6,7 @@
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
  * of the University of Melbourne.
- * @requires express,mongodb,config,auth.js,./models/*
+ * @requires express,mongodb,auth.js,./models/*
  * @exports mongorouter,postUpload,fetchProfileByUID
  */
 var express = require("express");
@@ -18,6 +18,8 @@ const File = require("../../models/File");
 const UserProfile = require("../../models/UserProfile");
 
 const validObjectId = new RegExp("^[0-9a-fA-F]{24}$");
+const FILEPATH_S3 = "/api/file/dl/";
+const FILEPATH_PROFILE = "/profile/";
 
 /**
  * Fetches all profile entries stored in "profiles" in MongoDB.
@@ -36,10 +38,7 @@ mongorouter.get("/profiles", function (req, res, next) {
 
       console.log("[Mongoose] Fetched all profiles.");
       profiles.forEach((profile) => {
-        profile.image = "/api/file/dl/" + profile.image;
-        profile.linkToProfile =
-          "/profile/" +
-          (profile.linkToProfile ? profile.linkToProfile : profile._id);
+        profile = appendProfilePaths(profile);
       });
       res.send(profiles);
     });
@@ -72,11 +71,7 @@ mongorouter.get("/p/:ID", function (req, res, next) {
       // TODO: res.send
     } else {
       console.log("[Mongoose] Fetched " + req.params.ID);
-      profile.image = "/api/file/dl/" + profile.image;
-      profile.linkToProfile = "/profile/" + profile.linkToProfile;
-      profile.filesAndDocs.map(
-        (item) => (item.url = "/api/file/dl/" + item.url)
-      );
+      profile = appendProfilePaths(profile);
       res.send(profile);
     }
   }).lean();
@@ -179,10 +174,7 @@ const fetchProfileByUID = (uid, callback) => {
         return callback(err, null);
       }
       console.log("[Mongoose] Successfully fetched user profile.");
-      profile.image = "/api/file/dl/" + profile.image;
-      profile.filesAndDocs.map(
-        (item) => (item.url = "/api/file/dl/" + item.url)
-      );
+      profile = appendProfilePaths(profile);
       profile.userid = uid;
       //Successful operation
       return callback(null, profile);
@@ -254,6 +246,26 @@ const postDelete = (url, uid) => {
 // Confirm is valid ObjectID
 const isValidObjectId = (str) => {
   return validObjectId.test(str);
+};
+
+/**
+ * Appends full URI path into specific data fields.
+ * 
+ * Appends URI path for image, linkToProfile and filesAndDocs.
+ * 
+ * @function appendProfilePaths
+ * @param {Object} profile Profile Schema for profile data.
+ * 
+ * @returns profile after appending.
+ */
+const appendProfilePaths = (profile) => {
+  profile.image = FILEPATH_S3 + profile.image;
+  profile.linkToProfile = FILEPATH_PROFILE
+    + (profile.linkToProfile ? profile.linkToProfile : profile._id);
+  profile.filesAndDocs.map(
+    (item) => (item.url = FILEPATH_S3 + item.url)
+  );
+  return profile;
 };
 
 module.exports = {
