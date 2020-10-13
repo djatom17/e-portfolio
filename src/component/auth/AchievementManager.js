@@ -1,123 +1,29 @@
 import React, { Component, Fragment } from "react";
-import {Button, Row, Col, Typography, Input, Tag } from "antd";
+import { Button, Row, Col, Typography, Input, Tag } from "antd";
 import "antd/dist/antd.css";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import * as ProfileData from "../../api/ProfileData";
 
 const { Title, Paragraph } = Typography;
 
 export class AchievementManager extends Component {
   state = {
-    profile: {},
-    profileChanges: {},
     inputVisible: false,
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
   };
-  componentDidMount() {
-    this.setState({
-      profile: this.props.profile,
-      profileChanges: this.props.profileChanges
-    });
+  constructor() {
+    super();
+    this.handleInputChange = ProfileData.handleInputChange.bind(this);
+    this.handleEditInputChange = ProfileData.handleEditInputChange.bind(this);
+    this.handleInputConfirm = ProfileData.handleInputConfirm.bind(this);
+    this.handleCloseTag = ProfileData.handleCloseTag.bind(this);
+    this.handleEditInputConfirm = ProfileData.handleEditInputConfirm.bind(this);
+    this.saveInputRef = ProfileData.saveInputRef.bind(this);
+    this.saveEditInputRef = ProfileData.saveEditInputRef.bind(this);
+    this.deleteButt = ProfileData.deleteButt.bind(this);
   }
-  // dynamic tag methods (delete, add, edit)
-  handleInputChange = (e) => {
-    this.setState({ inputValue: e.target.value });
-  };
-
-  handleEditInputChange = (e) => {
-    this.setState({ editInputValue: e.target.value });
-  };
-
-  handleInputConfirm = (fieldName) => {
-    let { profile, inputValue, profileChanges } = this.state;
-
-    // confirm if array, and item to be add is not empty
-    // checks for duplicates, but maybe not do that here (?)
-    if (
-      inputValue &&
-      profile[fieldName] &&
-      profile[fieldName].indexOf(inputValue) === -1
-    ) {
-      profile[fieldName] = [...profile[fieldName], inputValue];
-      profileChanges[fieldName] = [...profile[fieldName]];
-    }
-    this.setState({
-      profile,
-      profileChanges,
-      inputVisible: false,
-      inputValue: "",
-    });
-
-    this.props.changeAchievement(
-      this.state.profile,
-      this.state.profileChanges
-    );
-  };
-
-  handleCloseTag = (fieldName, removedTag) => {
-    const field = this.state.profile[fieldName].filter(
-      (tag) => tag !== removedTag
-    );
-    let { profile, profileChanges } = this.state;
-    profile[fieldName] = field;
-    profileChanges[fieldName] = field;
-    this.setState({
-      profile,
-      profileChanges,
-      editInputIndex: -1,
-      editInputValue: "",
-    });
-    this.props.changeAchievement(
-      this.state.profile,
-      this.state.profileChanges
-    );
-    // this.setState({ editInputIndex: -1, editInputValue: "" });
-  };
-
-  handleEditInputConfirm = (fieldName) => {
-    let { profile, profileChanges,  editInputValue, editInputIndex  } = this.state;
-    
-      var newTags = [...profile[fieldName]];
-      newTags[editInputIndex] = editInputValue;
-      profile[fieldName] = newTags;
-      profileChanges[fieldName] = newTags;
-
-      console.log(this.state.profile)
-      this.setState({
-        profile,
-        profileChanges,
-        editInputIndex: -1,
-        editInputValue: "",
-      });
-      console.log(this.state.profile)
-
-      
-    this.props.changeAchievement(
-      this.state.profile,
-      this.state.profileChanges
-    );
-  };
-
-  saveInputRef = (input) => {
-    this.input = input;
-  };
-
-  saveEditInputRef = (input) => {
-    this.editInput = input;
-  };
-
-  // delete button for achievements
-  deleteButt = (item) => {
-    return (
-      <Button
-        type="link"
-        onClick={() => this.handleCloseTag("achievements", item)}
-      >
-        <DeleteOutlined />
-      </Button>
-    );
-  };
 
   render() {
     const {
@@ -129,14 +35,11 @@ export class AchievementManager extends Component {
     return (
       <div>
         <Title>Achievements</Title>
-        {console.log(this.state.profile.achievements)}
         <div>
           <Paragraph>
             {" "}
-            
-            {this.state.profile.achievements &&
-              this.state.profile.achievements.map((item, index) => {
-                
+            {this.props.data &&
+              this.props.data.map((item, index) => {
                 if (editInputIndex === index) {
                   return (
                     <Input.TextArea

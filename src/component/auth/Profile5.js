@@ -11,11 +11,7 @@ import EditButton from "./EditButton";
 import AchievementManager from "./AchievementManager";
 import SkillManager from "./SkillManager";
 import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
-import {
-  DeleteOutlined,
-  PaperClipOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { PaperClipOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
@@ -64,10 +60,7 @@ class Profile5 extends Component {
     this.setState({ tabdisp: e.key });
   };
 
-  changeList = (
-    profile,
-    profileChanges
-  ) => {
+  changeList = (profile, profileChanges) => {
     console.log(this.state.profile);
 
     this.setState({
@@ -76,7 +69,6 @@ class Profile5 extends Component {
     });
     console.log(this.state.profile);
   };
-
 
   getFiles(lst) {
     if (lst) {
@@ -116,11 +108,8 @@ class Profile5 extends Component {
     } else if (this.state.tabdisp === "achievements") {
       return (
         <AchievementManager
-          
-          
           isMyProfile={this.state.isMyProfile}
           canEdit={this.state.canEdit}
-          
           profile={this.state.profile}
           profileChanges={this.state.profileChanges}
           changeAchievement={this.changeList}
@@ -129,10 +118,8 @@ class Profile5 extends Component {
     } else if (this.state.tabdisp === "skills") {
       return (
         <SkillManager
-          
           isMyProfile={this.state.isMyProfile}
           canEdit={this.state.canEdit}
-          
           profile={this.state.profile}
           profileChanges={this.state.profileChanges}
           changeSkill={this.changeList}

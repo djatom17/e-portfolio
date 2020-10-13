@@ -8,7 +8,8 @@
  */
 import React from "react";
 import axios from "axios";
-import { Typography } from "antd";
+import { Typography, Button } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 const { Paragraph } = Typography;
 
 /**
@@ -168,3 +169,79 @@ export function changeLayout(str, info) {
   this.setState({ layout: str });
 }
 // End of modal Functions
+
+// Adding , Deleting and Editing of data helper functions-
+
+export function handleInputChange(e) {
+  this.setState({ inputValue: e.target.value });
+}
+
+export function handleEditInputChange(e) {
+  this.setState({ editInputValue: e.target.value });
+}
+
+export function handleInputConfirm(fieldName) {
+  let { inputValue } = this.state;
+  let data = this.props.data;
+
+  // confirm if array, and item to be add is not empty
+  // checks for duplicates, but maybe not do that here (?)
+  if (inputValue && data && data.indexOf(inputValue) === -1) {
+    data = [...data, inputValue];
+  }
+  this.setState({
+    inputVisible: false,
+    inputValue: "",
+  });
+  this.props.changeList(data, fieldName);
+}
+
+export function handleCloseTag(fieldName, removedTag) {
+  const field = this.props.data.filter((tag) => tag !== removedTag);
+  let data = this.props.data;
+  data = field;
+  this.setState({
+    editInputIndex: -1,
+    editInputValue: "",
+  });
+  this.props.changeList(data, fieldName);
+  // this.setState({ editInputIndex: -1, editInputValue: "" });
+}
+
+export function handleEditInputConfirm(fieldName) {
+  let { editInputValue, editInputIndex } = this.state;
+  let data = this.props.data;
+
+  var newTags = [...data];
+  newTags[editInputIndex] = editInputValue;
+  data = newTags;
+  // profileChanges[fieldName] = newTags;
+
+  this.setState({
+    editInputIndex: -1,
+    editInputValue: "",
+  });
+
+  this.props.changeList(data, fieldName);
+}
+
+export function saveInputRef(input) {
+  this.input = input;
+}
+
+export function saveEditInputRef(input) {
+  this.editInput = input;
+}
+
+// delete button for achievements
+export function deleteButt(item) {
+  return (
+    <Button
+      type="link"
+      onClick={() => this.handleCloseTag("achievements", item)}
+    >
+      <DeleteOutlined />
+    </Button>
+  );
+}
+//End of Adding , Deleting and Editing of data helper functions
