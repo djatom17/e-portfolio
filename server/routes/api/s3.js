@@ -33,30 +33,37 @@ s3router.post("/upload", auth, function (req, res, next) {
   console.log("[S3] Trying to upload file ");
 
   var busboy = new Busboy({ headers: req.headers });
+  var hashName = "";
   busboy.on("finish", function () {
     var file = req.files.file;
 
     // Obtain hashed name for storage
     var md5sum = crypto.createHash("md5");
     md5sum.update(file.data);
-    var hashName = md5sum.digest("hex");
+    hashName = md5sum.digest("hex");
 
     var params = { Bucket: AWSBucket, Key: hashName, Body: file.data };
-    s3.upload(params, function (err, res) {
+    s3.upload(params, function (err, s3res) {
       if (err) {
         console.log("[S3] Upload failed");
         res.status(500);
       } else {
         console.log("[S3] Upload success");
-        mongo.postUpload(file.name, hashName, req.user.id);
+        mongo
+          .postUpload(file.name, hashName, req.user.id)
+          .then((success) => {
+            console.log(success);
+            res.status(200).json({ fileUrl: hashName });
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json({ error: err });
+          });
       }
     });
   });
 
   req.pipe(busboy);
-  res.status(200);
-  res.send(null);
-  //res.redirect("back");
 });
 
 // Delete file from S3 and remove database entry.

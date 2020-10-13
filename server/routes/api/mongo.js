@@ -206,22 +206,27 @@ const fetchProfileByUID = (uid, callback) => {
  */
 const postUpload = (name, url, uid) => {
   console.log("[Mongoose] Creating file entry");
-
-  // Find the profile corresponding to the user and retrieve it.
-  fetchProfileByUID(uid, (e, profile) => {
-    if (!e && profile) {
-      // Hydrate object received as it is lean.
-      profile = Profile.hydrate(profile);
-      profile.filesAndDocs.push({ name, url });
-      profile.save((err) => {
-        if (err) console.log("[Mongoose] File entry creation failed ", err);
-        else {
-          console.log("[Mongoose] File entry created.");
-        }
-      });
-    } else {
-      console.log("[Mongoose] File entry creation unsuccessful.");
-    }
+  return new Promise((resolve, reject) => {
+    // Find the profile corresponding to the user and retrieve it.
+    fetchProfileByUID(uid, (e, profile) => {
+      if (!e && profile) {
+        // Hydrate object received as it is lean.
+        profile = Profile.hydrate(profile);
+        profile.filesAndDocs.push({ name, url });
+        profile.save((err) => {
+          if (err) {
+            console.log("[Mongoose] File entry creation failed ", err);
+            reject("Mongoose was unable to save new file entry.");
+          } else {
+            console.log("[Mongoose] File entry created.");
+            resolve("Success!");
+          }
+        });
+      } else {
+        console.log("[Mongoose] File entry creation unsuccessful.");
+        reject("Mongoose was unable to find profile of the user " + uid);
+      }
+    });
   });
 };
 
