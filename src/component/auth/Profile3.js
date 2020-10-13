@@ -286,7 +286,7 @@ class Profile3 extends Component {
     );
 
     return (
-      <div clasName="container-fluid mx-4">
+      <div className="container-fluid mx-4">
         {/* row contains: name, curr job */}
 
         <Row className=" mt-4 ml-5" justify="space-between">
