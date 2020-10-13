@@ -4,7 +4,7 @@
  * @copyright This material is made available to you by or on behalf
  * of the University of Melbourne.
  * @requires react,axios
- * @exports getProfile,getElements,getName,getCurrJob
+ * @exports getProfile,getElements,getName,getCurrJob,updateProfile
  */
 import React from "react";
 import axios from "axios";
@@ -24,7 +24,7 @@ import axios from "axios";
  * @param {Requester~requestCallback} callback - Handles callback for response.
  */
 export function getProfile(profileID, callback) {
-  axios.get("/info/p/" + profileID).then((res) => {
+  axios.get("/api/mongo/p/" + profileID).then((res) => {
     return callback(res.data);
   });
 }
@@ -92,7 +92,7 @@ export function updateProfile(pid, profileChanges, token) {
     profileChanges.constructor === Object
   ) {
     axios
-      .post("/info/p-update/" + pid, profileChanges, {
+      .post("/api/mongo/p-update/" + pid, profileChanges, {
         headers: { "x-auth-token": token, "Content-Type": "application/json" },
       })
       .then((res) => {

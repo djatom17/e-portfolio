@@ -35,7 +35,7 @@ class Browse extends Component {
   };
 
   getProfiles = () => {
-    axios.get("/info/profiles").then((res) => {
+    axios.get("/api/mongo/profiles").then((res) => {
       const data = res.data;
       this.setState({ profiles: data });
       console.log("data received");
@@ -228,7 +228,7 @@ class Browse extends Component {
 //     };
 
 // getProfiles = () => {
-//     axios.get('/info/profiles')
+//     axios.get('/api/mongo/profiles')
 //     .then((res) => {
 //         const data = res.data;
 //         this.setState({ profiles : data });

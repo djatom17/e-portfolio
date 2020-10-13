@@ -1,7 +1,36 @@
+/**
+ * This file provides a schema for storing user profile's information
+ *  on the MongoDB
+ * 
+ * @file Schema for Profile, consistent with profiles in Mongo
+ * @author Team Ctrl-Alt-Elite
+ * @copyright This material is made available to you by or on behalf
+ * of the University of Melbourne.
+ * @requires mongoose,./File
+ * @exports Profile
+ */
 const mongoose = require("mongoose");
 const FileSchema = require('./File');
 
-//Schema for each Profile stored in MongoDB
+/**
+ * MongoDB Schema to store all profile information of a user.
+ * 
+ * @param {String} firstName First name of the user.
+ * @param {String} lastName Last name of the user.
+ * @param {String[]} keySkills Array of key user skills. 
+ * @param {String[]} workHistory Array of past user work experiences.
+ * @param {String[]} education Array of user academic experiences.
+ * @param {String} image filepath to user's profile picture on S3.
+ * @param {String} linkToProfile unique url to user profile page.
+ * @param {String[]} social Array of links to user-given social media.
+ * @param {FileSchema[]} filesAndDocs Array of File of uploaded user documents.
+ * @param {String} about A description of user.
+ * @param {String[]} achievements Array of user achievements.
+ * @param {String} subtitle A brief description or text from user.
+ * @param {Int} layout Option of user chosen profile display layout.
+ * @param {Boolean} isNewUser Flag to indicate user has newly registered but 
+ *  has not set up profile information.
+ */
 const ProfileSchema = new mongoose.Schema({
   firstName: {
     type: String,
