@@ -7,12 +7,17 @@ const Busboy = require("busboy");
 const auth = require("./auth");
 const mongo = require("./mongo");
 const AWSBucket = "cae-eportfolio";
+
 const s3 = new AWS.S3({
   accessKeyId: config.get("iamUser"),
   secretAccessKey: config.get("iamSecret"),
 });
 
-// GET a specified file from the S3 bucket.
+/**
+ * Handles GET request for a file in S3 bucket.
+ * 
+ * Fetches the file from S3, specified from the filename in req.params[0].
+ */
 s3router.get("/dl/*", function (req, res, next) {
   var params = { Bucket: AWSBucket, Key: req.params[0] };
   console.log("[S3] Trying to get file ", req.params[0]);
@@ -73,6 +78,10 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
   );
 
   // TODO: check if req.user.id matches file owner before deleting
+  if (!validateFileOwner(req.user.id, req.params.file))
+  {
+    res.send(null);
+  }
 
   var params = { Bucket: AWSBucket, Key: req.params.file };
   s3.deleteObject(params, (err, res) => {
@@ -86,5 +95,38 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
   // TODO: proper res.send
   res.send(null);
 });
+
+/**
+ * Checks if the given userID has permission to edit a given file.
+ * 
+ * Fetches the profile of given userID and check file existence in the
+ * fetched profile. Explicitly has permission if user owns the profile
+ * containing the file.
+ * 
+ * @function [validateFileOwner]
+ * @param {String} userID uid of User.
+ * @param {String} userFile hashname of file to validate permission of.
+ * 
+ * @returns {Boolean} 
+ */
+const validateFileOwner = (userID, userFile) => {
+  mongo.fetchProfileByUID(userID, (err, profile) => {
+    if (err || !profile)
+    {
+      console.log("[S3] Permission to modify file denied.");
+      return false;
+    }
+    else if (profile.filesAndDocs.filter(file => file.url === userFile)) 
+    {
+      console.log("[S3] Permission validated.");
+      return true;
+    }
+    else
+    {
+      console.log("[S3] User does not own file.");
+      return false;
+    }
+  });
+};
 
 module.exports = s3router;

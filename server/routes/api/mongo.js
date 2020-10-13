@@ -182,7 +182,6 @@ const fetchProfileByUID = (uid, callback) => {
   });
 };
 
-// Post-upload from S3, performs match between file, its hash, and uploader ID
 /**
  * Creates a document entry in "files" table in MongoDB.
  *
