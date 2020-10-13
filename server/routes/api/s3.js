@@ -1,3 +1,14 @@
+/**
+ * This file mainly provides backend functions for handling
+ * communications with AWS S3 bucket.
+ *
+ * @file  API for AWS S3 interactions
+ * @author Team Ctrl-Alt-Elite
+ * @copyright This material is made available to you by or on behalf
+ * of the University of Melbourne.
+ * @requires express,crypto,aws-sdk,././config,busboy,./mongo,./auth,./models/*
+ * @exports s3router
+ */
 var express = require("express");
 var s3router = express.Router();
 var crypto = require("crypto");
@@ -6,8 +17,8 @@ const AWS = require("aws-sdk");
 const Busboy = require("busboy");
 const auth = require("./auth");
 const mongo = require("./mongo");
-const AWSBucket = "cae-eportfolio";
 
+const AWSBucket = config.get("s3Bucket");
 const s3 = new AWS.S3({
   accessKeyId: config.get("iamUser"),
   secretAccessKey: config.get("iamSecret"),
@@ -32,8 +43,15 @@ s3router.get("/dl/*", function (req, res, next) {
   });
 });
 
-// Upload file to S3 and create database entry.
-// AUTHENTICATION REQUIRED
+/**
+ * Handles POST request for uploading file onto S3 and logging.
+ * 
+ * 1. Creates a hashname from file contents and use it as key in S3.
+ * 2. upload file onto S3 bucket.
+ * 3. Create a new File entry in the user's profile for logging.
+ * 
+ * @requires ./auth
+ */
 s3router.post("/upload", auth, function (req, res, next) {
   console.log("[S3] Trying to upload file ");
 
@@ -54,6 +72,7 @@ s3router.post("/upload", auth, function (req, res, next) {
         res.status(500);
       } else {
         console.log("[S3] Upload success");
+        //Create new File entry in user's Profile.
         mongo
           .postUpload(file.name, hashName, req.user.id)
           .then((success) => {
@@ -71,7 +90,16 @@ s3router.post("/upload", auth, function (req, res, next) {
   req.pipe(busboy);
 });
 
-// Delete file from S3 and remove database entry.
+/**
+ * Handles POST request for removing a file on S3 and its record on user Profile.
+ * 
+ * 1. Validates the owner of the file is the requesting user.
+ * 2. If validated, removes the file from S3 bucket and the File entry from
+ *  user's Profile.
+ * 3. Does nothing if validation fails.
+ * 
+ * @requires ./auth
+ */
 s3router.post("/remove/:file", auth, function (req, res, next) {
   console.log(
     "[S3] Trying to remove file " + req.params.file + " owned by " + req.user.id
