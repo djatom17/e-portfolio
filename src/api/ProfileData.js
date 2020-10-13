@@ -247,6 +247,7 @@ export function saveEditInputRef(input) {
 }
 
 // delete button for achievements
+// TODO: generalize field
 export function deleteButt(item) {
   return (
     <Button
