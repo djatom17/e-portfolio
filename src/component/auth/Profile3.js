@@ -9,26 +9,16 @@ import {
   Col,
   Avatar,
   Typography,
-  Input,
   Button,
   Divider,
   Tabs,
-  
   Upload,
-  Tag,
- 
   message,
- 
 } from "antd";
 import {
   LinkedinOutlined,
   TwitterOutlined,
   GithubOutlined,
-  UploadOutlined,
-  PlusOutlined,
-  DeleteOutlined,
-  LoadingOutlined,
-  CaretRightOutlined,
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
@@ -76,11 +66,15 @@ class Profile3 extends Component {
     super();
     this.setEditablefieldName = ProfileData.setEditableStr.bind(this);
     this.setEditablefieldNameArr = ProfileData.setEditableStrArr.bind(this);
+    this.showModal = ProfileData.showModal.bind(this);
+    this.handleOk = ProfileData.handleOk.bind(this);
+    this.handleCancel = ProfileData.handleCancel.bind(this);
+    this.changeLayout = ProfileData.changeLayout.bind(this);
+    this.changeList = ProfileData.changeList.bind(this);
   }
-  
-  componentDidMount = () => {
-    this.setState({ profile: this.props.profile });
 
+  componentDidMount() {
+    this.setState({ profile: this.props.profile });
     //Authorisation check.
     this.props.isAuthenticated &&
     this.props.profile.userid &&
@@ -88,7 +82,7 @@ class Profile3 extends Component {
     this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
       ? this.setState({ isMyProfile: true })
       : this.setState({ isMyProfile: false });
-  };
+  }
 
   handleButtonClick = () => {
     // Make changes reflect on database
@@ -103,21 +97,6 @@ class Profile3 extends Component {
     });
   };
 
-  // callback function that changes lists in this.state.profile
-  changeList = (
-    profile,
-    profileChanges
-  ) => {
-    console.log(this.state.profile);
-
-    this.setState({
-      profile: profile,
-      profileChanges: profileChanges,
-    });
-    console.log(this.state.profile);
-  };
-
-  
   // pfp hovering methods
   onEnterPFP = () => {
     this.setState({ pfpVisible: false });
@@ -143,45 +122,10 @@ class Profile3 extends Component {
       );
     }
   };
-  //Modal  helper Functions
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleOk = (num, info) => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 3000);
-
-    ProfileData.updateProfile(
-      this.state.profile._id,
-      { layout: num },
-      this.props.token
-    );
-    window.location.reload();
-  };
-
-  handleCancel = () => {
-    this.setState({ visible: false });
-  };
-
-  changeLayout = (str, info) => {
-    this.setState({ layout: str });
-  };
-  // End of modal Functions
 
   render() {
     // for tags
-    const {
-      inputVisible,
-      inputValue,
-      editInputIndex,
-      editInputValue,
-      pfpVisible,
-    } = this.state;
+    const { pfpVisible } = this.state;
 
     // pfp
     const pfp = (
@@ -198,6 +142,16 @@ class Profile3 extends Component {
       <Avatar shape="square" size={200}>
         <Upload> Change </Upload>
       </Avatar>
+    );
+    const ach = (
+      <Fragment>
+        <AchievementManager
+          isMyProfile={this.state.isMyProfile}
+          canEdit={this.state.canEdit}
+          changeList={this.changeList}
+          data={this.state.profile.achievements}
+        />
+      </Fragment>
     );
 
     const editButt = (
@@ -293,31 +247,18 @@ class Profile3 extends Component {
         {/* tab 1: achievements */}
         <Row className=" my-4 ml-5">
           <Tabs onChange={callback} type="card">
-          <TabPane key="0"></TabPane>
             <TabPane tab="Achievements" key="1">
-            <AchievementManager
-          
-          isMyProfile={this.state.isMyProfile}
-          canEdit={this.state.canEdit}
-          
-          profile={this.state.profile}
-          profileChanges={this.state.profileChanges}
-          changeAchievement={this.changeList}/>
-          </TabPane>
+              {ach}
+            </TabPane>
 
             {/* Tab 2: skills  */}
             <TabPane tab="Skills" key="2">
-            <SkillManager
-          
-          isMyProfile={this.state.isMyProfile}
-          canEdit={this.state.canEdit}
-          
-          profile={this.state.profile}
-          profileChanges={this.state.profileChanges}
-          changeSkill={this.changeList}/>
-
-          
-              
+              <SkillManager
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+                data={this.state.profile.keySkills}
+                changeList={this.changeList}
+              />
             </TabPane>
             <TabPane tab="Projects" key="3">
               <Typography.Title>Projects</Typography.Title>

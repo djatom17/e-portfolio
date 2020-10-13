@@ -52,22 +52,13 @@ class Profile5 extends Component {
     this.handleOk = ProfileData.handleOk.bind(this);
     this.handleCancel = ProfileData.handleCancel.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
+    this.changeList = ProfileData.changeList.bind(this);
   }
 
   // Tab click event handler
   handleTabClick = (e) => {
     console.log("click ", e);
     this.setState({ tabdisp: e.key });
-  };
-
-  changeList = (profile, profileChanges) => {
-    console.log(this.state.profile);
-
-    this.setState({
-      profile: profile,
-      profileChanges: profileChanges,
-    });
-    console.log(this.state.profile);
   };
 
   getFiles(lst) {
@@ -110,9 +101,8 @@ class Profile5 extends Component {
         <AchievementManager
           isMyProfile={this.state.isMyProfile}
           canEdit={this.state.canEdit}
-          profile={this.state.profile}
-          profileChanges={this.state.profileChanges}
-          changeAchievement={this.changeList}
+          data={this.state.profile.achievements}
+          changeList={this.changeList}
         />
       );
     } else if (this.state.tabdisp === "skills") {
@@ -120,9 +110,8 @@ class Profile5 extends Component {
         <SkillManager
           isMyProfile={this.state.isMyProfile}
           canEdit={this.state.canEdit}
-          profile={this.state.profile}
-          profileChanges={this.state.profileChanges}
-          changeSkill={this.changeList}
+          data={this.state.profile.keySkills}
+          changeList={this.changeList}
         />
       );
     } else if (this.state.tabdisp === "projects") {

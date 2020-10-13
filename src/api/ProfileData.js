@@ -144,6 +144,19 @@ export function getElementsNew(lst, property) {
   }
 }
 
+// callback function that changes lists in this.state.profile
+export function changeList(data, fieldName) {
+  let { profile, profileChanges } = this.state;
+  profile[fieldName] = data;
+  profileChanges[fieldName] = [...profile[fieldName]];
+
+  this.setState({
+    profile,
+    profileChanges,
+  });
+  console.log(this.state.profile);
+}
+
 //Modal  helper Functions
 export function showModal() {
   this.setState({
