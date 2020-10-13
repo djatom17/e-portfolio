@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import { Redirect } from "react-router-dom";
+import GoogleButton from "./GoogleButton";
 
 class Login extends Component {
   state = {
@@ -83,6 +84,9 @@ class Login extends Component {
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
+              <div>
+                <GoogleButton />
+              </div>
             </div>
           </div>
         </div>
