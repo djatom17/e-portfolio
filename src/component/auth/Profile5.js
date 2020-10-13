@@ -5,11 +5,11 @@ import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
-import Settings from "./Settings";
-import DragUpload from "./DragUpload";
-import EditButton from "./EditButton";
-import AchievementManager from "./AchievementManager";
-import SkillManager from "./SkillManager";
+import Settings from "../profileDisplays/Settings";
+import DragUpload from "../profileDisplays/DragUpload";
+import EditButton from "../profileDisplays/EditButton";
+import AchievementManager from "../profileDisplays/AchievementManager";
+import SkillManager from "../profileDisplays/SkillManager";
 import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
 

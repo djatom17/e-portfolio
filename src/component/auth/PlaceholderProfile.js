@@ -7,7 +7,6 @@ import * as ProfileData from "../../api/ProfileData";
 import Profile from "./Profile";
 import Profile2 from "./Profile2";
 import Profile3 from "./Profile3";
-import Profile4 from "./Profile4";
 import Profile5 from "./Profile5";
 
 class PlaceholderProfile extends Component {
@@ -17,7 +16,6 @@ class PlaceholderProfile extends Component {
     prf1: Profile,
     prf2: Profile2,
     prf3: Profile3,
-    prf4: Profile4,
     prf5: Profile5,
   };
 

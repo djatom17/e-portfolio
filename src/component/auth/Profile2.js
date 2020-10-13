@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-// import { Link } from "react-router-dom";
-import axios from "axios";
+import AchievementManager from "../profileDisplays/AchievementManager";
+import SkillManager from "../profileDisplays/SkillManager";
+import Settings from "../profileDisplays/Settings";
 import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
-import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
 import {
   Row,

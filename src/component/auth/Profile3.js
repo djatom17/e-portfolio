@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
-import AchievementManager from "./AchievementManager";
-import SkillManager from "./SkillManager";
-import Settings from "./Settings";
+import AchievementManager from "../profileDisplays/AchievementManager";
+import SkillManager from "../profileDisplays/SkillManager";
+import Settings from "../profileDisplays/Settings";
 import { connect } from "react-redux";
 import * as ProfileData from "../../api/ProfileData";
 import {
