@@ -183,16 +183,43 @@ export function changeLayout(str, info) {
 }
 // End of modal Functions
 
-// Adding , Deleting and Editing of data helper functions-
+// Editable List Helper Functions: Add, Delete and Edit.
 
+/**
+ *
+ * Sets inputValue (new) to be text from input event
+ *
+ * @function [handleInputChange]
+ * @param {event} e - Input Event.
+ *
+ */
 export function handleInputChange(e) {
   this.setState({ inputValue: e.target.value });
 }
 
+/**
+ *
+ * Sets editInputValue (existing) to be text from input event
+ *
+ * @function [handleEditInputChange]
+ * @param {event} e - Input Event.
+ *
+ */
 export function handleEditInputChange(e) {
   this.setState({ editInputValue: e.target.value });
 }
 
+/**
+ *
+ * Updates the values given fieldName in the profile state variable
+ * by adding new elements as directed the UI
+ *
+ * This change is passed on to the database to be updated
+ *
+ * @function [handleInputConfirm]
+ * @param {String} fieldName - String name of the list in profile being modified e.g. "keySkills".
+ *
+ */
 export function handleInputConfirm(fieldName) {
   let { inputValue } = this.state;
   let data = this.props.data;
@@ -209,6 +236,18 @@ export function handleInputConfirm(fieldName) {
   this.props.changeList(data, fieldName);
 }
 
+/**
+ *
+ * Updates the values given fieldName in the profile state variable
+ * by removing elements as directed by the UI
+ *
+ * This change is passed on to the database to be updated
+ *
+ * @function [handleCloseTag]
+ * @param {String} fieldName - String name of the list in profile being modified e.g. "keySkills".
+ * @param {String} removedTag - String value of the item to be removed from the list  e.g "Machine learning"
+ *
+ */
 export function handleCloseTag(fieldName, removedTag) {
   const field = this.props.data.filter((tag) => tag !== removedTag);
   let data = this.props.data;
@@ -221,6 +260,17 @@ export function handleCloseTag(fieldName, removedTag) {
   // this.setState({ editInputIndex: -1, editInputValue: "" });
 }
 
+/**
+ *
+ * Updates the values given fieldName in the profile state variable
+ * by editing elements as directed by the UI
+ *
+ * This change is passed on to the database to be updated
+ *
+ * @function [handleEditInputConfirm]
+ * @param {String} fieldName - String name of the list in profile being modified e.g. "keySkills".
+ *
+ */
 export function handleEditInputConfirm(fieldName) {
   let { editInputValue, editInputIndex } = this.state;
   let data = this.props.data;
@@ -238,15 +288,26 @@ export function handleEditInputConfirm(fieldName) {
   this.props.changeList(data, fieldName);
 }
 
+// helper function to track input
 export function saveInputRef(input) {
   this.input = input;
 }
 
+// helper function to track input
 export function saveEditInputRef(input) {
   this.editInput = input;
 }
 
-// delete button for achievements
+/**
+ *
+ * Returns a functional delete button for any item in a list
+ *
+ * Intended to be only used when a profile is in edit mode
+ *
+ * @function [deleteButt]
+ * @param {String} item - String value of the item to be removed from the list e.g "Machine learning"
+ *
+ */
 // TODO: generalize field
 export function deleteButt(item) {
   return (
