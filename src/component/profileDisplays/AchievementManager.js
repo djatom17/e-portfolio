@@ -83,7 +83,7 @@ export class AchievementManager extends Component {
                     </Col>
                     <Col flex="10px">
                       {this.props.isMyProfile && this.props.canEdit
-                        ? this.deleteButt(item)
+                        ? this.deleteButt("achievements", item)
                         : null}
                     </Col>
                   </Row>

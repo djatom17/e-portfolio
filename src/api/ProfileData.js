@@ -305,16 +305,13 @@ export function saveEditInputRef(input) {
  * Intended to be only used when a profile is in edit mode
  *
  * @function [deleteButt]
+ * @param {String} fieldName - String name of the list on which the delete button will be used e.g. "keySkills".
  * @param {String} item - String value of the item to be removed from the list e.g "Machine learning"
  *
  */
-// TODO: generalize field
-export function deleteButt(item) {
+export function deleteButt(fieldName, item) {
   return (
-    <Button
-      type="link"
-      onClick={() => this.handleCloseTag("achievements", item)}
-    >
+    <Button type="link" onClick={() => this.handleCloseTag(fieldName, item)}>
       <DeleteOutlined />
     </Button>
   );
