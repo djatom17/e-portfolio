@@ -289,6 +289,7 @@ img {
   width: 25vw;
   margin-bottom: -16px;
 }
+
 .prof5-img {
   padding: 10px;
   margin-left: auto;
@@ -296,12 +297,21 @@ img {
   width: 15vw;
   text-align: center;
 }
+
 .modified-item:hover {
   border-bottom: 2px transparent !important;
   color: white !important;
 }
+
 .prof5-about {
   width: 50vw;
+}
+
+.prof5-utility-buttons {
+  right: 5px;
+  top: 5px;
+  position: absolute;
+  z-index: 10;
 }
 
 .h1size {

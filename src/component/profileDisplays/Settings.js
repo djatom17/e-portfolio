@@ -14,9 +14,6 @@ export class Settings extends Component {
   render() {
     return (
       <Fragment>
-        <Button type="primary" onClick={this.props.showModal}>
-          Settings
-        </Button>
         <Modal
           visible={this.props.visible}
           title="Customisablity Settings"

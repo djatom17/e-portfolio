@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import Settings from "../profileDisplays/Settings";
+import EditButton from "../profileDisplays/EditButton";
 import { connect } from "react-redux";
 import * as ProfileData from "../../api/ProfileData";
 import {
@@ -143,31 +144,6 @@ class Profile3 extends Component {
         <Upload> Change </Upload>
       </Avatar>
     );
-    const ach = (
-      <Fragment>
-        <AchievementManager
-          isMyProfile={this.state.isMyProfile}
-          canEdit={this.state.canEdit}
-          changeList={this.changeList}
-          data={this.state.profile.achievements}
-        />
-      </Fragment>
-    );
-
-    const editButt = (
-      <Fragment>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#mobile-nav"
-          onClick={this.handleButtonClick}
-          style={{ height: 50, color: "blue" }}
-        >
-          {this.state.canEdit ? "Done" : "Edit"}
-        </button>
-      </Fragment>
-    );
 
     return (
       <div clasName="container-fluid mx-4">
@@ -182,7 +158,21 @@ class Profile3 extends Component {
             </h2>
           </Col>
           <Col className="mr-5">
-            {this.state.isMyProfile ? editButt : null}{" "}
+            {this.state.isMyProfile ? (
+              <EditButton
+                _id={this.state.profile._id}
+                profileChanges={this.state.profileChanges}
+                token={this.props.token}
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+                changeEdit={() =>
+                  this.setState({
+                    canEdit: !this.state.canEdit,
+                    profileChanges: {},
+                  })
+                }
+              />
+            ) : null}
           </Col>
         </Row>
         {/* row contains: pfp, about me, social media icons */}
@@ -248,7 +238,12 @@ class Profile3 extends Component {
         <Row className=" my-4 ml-5">
           <Tabs onChange={callback} type="card">
             <TabPane tab="Achievements" key="1">
-              {ach}
+              <AchievementManager
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+                changeList={this.changeList}
+                data={this.state.profile.achievements}
+              />
             </TabPane>
 
             {/* Tab 2: skills  */}

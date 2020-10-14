@@ -19,16 +19,14 @@ export class EditButton extends Component {
   render() {
     return (
       <Fragment>
-        <button
-          className="navbar-toggler"
-          type="button"
+        <Button
+          type="primary"
           data-toggle="collapse"
           data-target="#mobile-nav"
           onClick={() => this.handleEditButtonClick()}
-          style={{ height: 50, color: "blue" }}
         >
           {this.props.isMyProfile && this.props.canEdit ? "Done" : "Edit"}
-        </button>
+        </Button>
       </Fragment>
     );
   }

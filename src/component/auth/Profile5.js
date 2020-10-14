@@ -7,6 +7,7 @@ import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
 import Settings from "../profileDisplays/Settings";
 import DragUpload from "../profileDisplays/DragUpload";
+import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
@@ -188,34 +189,46 @@ class Profile5 extends Component {
             </div>
           </Col>
           <Col offset={2} flex={5} className="prof5-about ml-n3">
-            {this.displayProfileSeg()}
-            {this.state.isMyProfile ? (
-              <Settings
-                handleOk={this.handleOk}
-                handleCancel={this.handleCancel}
-                showModal={this.showModal}
-                layout={this.state.layout}
-                visible={this.state.visible}
-                loading={this.state.loading}
-              />
-            ) : null}
-          </Col>
-          <Col>
-            {this.state.isMyProfile ? (
-              <EditButton
-                _id={this.state.profile._id}
-                profileChanges={this.state.profileChanges}
-                token={this.props.token}
-                isMyProfile={this.state.isMyProfile}
-                canEdit={this.state.canEdit}
-                changeEdit={() =>
-                  this.setState({
-                    canEdit: !this.state.canEdit,
-                    profileChanges: {},
-                  })
-                }
-              />
-            ) : null}
+            <div className="prof5-utility-buttons ">
+              {this.state.isMyProfile ? (
+                <Row className="mt-3" justify="end" gutter={8}>
+                  <Col>
+                    <EditButton
+                      _id={this.state.profile._id}
+                      profileChanges={this.state.profileChanges}
+                      token={this.props.token}
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      changeEdit={() =>
+                        this.setState({
+                          canEdit: !this.state.canEdit,
+                          profileChanges: {},
+                        })
+                      }
+                    />
+                  </Col>
+                  <Col>
+                    <SettingsButton showModal={this.showModal} />
+                  </Col>
+                </Row>
+              ) : null}
+            </div>
+            <Row className="mt-3">
+              <Col>
+                {" "}
+                {this.displayProfileSeg()}
+                {this.state.isMyProfile ? (
+                  <Settings
+                    handleOk={this.handleOk}
+                    handleCancel={this.handleCancel}
+                    showModal={this.showModal}
+                    layout={this.state.layout}
+                    visible={this.state.visible}
+                    loading={this.state.loading}
+                  />
+                ) : null}
+              </Col>
+            </Row>
           </Col>
         </Row>
       </div>
