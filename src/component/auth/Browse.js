@@ -114,41 +114,40 @@ class Browse extends Component {
     if (!profiles.length) return null;
     return profiles.map((profile, index) => (
       <Card className="m-5" hoverable={true}>
-        <div
-          className="browse-outer"
-          onClick={() => (window.location.href = profile.linkToProfile)}
-        >
+        <div className="browse-outer">
           {/* Row contains: profile name, skills*/}
-          <Row type="flex" justify="space-between" className="mb-n3">
-            <Col className="ml-4">
-              <h1 className="browse-name">
-                {profile.firstName.concat(" ", profile.lastName)}
-              </h1>
-            </Col>
-            <Col className="browse-skills mt-2">
-              {this.displaySkillTags(profile.keySkills)}
-            </Col>
-          </Row>
-          <Divider />
-          {/* Row contains: pfp, (work, education) */}
-          <Row>
-            <Col>
-              <Avatar
-                src={profile.image}
-                shape="square"
-                size={200}
-                className="ml-4"
-              />
-            </Col>
-            <Col offset={1}>
-              <Row>
-                <Col>{this.displayJob(profile)}</Col>
-              </Row>
-              <Row>
-                <Col> {this.displayQualifications(profile.education)}</Col>
-              </Row>
-            </Col>
-          </Row>
+          <span onClick={() => (window.location.href = profile.linkToProfile)}>
+            <Row type="flex" justify="space-between" className="mb-n3">
+              <Col className="ml-4">
+                <h1 className="browse-name">
+                  {profile.firstName.concat(" ", profile.lastName)}
+                </h1>
+              </Col>
+              <Col className="browse-skills mt-2">
+                {this.displaySkillTags(profile.keySkills)}
+              </Col>
+            </Row>
+            <Divider />
+            {/* Row contains: pfp, (work, education) */}
+            <Row>
+              <Col>
+                <Avatar
+                  src={profile.image}
+                  shape="square"
+                  size={200}
+                  className="ml-4"
+                />
+              </Col>
+              <Col offset={1}>
+                <Row>
+                  <Col>{this.displayJob(profile)}</Col>
+                </Row>
+                <Row>
+                  <Col> {this.displayQualifications(profile.education)}</Col>
+                </Row>
+              </Col>
+            </Row>
+          </span>
           {/* Row contains: social media icons, email  */}
           <Row justify="space-between" className="browse-social ml-4">
             <Col>
