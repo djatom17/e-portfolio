@@ -3,35 +3,18 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
-// import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
-import Settings from "./Settings";
-import {
-  Row,
-  Col,
-  Menu,
-  Upload,
-  message,
-  Typography,
-  Avatar,
-  Input,
-  Button,
-  Modal,
-  Tag,
-} from "antd";
-import {
-  InboxOutlined,
-  UserOutlined,
-  DeleteOutlined,
-  PaperClipOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
-import Axios from "axios";
+import Settings from "../profileDisplays/Settings";
+import DragUpload from "../profileDisplays/DragUpload";
+import SettingsButton from "../profileDisplays/SettingsButton";
+import EditButton from "../profileDisplays/EditButton";
+import AchievementManager from "../profileDisplays/AchievementManager";
+import SkillManager from "../profileDisplays/SkillManager";
+import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
+import { PaperClipOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
-
-const { Dragger } = Upload;
 
 class Profile5 extends Component {
   state = {
@@ -51,13 +34,8 @@ class Profile5 extends Component {
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
-    // this.uploadProps.fileList = this.props.profile.filesAndDocs.map(
-    //   (item, index) => ({ ...item, uid: index })
-    // );
-
     //Authorisation check.
     this.setState({ layout: this.props.profile.layout });
-    this.uploadProps.headers = { "x-auth-token": this.props.token };
     this.props.isAuthenticated &&
     this.props.profile.userid &&
     this.props.user._id &&
@@ -66,241 +44,23 @@ class Profile5 extends Component {
       : this.setState({ isMyProfile: false });
   };
 
-  uploadProps = {
-    name: "file",
-    //   accept: ".doc,.docx,.png,.pdf,.jpg",
-    action: "/api/file/upload/",
-    headers: {
-      "x-auth-token": "",
-    },
-    // fileList: [],
-    onChange: this.handleChange,
-    customRequest: ({ file }) => {
-      // console.log(file);
-      const data = new FormData();
-      data.append("file", file);
-      axios
-        .post("/api/file/upload", data, {
-          headers: {
-            "x-auth-token": this.props.token,
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          console.log("Upload successful.", res);
-          file.status = "done";
-          message.success(`${file.name} file uploaded succesfully.`);
-        })
-        .catch((err) => console.log("Upload unsuccessful. ", err));
-    },
-  };
-
-  dragUpload = (
-    <Fragment>
-      <Dragger {...this.uploadProps}>
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to upload
-        </p>
-        <p className="ant-upload-hint">Upload your documents here!</p>
-      </Dragger>
-    </Fragment>
-  );
+  constructor() {
+    super();
+    this.setEditableStr = ProfileData.setEditableStr.bind(this);
+    this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
+    this.getElementsNew = ProfileData.getElementsNew.bind(this);
+    this.showModal = ProfileData.showModal.bind(this);
+    this.handleOk = ProfileData.handleOk.bind(this);
+    this.handleCancel = ProfileData.handleCancel.bind(this);
+    this.changeLayout = ProfileData.changeLayout.bind(this);
+    this.changeList = ProfileData.changeList.bind(this);
+  }
 
   // Tab click event handler
-  handleClick = (e) => {
+  handleTabClick = (e) => {
     console.log("click ", e);
     this.setState({ tabdisp: e.key });
   };
-  handleButtonClick = () => {
-    // Make changes reflect on database
-    ProfileData.updateProfile(
-      this.state.profile._id,
-      this.state.profileChanges,
-      this.props.token
-    );
-    this.setState({
-      canEdit: !this.state.canEdit,
-      profileChanges: {},
-    });
-  };
-
-  handleChange = (info) => {
-    console.log("uploading", info);
-    if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-    // let fileList = [...info.fileList];
-    // fileList = fileList.map((file) => {
-    //   if (file.response) {
-    //     // Component will show file.url as link
-    //     file.url = file.response.url;
-    //   }
-    //   return file;
-    // });
-    // // this.setState({ profile.files });
-  };
-
-  // Text Editor
-  setEditableStr = (property, str) => {
-    var addChange = {};
-    addChange[property] = str;
-    this.setState({
-      profileChanges: { ...this.state.profileChanges, ...addChange },
-      profile: { ...this.state.profile, ...addChange },
-    });
-  };
-
-  //Text Editor in arrays
-  setEditableStrArr = (property, index, str) => {
-    var temp = { ...this.state.profile };
-    temp[property][index] = str;
-    this.setState({ profile: temp });
-  };
-
-  // dynamic tag methods (delete, add, edit)
-  showInput = () => {
-    this.setState({ inputVisible: true }, () => this.input.focus());
-  };
-
-  handleInputChange = (e) => {
-    this.setState({ inputValue: e.target.value });
-  };
-
-  handleEditInputChange = (e) => {
-    this.setState({ editInputValue: e.target.value });
-  };
-
-  handleInputConfirm = (fieldName) => {
-    //const { inputValue } = this.state;
-    let { profile, inputValue, profileChanges } = this.state;
-
-    // confirm if array, and item to be add is not empty
-    // checks for duplicates, but maybe not do that here (?)
-    if (
-      inputValue &&
-      profile[fieldName] &&
-      profile[fieldName].indexOf(inputValue) === -1
-    ) {
-      profile[fieldName] = [...profile[fieldName], inputValue];
-      profileChanges[fieldName] = [...profile[fieldName]];
-    }
-    console.log(profile[fieldName]);
-    this.setState({
-      profile,
-      profileChanges,
-      inputVisible: false,
-      inputValue: "",
-    });
-  };
-
-  handleCloseTag = (fieldName, removedTag) => {
-    const field = this.state.profile[fieldName].filter(
-      (tag) => tag !== removedTag
-    );
-    let { profile, profileChanges } = this.state;
-    profile[fieldName] = field;
-    profileChanges[fieldName] = field;
-    this.setState({
-      profile,
-      profileChanges,
-      editInputIndex: -1,
-      editInputValue: "",
-    });
-    // this.setState({ editInputIndex: -1, editInputValue: "" });
-  };
-
-  handleEditInputConfirm = (fieldName) => {
-    this.setState(({ profile, editInputIndex, editInputValue }) => {
-      var newTags = [...profile[fieldName]];
-      newTags[editInputIndex] = editInputValue;
-      var addChange = {};
-      addChange[fieldName] = newTags;
-
-      return {
-        profile: { ...this.state.profile, ...addChange },
-        profileChanges: { ...this.state.profileChanges, ...addChange },
-        editInputIndex: -1,
-        editInputValue: "",
-      };
-    });
-  };
-
-  saveInputRef = (input) => {
-    this.input = input;
-  };
-
-  saveEditInputRef = (input) => {
-    this.editInput = input;
-  };
-
-  // delete button for achievements
-  deleteButt = (item) => {
-    return (
-      <Button
-        type="link"
-        onClick={() => this.handleCloseTag("achievements", item)}
-      >
-        <DeleteOutlined />
-      </Button>
-    );
-  };
-
-  getElements(lst, property) {
-    if (lst) {
-      return lst.map((item, index) => (
-        <Paragraph
-          className="psize"
-          editable={
-            this.state.isMyProfile && this.state.canEdit
-              ? {
-                  onChange: (e) => this.setEditableStrArr(property, index, e),
-                }
-              : false
-          }
-        >
-          {item}
-        </Paragraph>
-      ));
-    }
-  }
-
-  //Modal  helper Functions
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleOk = (num, info) => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 3000);
-
-    ProfileData.updateProfile(
-      this.state.profile._id,
-      { layout: num },
-      this.props.token
-    );
-    window.location.reload();
-  };
-
-  handleCancel = () => {
-    this.setState({ visible: false });
-  };
-
-  changeLayout = (str, info) => {
-    this.setState({ layout: str });
-  };
-  // End of modal Functions
 
   getFiles(lst) {
     if (lst) {
@@ -330,7 +90,7 @@ class Profile5 extends Component {
                     }
                   : false
               }
-              ellipsis={{ rows: 1, expandable: true, symbol: "more" }}
+              ellipsis={{ rows: 3, expandable: true, symbol: "more" }}
             >
               {this.state.profile.about}
             </Paragraph>
@@ -338,112 +98,31 @@ class Profile5 extends Component {
         </div>
       );
     } else if (this.state.tabdisp === "achievements") {
-      const {
-        inputVisible,
-        inputValue,
-        editInputIndex,
-        editInputValue,
-      } = this.state;
-
       return (
-        <div>
-          <Title className="h1size">Achievements</Title>
-          <div>
-            <Paragraph>
-              {" "}
-              {this.state.profile.achievements &&
-                this.state.profile.achievements.map((item, index) => {
-                  if (editInputIndex === index) {
-                    return (
-                      <Input.TextArea
-                        ref={this.saveEditInputRef}
-                        key={item}
-                        size="large"
-                        value={editInputValue}
-                        onChange={this.handleEditInputChange}
-                        onBlur={() =>
-                          this.handleEditInputConfirm("achievements")
-                        }
-                        onPressEnter={() =>
-                          this.handleEditInputConfirm("achievements")
-                        }
-                      />
-                    );
-                  }
-                  const achievement = (
-                    <Row>
-                      <Col flex="auto">
-                        <Paragraph key={item}>
-                          <span
-                            onDoubleClick={
-                              this.state.isMyProfile &&
-                              this.state.canEdit &&
-                              ((e) => {
-                                this.setState(
-                                  {
-                                    editInputIndex: index,
-                                    editInputValue: item,
-                                  },
-                                  () => {
-                                    this.editInput.focus();
-                                  }
-                                );
-                                e.preventDefault();
-                              })
-                            }
-                          >
-                            {item}
-                          </span>
-                        </Paragraph>
-                      </Col>
-                      <Col flex="10px">
-                        {this.state.isMyProfile && this.state.canEdit
-                          ? this.deleteButt(item)
-                          : null}
-                      </Col>
-                    </Row>
-                  );
-                  return achievement;
-                })}
-              {inputVisible && (
-                <Input
-                  ref={this.saveInputRef}
-                  type="text"
-                  size="small"
-                  value={inputValue}
-                  onChange={this.handleInputChange}
-                  onBlur={() => this.handleInputConfirm("achievements")}
-                  onPressEnter={() => this.handleInputConfirm("achievements")}
-                />
-              )}
-              {!inputVisible && this.state.isMyProfile && this.state.canEdit && (
-                <Tag className="site-tag-plus" onClick={this.showInput}>
-                  <PlusOutlined /> New Achievement
-                </Tag>
-              )}
-            </Paragraph>
-          </div>
-        </div>
+        <AchievementManager
+          isMyProfile={this.state.isMyProfile}
+          canEdit={this.state.canEdit}
+          data={this.state.profile.achievements}
+          changeList={this.changeList}
+        />
       );
     } else if (this.state.tabdisp === "skills") {
       return (
-        <div>
-          <Title className="h1size">Skills</Title>
-          <div>
-            <Paragraph className="psize">
-              {this.getElements(this.state.profile.keySkills, "keySkills")}
-            </Paragraph>
-          </div>
-        </div>
+        <SkillManager
+          isMyProfile={this.state.isMyProfile}
+          canEdit={this.state.canEdit}
+          data={this.state.profile.keySkills}
+          changeList={this.changeList}
+        />
       );
     } else if (this.state.tabdisp === "projects") {
       return (
         <div>
           <Title className="h1size">Projects</Title>
           <div>
-            {this.state.isMyProfile && this.state.canEdit
-              ? this.dragUpload
-              : null}
+            {this.state.isMyProfile && this.state.canEdit ? (
+              <DragUpload token={this.props.token} />
+            ) : null}
             {console.log(this.state.isMyProfile)}
           </div>
           {this.getFiles(this.state.profile.filesAndDocs)}
@@ -454,20 +133,6 @@ class Profile5 extends Component {
 
   render() {
     const { current } = this.state.tabdisp;
-    const editButt = (
-      <Fragment>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#mobile-nav"
-          onClick={this.handleButtonClick}
-          style={{ height: 50, color: "blue" }}
-        >
-          {this.state.isMyProfile && this.state.canEdit ? "Done" : "Edit"}
-        </button>
-      </Fragment>
-    );
     return (
       <div className="container-fluid ml-n3">
         <Row>
@@ -501,7 +166,7 @@ class Profile5 extends Component {
               </div>
               <div>
                 <Menu
-                  onClick={this.handleClick}
+                  onClick={this.handleTabClick}
                   selectedKeys={[current]}
                   mode="vertical"
                   style={{ backgroundColor: "coral" }}
@@ -524,19 +189,47 @@ class Profile5 extends Component {
             </div>
           </Col>
           <Col offset={2} flex={5} className="prof5-about ml-n3">
-            {this.displayProfileSeg()}
-            {this.state.isMyProfile ? (
-              <Settings
-                handleOk={this.handleOk}
-                handleCancel={this.handleCancel}
-                showModal={this.showModal}
-                layout={this.state.layout}
-                visible={this.state.visible}
-                loading={this.state.loading}
-              />
-            ) : null}
+            <div className="prof5-utility-buttons ">
+              {this.state.isMyProfile ? (
+                <Row className="mt-3" justify="end" gutter={8}>
+                  <Col>
+                    <EditButton
+                      _id={this.state.profile._id}
+                      profileChanges={this.state.profileChanges}
+                      token={this.props.token}
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      changeEdit={() =>
+                        this.setState({
+                          canEdit: !this.state.canEdit,
+                          profileChanges: {},
+                        })
+                      }
+                    />
+                  </Col>
+                  <Col>
+                    <SettingsButton showModal={this.showModal} />
+                  </Col>
+                </Row>
+              ) : null}
+            </div>
+            <Row className="mt-3">
+              <Col>
+                {" "}
+                {this.displayProfileSeg()}
+                {this.state.isMyProfile ? (
+                  <Settings
+                    handleOk={this.handleOk}
+                    handleCancel={this.handleCancel}
+                    showModal={this.showModal}
+                    layout={this.state.layout}
+                    visible={this.state.visible}
+                    loading={this.state.loading}
+                  />
+                ) : null}
+              </Col>
+            </Row>
           </Col>
-          <Col>{this.state.isMyProfile ? editButt : null}</Col>
         </Row>
       </div>
     );

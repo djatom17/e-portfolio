@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import ReactDOM from "react-dom";
+import AchievementManager from "../profileDisplays/AchievementManager";
+import SkillManager from "../profileDisplays/SkillManager";
+import Settings from "../profileDisplays/Settings";
 import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
-import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
 import {
   Row,
@@ -154,174 +155,207 @@ class Profile2 extends Component {
         <Row className="mt-3 mx-4">
           <Row>
             <Col span={20} push={2}>
-              <Typography component="div" style={{ backgroundColor: '#ffffff', height: '100vh' }}>
+              <Typography
+                component="div"
+                style={{ backgroundColor: "#ffffff", height: "100vh" }}
+              >
                 <Row className="mt-3 mx-4">
-
-                  <Divider id="About" className="h1size" orientation="left">About Me</Divider>
+                  <Divider id="About" className="h1size" orientation="left">
+                    About Me
+                  </Divider>
                   <Paragraph
-                      className="psize"
-                      editable={
-                        this.state.isMyProfile && this.state.canEdit
-                            ? {
-                              onChange: (e) => this.setEditableStr("about", e),
-                            }
-                            : false
-                      }
-                      ellipsis={{ rows: 1, expandable: true, symbol: "more" }}
+                    className="psize"
+                    editable={
+                      this.state.isMyProfile && this.state.canEdit
+                        ? {
+                            onChange: (e) => this.setEditableStr("about", e),
+                          }
+                        : false
+                    }
+                    ellipsis={{ rows: 1, expandable: true, symbol: "more" }}
                   >
                     {this.state.profile.about}
                   </Paragraph>
                 </Row>
                 <Row className="mt-3 mx-4">
-                  <Divider id="About" className="h1size" orientation="left">Key Skills</Divider>
+                  <Divider id="About" className="h1size" orientation="left">
+                    Key Skills
+                  </Divider>
                 </Row>
                 <Row className="my-3 mx-4">
                   {this.state.profile.keySkills &&
-                  this.state.profile.keySkills.map((tag, index) => {
-                    if (editInputIndex === index) {
-                      return (
+                    this.state.profile.keySkills.map((tag, index) => {
+                      if (editInputIndex === index) {
+                        return (
                           <Input
-                              ref={this.saveEditInputRef}
-                              key={tag}
-                              size={40}
-                              className="tag-input"
-                              value={editInputValue}
-                              onChange={this.handleEditInputChange}
-                              onBlur={() => this.handleEditInputConfirm("keySkills")}
-                              onPressEnter={() =>
-                                  this.handleEditInputConfirm("keySkills")
-                              }
-                          />
-                      );
-                    }
-                    const isLongTag = tag.length > 40;
-                    const tagElem = (
-                        <Tag
-                            className="skills-tag"
+                            ref={this.saveEditInputRef}
                             key={tag}
-                            closable={
-                              index !== 0 && this.state.isMyProfile && this.state.canEdit
+                            size={40}
+                            className="tag-input"
+                            value={editInputValue}
+                            onChange={this.handleEditInputChange}
+                            onBlur={() =>
+                              this.handleEditInputConfirm("keySkills")
                             }
-                            onClose={() => this.handleCloseTag("keySkills", tag)}
-                        >
-                  <span
-                      className="skills-span"
-                      onDoubleClick={
-                        this.state.isMyProfile &&
-                        this.state.canEdit &&
-                        ((e) => {
-                          this.setState(
-                              { editInputIndex: index, editInputValue: tag },
-                              () => {
-                                this.editInput.focus();
-                              }
-                          );
-                          e.preventDefault();
-                        })
+                            onPressEnter={() =>
+                              this.handleEditInputConfirm("keySkills")
+                            }
+                          />
+                        );
                       }
-                  >
-                    {isLongTag ? `${tag.slice(0, 40)}...` : tag}
-                  </span>
-                        </Tag>
-                    );
-                    return isLongTag ? (
-                        <Tooltip title={tag} key={tag}>
-                          {tagElem}
-                        </Tooltip>
-                    ) : (
-                        tagElem
-                    );
-                  })}
-                  {inputVisible && (
-                      <Input
-                          ref={this.saveInputRef}
-                          type="text"
-                          size="small"
-                          className="tag-input"
-                          value={inputValue}
-                          onChange={this.handleInputChange}
-                          onBlur={() => this.handleInputConfirm("keySkills")}
-                          onPressEnter={() => this.handleInputConfirm("keySkills")}
-                      />
-                  )}
-                  {!inputVisible && this.state.isMyProfile && this.state.canEdit && (
-                      <Tag className="site-tag-plus" onClick={this.showInput}>
-                        <PlusOutlined /> New Tag
-                      </Tag>
-                  )}
-                </Row>
-                <Row className="mt-3 mx-4">
-                  <Divider id="Achievements" className="h1size" orientation="left">Achievements</Divider>
-                  <Row className="mt-3 mx-4">
-                    <Col>
-                      {this.state.profile.achievements &&
-                      this.state.profile.achievements.map((item, index) => {
-                        if (editInputIndex === index) {
-                          return (
-                              <Input.TextArea
-                                  ref={this.saveEditInputRef}
-                                  key={item}
-                                  size="large"
-                                  value={editInputValue}
-                                  onChange={this.handleEditInputChange}
-                                  onBlur={() => this.handleEditInputConfirm("achievements")}
-                                  onPressEnter={() =>
-                                      this.handleEditInputConfirm("achievements")
-                                  }
-                              />
-                          );
-                        }
-                        const achievement = (
-                            <Row>
-                              <Col flex="auto">
-                                <Paragraph className="achievements-text" key={item}>
-                        <span
+                      const isLongTag = tag.length > 40;
+                      const tagElem = (
+                        <Tag
+                          className="skills-tag"
+                          key={tag}
+                          closable={
+                            index !== 0 &&
+                            this.state.isMyProfile &&
+                            this.state.canEdit
+                          }
+                          onClose={() => this.handleCloseTag("keySkills", tag)}
+                        >
+                          <span
+                            className="skills-span"
                             onDoubleClick={
                               this.state.isMyProfile &&
                               this.state.canEdit &&
                               ((e) => {
                                 this.setState(
-                                    {
-                                      editInputIndex: index,
-                                      editInputValue: item,
-                                    },
-                                    () => {
-                                      this.editInput.focus();
-                                    }
+                                  {
+                                    editInputIndex: index,
+                                    editInputValue: tag,
+                                  },
+                                  () => {
+                                    this.editInput.focus();
+                                  }
                                 );
                                 e.preventDefault();
                               })
                             }
-                        >
-                          {item}
-                        </span>
+                          >
+                            {isLongTag ? `${tag.slice(0, 40)}...` : tag}
+                          </span>
+                        </Tag>
+                      );
+                      return isLongTag ? (
+                        <Tooltip title={tag} key={tag}>
+                          {tagElem}
+                        </Tooltip>
+                      ) : (
+                        tagElem
+                      );
+                    })}
+                  {inputVisible && (
+                    <Input
+                      ref={this.saveInputRef}
+                      type="text"
+                      size="small"
+                      className="tag-input"
+                      value={inputValue}
+                      onChange={this.handleInputChange}
+                      onBlur={() => this.handleInputConfirm("keySkills")}
+                      onPressEnter={() => this.handleInputConfirm("keySkills")}
+                    />
+                  )}
+                  {!inputVisible &&
+                    this.state.isMyProfile &&
+                    this.state.canEdit && (
+                      <Tag className="site-tag-plus" onClick={this.showInput}>
+                        <PlusOutlined /> New Tag
+                      </Tag>
+                    )}
+                </Row>
+                <Row className="mt-3 mx-4">
+                  <Divider
+                    id="Achievements"
+                    className="h1size"
+                    orientation="left"
+                  >
+                    Achievements
+                  </Divider>
+                  <Row className="mt-3 mx-4">
+                    <Col>
+                      {this.state.profile.achievements &&
+                        this.state.profile.achievements.map((item, index) => {
+                          if (editInputIndex === index) {
+                            return (
+                              <Input.TextArea
+                                ref={this.saveEditInputRef}
+                                key={item}
+                                size="large"
+                                value={editInputValue}
+                                onChange={this.handleEditInputChange}
+                                onBlur={() =>
+                                  this.handleEditInputConfirm("achievements")
+                                }
+                                onPressEnter={() =>
+                                  this.handleEditInputConfirm("achievements")
+                                }
+                              />
+                            );
+                          }
+                          const achievement = (
+                            <Row>
+                              <Col flex="auto">
+                                <Paragraph
+                                  className="achievements-text"
+                                  key={item}
+                                >
+                                  <span
+                                    onDoubleClick={
+                                      this.state.isMyProfile &&
+                                      this.state.canEdit &&
+                                      ((e) => {
+                                        this.setState(
+                                          {
+                                            editInputIndex: index,
+                                            editInputValue: item,
+                                          },
+                                          () => {
+                                            this.editInput.focus();
+                                          }
+                                        );
+                                        e.preventDefault();
+                                      })
+                                    }
+                                  >
+                                    {item}
+                                  </span>
                                 </Paragraph>
                               </Col>
                               <Col flex="10px">
                                 {this.state.isMyProfile && this.state.canEdit
-                                    ? this.deleteButt(item)
-                                    : null}
+                                  ? this.deleteButt(item)
+                                  : null}
                               </Col>
                             </Row>
-                        );
-                        return achievement;
-                      })}
+                          );
+                          return achievement;
+                        })}
                       {inputVisible && (
-                          <Input
-                              ref={this.saveInputRef}
-                              type="text"
-                              size="small"
-                              value={inputValue}
-                              onChange={this.handleInputChange}
-                              onBlur={() => this.handleInputConfirm("achievements")}
-                              onPressEnter={() => this.handleInputConfirm("achievements")}
-                          />
+                        <Input
+                          ref={this.saveInputRef}
+                          type="text"
+                          size="small"
+                          value={inputValue}
+                          onChange={this.handleInputChange}
+                          onBlur={() => this.handleInputConfirm("achievements")}
+                          onPressEnter={() =>
+                            this.handleInputConfirm("achievements")
+                          }
+                        />
                       )}
-                      {!inputVisible && this.state.isMyProfile && this.state.canEdit && (
-                          <Tag className="site-tag-plus" onClick={this.showInput}>
+                      {!inputVisible &&
+                        this.state.isMyProfile &&
+                        this.state.canEdit && (
+                          <Tag
+                            className="site-tag-plus"
+                            onClick={this.showInput}
+                          >
                             <PlusOutlined /> New Achievement
                           </Tag>
-                      )}
+                        )}
                     </Col>
                   </Row>
                 </Row>
