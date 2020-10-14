@@ -3,6 +3,8 @@ import Settings from "./Settings";
 import { connect } from "react-redux";
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 import * as ProfileData from "../../api/ProfileData";
 import {
   Row,
@@ -315,6 +317,7 @@ class Profile3 extends Component {
     );
 
     return (
+
       <div clasName="container-fluid mx-4">
         {/* row contains: name, curr job */}
         <Col span={20} push={2}>

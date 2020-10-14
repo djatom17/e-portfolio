@@ -160,6 +160,13 @@ img {
   width: 25vw;
   margin-bottom: -16px;
 }
+
+.App {
+  background-color: #e5e5e5 ;
+  height: 100%;
+
+}
+
 .prof5-img {
   padding: 10px;
   margin-left: auto;
