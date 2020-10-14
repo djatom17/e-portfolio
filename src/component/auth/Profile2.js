@@ -157,7 +157,7 @@ class Profile2 extends Component {
             <Col span={20} push={2}>
               <Typography
                 component="div"
-                style={{ backgroundColor: "#ffffff", height: "100vh" }}
+                style={{ backgroundColor: "#ffffff", height: "auto" }}
               >
                 <Row className="mt-3 mx-4">
                   <Divider id="About" className="h1size" orientation="left">
