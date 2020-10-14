@@ -115,7 +115,7 @@ class Profile extends Component {
             <React.Fragment>
               <CssBaseline />
               <Container fixed>
-                <Typography component="div" style={{ backgroundColor: '#ffffff', height: '100vh' }}>
+                <Typography component="div" style={{ backgroundColor: '#ffffff', height: 'auto' }}>
                   <Content style={{ padding: "0 50px" }}>
                     <Breadcrumb style={{ margin: "16px 0" }}>
                       <Breadcrumb.Item>Browse</Breadcrumb.Item>
@@ -193,7 +193,6 @@ class Profile extends Component {
                       </div>
                     </Descriptions>
                   </Content>
-
                 </Typography>
               </Container>
             </React.Fragment>
