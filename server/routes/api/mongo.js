@@ -207,15 +207,17 @@ const postUpload = (name, url, uid) => {
         profile.save((err) => {
           if (err) {
             console.log("[Mongoose] File entry creation failed ", err);
-            reject("Mongoose was unable to save new file entry.");
+            reject({ statusCode: 500 });
           } else {
             console.log("[Mongoose] File entry created.");
-            resolve("Success!");
+            resolve({ statusCode: 200 });
           }
         });
       } else {
-        console.log("[Mongoose] File entry creation unsuccessful.");
-        reject("Mongoose was unable to find profile of the user " + uid);
+        console.log(
+          "[Mongoose] File entry creation unsuccessful - user not found."
+        );
+        reject({ statusCode: 401 });
       }
     });
   });
@@ -223,22 +225,29 @@ const postUpload = (name, url, uid) => {
 
 const postDelete = (url, uid) => {
   console.log("[Mongoose] Deleting file entry from user.");
-
-  fetchProfileByUID(uid, (e, profile) => {
-    if (!e && profile) {
-      profile = Profile.hydrate(profile);
-      profile.filesAndDocs = profile.filesAndDocs.filter(
-        (item) => item.url !== url
-      );
-      profile.save((err) => {
-        if (err) console.log("[Mongoose] File entry deletion failed ", err);
-        else {
-          console.log("[Mongoose] File entry deleted.");
-        }
-      });
-    } else {
-      console.log("[Mongoose] File entry creation unsuccesful.");
-    }
+  return new Promise((resolve, reject) => {
+    fetchProfileByUID(uid, (e, profile) => {
+      if (!e && profile) {
+        profile = Profile.hydrate(profile);
+        profile.filesAndDocs = profile.filesAndDocs.filter(
+          (item) => item.url !== url
+        );
+        profile.save((err) => {
+          if (err) {
+            console.log("[Mongoose] File entry deletion failed ", err);
+            reject({ statusCode: 500 });
+          } else {
+            console.log("[Mongoose] File entry deleted.");
+            resolve({ statusCode: 200 });
+          }
+        });
+      } else {
+        console.log(
+          "[Mongoose] File entry creation unsuccesful - user not found."
+        );
+        reject({ statusCode: 401 });
+      }
+    });
   });
 };
 
@@ -249,21 +258,20 @@ const isValidObjectId = (str) => {
 
 /**
  * Appends full URI path into specific data fields.
- * 
+ *
  * Appends URI path for image, linkToProfile and filesAndDocs.
- * 
+ *
  * @function appendProfilePaths
  * @param {Object} profile Profile Schema for profile data.
- * 
+ *
  * @returns profile after appending.
  */
 const appendProfilePaths = (profile) => {
   profile.image = FILEPATH_S3 + profile.image;
-  profile.linkToProfile = FILEPATH_PROFILE
-    + (profile.linkToProfile ? profile.linkToProfile : profile._id);
-  profile.filesAndDocs.map(
-    (item) => (item.url = FILEPATH_S3 + item.url)
-  );
+  profile.linkToProfile =
+    FILEPATH_PROFILE +
+    (profile.linkToProfile ? profile.linkToProfile : profile._id);
+  profile.filesAndDocs.map((item) => (item.url = FILEPATH_S3 + item.url));
   return profile;
 };
 

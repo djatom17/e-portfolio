@@ -26,7 +26,7 @@ const s3 = new AWS.S3({
 
 /**
  * Handles GET request for a file in S3 bucket.
- * 
+ *
  * Fetches the file from S3, specified from the filename in req.params[0].
  */
 s3router.get("/dl/*", function (req, res, next) {
@@ -36,20 +36,21 @@ s3router.get("/dl/*", function (req, res, next) {
   // Find an object given the raw filename/location in the bucket.
   s3.getObject(params, function (err, data) {
     if (err) {
-      return res.send({ error: err });
+      console.log("[S3] Error retrieving file");
+      return res.status(err.statusCode).send({ error: err });
     }
     console.log("[S3] File retrieved");
-    res.send(data.Body);
+    return res.status(200).send(data.Body);
   });
 });
 
 /**
  * Handles POST request for uploading file onto S3 and logging.
- * 
+ *
  * 1. Creates a hashname from file contents and use it as key in S3.
  * 2. upload file onto S3 bucket.
  * 3. Create a new File entry in the user's profile for logging.
- * 
+ *
  * @requires ./auth
  */
 s3router.post("/upload", auth, function (req, res, next) {
@@ -66,22 +67,21 @@ s3router.post("/upload", auth, function (req, res, next) {
     hashName = md5sum.digest("hex");
 
     var params = { Bucket: AWSBucket, Key: hashName, Body: file.data };
-    s3.upload(params, function (err, s3res) {
+    s3.upload(params, function (err, data) {
       if (err) {
         console.log("[S3] Upload failed");
-        res.status(500);
+        return res.status(err.statusCode).send({ error: err });
       } else {
         console.log("[S3] Upload success");
         //Create new File entry in user's Profile.
         mongo
           .postUpload(file.name, hashName, req.user.id)
           .then((success) => {
-            console.log(success);
-            res.status(200).json({ fileUrl: hashName });
+            return res.status(success.statusCode).json({ fileUrl: hashName });
           })
           .catch((err) => {
-            console.log(err);
-            res.status(500).json({ error: err });
+            // If there is an error creating the entry, the file must be deleted from the bucket.
+            return res.status(err.statusCode).json({ error: err });
           });
       }
     });
@@ -92,12 +92,12 @@ s3router.post("/upload", auth, function (req, res, next) {
 
 /**
  * Handles POST request for removing a file on S3 and its record on user Profile.
- * 
+ *
  * 1. Validates the owner of the file is the requesting user.
  * 2. If validated, removes the file from S3 bucket and the File entry from
  *  user's Profile.
  * 3. Does nothing if validation fails.
- * 
+ *
  * @requires ./auth
  */
 s3router.post("/remove/:file", auth, function (req, res, next) {
@@ -105,55 +105,61 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
     "[S3] Trying to remove file " + req.params.file + " owned by " + req.user.id
   );
 
-  // TODO: check if req.user.id matches file owner before deleting
-  if (!validateFileOwner(req.user.id, req.params.file))
-  {
-    res.send(null);
-  }
-
-  var params = { Bucket: AWSBucket, Key: req.params.file };
-  s3.deleteObject(params, (err, res) => {
-    if (err) console.log("[S3] File deletion failed.");
-    else {
-      console.log("[S3] File deletion successful.");
-      mongo.postDelete(req.params.file, req.user.id);
-    }
-  });
-
-  // TODO: proper res.send
-  res.send(null);
+  validateFileOwner(req.user.id, req.params.file)
+    .then((s) => {
+      var params = { Bucket: AWSBucket, Key: req.params.file };
+      s3.deleteObject(params, (err, res) => {
+        if (err) console.log("[S3] File deletion failed.");
+        else {
+          console.log("[S3] File deletion successful.");
+          mongo
+            .postDelete(req.params.file, req.user.id)
+            .then((success) => {
+              return res.status(success.statusCode);
+            })
+            .catch((err) => {
+              return res.status(err.statusCode).json({ error: err });
+            });
+        }
+      });
+    })
+    .catch((err) => {
+      res
+        .status(err.statusCode)
+        .json({ error: "Cannot delete file - you are not authorised." });
+    });
 });
 
 /**
  * Checks if the given userID has permission to edit a given file.
- * 
+ *
  * Fetches the profile of given userID and check file existence in the
  * fetched profile. Explicitly has permission if user owns the profile
  * containing the file.
- * 
+ *
  * @function [validateFileOwner]
  * @param {String} userID uid of User.
  * @param {String} userFile hashname of file to validate permission of.
- * 
- * @returns {Boolean} 
+ *
+ * @returns {Boolean}
  */
 const validateFileOwner = (userID, userFile) => {
-  mongo.fetchProfileByUID(userID, (err, profile) => {
-    if (err || !profile)
-    {
-      console.log("[S3] Permission to modify file denied.");
-      return false;
-    }
-    else if (profile.filesAndDocs.filter(file => file.url === userFile)) 
-    {
-      console.log("[S3] Permission validated.");
-      return true;
-    }
-    else
-    {
-      console.log("[S3] User does not own file.");
-      return false;
-    }
+  console.log("[S3] Validating file ownership.");
+  return new Promise((resolve, reject) => {
+    mongo.fetchProfileByUID(userID, (err, profile) => {
+      if (err || !profile) {
+        console.log("[S3] Permission to modify file denied.");
+        reject({ statusCode: 401 });
+      } else if (
+        profile.filesAndDocs.filter((file) => file.url === userFile).length > 0
+      ) {
+        console.log("[S3] Permission granted.");
+        resolve({ statusCode: 200 });
+      } else {
+        console.log("[S3] File not found in user's records.");
+        reject({ statusCode: 404 });
+      }
+    });
   });
 };
 
