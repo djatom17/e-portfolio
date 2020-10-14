@@ -114,7 +114,10 @@ class Browse extends Component {
     if (!profiles.length) return null;
     return profiles.map((profile, index) => (
       <div>
-        <div className="browse-outer m-5">
+        <div
+          className="browse-outer m-5"
+          onClick={() => (window.location.href = profile.linkToProfile)}
+        >
           {/* Row contains: profile name, skills*/}
           <Row type="flex" justify="space-between" className="mb-n3">
             <Col className="ml-4">
@@ -166,21 +169,6 @@ class Browse extends Component {
             </Col>
           </Row>
         </div>
-        <div>
-          {/* Buttons go here */}
-          <Row justify="start" gutter={8} className="ml-5 mt-n3">
-            <Col>
-              <Button type="primary" size="large" href={profile.linkToProfile}>
-                View
-              </Button>
-            </Col>
-            <Col>
-              <Button type="primary" size="large">
-                Message
-              </Button>
-            </Col>
-          </Row>
-        </div>
       </div>
     ));
   };
@@ -216,77 +204,5 @@ class Browse extends Component {
     );
   }
 }
-
-// class Browse extends Component
-// {
-//     state = {
-//         profiles : []
-//     };
-
-//     componentDidMount = () => {
-//         this.getProfiles();
-//     };
-
-// getProfiles = () => {
-//     axios.get('/info/profiles')
-//     .then((res) => {
-//         const data = res.data;
-//         this.setState({ profiles : data });
-//         console.log("data received");
-//     });
-// }
-
-// displayProfile = (profiles) => {
-//     if (!profiles.length) return null;
-//     return profiles.map((profile, index) => (
-//         <div className="container browse-inner">
-//             <div className="container browse-profile-picture">
-//                 <img src={profile.image} class="rounded float-left" aria-hidden alt="description of image"/>
-//             </div>
-//             <div className="container browse-profile-summary">
-//                 <h1 className="browse-name">
-//                     {profile.firstName.concat(' ', profile.lastName)}
-//                 </h1>
-//                 <p className="browse-details">
-//                     {profile.keySkills.toString()}
-//                 </p>
-//                 <p className="browse-details">
-//                     {profile.workHistory.toString()}
-//                 </p>
-//                 <p className="browse-details">
-//                     {profile.education.toString()}
-//                 </p>
-//                 <Link to={profile.linkToProfile} className={"btn btn-lg btn-info mr-2"}>
-//                     Browse
-//                 </Link>
-//                 <Link to={"/login"} className={"btn btn-lg btn-light"}>
-//                     Send Message
-//                 </Link>
-//             </div>
-//         </div>
-//     ));
-// };
-
-// render()
-// {
-//     return(
-//     <div className="browse">
-//         <div className="container">
-//             <div className="row">
-//                 <div className="col-md-12 text-center">
-//                     <h1 className="display-4 text-center">
-//                         {' '}
-//                         Browse to your heart's content!
-//                     </h1>
-//                     <p/>
-//                     <div className="container browse-outer">
-//                         {this.displayProfile(this.state.profiles)}
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     </div>);
-// }
-// }
 
 export default Browse;
