@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import Settings from "../profileDisplays/Settings";
+import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import { connect } from "react-redux";
 import * as ProfileData from "../../api/ProfileData";
@@ -159,19 +160,26 @@ class Profile3 extends Component {
           </Col>
           <Col className="mr-5">
             {this.state.isMyProfile ? (
-              <EditButton
-                _id={this.state.profile._id}
-                profileChanges={this.state.profileChanges}
-                token={this.props.token}
-                isMyProfile={this.state.isMyProfile}
-                canEdit={this.state.canEdit}
-                changeEdit={() =>
-                  this.setState({
-                    canEdit: !this.state.canEdit,
-                    profileChanges: {},
-                  })
-                }
-              />
+              <Row className="mt-3" justify="end" gutter={8}>
+                <Col>
+                  <EditButton
+                    _id={this.state.profile._id}
+                    profileChanges={this.state.profileChanges}
+                    token={this.props.token}
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    changeEdit={() =>
+                      this.setState({
+                        canEdit: !this.state.canEdit,
+                        profileChanges: {},
+                      })
+                    }
+                  />
+                </Col>
+                <Col>
+                  <SettingsButton showModal={this.showModal} />
+                </Col>
+              </Row>
             ) : null}
           </Col>
         </Row>

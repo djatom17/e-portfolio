@@ -6,6 +6,8 @@ import * as ProfileData from "../../api/ProfileData";
 
 const { Title, Paragraph } = Typography;
 
+//TODO: add child to each prop in element in list
+
 export class AchievementManager extends Component {
   state = {
     inputVisible: false,
