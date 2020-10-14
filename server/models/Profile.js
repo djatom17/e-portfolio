@@ -6,11 +6,12 @@
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
  * of the University of Melbourne.
- * @requires mongoose,./File
+ * @requires mongoose,./File,./Work
  * @exports Profile
  */
 const mongoose = require("mongoose");
 const FileSchema = require('./File');
+const WorkSchema = require("./Work");
 
 /**
  * MongoDB Schema to store all profile information of a user.
@@ -18,7 +19,7 @@ const FileSchema = require('./File');
  * @param {String} firstName First name of the user.
  * @param {String} lastName Last name of the user.
  * @param {String[]} keySkills Array of key user skills. 
- * @param {String[]} workHistory Array of past user work experiences.
+ * @param {WorkSchema[]} workHistory Array of Work Object by User.
  * @param {String[]} education Array of user academic experiences.
  * @param {String} image filepath to user's profile picture on S3.
  * @param {String} linkToProfile unique url to user profile page.
@@ -44,10 +45,7 @@ const ProfileSchema = new mongoose.Schema({
     type: Array,
     of: String,
   },
-  workHistory: {
-    type: Array,
-    of: String,
-  },
+  workHistory: [WorkSchema],
   education: {
     type: Array,
     default: {"0": "New User @ Check-Me-Out"}
@@ -81,7 +79,7 @@ const ProfileSchema = new mongoose.Schema({
   isNewUser: {
     type: Boolean,
     default: true,
-  }
+  } 
 });
 
 module.exports = Profile = mongoose.model("profiles", ProfileSchema);

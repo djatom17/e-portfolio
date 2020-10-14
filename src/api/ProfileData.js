@@ -4,7 +4,7 @@
  * @copyright This material is made available to you by or on behalf
  * of the University of Melbourne.
  * @requires react,axios
- * @exports getProfile,getElements,getName,getCurrJob,updateProfile
+ * @exports getProfile,getElements,getName,updateProfile
  */
 import React from "react";
 import axios from "axios";
@@ -60,29 +60,6 @@ export function getElements(lst) {
 export function getName(profile) {
   if (profile) {
     return profile.firstName + " " + profile.lastName;
-  }
-}
-
-/**
- * Retrieves a given profile's work role and Place of Employment.
- * 
- * ASSUMES LAST ELEMENT IN WORKHISTORY ARRAY AS MOST RECENT JOB.
- * Checks if the given profile has any workHistory, if 0, return null.
- * Else, return the split String of the last entry in workHistory array.
- * 
- * @function [getCurrJob]
- * @see Models.Profile,Array.prototype.split
- 
- * @param {Object} profile - Profile JSON Schema
- * 
- * @returns {?Array} [role, workplace] or null 
- */
-export function getCurrJob(profile) {
-  //If the profile does not have any work history, returns null
-  if (!profile.workHistory.length) return null;
-  else {
-    const work_str = profile.workHistory[profile.workHistory.length - 1];
-    return work_str.split("@ ");
   }
 }
 
