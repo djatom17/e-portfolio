@@ -78,7 +78,10 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     default: "1",
   },
-  isNewUser: Boolean,
+  isNewUser: {
+    type: Boolean,
+    default: true,
+  }
 });
 
 module.exports = Profile = mongoose.model("profiles", ProfileSchema);

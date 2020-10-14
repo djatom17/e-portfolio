@@ -22,16 +22,21 @@ const FILEPATH_S3 = "/api/file/dl/";
 const FILEPATH_PROFILE = "/profile/";
 
 /**
- * Fetches all profile entries stored in "profiles" in MongoDB.
+ * Fetches all initialised profile entries stored in "profiles" in MongoDB.
  *
  * Calls the table "profiles" via Mongoose and fetches all the profiles stored.
  * Then, the profiles are converted into an array of JSON objects, adhering to
- * Profile.js Schema
+ * Profile.js Schema.
+ * Fetches only initialised profiles (isNewUser === false)
  * Sends back the array of profiles as a response body.
  */
 mongorouter.get("/profiles", function (req, res, next) {
-  //get all profile entries from MongoDB.profiles
-  Profile.find()
+  //get all initialised profile entries from MongoDB.profiles
+  Profile.find(
+    {
+      "isNewUser": false
+    }
+  )
     .lean()
     .exec((err, profiles) => {
       if (err) return res.send("[Mongoose] Error in fetching profiles.");
