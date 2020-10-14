@@ -10,7 +10,7 @@ import {
   Divider,
   List,
   Typography,
-  Button,
+  Card,
   Input,
   Pagination,
 } from "antd";
@@ -113,9 +113,9 @@ class Browse extends Component {
   displayProfile = (profiles) => {
     if (!profiles.length) return null;
     return profiles.map((profile, index) => (
-      <div>
+      <Card className="m-5" hoverable={true}>
         <div
-          className="browse-outer m-5"
+          className="browse-outer"
           onClick={() => (window.location.href = profile.linkToProfile)}
         >
           {/* Row contains: profile name, skills*/}
@@ -169,7 +169,7 @@ class Browse extends Component {
             </Col>
           </Row>
         </div>
-      </div>
+      </Card>
     ));
   };
 
