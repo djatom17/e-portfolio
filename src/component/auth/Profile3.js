@@ -104,16 +104,6 @@ class Profile3 extends Component {
     });
   };
 
-  // REMOVE
-  // pfp hovering methods
-  onEnterPFP = () => {
-    this.setState({ pfpVisible: false });
-  };
-
-  onLeavePFP = () => {
-    this.setState({ pfpVisible: true });
-  };
-
   // pfp image upload methods
   handleChange = (info) => {
     if (info.file.status === "uploading") {
@@ -132,26 +122,6 @@ class Profile3 extends Component {
   };
 
   render() {
-    // REMOVE
-    const { pfpVisible } = this.state;
-
-    // pfp
-    const pfp = (
-      <Avatar
-        alt="pfp"
-        src={this.state.profile.image}
-        shape="square"
-        size={200}
-      />
-    );
-
-    // upload button
-    const uploadButton = (
-      <Avatar shape="square" size={200}>
-        <Upload> Change </Upload>
-      </Avatar>
-    );
-
     return (
       <div>
         <Col span={20} push={2}>
