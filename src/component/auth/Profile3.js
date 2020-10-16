@@ -159,134 +159,132 @@ class Profile3 extends Component {
             component="div"
             style={{ backgroundColor: "#ffffff", height: "auto" }}
           >
-            <Row className="mt-3 mx-4">
-              <Row className=" mt-4 ml-5" justify="space-between">
-                <Col>
-                  <h2>
-                    {ProfileData.getName(this.state.profile)}
-                    {", "}
-                    <small>[get job from db]</small>
-                  </h2>
-                </Col>
-                <Col className="mr-5">
-                  {this.state.isMyProfile ? (
-                    <Row className="mt-3" justify="end" gutter={8}>
-                      <Col>
-                        <EditButton
-                          _id={this.state.profile._id}
-                          profileChanges={this.state.profileChanges}
-                          token={this.props.token}
-                          isMyProfile={this.state.isMyProfile}
-                          canEdit={this.state.canEdit}
-                          changeEdit={() =>
-                            this.setState({
-                              canEdit: !this.state.canEdit,
-                              profileChanges: {},
-                            })
-                          }
-                        />
-                      </Col>
-                      <Col>
-                        <SettingsButton showModal={this.showModal} />
-                      </Col>
-                    </Row>
-                  ) : null}
-                </Col>
-              </Row>
-              <Row justify="space-around" gutter={24} className="mx-5">
-                {" "}
-                <ProfilePicture
-                  image={this.state.profile.image}
-                  isMyProfile={this.state.isMyProfile}
-                  canEdit={this.state.canEdit}
-                />
-                <Col xs={4} sm={6} md={10} lg={14} xl={16}>
-                  <h4>A little bit about me...</h4>
-                  <Paragraph
-                    ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
-                    editable={
-                      this.state.canEdit
-                        ? {
-                            onChange: (fieldName) =>
-                              this.setEditablefieldName("about", fieldName),
-                            autoSize: { minRows: 1, maxRows: 5 },
-                          }
-                        : false
-                    }
-                  >
-                    {this.state.profile.about}
-                  </Paragraph>
-                  {this.state.isMyProfile ? (
-                    <Settings
-                      handleOk={this.handleOk}
-                      handleCancel={this.handleCancel}
-                      showModal={this.showModal}
-                      layout={this.state.layout}
-                      visible={this.state.visible}
-                      loading={this.state.loading}
-                    />
-                  ) : null}
-                </Col>
-                <Col>
-                  <Row>
-                    <Button
-                      type="link"
-                      icon={<LinkedinOutlined />}
-                      className="mt-3"
-                    />
+            <Row className="pt-4 mt-4 ml-5" justify="space-between">
+              <Col>
+                <h2>
+                  {ProfileData.getName(this.state.profile)}
+                  {", "}
+                  <small>[get job from db]</small>
+                </h2>
+              </Col>
+              <Col className="mr-5">
+                {this.state.isMyProfile ? (
+                  <Row className="mt-3" gutter={8}>
+                    <Col>
+                      <EditButton
+                        _id={this.state.profile._id}
+                        profileChanges={this.state.profileChanges}
+                        token={this.props.token}
+                        isMyProfile={this.state.isMyProfile}
+                        canEdit={this.state.canEdit}
+                        changeEdit={() =>
+                          this.setState({
+                            canEdit: !this.state.canEdit,
+                            profileChanges: {},
+                          })
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <SettingsButton showModal={this.showModal} />
+                    </Col>
                   </Row>
-                  <Row>
-                    {" "}
-                    <Button
-                      type="link"
-                      icon={<TwitterOutlined />}
-                      className="mt-3"
-                    />
-                  </Row>
-                  <Row>
-                    <Button
-                      type="link"
-                      icon={<GithubOutlined />}
-                      className="mt-3"
-                    />
-                  </Row>
-                </Col>
-              </Row>
-              <Divider />
-              <Row className=" my-4 ml-5">
-                <Tabs onChange={callback} type="card">
-                  <TabPane tab="Achievements" key="1">
-                    <AchievementManager
-                      isMyProfile={this.state.isMyProfile}
-                      canEdit={this.state.canEdit}
-                      changeList={this.changeList}
-                      data={this.state.profile.achievements}
-                    />
-                  </TabPane>
+                ) : null}
+              </Col>
+            </Row>
+            <Row justify="space-around" gutter={24} className="mx-5">
+              {" "}
+              <ProfilePicture
+                image={this.state.profile.image}
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+              />
+              <Col xs={4} sm={6} md={10} lg={14} xl={16}>
+                <h4>A little bit about me...</h4>
+                <Paragraph
+                  ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+                  editable={
+                    this.state.canEdit
+                      ? {
+                          onChange: (fieldName) =>
+                            this.setEditablefieldName("about", fieldName),
+                          autoSize: { minRows: 1, maxRows: 5 },
+                        }
+                      : false
+                  }
+                >
+                  {this.state.profile.about}
+                </Paragraph>
+                {this.state.isMyProfile ? (
+                  <Settings
+                    handleOk={this.handleOk}
+                    handleCancel={this.handleCancel}
+                    showModal={this.showModal}
+                    layout={this.state.layout}
+                    visible={this.state.visible}
+                    loading={this.state.loading}
+                  />
+                ) : null}
+              </Col>
+              <Col>
+                <Row>
+                  <Button
+                    type="link"
+                    icon={<LinkedinOutlined />}
+                    className="mt-3"
+                  />
+                </Row>
+                <Row>
+                  {" "}
+                  <Button
+                    type="link"
+                    icon={<TwitterOutlined />}
+                    className="mt-3"
+                  />
+                </Row>
+                <Row>
+                  <Button
+                    type="link"
+                    icon={<GithubOutlined />}
+                    className="mt-3"
+                  />
+                </Row>
+              </Col>
+            </Row>
+            <Divider />
+            <Row className=" my-4 ml-5">
+              <Tabs onChange={callback} type="card">
+                <TabPane tab="Achievements" key="1">
+                  <AchievementManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    changeList={this.changeList}
+                    data={this.state.profile.achievements}
+                  />
+                </TabPane>
 
-                  {/* Tab 2: skills  */}
-                  <TabPane tab="Skills" key="2">
-                    <SkillManager
-                      isMyProfile={this.state.isMyProfile}
-                      canEdit={this.state.canEdit}
-                      data={this.state.profile.keySkills}
-                      changeList={this.changeList}
-                    />
-                  </TabPane>
-                  <TabPane tab="Projects" key="3">
-                    <Typography.Title>Projects</Typography.Title>
-                    Content of Tab Pane 3
-                  </TabPane>
-                  <TabPane tab="Certificates" key="4">
-                    <Typography.Title>Certificates</Typography.Title>
-                  </TabPane>
+                {/* Tab 2: skills  */}
+                <TabPane tab="Skills" key="2">
+                  <SkillManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.keySkills}
+                    changeList={this.changeList}
+                  />
+                </TabPane>
+                <TabPane tab="Projects" key="3">
+                  <Typography.Title>Projects</Typography.Title>
+                  Content of Tab Pane 3
+                </TabPane>
+                <TabPane tab="Certificates" key="4">
+                  <Typography.Title>Certificates</Typography.Title>
+                </TabPane>
 
-                  <TabPane tab="Contact Details" key="5">
-                    <Typography.Title>Contact Details</Typography.Title>
-                    Content of Tab Pane 5
-                  </TabPane>
-                </Tabs>
-              </Row>
+                <TabPane tab="Contact Details" key="5">
+                  <Typography.Title>Contact Details</Typography.Title>
+                  Content of Tab Pane 5
+                </TabPane>
+              </Tabs>
             </Row>
           </Typography>
         </Col>
