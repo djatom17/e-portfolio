@@ -54,6 +54,7 @@ img {
 .landing-inner {
   padding-top: 80px;
 }
+
 .dark-overlay {
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
@@ -148,9 +149,8 @@ img {
 }
 
 .App {
-  background-color: #e5e5e5 ;
+  background-color: #e5e5e5;
   height: 100%;
-
 }
 
 .prof5-img {
