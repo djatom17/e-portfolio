@@ -52,18 +52,20 @@ describe("Front-end tests", () => {
 describe("<AchievementManager /> component", () => {
   it("should render", () => {
     const achievements = mount(
-      <AchievementManager
-        isMyProfile={true}
-        canEdit={true}
-        data={[
-          "Pro Golf Champion",
-          "Cross Country Cyclist",
-          "Founder of Charity Hackathon",
-        ]}
-        changeList={() => {
-          alert("function called");
-        }}
-      />
+      <Provider store={store}>
+        <AchievementManager
+          isMyProfile={true}
+          canEdit={true}
+          data={[
+            "Pro Golf Champion",
+            "Cross Country Cyclist",
+            "Founder of Charity Hackathon",
+          ]}
+          changeList={() => {
+            alert("function called");
+          }}
+        />
+      </Provider>
     );
     const value = achievements.find("Paragraph").at(1).text();
     expect(value).toEqual("Pro Golf Champion");
@@ -74,14 +76,16 @@ describe("<AchievementManager /> component", () => {
 describe("<SkillManager /> component", () => {
   it("should render", () => {
     const skills = mount(
-      <SkillManager
-        isMyProfile={true}
-        canEdit={true}
-        data={["Python", "Google Maps", "Oregami"]}
-        changeList={() => {
-          alert("function called");
-        }}
-      />
+      <Provider store={store}>
+        <SkillManager
+          isMyProfile={true}
+          canEdit={true}
+          data={["Python", "Google Maps", "Oregami"]}
+          changeList={() => {
+            alert("function called");
+          }}
+        />
+      </Provider>
     );
     const value = skills.find("Tag").at(0).text();
     expect(value).toEqual("Python");
@@ -91,19 +95,31 @@ describe("<SkillManager /> component", () => {
 // testing EditButton
 describe("<Edit Button /> component", () => {
   it("should render as Done", () => {
-    const editButt = mount(<EditButton isMyProfile={true} canEdit={true} />);
+    const editButt = mount(
+      <Provider store={store}>
+        <EditButton isMyProfile={true} canEdit={true} />
+      </Provider>
+    );
     const value = editButt.find("Button").text();
     expect(editButt.find("Button").exists()).toBeTruthy() &&
       expect(value).toEqual("Done");
   });
   it("should render as Edit", () => {
-    const editButt = mount(<EditButton isMyProfile={true} canEdit={false} />);
+    const editButt = mount(
+      <Provider store={store}>
+        <EditButton isMyProfile={true} canEdit={false} />
+      </Provider>
+    );
     const value = editButt.find("Button").text();
     expect(editButt.find("Button").exists()).toBeTruthy() &&
       expect(value).toEqual("Edit");
   });
   it("should not render if there isnt auth", () => {
-    const editButt = mount(<EditButton isMyProfile={false} canEdit={false} />);
+    const editButt = mount(
+      <Provider store={store}>
+        <EditButton isMyProfile={false} canEdit={false} />
+      </Provider>
+    );
     expect(editButt.find("Button").exists()).toBeFalsy();
   });
 });
