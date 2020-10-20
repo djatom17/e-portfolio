@@ -6,11 +6,16 @@ import App from "./App";
 import Profile5 from "./component/auth/Profile5";
 import ProfileData from "./api/ProfileData";
 import AchievementManager from "./component/profileDisplays/AchievementManager";
+import SkillManager from "./component/profileDisplays/SkillManager";
+
 import EditButton from "./component/profileDisplays/EditButton";
 import { configure, mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
+import toJson from "enzyme-to-json";
+import Settings from "./component/profileDisplays/Settings";
+
 configure({ adapter: new Adapter() });
 
 describe("Front-end tests", () => {
@@ -65,35 +70,80 @@ describe("<AchievementManager /> component", () => {
   });
 });
 
-// testing AchievementManager
-describe("<Edit Button /> component", () => {
+// Testing SkillManager
+describe("<SkillManager /> component", () => {
   it("should render", () => {
-    const achievements = mount(
-      <EditButton isMyProfile={true} canEdit={true} />
+    const skills = mount(
+      <SkillManager
+        isMyProfile={true}
+        canEdit={true}
+        data={["Python", "Google Maps", "Oregami"]}
+        changeList={() => {
+          alert("function called");
+        }}
+      />
     );
-    const value = achievements.find("Button");
-    expect(value).toEqual("Pro Golf Champion");
+    const value = skills.find("Tag").at(0).text();
+    expect(value).toEqual("Python");
   });
 });
 
-// describe("Profile Layout 5 ", () => {
-//   it("when there the user does not have authentication", () => {
-//     const prof3 = mount(
-//       <Provider store={store}>
-//         <Profile5 />{" "}
-//       </Provider>
-//     );
-//     prof3.getInstance().setState({ isMyProfile: false });
-//     expect(prof3).toMatchSnapshot();
-//   });
+// testing EditButton
+describe("<Edit Button /> component", () => {
+  it("should render as Done", () => {
+    const editButt = mount(<EditButton isMyProfile={true} canEdit={true} />);
+    const value = editButt.find("Button").text();
+    expect(editButt.find("Button").exists()).toBeTruthy() &&
+      expect(value).toEqual("Done");
+  });
+  it("should render as Edit", () => {
+    const editButt = mount(<EditButton isMyProfile={true} canEdit={false} />);
+    const value = editButt.find("Button").text();
+    expect(editButt.find("Button").exists()).toBeTruthy() &&
+      expect(value).toEqual("Edit");
+  });
+  it("should not render if there isnt auth", () => {
+    const editButt = mount(<EditButton isMyProfile={false} canEdit={false} />);
+    expect(editButt.find("Button").exists()).toBeFalsy();
+  });
+});
 
-//   it("when there the user has authentication", () => {
-//     const prof3 = mount(
-//       <Provider store={store}>
-//         <Profile5 />{" "}
-//       </Provider>
-//     );
-//     prof3.getInstance().setState({ isMyProfile: true });
-//     expect(prof3).toMatchSnapshot();
-//   });
-// });
+describe("Profile Layout 5 ", () => {
+  const prof = (
+    <Profile5
+      isMyProfile={true}
+      isAuthenticated={true}
+      user={{ _id: "0111" }}
+      profile={{
+        userid: "0111",
+        firstName: "Aa",
+        lastName: "DjN",
+        keySkills: ["Python", "C", "More Skills"],
+        layout: "5",
+        subtitle: "Idek anymore",
+        achievements: ["Did something", "And that"],
+      }}
+    />
+  );
+  it("when the user does not have authentication", () => {
+    const prof5 = mount(<Provider store={store}>{prof} </Provider>);
+    // prof5.getInstance().setState({ isMyProfile: false });
+    expect(prof5.debug()).toMatchSnapshot();
+  });
+
+  // it("Settings render?", () => {
+  //   const prof5 = shallow(<Provider store={store}>{prof} </Provider>);
+  //   expect(prof5.find("Settings").exists()).toBeTruthy();
+  //    expect(prof5.find(Settings)).toHaveLength(1);
+  //   expect(prof5.containsMatchingElement(<Settings />)).toEqual(true);
+  // });
+  // // it("when there the user has authentication", () => {
+  //   const prof5 = mount(
+  //     <Provider store={store}>
+  //       <Profile5 />{" "}
+  //     </Provider>
+  //   );
+  //   prof5.getInstance().setState({ isMyProfile: true });
+  //   expect(prof5).toMatchSnapshot();
+  // });
+});

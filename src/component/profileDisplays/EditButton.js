@@ -19,14 +19,16 @@ export class EditButton extends Component {
   render() {
     return (
       <Fragment>
-        <Button
-          type="primary"
-          data-toggle="collapse"
-          data-target="#mobile-nav"
-          onClick={() => this.handleEditButtonClick()}
-        >
-          {this.props.isMyProfile && this.props.canEdit ? "Done" : "Edit"}
-        </Button>
+        {this.props.isMyProfile ? (
+          <Button
+            type="primary"
+            data-toggle="collapse"
+            data-target="#mobile-nav"
+            onClick={() => this.handleEditButtonClick()}
+          >
+            {this.props.canEdit ? "Done" : "Edit"}
+          </Button>
+        ) : null}
       </Fragment>
     );
   }

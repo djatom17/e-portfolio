@@ -1,5 +1,10 @@
 {
   "name": "e-portfolio",
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001",
@@ -50,6 +55,7 @@
     "concurrently": "^5.3.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-to-json": "^3.6.1",
     "react-test-renderer": "^16.13.1"
   }
 }
