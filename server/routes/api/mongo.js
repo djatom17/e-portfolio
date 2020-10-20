@@ -6,8 +6,8 @@
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
  * of the University of Melbourne.
- * @requires express,mongodb,config,auth.js,./models/*
- * @exports mongorouter,postUpload,fetchProfileByUID
+ * @requires express,mongodb,auth.js,./models/*
+ * @exports mongorouter,postUpload,fetchProfileByUID,mapUIDtoPID
  */
 var express = require("express");
 const { ObjectID } = require("mongodb");
@@ -18,28 +18,30 @@ const File = require("../../models/File");
 const UserProfile = require("../../models/UserProfile");
 
 const validObjectId = new RegExp("^[0-9a-fA-F]{24}$");
+const FILEPATH_S3 = "/api/file/dl/";
+const FILEPATH_PROFILE = "/profile/";
 
 /**
- * Fetches all profile entries stored in "profiles" in MongoDB.
+ * Fetches all initialised profile entries stored in "profiles" in MongoDB.
  *
  * Calls the table "profiles" via Mongoose and fetches all the profiles stored.
  * Then, the profiles are converted into an array of JSON objects, adhering to
- * Profile.js Schema
+ * Profile.js Schema.
+ * Fetches only initialised profiles (isNewUser === false)
  * Sends back the array of profiles as a response body.
  */
 mongorouter.get("/profiles", function (req, res, next) {
-  //get all profile entries from MongoDB.profiles
-  Profile.find()
+  //get all initialised profile entries from MongoDB.profiles
+  Profile.find({
+    isNewUser: false,
+  })
     .lean()
     .exec((err, profiles) => {
       if (err) return res.send("[Mongoose] Error in fetching profiles.");
 
       console.log("[Mongoose] Fetched all profiles.");
       profiles.forEach((profile) => {
-        profile.image = "/api/file/dl/" + profile.image;
-        profile.linkToProfile =
-          "/profile/" +
-          (profile.linkToProfile ? profile.linkToProfile : profile._id);
+        profile = appendProfilePaths(profile);
       });
       res.send(profiles);
     });
@@ -64,17 +66,21 @@ mongorouter.get("/p/:ID", function (req, res, next) {
   }
 
   Profile.findOne(query, (err, profile) => {
-    if (!profile || err) {
+    if (err) {
       console.log(
         "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
       );
-      res.send(null);
+      res.status(500).json({error:err});
       // TODO: res.send
-    } else {
+    } 
+    else if (!profile) {
+      console.log("[Mongoose] No profile found.")
+      res.status(204).send(null);
+    }
+    else {
       console.log("[Mongoose] Fetched " + req.params.ID);
-      profile.image = "/api/file/dl/" + profile.image;
-      profile.linkToProfile = "/profile/" + profile.linkToProfile;
-      res.send(profile);
+      profile = appendProfilePaths(profile);
+      res.status(200).send(profile);
     }
   }).lean();
 });
@@ -89,13 +95,15 @@ mongorouter.get("/p/:ID", function (req, res, next) {
  * //TODO validate user has authorisation to change profile
  *
  * Authenticates user before posting changes.
+ * If updating linkToProfile, checks if the proposed change conflicts with
+ * another user in the database, update fails if link conflicted.
  * Finds the document entry in "profiles" table by profile ID.
  * Updates the entry by only changing data fields that are modified.
  * Sends back the full, updated profile via res.
  *
  * @param {String} ID Profile ID must be listed in req.params.ID
  */
-mongorouter.post("/p-update/:ID", auth, function (req, res, next) {
+mongorouter.post("/p-update/:ID", [auth,checkLink], function (req, res, next) {
   //Post updates to mongo
   Profile.findOneAndUpdate(
     { _id: ObjectID(req.params.ID) },
@@ -103,12 +111,11 @@ mongorouter.post("/p-update/:ID", auth, function (req, res, next) {
     { returnNewDocument: true, useFindAndModify: false }
   ).then((updated_profile) => {
     if (!updated_profile) {
-      console.log("[Mongoose] Profile update unsuccessful.");
-      return res.status(500);
+      return res.status(500).json({error:"[Mongoose] Profile update unsuccessful."});
       //TODO: stop here
     }
     console.log("[Mongoose] Successfully posted updates to MongoDB.");
-    res.send(updated_profile);
+    res.status(200).send(updated_profile);
   });
 });
 
@@ -142,6 +149,47 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
 });
 
 /**
+ * Filters/searches profiles based on the key skills that are stored.
+ * The search phrase must be encoded and passed as a query parameter.
+ *
+ * Example: /search?skills=hand%20eye%20coordination&name=Anuja%20Nautreel
+ *
+ * Can be expanded to become a full-fledged search functionality.
+ */
+mongorouter.get("/search", function (req, res, next) {
+  var searchQuery = decodeURIComponent(req.query.skills);
+  console.log("[Mongoose] Searching profiles with", searchQuery);
+  Profile.aggregate(
+    [
+      {
+        $search: {
+          text: {
+            query: searchQuery,
+            path: "keySkills",
+          },
+        },
+      },
+    ],
+    (err, profiles) => {
+      if (err) {
+        console.log("[Mongoose] Failed to search.");
+        return res.status(500).json({ error: err });
+      }
+      console.log(
+        "[Mongoose] Retrieved",
+        profiles.length,
+        "profiles with search term",
+        searchQuery
+      );
+      profiles.forEach((profile) => {
+        profile = appendProfilePaths(profile);
+      });
+      return res.status(200).json(profiles);
+    }
+  );
+});
+
+/**
  * Fetches profile JSON data stored in MongoDB.
  *
  * ASSUMES USER ALREADY AUTHENTICATED.
@@ -158,6 +206,78 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
  * @param {Requester~requestCallback} callback - The callback that handles the response.
  */
 const fetchProfileByUID = (uid, callback) => {
+  //Find mapping of UID to PID.
+  mapUIDtoPID(uid, (err, userMap) => {
+    console.log("[Mongoose] Found map entry.");
+    //Fetches profile by pid mapped by given uid
+    Profile.findById(userMap.pid, (err, profile) => {
+      if (err) {
+        console.log("[Mongoose] Error fetching profile.");
+        return callback(err, null);
+      }
+      console.log("[Mongoose] Successfully fetched user profile.");
+      profile = appendProfilePaths(profile);
+      profile.userid = uid;
+      //Successful operation
+      return callback(null, profile);
+    }).lean();
+  });
+};
+
+/**
+ * Validates link change in request body is not taken, if any.
+ * 
+ * Checks if the link belongs to another user, rejects the update if
+ * conflicting. Moves to next route if link is available or no link
+ * change is requested.
+ * 
+ * @param {JSON} req request body.
+ * @param {JSON} res response body.
+ * @param {} next method to next route.
+ */
+function checkLink(req, res, next) {
+  //Checks if a link change is requested
+  if ("linkToProfile" in req.body) {
+    //Run distinct checks for linkToProfile, if exists.
+    Profile.findOne({"linkToProfile":req.body.linkToProfile}, (err, profile) => {
+      if (err) {
+        console.log(
+          "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
+        );
+        return res.status(500).json({error:err});
+        // TODO: res.send
+      } 
+      //Found a conflicting profile
+      if (profile) {
+        console.log("Conflict link");
+        delete req.body.linkToProfile;
+        return res.status(409).send(req.body);
+        
+        // res.json({msg:"Profile link already exists."});
+        // next();
+      }
+      else{
+        next();
+      }
+    });
+  }
+  //No link change found in body, move to next route.
+  else {
+    next();
+  }
+}
+
+/**
+ * Finds the mapped PID of a given UID.
+ * 
+ * Maps the given UID to a PID, if any, from users_to_profiles.
+ * 
+ * @function [mapUIDtoPID]
+ * @callback Requester~requestCallback
+ * @param {String} uid User ID to be mapped.
+ * @param {Requester~requestCallback} callback Handles callback function.
+ */
+const mapUIDtoPID = (uid, callback) => {
   console.log("[Mongoose] Fetching profile of uid " + uid);
   //Find authenticated user's profile from DB
   UserProfile.findOne({
@@ -168,23 +288,17 @@ const fetchProfileByUID = (uid, callback) => {
       console.log("[Mongoose] User profile does not exist.");
       return callback(null, null);
     }
-    console.log("[Mongoose] Found map entry.");
-    //Fetches profile by pid mapped by given uid
-    Profile.findById(userMap.pid, (err, profile) => {
-      if (err) {
-        console.log("[Mongoose] Error fetching profile.");
-        return callback(err, null);
-      }
-      console.log("[Mongoose] Successfully fetched user profile.");
-      profile.image = "/api/file/dl/" + profile.image;
-      profile.userid = uid;
+    else {
       //Successful operation
-      return callback(null, profile);
-    }).lean();
+      return callback(null, userMap);
+    }
+  })
+  .catch((err) => {
+    console.log("[Mongoose] Error fetchign a profile");
+    return callback(err, null);
   });
 };
 
-// Post-upload from S3, performs match between file, its hash, and uploader ID
 /**
  * Creates a document entry in "files" table in MongoDB.
  *
@@ -200,43 +314,57 @@ const fetchProfileByUID = (uid, callback) => {
  */
 const postUpload = (name, url, uid) => {
   console.log("[Mongoose] Creating file entry");
-
-  // Find the profile corresponding to the user and retrieve it.
-  fetchProfileByUID(uid, (e, profile) => {
-    if (!e && profile) {
-      // Hydrate object received as it is lean.
-      profile = Profile.hydrate(profile);
-      profile.filesAndDocs.push({ name, url });
-      profile.save((err) => {
-        if (err) console.log("[Mongoose] File entry creation failed ", err);
-        else {
-          console.log("[Mongoose] File entry created.");
-        }
-      });
-    } else {
-      console.log("[Mongoose] File entry creation unsuccessful.");
-    }
+  return new Promise((resolve, reject) => {
+    // Find the profile corresponding to the user and retrieve it.
+    fetchProfileByUID(uid, (e, profile) => {
+      if (!e && profile) {
+        // Hydrate object received as it is lean.
+        profile = Profile.hydrate(profile);
+        profile.filesAndDocs.push({ name, url });
+        profile.save((err) => {
+          if (err) {
+            console.log("[Mongoose] File entry creation failed ", err);
+            reject({ statusCode: 500 });
+          } else {
+            console.log("[Mongoose] File entry created.");
+            resolve({ statusCode: 200 });
+          }
+        });
+      } else {
+        console.log(
+          "[Mongoose] File entry creation unsuccessful - user not found."
+        );
+        reject({ statusCode: 401 });
+      }
+    });
   });
 };
 
 const postDelete = (url, uid) => {
   console.log("[Mongoose] Deleting file entry from user.");
-
-  fetchProfileByUID(uid, (e, profile) => {
-    if (!e && profile) {
-      profile = Profile.hydrate(profile);
-      profile.filesAndDocs = profile.filesAndDocs.filter(
-        (item) => item.url !== url
-      );
-      profile.save((err) => {
-        if (err) console.log("[Mongoose] File entry deletion failed ", err);
-        else {
-          console.log("[Mongoose] File entry deleted.");
-        }
-      });
-    } else {
-      console.log("[Mongoose] File entry creation unsuccesful.");
-    }
+  return new Promise((resolve, reject) => {
+    fetchProfileByUID(uid, (e, profile) => {
+      if (!e && profile) {
+        profile = Profile.hydrate(profile);
+        profile.filesAndDocs = profile.filesAndDocs.filter(
+          (item) => item.url !== url
+        );
+        profile.save((err) => {
+          if (err) {
+            console.log("[Mongoose] File entry deletion failed ", err);
+            reject({ statusCode: 500 });
+          } else {
+            console.log("[Mongoose] File entry deleted.");
+            resolve({ statusCode: 200 });
+          }
+        });
+      } else {
+        console.log(
+          "[Mongoose] File entry creation unsuccesful - user not found."
+        );
+        reject({ statusCode: 401 });
+      }
+    });
   });
 };
 
@@ -245,9 +373,29 @@ const isValidObjectId = (str) => {
   return validObjectId.test(str);
 };
 
+/**
+ * Appends full URI path into specific data fields.
+ *
+ * Appends URI path for image, linkToProfile and filesAndDocs.
+ *
+ * @function appendProfilePaths
+ * @param {Object} profile Profile Schema for profile data.
+ *
+ * @returns profile after appending.
+ */
+const appendProfilePaths = (profile) => {
+  profile.image = FILEPATH_S3 + profile.image;
+  profile.linkToProfile =
+    FILEPATH_PROFILE +
+    (profile.linkToProfile ? profile.linkToProfile : profile._id);
+  profile.filesAndDocs.map((item) => (item.url = FILEPATH_S3 + item.url));
+  return profile;
+};
+
 module.exports = {
   mongorouter: mongorouter,
   postUpload: postUpload,
   postDelete: postDelete,
   fetchProfileByUID: fetchProfileByUID,
+  mapUIDtoPID: mapUIDtoPID,
 };

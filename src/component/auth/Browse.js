@@ -35,7 +35,7 @@ class Browse extends Component {
   };
 
   getProfiles = () => {
-    axios.get("/info/profiles").then((res) => {
+    axios.get("/api/mongo/profiles").then((res) => {
       const data = res.data;
       this.setState({ profiles: data });
       console.log("data received");
@@ -69,8 +69,8 @@ class Browse extends Component {
     if (profile.workHistory) {
       return (
         <List size="small" className="browse-career">
-          <List.Item>{profile.workHistory[0]}</List.Item>
-          <List.Item>[get current employer from DB]</List.Item>
+          <List.Item>{profile.workHistory[0].role}</List.Item>
+          <List.Item>{profile.workHistory[0].workplace}</List.Item>
         </List>
       );
     }

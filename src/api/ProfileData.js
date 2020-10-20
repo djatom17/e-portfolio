@@ -4,7 +4,7 @@
  * @copyright This material is made available to you by or on behalf
  * of the University of Melbourne.
  * @requires react,axios
- * @exports getProfile,getElements,getName,getCurrJob
+ * @exports getProfile,getElements,getName,updateProfile
  */
 import React from "react";
 import axios from "axios";
@@ -27,7 +27,7 @@ const { Paragraph } = Typography;
  * @param {Requester~requestCallback} callback - Handles callback for response.
  */
 export function getProfile(profileID, callback) {
-  axios.get("/info/p/" + profileID).then((res) => {
+  axios.get("/api/mongo/p/" + profileID).then((res) => {
     return callback(res.data);
   });
 }
@@ -66,36 +66,13 @@ export function getName(profile) {
   }
 }
 
-/**
- * Retrieves a given profile's work role and Place of Employment.
- * 
- * ASSUMES LAST ELEMENT IN WORKHISTORY ARRAY AS MOST RECENT JOB.
- * Checks if the given profile has any workHistory, if 0, return null.
- * Else, return the split String of the last entry in workHistory array.
- * 
- * @function [getCurrJob]
- * @see Models.Profile,Array.prototype.split
- 
- * @param {Object} profile - Profile JSON Schema
- * 
- * @returns {?Array} [role, workplace] or null 
- */
-export function getCurrJob(profile) {
-  //If the profile does not have any work history, returns null
-  if (!profile.workHistory.length) return null;
-  else {
-    const work_str = profile.workHistory[profile.workHistory.length - 1];
-    return work_str.split("@ ");
-  }
-}
-
 export function updateProfile(pid, profileChanges, token) {
   if (
     Object.keys(profileChanges).length !== 0 &&
     profileChanges.constructor === Object
   ) {
     axios
-      .post("/info/p-update/" + pid, profileChanges, {
+      .post("/api/mongo/p-update/" + pid, profileChanges, {
         headers: { "x-auth-token": token, "Content-Type": "application/json" },
       })
       .then((res) => {
