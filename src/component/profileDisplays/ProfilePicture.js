@@ -20,16 +20,10 @@ export class ProfilePicture extends Component {
     const { pfpVisible } = this.state;
 
     // pfp present by default
-    const pfp = (
-      <Avatar alt="pfp" src={this.props.image} shape="square" size={200} />
-    );
+    const pfp = <img src={this.props.image} alt="pfp" className="mt-4 "></img>;
 
     // upload button that appears while hovering in edit mode
-    const uploadButton = (
-      <Avatar shape="square" size={200}>
-        <Upload> Change </Upload>
-      </Avatar>
-    );
+    const uploadButton = <Upload> Change </Upload>;
 
     return (
       <Col
@@ -37,9 +31,10 @@ export class ProfilePicture extends Component {
         onMouseEnter={() => this.onEnterPFP()}
         onMouseLeave={() => this.onLeavePFP()}
       >
+        {pfp}
         {this.props.isMyProfile && this.props.canEdit && !pfpVisible
           ? uploadButton
-          : pfp}
+          : null}
       </Col>
     );
   }

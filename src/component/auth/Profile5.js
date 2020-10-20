@@ -13,6 +13,7 @@ import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
+import ProfilePicture from "../profileDisplays/ProfilePicture";
 
 const { Title, Paragraph } = Typography;
 
@@ -139,11 +140,10 @@ class Profile5 extends Component {
           <Col flex={1}>
             <div className="prof5">
               <div className="container-fluid prof5-img">
-                <img
-                  src={this.state.profile.image}
-                  aria-hidden
-                  alt="description of image"
-                  className="mt-4 "
+                <ProfilePicture
+                  image={this.state.profile.image}
+                  isMyProfile={this.state.isMyProfile}
+                  canEdit={this.state.canEdit}
                 />
               </div>
               <div className="prof5-img">
