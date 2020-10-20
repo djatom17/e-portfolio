@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const auth = require("./auth");
+const { ObjectID } = require("mongodb");
 const { OAuth2Client } = require("google-auth-library");
 const authClient = new OAuth2Client(
   "84279213789-nla6f8u88716cs7t53iikugg977laq92.apps.googleusercontent.com"
@@ -202,5 +203,85 @@ userrouter.get("/user", auth, (req, res, next) => {
         });
     });
 });
+
+/**
+ * Handles POST request for changing a user's account password.
+ * 
+ * Stores password changes as hash, if any.
+ * Pushes hash onto User database.
+ * 
+ * Successful operation:
+ * Status code 204
+ */
+userrouter.post("/change-password", auth, (req, res, next) => {
+  //Generate password hash to be stored.
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      res.status(500).json({error:err});
+    }
+    //Hash password with salt.
+    bcrypt.hash(req.body.password, salt, (err, hash) => {
+      if (err) {
+        res.status(500).json({error:err});
+      }
+      req.body.password = hash;
+      //Push changes to User database.
+      User.findOneAndUpdate(
+        { _id: ObjectID(req.user.id) } ,
+        { $set: req.body },
+        { returnNewDocument: true, useFindAndModify: false }
+      ).then((updated_user) => {
+        if (!updated_user) {
+          return res.status(500).json({error:"[Mongoose] User update unsuccessful."});
+        }
+        //Successful operation
+        else {
+          console.log("[Mongoose] Successfully posted updates to MongoDB.");
+          res.status(204).json('Password changed successfully.');
+        }
+      });
+    });
+  });
+});
+
+/**
+ * Checks if email change request exists for another user.
+ * 
+ * Intended as a middleware for checking distinct emails. 
+ * Checks if email exists in user database before calling next.
+ * Rejects the update if conflicting email found.
+ * 
+ * @function [checkEmail]
+ * @param {JSON} req Request body.
+ * @param {JSON} res Response body.
+ * @param {} next Method for next route. 
+ */
+function checkEmail(req, res, next) {
+  //If an email change is in the request body, performs check.
+  if ("email" in req.body) {
+    User.findOne({"email":req.body.email}, (err, user) => {
+      if (err) {
+        console.log(
+          "[Mongoose] Error in fetching user account."
+        );
+        return res.status(500).json({error:err});
+      } 
+      //Found conflicting email.
+      if (user) {
+        console.log("Conflicting email.");
+        delete req.body.email;
+        return res.status(409).send(req.body);
+      }
+      //Successful operation
+      else {
+        next();
+      }
+    });
+  }
+  //No email change requested.
+  else {
+    next();
+  }
+}
 
 module.exports = userrouter;

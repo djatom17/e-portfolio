@@ -84,6 +84,33 @@ export function updateProfile(pid, profileChanges, token) {
   }
 }
 
+/**
+ * Changes user password on the users database.
+ * 
+ * Does not refresh user session nor log users out.
+ * Will only perform update operations if newPassword is not empty.
+ * newPassword should follow password attribute of User schema.
+ * 
+ * @function [changePassword]
+ * @see userAuth.js
+ * @param {Object} newPassword Password to be changed to.
+ * @param {String} token Auth token of user.
+ */
+export function changePassword(newPassword, token) {
+  if (
+    Object.keys(newPassword).length !== 0 &&
+    newPassword.constructor === Object
+  ) {
+    axios
+      .post("/api/auth/change-password", newPassword, {
+        headers: { "x-auth-token": token, "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  }
+}
+
 // Text Editor
 export function setEditableStr(property, str) {
   var addChange = {};
