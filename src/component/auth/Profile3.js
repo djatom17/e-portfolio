@@ -75,6 +75,7 @@ class Profile3 extends Component {
     this.handleCancel = ProfileData.handleCancel.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
+    this.resize = ProfileData.resize.bind(this);
   }
 
   componentDidMount() {
@@ -89,10 +90,6 @@ class Profile3 extends Component {
     this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
       ? this.setState({ isMyProfile: true })
       : this.setState({ isMyProfile: false });
-  }
-
-  resize() {
-    this.setState({ mobileView: window.innerWidth <= 760 });
   }
 
   componentWillUnmount() {
@@ -130,7 +127,10 @@ class Profile3 extends Component {
   };
 
   render() {
+    // whether the app is in mobile view
     const { mobileView } = this.state;
+
+    // desktop version of the profile header
     const desktopHeader = (
       <div>
         <Row className="pt-4 mt-4 ml-5" justify="space-between">
@@ -172,6 +172,7 @@ class Profile3 extends Component {
             image={this.state.profile.image}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
+            mobileView={false}
           />
           <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
@@ -220,6 +221,7 @@ class Profile3 extends Component {
       </div>
     );
 
+    // mobile version of the profile header
     const mobileHeader = (
       <div>
         <Row>
@@ -262,6 +264,7 @@ class Profile3 extends Component {
             image={this.state.profile.image}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
+            mobileView={false}
           />
           <Col>
             <Row>

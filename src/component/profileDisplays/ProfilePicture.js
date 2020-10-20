@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
-import { Col, Upload, Button } from "antd";
+import { Col, Upload, Button, Avatar } from "antd";
 import "antd/dist/antd.css";
-import Avatar from "antd/lib/avatar/avatar";
+import { UserOutlined } from "@ant-design/icons";
 
 export class ProfilePicture extends Component {
   state = {
@@ -28,7 +28,11 @@ export class ProfilePicture extends Component {
     // upload button that appears while hovering in edit mode
     const uploadButton = (
       <Upload className="pfp-button">
-        <Button type="primary"> Change </Button>
+        {!this.props.mobileView ? (
+          <Button type="primary"> Change </Button>
+        ) : (
+          <Button type="primary" size="small" icon={<UserOutlined />} />
+        )}
       </Upload>
     );
 

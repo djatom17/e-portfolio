@@ -317,3 +317,14 @@ export function deleteButt(fieldName, item) {
   );
 }
 //End of Adding , Deleting and Editing of data helper functions
+
+/**
+ *
+ * Switches between desktop viewing and mobile viewing modes
+ *
+ * @function [resize]
+ *
+ */
+export function resize() {
+  this.setState({ mobileView: window.innerWidth <= 760 });
+}
