@@ -32,11 +32,9 @@ const FILEPATH_PROFILE = "/profile/";
  */
 mongorouter.get("/profiles", function (req, res, next) {
   //get all initialised profile entries from MongoDB.profiles
-  Profile.find(
-    {
-      "isNewUser": false
-    }
-  )
+  Profile.find({
+    isNewUser: false,
+  })
     .lean()
     .exec((err, profiles) => {
       if (err) return res.send("[Mongoose] Error in fetching profiles.");
