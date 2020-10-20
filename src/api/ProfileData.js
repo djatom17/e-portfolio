@@ -1,10 +1,12 @@
 /**
+ * Aggregrates backend APIs into core frontend function calls.
+ * 
  * @file Functions for front-end to route API calls
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
  * of the University of Melbourne.
- * @requires react,axios
- * @exports getProfile,getElements,getName,updateProfile
+ * @requires react,axios,antd
+ * @exports getProfile,getElements,getName,updateProfile,changePassword
  */
 import React from "react";
 import axios from "axios";
@@ -66,6 +68,15 @@ export function getName(profile) {
   }
 }
 
+/**
+ * Pushes user profile changes onto the database.
+ * 
+ * Will not perform updates if profileChanges is empty.
+ * 
+ * @param {String} pid Profile ID of affected profile.
+ * @param {Object} profileChanges Profile JSON schema of attribute changes.
+ * @param {String} token Auth token of user.
+ */
 export function updateProfile(pid, profileChanges, token) {
   if (
     Object.keys(profileChanges).length !== 0 &&

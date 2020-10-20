@@ -1,3 +1,14 @@
+/**
+ * Handles requests for sensitive account information and security.
+ * 
+ * @file API for account-related interactions.
+ * @author Team Ctrl-Alt-Elite
+ * @copyright This material is made available to you by or on behalf
+ * of the University of Melbourne.
+ * @requires express,bcryptjs,jsonwebtoken,./auth,config,mongodb,
+ *  google-auth-library,models.User,models.UserProfile.
+ * @exports userrouter
+ */
 const express = require("express");
 const userrouter = express.Router();
 const bcrypt = require("bcryptjs");
@@ -16,7 +27,11 @@ const User = require("../../models/User");
 // User to profile mapping Model
 const UserProfile = require("../../models/UserProfile");
 
-// Authenticate/login user
+/**
+ * Authenticates a user when logging in.
+ * 
+ * "email" and "password" should be valid attributes in req.body.
+ */
 userrouter.post("/login", (req, res, next) => {
   const { email, password } = req.body;
 
@@ -28,6 +43,7 @@ userrouter.post("/login", (req, res, next) => {
     });
   }
 
+  //Ensure email is linked to a user.
   User.findOne({
     email,
   }).then((user) => {
@@ -190,7 +206,9 @@ userrouter.post("/register", (req, res, next) => {
   });
 });
 
-// Get user data, and attach their corresponding profile ID.
+/**
+ * Get user data, and attach their corresponding profile ID.
+ */ 
 userrouter.get("/user", auth, (req, res, next) => {
   User.findById(req.user.id)
     .select("-password")
