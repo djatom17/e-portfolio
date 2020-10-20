@@ -7,7 +7,7 @@
  * @copyright This material is made available to you by or on behalf
  * of the University of Melbourne.
  * @requires express,mongodb,auth.js,./models/*
- * @exports mongorouter,postUpload,fetchProfileByUID
+ * @exports mongorouter,postUpload,fetchProfileByUID,mapUIDtoPID
  */
 var express = require("express");
 const { ObjectID } = require("mongodb");
@@ -68,16 +68,21 @@ mongorouter.get("/p/:ID", function (req, res, next) {
   }
 
   Profile.findOne(query, (err, profile) => {
-    if (!profile || err) {
+    if (err) {
       console.log(
         "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
       );
-      res.send(null);
+      res.status(500).json({error:err});
       // TODO: res.send
-    } else {
+    } 
+    else if (!profile) {
+      console.log("[Mongoose] No profile found.")
+      res.status(204).send(null);
+    }
+    else {
       console.log("[Mongoose] Fetched " + req.params.ID);
       profile = appendProfilePaths(profile);
-      res.send(profile);
+      res.status(200).send(profile);
     }
   }).lean();
 });
@@ -92,13 +97,15 @@ mongorouter.get("/p/:ID", function (req, res, next) {
  * //TODO validate user has authorisation to change profile
  *
  * Authenticates user before posting changes.
+ * If updating linkToProfile, checks if the proposed change conflicts with
+ * another user in the database, update fails if link conflicted.
  * Finds the document entry in "profiles" table by profile ID.
  * Updates the entry by only changing data fields that are modified.
  * Sends back the full, updated profile via res.
  *
  * @param {String} ID Profile ID must be listed in req.params.ID
  */
-mongorouter.post("/p-update/:ID", auth, function (req, res, next) {
+mongorouter.post("/p-update/:ID", [auth,checkLink], function (req, res, next) {
   //Post updates to mongo
   Profile.findOneAndUpdate(
     { _id: ObjectID(req.params.ID) },
@@ -106,12 +113,11 @@ mongorouter.post("/p-update/:ID", auth, function (req, res, next) {
     { returnNewDocument: true, useFindAndModify: false }
   ).then((updated_profile) => {
     if (!updated_profile) {
-      console.log("[Mongoose] Profile update unsuccessful.");
-      return res.status(500);
+      return res.status(500).json({error:"[Mongoose] Profile update unsuccessful."});
       //TODO: stop here
     }
     console.log("[Mongoose] Successfully posted updates to MongoDB.");
-    res.send(updated_profile);
+    res.status(200).send(updated_profile);
   });
 });
 
@@ -161,16 +167,8 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
  * @param {Requester~requestCallback} callback - The callback that handles the response.
  */
 const fetchProfileByUID = (uid, callback) => {
-  console.log("[Mongoose] Fetching profile of uid " + uid);
-  //Find authenticated user's profile from DB
-  UserProfile.findOne({
-    uid: uid,
-  }).then((userMap) => {
-    //Handles non-existent user profile
-    if (!userMap) {
-      console.log("[Mongoose] User profile does not exist.");
-      return callback(null, null);
-    }
+  //Find mapping of UID to PID.
+  mapUIDtoPID(uid, (err, userMap) => {
     console.log("[Mongoose] Found map entry.");
     //Fetches profile by pid mapped by given uid
     Profile.findById(userMap.pid, (err, profile) => {
@@ -184,6 +182,81 @@ const fetchProfileByUID = (uid, callback) => {
       //Successful operation
       return callback(null, profile);
     }).lean();
+  });
+};
+
+/**
+ * Validates link change in request body is not taken, if any.
+ * 
+ * Checks if the link belongs to another user, rejects the update if
+ * conflicting. Moves to next route if link is available or no link
+ * change is requested.
+ * 
+ * @param {JSON} req request body.
+ * @param {JSON} res response body.
+ * @param {} next method to next route.
+ */
+function checkLink(req, res, next) {
+  //Checks if a link change is requested
+  if ("linkToProfile" in req.body) {
+    //Run distinct checks for linkToProfile, if exists.
+    Profile.findOne({"linkToProfile":req.body.linkToProfile}, (err, profile) => {
+      if (err) {
+        console.log(
+          "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
+        );
+        return res.status(500).json({error:err});
+        // TODO: res.send
+      } 
+      //Found a conflicting profile
+      if (profile) {
+        console.log("Conflict link");
+        delete req.body.linkToProfile;
+        return res.status(409).send(req.body);
+        
+        // res.json({msg:"Profile link already exists."});
+        // next();
+      }
+      else{
+        next();
+      }
+    });
+  }
+  //No link change found in body, move to next route.
+  else {
+    next();
+  }
+}
+
+/**
+ * Finds the mapped PID of a given UID.
+ * 
+ * Maps the given UID to a PID, if any, from users_to_profiles.
+ * 
+ * @function [mapUIDtoPID]
+ * @callback Requester~requestCallback
+ * @param {String} uid User ID to be mapped.
+ * @param {Requester~requestCallback} callback Handles callback function.
+ */
+const mapUIDtoPID = (uid, callback) => {
+  console.log("[Mongoose] Fetching profile of uid " + uid);
+  //Find authenticated user's profile from DB
+  UserProfile.findOne({
+    uid: uid,
+  }).then((userMap) => {
+    //Handles non-existent user profile
+    if (!userMap) {
+      console.log("[Mongoose] User profile does not exist.");
+      return callback(null, null);
+    }
+    else {
+      //Successful operation
+      return callback(null, userMap);
+    }
+  })
+  .catch((err) => {
+    console.log("[Mongoose] Error fetchign a profile");
+    return callback(err, null);
   });
 };
 
@@ -285,4 +358,5 @@ module.exports = {
   postUpload: postUpload,
   postDelete: postDelete,
   fetchProfileByUID: fetchProfileByUID,
+  mapUIDtoPID: mapUIDtoPID,
 };

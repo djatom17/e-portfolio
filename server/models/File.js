@@ -1,5 +1,5 @@
 /**
- * This file provides a schema for storing File related information during
+ * This file provides a schema generator for storing File related information during
  * upload/download. Mainly used in ProfileSchema as an array.
  * 
  * @file Schema for FileSchema
