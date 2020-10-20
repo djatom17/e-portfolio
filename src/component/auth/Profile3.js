@@ -219,6 +219,86 @@ class Profile3 extends Component {
         </Row>
       </div>
     );
+
+    const mobileHeader = (
+      <div>
+        <Row>
+          <Col className="mr-5">
+            {this.state.isMyProfile ? (
+              <Row className="ml-3 mt-3" gutter={8}>
+                <Col>
+                  <EditButton
+                    _id={this.state.profile._id}
+                    profileChanges={this.state.profileChanges}
+                    token={this.props.token}
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    changeEdit={() =>
+                      this.setState({
+                        canEdit: !this.state.canEdit,
+                        profileChanges: {},
+                      })
+                    }
+                  />
+                </Col>
+                <Col>
+                  <SettingsButton showModal={this.showModal} />
+                </Col>
+              </Row>
+            ) : null}
+          </Col>
+        </Row>
+        <Row className="ml-3 ">
+          <Col>
+            <h2>
+              {ProfileData.getName(this.state.profile)}
+              {", "}
+              <small>[get job from db]</small>
+            </h2>
+          </Col>
+        </Row>
+        <Row gutter={8} justify="center">
+          <ProfilePicture
+            image={this.state.profile.image}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+          />
+          <Col>
+            <Row>
+              <Button
+                type="link"
+                icon={<LinkedinOutlined />}
+                className="mt-3"
+              />
+            </Row>
+            <Row>
+              {" "}
+              <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
+            </Row>
+            <Row>
+              <Button type="link" icon={<GithubOutlined />} className="mt-3" />
+            </Row>
+          </Col>
+        </Row>
+        <Row className="mx-3 mt-2">
+          <Paragraph
+            ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+            editable={
+              this.state.canEdit
+                ? {
+                    onChange: (fieldName) =>
+                      this.setEditablefieldName("about", fieldName),
+                    autoSize: { minRows: 1, maxRows: 5 },
+                  }
+                : false
+            }
+          >
+            {this.state.profile.about}
+          </Paragraph>
+        </Row>
+      </div>
+    );
+
     return (
       <div>
         <Col span={20} push={2}>
@@ -226,7 +306,7 @@ class Profile3 extends Component {
             component="div"
             style={{ backgroundColor: "#ffffff", height: "auto" }}
           >
-            {!mobileView ? desktopHeader : null}
+            {!mobileView ? desktopHeader : mobileHeader}
 
             <Divider />
             <Row className=" my-4 ml-5">
