@@ -1,20 +1,16 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import MediaQuery from "react-responsive";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import Settings from "../profileDisplays/Settings";
 import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
-import { connect } from "react-redux";
-// import {Link} from "react-router-dom";
-// import axios from 'axios';
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
 import * as ProfileData from "../../api/ProfileData";
 import {
   Row,
   Col,
-  Avatar,
   Typography,
   Button,
   Divider,
@@ -67,6 +63,7 @@ class Profile3 extends Component {
     pfpVisible: true,
     canEdit: false,
     isMyProfile: false,
+    mobileView: false,
   };
 
   constructor() {
@@ -82,6 +79,9 @@ class Profile3 extends Component {
 
   componentDidMount() {
     this.setState({ profile: this.props.profile });
+    //Size check.
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
     //Authorisation check.
     this.props.isAuthenticated &&
     this.props.profile.userid &&
@@ -89,6 +89,14 @@ class Profile3 extends Component {
     this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
       ? this.setState({ isMyProfile: true })
       : this.setState({ isMyProfile: false });
+  }
+
+  resize() {
+    this.setState({ mobileView: window.innerWidth <= 760 });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resize.bind(this));
   }
 
   handleButtonClick = () => {
@@ -122,6 +130,95 @@ class Profile3 extends Component {
   };
 
   render() {
+    const { mobileView } = this.state;
+    const desktopHeader = (
+      <div>
+        <Row className="pt-4 mt-4 ml-5" justify="space-between">
+          <Col>
+            <h2>
+              {ProfileData.getName(this.state.profile)}
+              {", "}
+              <small>[get job from db]</small>
+            </h2>
+          </Col>
+          <Col className="mr-5">
+            {this.state.isMyProfile ? (
+              <Row className="mt-3" gutter={8}>
+                <Col>
+                  <EditButton
+                    _id={this.state.profile._id}
+                    profileChanges={this.state.profileChanges}
+                    token={this.props.token}
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    changeEdit={() =>
+                      this.setState({
+                        canEdit: !this.state.canEdit,
+                        profileChanges: {},
+                      })
+                    }
+                  />
+                </Col>
+                <Col>
+                  <SettingsButton showModal={this.showModal} />
+                </Col>
+              </Row>
+            ) : null}
+          </Col>
+        </Row>
+        <Row justify="space-around" gutter={24} className="mx-5">
+          {" "}
+          <ProfilePicture
+            image={this.state.profile.image}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+          />
+          <Col xs={4} sm={6} md={10} lg={14} xl={16}>
+            <h4>A little bit about me...</h4>
+            <Paragraph
+              ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+              editable={
+                this.state.canEdit
+                  ? {
+                      onChange: (fieldName) =>
+                        this.setEditablefieldName("about", fieldName),
+                      autoSize: { minRows: 1, maxRows: 5 },
+                    }
+                  : false
+              }
+            >
+              {this.state.profile.about}
+            </Paragraph>
+            {this.state.isMyProfile ? (
+              <Settings
+                handleOk={this.handleOk}
+                handleCancel={this.handleCancel}
+                showModal={this.showModal}
+                layout={this.state.layout}
+                visible={this.state.visible}
+                loading={this.state.loading}
+              />
+            ) : null}
+          </Col>
+          <Col>
+            <Row>
+              <Button
+                type="link"
+                icon={<LinkedinOutlined />}
+                className="mt-3"
+              />
+            </Row>
+            <Row>
+              {" "}
+              <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
+            </Row>
+            <Row>
+              <Button type="link" icon={<GithubOutlined />} className="mt-3" />
+            </Row>
+          </Col>
+        </Row>
+      </div>
+    );
     return (
       <div>
         <Col span={20} push={2}>
@@ -129,98 +226,8 @@ class Profile3 extends Component {
             component="div"
             style={{ backgroundColor: "#ffffff", height: "auto" }}
           >
-            <Row className="pt-4 mt-4 ml-5" justify="space-between">
-              <Col>
-                <h2>
-                  {ProfileData.getName(this.state.profile)}
-                  {", "}
-                  <small>[get job from db]</small>
-                </h2>
-              </Col>
-              <Col className="mr-5">
-                {this.state.isMyProfile ? (
-                  <Row className="mt-3" gutter={8}>
-                    <Col>
-                      <EditButton
-                        _id={this.state.profile._id}
-                        profileChanges={this.state.profileChanges}
-                        token={this.props.token}
-                        isMyProfile={this.state.isMyProfile}
-                        canEdit={this.state.canEdit}
-                        changeEdit={() =>
-                          this.setState({
-                            canEdit: !this.state.canEdit,
-                            profileChanges: {},
-                          })
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <SettingsButton showModal={this.showModal} />
-                    </Col>
-                  </Row>
-                ) : null}
-              </Col>
-            </Row>
-            <Row justify="space-around" gutter={24} className="mx-5">
-              {" "}
-              <ProfilePicture
-                image={this.state.profile.image}
-                isMyProfile={this.state.isMyProfile}
-                canEdit={this.state.canEdit}
-              />
-              <Col xs={4} sm={6} md={10} lg={14} xl={16}>
-                <h4>A little bit about me...</h4>
-                <Paragraph
-                  ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
-                  editable={
-                    this.state.canEdit
-                      ? {
-                          onChange: (fieldName) =>
-                            this.setEditablefieldName("about", fieldName),
-                          autoSize: { minRows: 1, maxRows: 5 },
-                        }
-                      : false
-                  }
-                >
-                  {this.state.profile.about}
-                </Paragraph>
-                {this.state.isMyProfile ? (
-                  <Settings
-                    handleOk={this.handleOk}
-                    handleCancel={this.handleCancel}
-                    showModal={this.showModal}
-                    layout={this.state.layout}
-                    visible={this.state.visible}
-                    loading={this.state.loading}
-                  />
-                ) : null}
-              </Col>
-              <Col>
-                <Row>
-                  <Button
-                    type="link"
-                    icon={<LinkedinOutlined />}
-                    className="mt-3"
-                  />
-                </Row>
-                <Row>
-                  {" "}
-                  <Button
-                    type="link"
-                    icon={<TwitterOutlined />}
-                    className="mt-3"
-                  />
-                </Row>
-                <Row>
-                  <Button
-                    type="link"
-                    icon={<GithubOutlined />}
-                    className="mt-3"
-                  />
-                </Row>
-              </Col>
-            </Row>
+            {!mobileView ? desktopHeader : null}
+
             <Divider />
             <Row className=" my-4 ml-5">
               <Tabs onChange={callback} type="card">
