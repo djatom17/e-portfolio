@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
-import { Col, Upload, Avatar } from "antd";
+import { Col, Upload, Button } from "antd";
 import "antd/dist/antd.css";
+import Avatar from "antd/lib/avatar/avatar";
 
 export class ProfilePicture extends Component {
   state = {
@@ -20,10 +21,16 @@ export class ProfilePicture extends Component {
     const { pfpVisible } = this.state;
 
     // pfp present by default
-    const pfp = <img src={this.props.image} alt="pfp" className="mt-4 "></img>;
+    const pfp = (
+      <Avatar alt="pfp" className="pfp" src={this.props.image} shape="square" />
+    );
 
     // upload button that appears while hovering in edit mode
-    const uploadButton = <Upload> Change </Upload>;
+    const uploadButton = (
+      <Upload className="pfp-button">
+        <Button type="primary"> Change </Button>
+      </Upload>
+    );
 
     return (
       <Col

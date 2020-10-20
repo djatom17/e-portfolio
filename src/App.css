@@ -141,6 +141,8 @@ img {
   font-size: 28px;
 }
 
+/* profile styles */
+
 .prof5 {
   background-color: coral;
   height: 100%;
@@ -160,6 +162,20 @@ img {
   width: 15vw;
   text-align: center;
 }
+
+.pfp {
+  width: 100%;
+  height: auto;
+}
+
+.pfp-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
 .modified-item:hover {
   border-bottom: 2px transparent !important;
   color: white !important;
