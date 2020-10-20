@@ -37,22 +37,11 @@ describe("Front-end tests", () => {
   });
 
   // Start tests
-  it("renders without crashing", () => {
-    const div = document.createElement("div");
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-      div
-    );
-  });
-});
 
-// testing AchievementManager
-describe("<AchievementManager /> component", () => {
-  it("should render", () => {
-    const achievements = mount(
-      <Provider store={store}>
+  // testing AchievementManager
+  describe("<AchievementManager /> component", () => {
+    it("should render", () => {
+      const achievements = mount(
         <AchievementManager
           isMyProfile={true}
           canEdit={true}
@@ -65,18 +54,16 @@ describe("<AchievementManager /> component", () => {
             alert("function called");
           }}
         />
-      </Provider>
-    );
-    const value = achievements.find("Paragraph").at(1).text();
-    expect(value).toEqual("Pro Golf Champion");
+      );
+      const value = achievements.find("Paragraph").at(1).text();
+      expect(value).toEqual("Pro Golf Champion");
+    });
   });
-});
 
-// Testing SkillManager
-describe("<SkillManager /> component", () => {
-  it("should render", () => {
-    const skills = mount(
-      <Provider store={store}>
+  // Testing SkillManager
+  describe("<SkillManager /> component", () => {
+    it("should render", () => {
+      const skills = mount(
         <SkillManager
           isMyProfile={true}
           canEdit={true}
@@ -85,81 +72,71 @@ describe("<SkillManager /> component", () => {
             alert("function called");
           }}
         />
-      </Provider>
-    );
-    const value = skills.find("Tag").at(0).text();
-    expect(value).toEqual("Python");
+      );
+      const value = skills.find("Tag").at(0).text();
+      expect(value).toEqual("Python");
+    });
   });
-});
 
-// testing EditButton
-describe("<Edit Button /> component", () => {
-  it("should render as Done", () => {
-    const editButt = mount(
-      <Provider store={store}>
-        <EditButton isMyProfile={true} canEdit={true} />
-      </Provider>
-    );
-    const value = editButt.find("Button").text();
-    expect(editButt.find("Button").exists()).toBeTruthy() &&
-      expect(value).toEqual("Done");
-  });
-  it("should render as Edit", () => {
-    const editButt = mount(
-      <Provider store={store}>
-        <EditButton isMyProfile={true} canEdit={false} />
-      </Provider>
-    );
-    const value = editButt.find("Button").text();
-    expect(editButt.find("Button").exists()).toBeTruthy() &&
-      expect(value).toEqual("Edit");
-  });
-  it("should not render if there isnt auth", () => {
-    const editButt = mount(
-      <Provider store={store}>
+  // testing EditButton
+  describe("<Edit Button /> component", () => {
+    it("should render as Done", () => {
+      const editButt = mount(<EditButton isMyProfile={true} canEdit={true} />);
+      const value = editButt.find("Button").text();
+      expect(editButt.find("Button").exists()).toBeTruthy() &&
+        expect(value).toEqual("Done");
+    });
+    it("should render as Edit", () => {
+      const editButt = mount(<EditButton isMyProfile={true} canEdit={false} />);
+      const value = editButt.find("Button").text();
+      expect(editButt.find("Button").exists()).toBeTruthy() &&
+        expect(value).toEqual("Edit");
+    });
+    it("should not render if there isnt auth", () => {
+      const editButt = mount(
         <EditButton isMyProfile={false} canEdit={false} />
-      </Provider>
+      );
+      expect(editButt.find("Button").exists()).toBeFalsy();
+    });
+  });
+
+  describe("Profile Layout 5 ", () => {
+    const prof = (
+      <Profile5
+        isMyProfile={true}
+        isAuthenticated={true}
+        user={{ _id: "0111" }}
+        profile={{
+          userid: "0111",
+          firstName: "Aa",
+          lastName: "DjN",
+          keySkills: ["Python", "C", "More Skills"],
+          layout: "5",
+          subtitle: "Idek anymore",
+          achievements: ["Did something", "And that"],
+        }}
+      />
     );
-    expect(editButt.find("Button").exists()).toBeFalsy();
-  });
-});
+    it("when the user does not have authentication", () => {
+      const prof5 = mount(<Provider store={store}>{prof} </Provider>);
+      // prof5.getInstance().setState({ isMyProfile: false });
+      expect(prof5.debug()).toMatchSnapshot();
+    });
 
-describe("Profile Layout 5 ", () => {
-  const prof = (
-    <Profile5
-      isMyProfile={true}
-      isAuthenticated={true}
-      user={{ _id: "0111" }}
-      profile={{
-        userid: "0111",
-        firstName: "Aa",
-        lastName: "DjN",
-        keySkills: ["Python", "C", "More Skills"],
-        layout: "5",
-        subtitle: "Idek anymore",
-        achievements: ["Did something", "And that"],
-      }}
-    />
-  );
-  it("when the user does not have authentication", () => {
-    const prof5 = mount(<Provider store={store}>{prof} </Provider>);
-    // prof5.getInstance().setState({ isMyProfile: false });
-    expect(prof5.debug()).toMatchSnapshot();
+    // it("Settings render?", () => {
+    //   const prof5 = shallow(<Provider store={store}>{prof} </Provider>);
+    //   expect(prof5.find("Settings").exists()).toBeTruthy();
+    //    expect(prof5.find(Settings)).toHaveLength(1);
+    //   expect(prof5.containsMatchingElement(<Settings />)).toEqual(true);
+    // });
+    // // it("when there the user has authentication", () => {
+    //   const prof5 = mount(
+    //     <Provider store={store}>
+    //       <Profile5 />{" "}
+    //     </Provider>
+    //   );
+    //   prof5.getInstance().setState({ isMyProfile: true });
+    //   expect(prof5).toMatchSnapshot();
+    // });
   });
-
-  // it("Settings render?", () => {
-  //   const prof5 = shallow(<Provider store={store}>{prof} </Provider>);
-  //   expect(prof5.find("Settings").exists()).toBeTruthy();
-  //    expect(prof5.find(Settings)).toHaveLength(1);
-  //   expect(prof5.containsMatchingElement(<Settings />)).toEqual(true);
-  // });
-  // // it("when there the user has authentication", () => {
-  //   const prof5 = mount(
-  //     <Provider store={store}>
-  //       <Profile5 />{" "}
-  //     </Provider>
-  //   );
-  //   prof5.getInstance().setState({ isMyProfile: true });
-  //   expect(prof5).toMatchSnapshot();
-  // });
 });
