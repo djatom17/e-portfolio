@@ -32,11 +32,9 @@ const FILEPATH_PROFILE = "/profile/";
  */
 mongorouter.get("/profiles", function (req, res, next) {
   //get all initialised profile entries from MongoDB.profiles
-  Profile.find(
-    {
-      "isNewUser": false
-    }
-  )
+  Profile.find({
+    isNewUser: false,
+  })
     .lean()
     .exec((err, profiles) => {
       if (err) return res.send("[Mongoose] Error in fetching profiles.");
@@ -148,6 +146,47 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
 
   // TODO: change this to preferably the user's brand-new profile page.
   res.redirect("/");
+});
+
+/**
+ * Filters/searches profiles based on the key skills that are stored.
+ * The search phrase must be encoded and passed as a query parameter.
+ *
+ * Example: /search?skills=hand%20eye%20coordination&name=Anuja%20Nautreel
+ *
+ * Can be expanded to become a full-fledged search functionality.
+ */
+mongorouter.get("/search", function (req, res, next) {
+  var searchQuery = decodeURIComponent(req.query.skills);
+  console.log("[Mongoose] Searching profiles with", searchQuery);
+  Profile.aggregate(
+    [
+      {
+        $search: {
+          text: {
+            query: searchQuery,
+            path: "keySkills",
+          },
+        },
+      },
+    ],
+    (err, profiles) => {
+      if (err) {
+        console.log("[Mongoose] Failed to search.");
+        return res.status(500).json({ error: err });
+      }
+      console.log(
+        "[Mongoose] Retrieved",
+        profiles.length,
+        "profiles with search term",
+        searchQuery
+      );
+      profiles.forEach((profile) => {
+        profile = appendProfilePaths(profile);
+      });
+      return res.status(200).json(profiles);
+    }
+  );
 });
 
 /**
