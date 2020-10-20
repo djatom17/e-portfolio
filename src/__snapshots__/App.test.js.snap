@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Profile Layout 5  when the user does not have authentication 1`] = `
+"<Provider store={{...}}>
+  <Connect(Profile5) isMyProfile={true} isAuthenticated={true} user={{...}} profile={{...}}>
+    <Profile5 isMyProfile={true} isAuthenticated={{...}} user={{...}} profile={{...}} token={{...}}>
+      <div className=\\"container-fluid ml-n3\\">
+        <Row>
+          <div className=\\"ant-row\\" style={{...}}>
+            <Col flex={1}>
+              <div style={{...}} className=\\"ant-col\\">
+                <div className=\\"prof5\\">
+                  <div className=\\"container-fluid prof5-img\\">
+                    <img src={[undefined]} aria-hidden={true} alt=\\"description of image\\" className=\\"mt-4 \\" />
+                  </div>
+                  <div className=\\"prof5-img\\">
+                    <Title className=\\" text-center\\">
+                      <Base className=\\" text-center\\" component=\\"h1\\">
+                        <LocaleReceiver componentName=\\"Text\\">
+                          <ResizeObserver onResize={[Function (anonymous)]} disabled={true}>
+                            <Typography className=\\" text-center\\" style={{...}} component=\\"h1\\" aria-label={[undefined]} direction={[undefined]}>
+                              <h1 className=\\"ant-typography  text-center\\" aria-label={[undefined]} style={{...}} direction={[undefined]}>
+                                 
+                                Aa DjN
+                              </h1>
+                            </Typography>
+                          </ResizeObserver>
+                        </LocaleReceiver>
+                      </Base>
+                    </Title>
+                    <Paragraph className=\\"text-center\\" editable={false}>
+                      <Base className=\\"text-center\\" editable={false} component=\\"div\\">
+                        <LocaleReceiver componentName=\\"Text\\">
+                          <ResizeObserver onResize={[Function (anonymous)]} disabled={true}>
+                            <Typography className=\\"text-center\\" style={{...}} component=\\"div\\" aria-label={[undefined]} direction={[undefined]}>
+                              <div className=\\"ant-typography text-center\\" aria-label={[undefined]} style={{...}} direction={[undefined]}>
+                                Idek anymore
+                              </div>
+                            </Typography>
+                          </ResizeObserver>
+                        </LocaleReceiver>
+                      </Base>
+                    </Paragraph>
+                  </div>
+                  <div>
+                    <Menu onClick={[Function (anonymous)]} selectedKeys={{...}} mode=\\"vertical\\" style={{...}} className=\\"text-center\\">
+                      <InternalMenu onClick={[Function (anonymous)]} selectedKeys={{...}} mode=\\"vertical\\" style={{...}} className=\\"text-center\\" theme=\\"light\\" focusable={false}>
+                        <Menu getPopupContainer={[undefined]} onClick={[Function (anonymous)]} selectedKeys={{...}} mode=\\"vertical\\" style={{...}} className=\\"ant-menu-light text-center\\" theme=\\"light\\" focusable={false} prefixCls=\\"ant-menu\\" direction={[undefined]} defaultMotions={{...}} selectable={true} onSelect={[Function: noop]} onOpenChange={[Function: noop]} onDeselect={[Function: noop]} defaultSelectedKeys={{...}} defaultOpenKeys={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} triggerSubMenuAction=\\"hover\\" builtinPlacements={{...}} overflowedIndicator={{...}}>
+                          <Provider store={{...}}>
+                            <Connect(SubPopupMenu) getPopupContainer={[undefined]} onClick={[Function (anonymous)]} selectedKeys={{...}} mode=\\"vertical\\" style={{...}} className=\\"ant-menu-light text-center ant-menu-root\\" theme=\\"light\\" focusable={false} prefixCls=\\"ant-menu\\" direction={[undefined]} selectable={true} onSelect={[Function (anonymous)]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} defaultSelectedKeys={{...}} defaultOpenKeys={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} triggerSubMenuAction=\\"hover\\" builtinPlacements={{...}} overflowedIndicator={{...}} onMouseEnter={[Function (anonymous)]} onTransitionEnd={[Function (anonymous)]} parentMenu={{...}} motion={{...}}>
+                              <SubPopupMenu getPopupContainer={[undefined]} onClick={[Function (anonymous)]} selectedKeys={{...}} mode=\\"vertical\\" style={{...}} className=\\"ant-menu-light text-center ant-menu-root\\" theme=\\"light\\" focusable={false} prefixCls=\\"ant-menu\\" direction={[undefined]} selectable={true} onSelect={[Function (anonymous)]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} defaultSelectedKeys={{...}} defaultOpenKeys={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} triggerSubMenuAction=\\"hover\\" builtinPlacements={{...}} overflowedIndicator={{...}} onMouseEnter={[Function (anonymous)]} onTransitionEnd={[Function (anonymous)]} parentMenu={{...}} motion={{...}} store={{...}} level={1} inlineIndent={24} visible={true} manualRef={[Function: noop]}>
+                                <DOMWrap style={{...}} className=\\"ant-menu ant-menu-light text-center ant-menu-root ant-menu-vertical\\" direction={[undefined]} onMouseEnter={[Function (anonymous)]} onTransitionEnd={[Function (anonymous)]} prefixCls=\\"ant-menu\\" mode=\\"vertical\\" tag=\\"ul\\" level={1} theme=\\"light\\" visible={true} overflowedIndicator={{...}} role=\\"menu\\">
+                                  <ul style={{...}} className=\\"ant-menu ant-menu-light text-center ant-menu-root ant-menu-vertical\\" direction={[undefined]} onMouseEnter={[Function (anonymous)]} onTransitionEnd={[Function (anonymous)]} role=\\"menu\\">
+                                    <MenuItem className=\\"modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={0} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"about\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]}>
+                                      <Tooltip title={{...}} visible={false} placement=\\"right\\" overlayClassName=\\"ant-menu-inline-collapsed-tooltip\\" transitionName=\\"zoom-big-fast\\" mouseEnterDelay={0.1} mouseLeaveDelay={0.1} arrowPointAtCenter={false} autoAdjustOverflow={true}>
+                                        <ForwardRef(Tooltip) title={{...}} visible={false} placement=\\"right\\" overlayClassName=\\"ant-menu-inline-collapsed-tooltip\\" transitionName=\\"zoom-big-fast\\" mouseEnterDelay={0.1} mouseLeaveDelay={0.1} arrowPointAtCenter={false} autoAdjustOverflow={true} prefixCls=\\"ant-tooltip\\" getTooltipContainer={[undefined]} builtinPlacements={{...}} overlay=\\"\\" onVisibleChange={[Function: onVisibleChange]} onPopupAlign={[Function: onPopupAlign]} overlayInnerStyle={[undefined]} arrowContent={{...}}>
+                                          <Trigger popupClassName=\\"ant-menu-inline-collapsed-tooltip\\" prefixCls=\\"ant-tooltip\\" popup={[Function: getPopupElement]} action={{...}} builtinPlacements={{...}} popupPlacement=\\"right\\" popupAlign={{...}} getPopupContainer={[undefined]} onPopupVisibleChange={[Function: onVisibleChange]} afterPopupVisibleChange={[Function: noop]} popupTransitionName=\\"zoom-big-fast\\" popupAnimation={[undefined]} defaultPopupVisible={false} destroyPopupOnHide={false} autoDestroy={false} mouseLeaveDelay={0.1} popupStyle={{...}} mouseEnterDelay={0.1} title={{...}} visible={false} arrowPointAtCenter={false} autoAdjustOverflow={true} overlay=\\"\\" onPopupAlign={[Function: onPopupAlign]} arrowContent={{...}} popupVisible={false} getPopupClassNameFromAlign={[Function: returnEmptyString]} getDocument={[Function: returnDocument]} focusDelay={0} blurDelay={0.15} mask={false} maskClosable={true} showAction={{...}} hideAction={{...}}>
+                                            <Connect(MenuItem) className=\\"ant-menu-item-only-child modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={0} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"about\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]} title={[undefined]} onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onFocus={[undefined]} onBlur={[undefined]}>
+                                              <MenuItem className=\\"ant-menu-item-only-child modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={0} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"about\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]} title={[undefined]} onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onFocus={[undefined]} onBlur={[undefined]} isSelected={false} store={{...}}>
+                                                <li className=\\"ant-menu-item ant-menu-item-only-child modified-item\\" onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onFocus={[undefined]} onBlur={[undefined]} title={[undefined]} role=\\"menuitem\\" aria-disabled={[undefined]} onClick={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onMouseEnter={[Function (anonymous)]} style={{...}}>
+                                                  About Me
+                                                </li>
+                                              </MenuItem>
+                                            </Connect(MenuItem)>
+                                          </Trigger>
+                                        </ForwardRef(Tooltip)>
+                                      </Tooltip>
+                                    </MenuItem>
+                                    <MenuItem className=\\"modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={1} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"achievements\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]}>
+                                      <Tooltip title={{...}} visible={false} placement=\\"right\\" overlayClassName=\\"ant-menu-inline-collapsed-tooltip\\" transitionName=\\"zoom-big-fast\\" mouseEnterDelay={0.1} mouseLeaveDelay={0.1} arrowPointAtCenter={false} autoAdjustOverflow={true}>
+                                        <ForwardRef(Tooltip) title={{...}} visible={false} placement=\\"right\\" overlayClassName=\\"ant-menu-inline-collapsed-tooltip\\" transitionName=\\"zoom-big-fast\\" mouseEnterDelay={0.1} mouseLeaveDelay={0.1} arrowPointAtCenter={false} autoAdjustOverflow={true} prefixCls=\\"ant-tooltip\\" getTooltipContainer={[undefined]} builtinPlacements={{...}} overlay=\\"\\" onVisibleChange={[Function: onVisibleChange]} onPopupAlign={[Function: onPopupAlign]} overlayInnerStyle={[undefined]} arrowContent={{...}}>
+                                          <Trigger popupClassName=\\"ant-menu-inline-collapsed-tooltip\\" prefixCls=\\"ant-tooltip\\" popup={[Function: getPopupElement]} action={{...}} builtinPlacements={{...}} popupPlacement=\\"right\\" popupAlign={{...}} getPopupContainer={[undefined]} onPopupVisibleChange={[Function: onVisibleChange]} afterPopupVisibleChange={[Function: noop]} popupTransitionName=\\"zoom-big-fast\\" popupAnimation={[undefined]} defaultPopupVisible={false} destroyPopupOnHide={false} autoDestroy={false} mouseLeaveDelay={0.1} popupStyle={{...}} mouseEnterDelay={0.1} title={{...}} visible={false} arrowPointAtCenter={false} autoAdjustOverflow={true} overlay=\\"\\" onPopupAlign={[Function: onPopupAlign]} arrowContent={{...}} popupVisible={false} getPopupClassNameFromAlign={[Function: returnEmptyString]} getDocument={[Function: returnDocument]} focusDelay={0} blurDelay={0.15} mask={false} maskClosable={true} showAction={{...}} hideAction={{...}}>
+                                            <Connect(MenuItem) className=\\"ant-menu-item-only-child modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={1} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"achievements\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]} title={[undefined]} onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onFocus={[undefined]} onBlur={[undefined]}>
+                                              <MenuItem className=\\"ant-menu-item-only-child modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={1} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"achievements\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]} title={[undefined]} onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onFocus={[undefined]} onBlur={[undefined]} isSelected={false} store={{...}}>
+                                                <li className=\\"ant-menu-item ant-menu-item-only-child modified-item\\" onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onFocus={[undefined]} onBlur={[undefined]} title={[undefined]} role=\\"menuitem\\" aria-disabled={[undefined]} onClick={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onMouseEnter={[Function (anonymous)]} style={{...}}>
+                                                  Achievements
+                                                </li>
+                                              </MenuItem>
+                                            </Connect(MenuItem)>
+                                          </Trigger>
+                                        </ForwardRef(Tooltip)>
+                                      </Tooltip>
+                                    </MenuItem>
+                                    <MenuItem className=\\"modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={2} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"skills\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]}>
+                                      <Tooltip title={{...}} visible={false} placement=\\"right\\" overlayClassName=\\"ant-menu-inline-collapsed-tooltip\\" transitionName=\\"zoom-big-fast\\" mouseEnterDelay={0.1} mouseLeaveDelay={0.1} arrowPointAtCenter={false} autoAdjustOverflow={true}>
+                                        <ForwardRef(Tooltip) title={{...}} visible={false} placement=\\"right\\" overlayClassName=\\"ant-menu-inline-collapsed-tooltip\\" transitionName=\\"zoom-big-fast\\" mouseEnterDelay={0.1} mouseLeaveDelay={0.1} arrowPointAtCenter={false} autoAdjustOverflow={true} prefixCls=\\"ant-tooltip\\" getTooltipContainer={[undefined]} builtinPlacements={{...}} overlay=\\"\\" onVisibleChange={[Function: onVisibleChange]} onPopupAlign={[Function: onPopupAlign]} overlayInnerStyle={[undefined]} arrowContent={{...}}>
+                                          <Trigger popupClassName=\\"ant-menu-inline-collapsed-tooltip\\" prefixCls=\\"ant-tooltip\\" popup={[Function: getPopupElement]} action={{...}} builtinPlacements={{...}} popupPlacement=\\"right\\" popupAlign={{...}} getPopupContainer={[undefined]} onPopupVisibleChange={[Function: onVisibleChange]} afterPopupVisibleChange={[Function: noop]} popupTransitionName=\\"zoom-big-fast\\" popupAnimation={[undefined]} defaultPopupVisible={false} destroyPopupOnHide={false} autoDestroy={false} mouseLeaveDelay={0.1} popupStyle={{...}} mouseEnterDelay={0.1} title={{...}} visible={false} arrowPointAtCenter={false} autoAdjustOverflow={true} overlay=\\"\\" onPopupAlign={[Function: onPopupAlign]} arrowContent={{...}} popupVisible={false} getPopupClassNameFromAlign={[Function: returnEmptyString]} getDocument={[Function: returnDocument]} focusDelay={0} blurDelay={0.15} mask={false} maskClosable={true} showAction={{...}} hideAction={{...}}>
+                                            <Connect(MenuItem) className=\\"ant-menu-item-only-child modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={2} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"skills\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]} title={[undefined]} onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onFocus={[undefined]} onBlur={[undefined]}>
+                                              <MenuItem className=\\"ant-menu-item-only-child modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={2} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"skills\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]} title={[undefined]} onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onFocus={[undefined]} onBlur={[undefined]} isSelected={false} store={{...}}>
+                                                <li className=\\"ant-menu-item ant-menu-item-only-child modified-item\\" onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onFocus={[undefined]} onBlur={[undefined]} title={[undefined]} role=\\"menuitem\\" aria-disabled={[undefined]} onClick={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onMouseEnter={[Function (anonymous)]} style={{...}}>
+                                                  Skills
+                                                </li>
+                                              </MenuItem>
+                                            </Connect(MenuItem)>
+                                          </Trigger>
+                                        </ForwardRef(Tooltip)>
+                                      </Tooltip>
+                                    </MenuItem>
+                                    <MenuItem className=\\"modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={3} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"projects\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]}>
+                                      <Tooltip title={{...}} visible={false} placement=\\"right\\" overlayClassName=\\"ant-menu-inline-collapsed-tooltip\\" transitionName=\\"zoom-big-fast\\" mouseEnterDelay={0.1} mouseLeaveDelay={0.1} arrowPointAtCenter={false} autoAdjustOverflow={true}>
+                                        <ForwardRef(Tooltip) title={{...}} visible={false} placement=\\"right\\" overlayClassName=\\"ant-menu-inline-collapsed-tooltip\\" transitionName=\\"zoom-big-fast\\" mouseEnterDelay={0.1} mouseLeaveDelay={0.1} arrowPointAtCenter={false} autoAdjustOverflow={true} prefixCls=\\"ant-tooltip\\" getTooltipContainer={[undefined]} builtinPlacements={{...}} overlay=\\"\\" onVisibleChange={[Function: onVisibleChange]} onPopupAlign={[Function: onPopupAlign]} overlayInnerStyle={[undefined]} arrowContent={{...}}>
+                                          <Trigger popupClassName=\\"ant-menu-inline-collapsed-tooltip\\" prefixCls=\\"ant-tooltip\\" popup={[Function: getPopupElement]} action={{...}} builtinPlacements={{...}} popupPlacement=\\"right\\" popupAlign={{...}} getPopupContainer={[undefined]} onPopupVisibleChange={[Function: onVisibleChange]} afterPopupVisibleChange={[Function: noop]} popupTransitionName=\\"zoom-big-fast\\" popupAnimation={[undefined]} defaultPopupVisible={false} destroyPopupOnHide={false} autoDestroy={false} mouseLeaveDelay={0.1} popupStyle={{...}} mouseEnterDelay={0.1} title={{...}} visible={false} arrowPointAtCenter={false} autoAdjustOverflow={true} overlay=\\"\\" onPopupAlign={[Function: onPopupAlign]} arrowContent={{...}} popupVisible={false} getPopupClassNameFromAlign={[Function: returnEmptyString]} getDocument={[Function: returnDocument]} focusDelay={0} blurDelay={0.15} mask={false} maskClosable={true} showAction={{...}} hideAction={{...}}>
+                                            <Connect(MenuItem) className=\\"ant-menu-item-only-child modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={3} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"projects\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]} title={[undefined]} onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onFocus={[undefined]} onBlur={[undefined]}>
+                                              <MenuItem className=\\"ant-menu-item-only-child modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={3} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"projects\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]} title={[undefined]} onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onFocus={[undefined]} onBlur={[undefined]} isSelected={false} store={{...}}>
+                                                <li className=\\"ant-menu-item ant-menu-item-only-child modified-item\\" onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onFocus={[undefined]} onBlur={[undefined]} title={[undefined]} role=\\"menuitem\\" aria-disabled={[undefined]} onClick={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onMouseEnter={[Function (anonymous)]} style={{...}}>
+                                                  Projects
+                                                </li>
+                                              </MenuItem>
+                                            </Connect(MenuItem)>
+                                          </Trigger>
+                                        </ForwardRef(Tooltip)>
+                                      </Tooltip>
+                                    </MenuItem>
+                                  </ul>
+                                </DOMWrap>
+                              </SubPopupMenu>
+                            </Connect(SubPopupMenu)>
+                          </Provider>
+                        </Menu>
+                      </InternalMenu>
+                    </Menu>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col offset={2} flex={5} className=\\"prof5-about ml-n3\\">
+              <div style={{...}} className=\\"ant-col ant-col-offset-2 prof5-about ml-n3\\">
+                <div className=\\"prof5-utility-buttons \\" />
+                <Row className=\\"mt-3\\">
+                  <div className=\\"ant-row mt-3\\" style={{...}}>
+                    <Col>
+                      <div style={{...}} className=\\"ant-col\\">
+                         
+                        <div>
+                          <Title className=\\"h1size\\">
+                            <Base className=\\"h1size\\" component=\\"h1\\">
+                              <LocaleReceiver componentName=\\"Text\\">
+                                <ResizeObserver onResize={[Function (anonymous)]} disabled={true}>
+                                  <Typography className=\\"h1size\\" style={{...}} component=\\"h1\\" aria-label={[undefined]} direction={[undefined]}>
+                                    <h1 className=\\"ant-typography h1size\\" aria-label={[undefined]} style={{...}} direction={[undefined]}>
+                                      About Me
+                                    </h1>
+                                  </Typography>
+                                </ResizeObserver>
+                              </LocaleReceiver>
+                            </Base>
+                          </Title>
+                          <div>
+                            <Paragraph className=\\"psize\\" editable={false} ellipsis={{...}}>
+                              <Base className=\\"psize\\" editable={false} ellipsis={{...}} component=\\"div\\">
+                                <LocaleReceiver componentName=\\"Text\\">
+                                  <ResizeObserver onResize={[Function (anonymous)]} disabled={false}>
+                                    <Typography className=\\"ant-typography-ellipsis psize\\" style={{...}} component=\\"div\\" aria-label={[undefined]} direction={[undefined]}>
+                                      <div className=\\"ant-typography ant-typography-ellipsis psize\\" aria-label={[undefined]} style={{...}} direction={[undefined]} />
+                                    </Typography>
+                                  </ResizeObserver>
+                                </LocaleReceiver>
+                              </Base>
+                            </Paragraph>
+                          </div>
+                        </div>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
+              </div>
+            </Col>
+          </div>
+        </Row>
+      </div>
+    </Profile5>
+  </Connect(Profile5)>
+   
+</Provider>"
+`;
