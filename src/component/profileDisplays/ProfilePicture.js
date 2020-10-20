@@ -31,7 +31,7 @@ export class ProfilePicture extends Component {
         {!this.props.mobileView ? (
           <Button type="primary"> Change </Button>
         ) : (
-          <Button type="primary" size="small" icon={<UserOutlined />} />
+          <Button type="primary" size="small" icon={<UserOutlined />} block />
         )}
       </Upload>
     );
