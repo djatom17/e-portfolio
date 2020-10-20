@@ -1,3 +1,4 @@
+/* overrides */
 img {
   display: block;
   max-width: 100%;
@@ -11,15 +12,19 @@ img {
   display: inline-block !important;
 }
 
-.landing {
-  position: relative;
-  background: url("./img/option5-min.png") no-repeat;
-  background-size: cover;
-  background-position: center;
-  height: 89vh !important;
-  /* margin-top: -24px; */
-  margin-bottom: -16px;
+.nav > li {
+  display: inline-block;
 }
+
+.h1size {
+  font-size: calc(12px + 2.5vw) !important;
+}
+
+.psize {
+  font-size: calc(8px + 0.8vw) !important;
+}
+
+/* nav and footer styles */
 
 .nav-height {
   height: 7vh;
@@ -34,18 +39,16 @@ img {
   height: 4vh;
 }
 
-.about-page-text {
-  font-size: 28px;
-}
+/* landing styles */
 
-.profile4 {
+.landing {
   position: relative;
-  background: url("./img/placeholder4.jpg") no-repeat;
+  background: url("./img/option5-min.png") no-repeat;
   background-size: cover;
   background-position: center;
-  height: 130vh;
-  margin-top: 10px;
-  margin-bottom: 150px;
+  height: 89vh !important;
+  /* margin-top: -24px; */
+  margin-bottom: -16px;
 }
 
 .landing-inner {
@@ -53,15 +56,6 @@ img {
 }
 .dark-overlay {
   background-color: rgba(0, 0, 0, 0.7);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.profile4-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
   left: 0;
@@ -81,6 +75,8 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+
+/* browse page styles  */
 
 .browse-inner {
   /* float: inline-end; */
@@ -104,32 +100,7 @@ img {
   line-height: 80%;
 }
 
-.about-page-text {
-  font-size: 28px;
-}
-
-.social-media-links {
-  float: left;
-  clear: left;
-}
-
-.tab-inner {
-  width: 1080px;
-}
-
-.profile-skills-text {
-  font-size: 22px;
-  font-weight: bold;
-  color: rgb(1, 182, 199);
-}
-
-.nav > li {
-  display: inline-block;
-}
-
-/* needed by anjali */
 .browse-outer {
-  border: 2px solid #bbb;
   padding: 10px;
 }
 
@@ -154,12 +125,34 @@ img {
   font-size: 20px;
 }
 
+.social-media-links {
+  float: left;
+  clear: left;
+}
+
+.tab-inner {
+  width: 1080px;
+}
+
+/* about page styles */
+
+.about-page-text {
+  font-size: 28px;
+}
+
 .prof5 {
   background-color: coral;
   height: 100%;
   width: 25vw;
   margin-bottom: -16px;
 }
+
+.App {
+  background-color: #e5e5e5 ;
+  height: 100%;
+
+}
+
 .prof5-img {
   padding: 10px;
   margin-left: auto;
@@ -173,14 +166,6 @@ img {
 }
 .prof5-about {
   width: 50vw;
-}
-
-.h1size {
-  font-size: calc(12px + 2.5vw) !important;
-}
-
-.psize {
-  font-size: calc(8px + 0.8vw) !important;
 }
 
 .achievements-text {
@@ -210,16 +195,6 @@ img {
   display: inline-block !important;
 }
 
-.landing {
-  position: relative;
-  background: url("./img/option5-min.png") no-repeat;
-  background-size: cover;
-  background-position: center;
-  height: 89vh;
-  /* margin-top: -24px; */
-  margin-bottom: -16px;
-}
-
 .about-page-text {
   font-size: 28px;
 }
@@ -313,32 +288,7 @@ img {
   display: inline-block;
 }
 
-/* needed by anjali */
-.browse-outer {
-  border: 2px solid #bbb;
-  padding: 10px;
-}
-
-.browse-profile-pfp {
-  width: 240px;
-  border-radius: 0px !important;
-}
-
-.browse-education {
-  font-size: 20px;
-}
-
-.browse-career {
-  font-size: 20px;
-}
-
-.browse-social {
-  font-size: 24px;
-}
-
-.browse-mail {
-  font-size: 20px;
-}
+/* profile styles */
 
 .prof5 {
   background-color: coral;
@@ -346,6 +296,7 @@ img {
   width: 25vw;
   margin-bottom: -16px;
 }
+
 .prof5-img {
   padding: 10px;
   margin-left: auto;
@@ -353,12 +304,21 @@ img {
   width: 15vw;
   text-align: center;
 }
+
 .modified-item:hover {
   border-bottom: 2px transparent !important;
   color: white !important;
 }
+
 .prof5-about {
   width: 50vw;
+}
+
+.prof5-utility-buttons {
+  right: 5px;
+  top: 5px;
+  position: absolute;
+  z-index: 10;
 }
 
 .h1size {
