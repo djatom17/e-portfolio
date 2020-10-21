@@ -54,6 +54,7 @@ const ProfileSchema = new mongoose.Schema({
   linkToProfile: {
     type: String,
     unique: true,
+    required: true,
   },
   social: {
     type: Array,
