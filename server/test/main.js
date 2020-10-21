@@ -34,7 +34,7 @@ describe("Users", () => {
         .set("x-auth-token", "random_non-empty_string")
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property("msg").eq("Token is not valid.");
+          res.body.should.have.property("error").eq("Token is not valid.");
           done();
         });
     });
@@ -49,7 +49,7 @@ describe("Users", () => {
         )
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property("msg").eq("Token is not valid.");
+          res.body.should.have.property("error").eq("Token is not valid.");
           done();
         });
     });
@@ -61,7 +61,7 @@ describe("Users", () => {
         .send({ email: "randomemail@gmail.com", password: "admin" })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property("msg").eq("User does not exist.");
+          res.body.should.have.property("error").eq("User does not exist.");
           done();
         });
     });
@@ -73,7 +73,7 @@ describe("Users", () => {
         .send({ email: "amanbhuyan20@gmail.com", password: "adminpassword" })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property("msg").eq("Invalid credentials.");
+          res.body.should.have.property("error").eq("Invalid credentials.");
           done();
         });
     });
