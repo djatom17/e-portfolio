@@ -144,7 +144,7 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
  * @param {String} userID uid of User.
  * @param {String} userFile hashname of file to validate permission of.
  *
- * @returns {Boolean}
+ * @returns {Promise} Promise object represents user permission of file.
  */
 const validateFileOwner = (userID, userFile) => {
   console.log("[S3] Validating file ownership.");

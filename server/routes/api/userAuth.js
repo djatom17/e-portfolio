@@ -146,6 +146,7 @@ userrouter.post("/google-login", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
+// (PROTOTYPE)
 // Registers new user and gives them a token.
 userrouter.post("/register", (req, res, next) => {
   const { name, email, password } = req.body;
@@ -265,6 +266,7 @@ userrouter.post("/change-password", auth, (req, res, next) => {
 /**
  * Checks if email change request exists for another user.
  * 
+ * (PROTOTYPE)
  * Intended as a middleware for checking distinct emails. 
  * Checks if email exists in user database before calling next.
  * Rejects the update if conflicting email found.
