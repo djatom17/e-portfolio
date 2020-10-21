@@ -48,14 +48,14 @@ userrouter.post("/login", (req, res, next) => {
     email,
   }).then((user) => {
     if (!user)
-      return res.status(404).json({
+      return res.status(401).json({
         error: "Invalid credentials.",
       });
 
     // Validate password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (!isMatch)
-        return res.status(404).json({
+        return res.status(401).json({
           error: "Invalid credentials.",
         });
 
@@ -108,7 +108,7 @@ userrouter.post("/google-login", (req, res, next) => {
         User.findOne({ email })
           .then((user) => {
             if (!user)
-              return res.status(404).json({
+              return res.status(401).json({
                 error: "User does not exist.",
               });
 
@@ -164,7 +164,7 @@ userrouter.post("/register", (req, res, next) => {
     email,
   }).then((user) => {
     if (user)
-      return res.status(409).json({
+      return res.status(401).json({
         error: "User already exists.",
       });
 

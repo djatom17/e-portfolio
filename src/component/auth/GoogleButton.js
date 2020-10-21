@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { GoogleLogin, GoogleLogout } from "react-google-login";
-import axios from "axios";
+import { GoogleLogin } from "react-google-login";
 import { googleLogin } from "../../actions/authActions";
 
 const CLIENT_ID =

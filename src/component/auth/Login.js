@@ -21,7 +21,7 @@ class Login extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    const { error, isAuthenticated } = this.props;
+    const { error } = this.props;
     if (error !== prevProps.error) {
       // Check for login error
       if (error.id === "LOGIN_FAIL") {
@@ -51,7 +51,7 @@ class Login extends Component {
   };
 
   render() {
-    const { error, isAuthenticated } = this.props;
+    const { isAuthenticated } = this.props;
     if (isAuthenticated) return <Redirect to="/my-profile" />;
 
     return (

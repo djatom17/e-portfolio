@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Profile Layout 5  when the user does not have authentication 1`] = `
+exports[`Front-end tests Profile Layout 5  when the user does not have authentication 1`] = `
 "<Provider store={{...}}>
   <Connect(Profile5) isMyProfile={true} isAuthenticated={true} user={{...}} profile={{...}}>
     <Profile5 isMyProfile={true} isAuthenticated={{...}} user={{...}} profile={{...}} token={{...}}>

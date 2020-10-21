@@ -3,7 +3,7 @@ import Logout from "../auth/Logout";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "antd/dist/antd.css";
-import { Menu, Col, Row } from "antd";
+import { Col, Row } from "antd";
 
 import { Link } from "react-router-dom";
 
@@ -23,7 +23,7 @@ class NavBar extends Component {
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
-    const { current } = this.state;
+    // const { current } = this.state;
 
     const authLinks = (
       <Fragment>
