@@ -277,18 +277,20 @@ const mapUIDtoPID = (uid, callback) => {
  * Creates a document entry in "files" table in MongoDB.
  *
  * Triggered after file upload to S3 is successful. Stores the filename,
- * key and User ID into "files", for convenience of file retrieval/access.
+ * key, file description and User ID into "files", for convenience of 
+ * file retrieval/access.
  *
  * @function [postUpload]
  * @see s3router.post in s3.js
  *
  * @param {String} name User-defined filename
  * @param {String} url The key for the file stored in S3
+ * @param {String} desc File description written by user.
  * @param {String} uid User ID of file owner.
  * @returns {Promise} Promise object representing successful creation of file
  *  entry in Profile.
  */
-const postUpload = (name, url, uid) => {
+const postUpload = (name, url, desc, uid) => {
   console.log("[Mongoose] Creating file entry");
   return new Promise((resolve, reject) => {
     // Find the profile corresponding to the user and retrieve it.
@@ -296,7 +298,7 @@ const postUpload = (name, url, uid) => {
       if (!e && profile) {
         // Hydrate object received as it is lean.
         profile = Profile.hydrate(profile);
-        profile.filesAndDocs.push({ name, url });
+        profile.filesAndDocs.push({ name, desc, url });
         profile.save((err) => {
           if (err) {
             console.log("[Mongoose] File entry creation failed ", err);

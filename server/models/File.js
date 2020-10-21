@@ -19,21 +19,25 @@ const Schema = mongoose.Schema;
  * 
  * @function FileSchema
  * @see ProfileSchema in Profile.js
- * @param {String} name user-defined file name
- * @param {String} url filepath to file on S3 bucket
+ * @param {String} name user-defined file name.
+ * @param {String} description User-defined file description.
+ * @param {String} url filepath to file on S3 bucket.
  */
 const FileSchema = new Schema({
   name: {
     type: String,
     required: true,
   },
-  date: {
-    type: Date,
-    default: Date.now,
+  description: {
+    type: String,
   },
   url: {
     type: String,
     required: true,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
   },
 });
 

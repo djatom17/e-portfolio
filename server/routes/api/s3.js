@@ -47,6 +47,7 @@ s3router.get("/dl/*", function (req, res, next) {
 /**
  * Handles POST request for uploading file onto S3 and logging.
  *
+ * req.files should have {file, description}.
  * 1. Creates a hashname from file contents and use it as key in S3.
  * 2. upload file onto S3 bucket.
  * 3. Create a new File entry in the user's profile for logging.
@@ -75,7 +76,7 @@ s3router.post("/upload", auth, function (req, res, next) {
         console.log("[S3] Upload success");
         //Create new File entry in user's Profile.
         mongo
-          .postUpload(file.name, hashName, req.user.id)
+          .postUpload(file.name, hashName, req.files.description, req.user.id)
           .then((success) => {
             return res.status(success.statusCode).json({ fileUrl: hashName });
           })
