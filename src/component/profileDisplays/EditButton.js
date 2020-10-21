@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Modal, Button, Row, Col, Avatar } from "antd";
+import { Button } from "antd";
 import "antd/dist/antd.css";
 import * as ProfileData from "../../api/ProfileData";
 

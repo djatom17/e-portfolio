@@ -2,13 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Upload, message } from "antd";
 import "antd/dist/antd.css";
 import axios from "axios";
-import {
-  InboxOutlined,
-  UserOutlined,
-  DeleteOutlined,
-  PaperClipOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 const { Dragger } = Upload;
 
 export class DragUpload extends Component {

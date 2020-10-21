@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
@@ -11,7 +10,7 @@ import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
-import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
+import { Row, Col, Menu, Typography } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
