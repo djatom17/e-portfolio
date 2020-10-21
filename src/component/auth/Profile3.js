@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import Settings from "../profileDisplays/Settings";
@@ -7,8 +7,8 @@ import EditButton from "../profileDisplays/EditButton";
 import { connect } from "react-redux";
 // import {Link} from "react-router-dom";
 // import axios from 'axios';
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
+// import CssBaseline from "@material-ui/core/CssBaseline";
+// import Container from "@material-ui/core/Container";
 import * as ProfileData from "../../api/ProfileData";
 import {
   Row,
@@ -154,8 +154,8 @@ class Profile3 extends Component {
       <div>
         <Col span={20} push={2}>
           <Typography
-              component="div"
-              style={{ backgroundColor: "#ffffff", height: "auto" }}
+            component="div"
+            style={{ backgroundColor: "#ffffff", height: "auto" }}
           >
             <Row className="mt-3 mx-4">
               <Row className=" mt-4 ml-5" justify="space-between">
@@ -168,81 +168,89 @@ class Profile3 extends Component {
                 </Col>
                 <Col className="mr-5">
                   {this.state.isMyProfile ? (
-                      <Row className="mt-3" justify="end" gutter={8}>
-                        <Col>
-                          <EditButton
-                              _id={this.state.profile._id}
-                              profileChanges={this.state.profileChanges}
-                              token={this.props.token}
-                              isMyProfile={this.state.isMyProfile}
-                              canEdit={this.state.canEdit}
-                              changeEdit={() =>
-                                  this.setState({
-                                    canEdit: !this.state.canEdit,
-                                    profileChanges: {},
-                                  })
-                              }
-                          />
-                        </Col>
-                        <Col>
-                          <SettingsButton showModal={this.showModal} />
-                        </Col>
-                      </Row>
+                    <Row className="mt-3" justify="end" gutter={8}>
+                      <Col>
+                        <EditButton
+                          _id={this.state.profile._id}
+                          profileChanges={this.state.profileChanges}
+                          token={this.props.token}
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          changeEdit={() =>
+                            this.setState({
+                              canEdit: !this.state.canEdit,
+                              profileChanges: {},
+                            })
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <SettingsButton showModal={this.showModal} />
+                      </Col>
+                    </Row>
                   ) : null}
                 </Col>
               </Row>
               <Row justify="space-around" gutter={24} className="mx-5">
                 <Col
-                    flex="200px"
-                    onMouseEnter={() => this.onEnterPFP()}
-                    onMouseLeave={() => this.onLeavePFP()}
+                  flex="200px"
+                  onMouseEnter={() => this.onEnterPFP()}
+                  onMouseLeave={() => this.onLeavePFP()}
                 >
                   {" "}
                   {this.state.isMyProfile && this.state.canEdit && !pfpVisible
-                      ? uploadButton
-                      : pfp}
+                    ? uploadButton
+                    : pfp}
                 </Col>
                 <Col xs={4} sm={6} md={10} lg={14} xl={16}>
                   <h4>A little bit about me...</h4>
                   <Paragraph
-                      ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
-                      editable={
-                        this.state.canEdit
-                            ? {
-                              onChange: (fieldName) =>
-                                  this.setEditablefieldName("about", fieldName),
-                              autoSize: { minRows: 1, maxRows: 5 },
-                            }
-                            : false
-                      }
+                    ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+                    editable={
+                      this.state.canEdit
+                        ? {
+                            onChange: (fieldName) =>
+                              this.setEditablefieldName("about", fieldName),
+                            autoSize: { minRows: 1, maxRows: 5 },
+                          }
+                        : false
+                    }
                   >
                     {this.state.profile.about}
                   </Paragraph>
                   {this.state.isMyProfile ? (
-                      <Settings
-                          handleOk={this.handleOk}
-                          handleCancel={this.handleCancel}
-                          showModal={this.showModal}
-                          layout={this.state.layout}
-                          visible={this.state.visible}
-                          loading={this.state.loading}
-                      />
+                    <Settings
+                      handleOk={this.handleOk}
+                      handleCancel={this.handleCancel}
+                      showModal={this.showModal}
+                      layout={this.state.layout}
+                      visible={this.state.visible}
+                      loading={this.state.loading}
+                    />
                   ) : null}
                 </Col>
                 <Col>
                   <Row>
                     <Button
-                        type="link"
-                        icon={<LinkedinOutlined />}
-                        className="mt-3"
+                      type="link"
+                      icon={<LinkedinOutlined />}
+                      className="mt-3"
                     />
                   </Row>
                   <Row>
                     {" "}
-                    <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
+                    <Button
+                      type="link"
+                      icon={<TwitterOutlined />}
+                      className="mt-3"
+                    />
                   </Row>
                   <Row>
-                    <Button type="link" icon={<GithubOutlined />} className="mt-3" />
+                    <Button
+                      type="link"
+                      icon={<GithubOutlined />}
+                      className="mt-3"
+                    />
                   </Row>
                 </Col>
               </Row>
@@ -251,20 +259,20 @@ class Profile3 extends Component {
                 <Tabs onChange={callback} type="card">
                   <TabPane tab="Achievements" key="1">
                     <AchievementManager
-                        isMyProfile={this.state.isMyProfile}
-                        canEdit={this.state.canEdit}
-                        changeList={this.changeList}
-                        data={this.state.profile.achievements}
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      changeList={this.changeList}
+                      data={this.state.profile.achievements}
                     />
                   </TabPane>
 
                   {/* Tab 2: skills  */}
                   <TabPane tab="Skills" key="2">
                     <SkillManager
-                        isMyProfile={this.state.isMyProfile}
-                        canEdit={this.state.canEdit}
-                        data={this.state.profile.keySkills}
-                        changeList={this.changeList}
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.keySkills}
+                      changeList={this.changeList}
                     />
                   </TabPane>
                   <TabPane tab="Projects" key="3">
@@ -281,11 +289,9 @@ class Profile3 extends Component {
                   </TabPane>
                 </Tabs>
               </Row>
-              
             </Row>
           </Typography>
         </Col>
-
       </div>
     );
   }

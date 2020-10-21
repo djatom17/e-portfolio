@@ -1,39 +1,23 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import AchievementManager from "../profileDisplays/AchievementManager";
-import SkillManager from "../profileDisplays/SkillManager";
-import Settings from "../profileDisplays/Settings";
 import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "antd/dist/antd.css";
 import {
   Row,
   Col,
-  Menu,
-  Upload,
-  message,
   Typography,
-  Avatar,
   Input,
   Button,
-  Modal,
   Tag,
   Tooltip,
   Anchor,
-  Collapse,
-  breadcrumb,
   Divider,
 } from "antd";
 
-import {
-  InboxOutlined,
-  UserOutlined,
-  DeleteOutlined,
-  PaperClipOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 const { Link } = Anchor;
 class Profile2 extends Component {
   state = {
@@ -119,11 +103,11 @@ class Profile2 extends Component {
       editInputValue,
     } = this.state;
 
-    const { Panel } = Collapse;
+    // const { Panel } = Collapse;
 
-    function callback(key) {
-      console.log(key);
-    }
+    // function callback(key) {
+    //   console.log(key);
+    // }
 
     return (
       <Col>

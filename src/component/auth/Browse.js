@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "antd/dist/antd.css";
 import {
@@ -77,7 +76,7 @@ class Browse extends Component {
   };
 
   displayIcon = (str) => {
-    if (str == "in") {
+    if (str === "in") {
       return (
         <Col>
           <a href="https://www.youtube.com/watch?v=3LEwQn8OnEU">
@@ -86,14 +85,14 @@ class Browse extends Component {
         </Col>
       );
     }
-    if (str == "tw") {
+    if (str === "tw") {
       return (
         <Col>
           <TwitterOutlined />
         </Col>
       );
     }
-    if (str == "gh") {
+    if (str === "gh") {
       return (
         <Col>
           <GithubOutlined />
