@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Upload, message } from "antd";
+import { Upload, message, Form, Modal, Input, Button } from "antd";
 import "antd/dist/antd.css";
 import axios from "axios";
 import {
@@ -12,6 +12,27 @@ import {
 const { Dragger } = Upload;
 
 export class DragUpload extends Component {
+  state = {
+    loading: false,
+    visible: false,
+  };
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = () => {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+    }, 3000);
+  };
+
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
   //Properties for the dragger component
   uploadProps = {
     name: "file",
@@ -67,15 +88,58 @@ export class DragUpload extends Component {
   render() {
     return (
       <Fragment>
-        <Dragger {...this.uploadProps}>
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined />
-          </p>
-          <p className="ant-upload-text">
-            Click or drag file to this area to upload
-          </p>
-          <p className="ant-upload-hint">Upload your documents here!</p>
-        </Dragger>
+        <Button type="primary" onClick={this.showModal}>
+          Add a new Project!
+        </Button>
+        <Modal
+          visible={this.state.visible}
+          title="Add New Project"
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button key="back" onClick={this.handleCancel}>
+              Return
+            </Button>,
+            <Button
+              key="save"
+              type="primary"
+              loading={this.state.loading}
+              onClick={(e) => this.props.handleOk(this.state.layout, e)}
+            >
+              Submit
+            </Button>,
+          ]}
+        >
+          <Form name="Projects">
+            <Form.Item
+              label="Project Name"
+              name="name"
+              rules={[
+                { required: true, message: "Please input your roject name!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Project Description"
+              name="description"
+              rules={[
+                { required: true, message: "Please input your roject name!" },
+              ]}
+            >
+              <Input.TextArea />
+            </Form.Item>
+          </Form>
+          <Dragger {...this.uploadProps}>
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">
+              Click or drag file to this area to upload
+            </p>
+            <p className="ant-upload-hint">Upload your documents here!</p>
+          </Dragger>
+        </Modal>
       </Fragment>
     );
   }

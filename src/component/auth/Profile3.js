@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import MediaQuery from "react-responsive";
+//import MediaQuery from "react-responsive";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
