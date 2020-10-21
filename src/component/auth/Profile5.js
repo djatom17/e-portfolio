@@ -10,7 +10,7 @@ import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
-import { Row, Col, Menu, Typography } from "antd";
+import { Row, Col, Menu, Typography, Button } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
@@ -65,10 +65,14 @@ class Profile5 extends Component {
     if (lst) {
       return lst.map((item, index) => (
         <div>
-          <Link to={item.url}>
+          <Button
+            onClick={() => {
+              ProfileData.getFileDownload(item.name, item.url);
+            }}
+          >
             <PaperClipOutlined />
             {item.name}
-          </Link>
+          </Button>
         </div>
       ));
     }
