@@ -39,7 +39,7 @@ userrouter.post("/login", (req, res, next) => {
   if (!email || !password) {
     // Bad request
     return res.status(400).json({
-      msg: "Please enter all fields.",
+      error: "Please enter all fields.",
     });
   }
 
@@ -49,14 +49,14 @@ userrouter.post("/login", (req, res, next) => {
   }).then((user) => {
     if (!user)
       return res.status(404).json({
-        msg: "Invalid credentials.",
+        error: "Invalid credentials.",
       });
 
     // Validate password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (!isMatch)
         return res.status(404).json({
-          msg: "Invalid credentials.",
+          error: "Invalid credentials.",
         });
 
       // Correct login details
@@ -73,7 +73,7 @@ userrouter.post("/login", (req, res, next) => {
               expiresIn: 3600,
             },
             (err, token) => {
-              if (err) throw err;
+              if (err) return res.status(500).json({error:err});
               res.status(200).json({
                 token,
                 user: {
