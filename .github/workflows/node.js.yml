@@ -84,7 +84,7 @@ jobs:
       - name: Login to Heroku Container Registry
         uses: docker/login-action@v1
         with:
-          registry: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+          registry: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}
           username: ${{ secrets.HEROKU_EMAIL }}
           password: ${{ secrets.HEROKU_API_KEY }}
 
