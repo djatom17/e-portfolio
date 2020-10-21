@@ -94,7 +94,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web/cae-eportfolio:latest
+          tags: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
 
       - name: Release app on Heroku
         env:
