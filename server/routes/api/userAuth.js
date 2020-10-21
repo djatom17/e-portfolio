@@ -48,14 +48,14 @@ userrouter.post("/login", (req, res, next) => {
     email,
   }).then((user) => {
     if (!user)
-      return res.status(400).json({
-        msg: "User does not exist.",
+      return res.status(404).json({
+        msg: "Invalid credentials.",
       });
 
     // Validate password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (!isMatch)
-        return res.status(400).json({
+        return res.status(404).json({
           msg: "Invalid credentials.",
         });
 
@@ -74,7 +74,7 @@ userrouter.post("/login", (req, res, next) => {
             },
             (err, token) => {
               if (err) throw err;
-              res.json({
+              res.status(200).json({
                 token,
                 user: {
                   _id: user.id,
@@ -108,8 +108,8 @@ userrouter.post("/google-login", (req, res, next) => {
         User.findOne({ email })
           .then((user) => {
             if (!user)
-              return res.status(400).json({
-                msg: "User does not exist.",
+              return res.status(404).json({
+                error: "User does not exist.",
               });
 
             UserProfile.findOne({ uid: user.id })
@@ -125,7 +125,7 @@ userrouter.post("/google-login", (req, res, next) => {
                   },
                   (err, token) => {
                     if (err) throw err;
-                    res.json({
+                    res.status(200).json({
                       token,
                       user: {
                         _id: user.id,
@@ -140,7 +140,7 @@ userrouter.post("/google-login", (req, res, next) => {
           })
           .catch((err) => console.log(err));
       } else {
-        res.status(401).json({ msg: "Email not verified with Google." });
+        res.status(401).json({ error: "Email not verified with Google." });
       }
     })
     .catch((err) => console.log(err));
@@ -154,7 +154,7 @@ userrouter.post("/register", (req, res, next) => {
   if (!name || !email || !password) {
     // Bad request
     return res.status(400).json({
-      msg: "Please enter all fields.",
+      error: "Please enter all fields.",
     });
   }
 
@@ -163,8 +163,8 @@ userrouter.post("/register", (req, res, next) => {
     email,
   }).then((user) => {
     if (user)
-      return res.status(400).json({
-        msg: "User already exists.",
+      return res.status(409).json({
+        error: "User already exists.",
       });
 
     // If indeed new user
@@ -190,7 +190,7 @@ userrouter.post("/register", (req, res, next) => {
             },
             (err, token) => {
               if (err) throw err;
-              res.json({
+              res.status(200).json({
                 token,
                 user: {
                   id: user.id,
@@ -217,7 +217,7 @@ userrouter.get("/user", auth, (req, res, next) => {
       UserProfile.findOne({ uid: req.user.id })
         .lean()
         .then((userMap) => {
-          res.json({ ...user, pid: userMap.pid });
+          res.status(200).json({ ...user, pid: userMap.pid });
         });
     });
 });

@@ -109,7 +109,10 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
     .then((s) => {
       var params = { Bucket: AWSBucket, Key: req.params.file };
       s3.deleteObject(params, (err, res) => {
-        if (err) console.log("[S3] File deletion failed.");
+        if (err) {
+          console.log("[S3] File deletion failed.");
+          return res.status(500).json({error:err});
+        }
         else {
           console.log("[S3] File deletion successful.");
           mongo
@@ -149,15 +152,15 @@ const validateFileOwner = (userID, userFile) => {
     mongo.fetchProfileByUID(userID, (err, profile) => {
       if (err || !profile) {
         console.log("[S3] Permission to modify file denied.");
-        reject({ statusCode: 401 });
+        reject({ statusCode: 500 });
       } else if (
         profile.filesAndDocs.filter((file) => file.url === userFile).length > 0
       ) {
         console.log("[S3] Permission granted.");
-        resolve({ statusCode: 200 });
+        resolve({ statusCode: 202 });
       } else {
         console.log("[S3] File not found in user's records.");
-        reject({ statusCode: 404 });
+        reject({ statusCode: 403 });
       }
     });
   });

@@ -17,6 +17,7 @@ const Profile = require("../../models/Profile");
 const File = require("../../models/File");
 const UserProfile = require("../../models/UserProfile");
 
+const MAX_LINK_LENGTH = 24;
 const validObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 const FILEPATH_S3 = "/api/file/dl/";
 const FILEPATH_PROFILE = "/profile/";
@@ -37,13 +38,13 @@ mongorouter.get("/profiles", function (req, res, next) {
   })
     .lean()
     .exec((err, profiles) => {
-      if (err) return res.send("[Mongoose] Error in fetching profiles.");
+      if (err) return res.status(500).json({error:err});
 
       console.log("[Mongoose] Fetched all profiles.");
       profiles.forEach((profile) => {
         profile = appendProfilePaths(profile);
       });
-      res.send(profiles);
+      res.status(200).send(profiles);
     });
 });
 
@@ -57,8 +58,7 @@ mongorouter.get("/p/:ID", function (req, res, next) {
   console.log("[Mongoose] Fetching " + req.params.ID + " from mongo.");
 
   var query = {};
-  //console.log(ObjectId(req.params.ID).toHexString());
-  // TODO: Limit custom link length to <24.
+  
   if (isValidObjectId(req.params.ID)) {
     query = { _id: ObjectID(req.params.ID) };
   } else {
@@ -71,13 +71,13 @@ mongorouter.get("/p/:ID", function (req, res, next) {
         "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
       );
       res.status(500).json({error:err});
-      // TODO: res.send
     } 
     else if (!profile) {
       console.log("[Mongoose] No profile found.")
       res.status(204).send(null);
     }
     else {
+      //Successful operation
       console.log("[Mongoose] Fetched " + req.params.ID);
       profile = appendProfilePaths(profile);
       res.status(200).send(profile);
@@ -238,6 +238,11 @@ const fetchProfileByUID = (uid, callback) => {
 function checkLink(req, res, next) {
   //Checks if a link change is requested
   if ("linkToProfile" in req.body) {
+    //Checks if linkToProfile has len < 24
+    if (req.body.linkToProfile.length >= MAX_LINK_LENGTH) {
+      delete req.body.linkToProfile;
+      return res.status(400).send(req.body);
+    }
     //Run distinct checks for linkToProfile, if exists.
     Profile.findOne({"linkToProfile":req.body.linkToProfile}, (err, profile) => {
       if (err) {
@@ -249,7 +254,6 @@ function checkLink(req, res, next) {
       } 
       //Found a conflicting profile
       if (profile) {
-        console.log("Conflict link");
         delete req.body.linkToProfile;
         return res.status(409).send(req.body);
         
@@ -355,7 +359,7 @@ const postDelete = (url, uid) => {
             reject({ statusCode: 500 });
           } else {
             console.log("[Mongoose] File entry deleted.");
-            resolve({ statusCode: 200 });
+            resolve({ statusCode: 204 });
           }
         });
       } else {
@@ -378,7 +382,7 @@ const isValidObjectId = (str) => {
  *
  * Appends URI path for image, linkToProfile and filesAndDocs.
  *
- * @function appendProfilePaths
+ * @function [appendProfilePaths]
  * @param {Object} profile Profile Schema for profile data.
  *
  * @returns profile after appending.
