@@ -23,7 +23,7 @@ userrouter.post("/login", (req, res, next) => {
   if (!email || !password) {
     // Bad request
     return res.status(400).json({
-      msg: "Please enter all fields.",
+      error: "Please enter all fields.",
     });
   }
 
@@ -32,14 +32,14 @@ userrouter.post("/login", (req, res, next) => {
   }).then((user) => {
     if (!user)
       return res.status(400).json({
-        msg: "User does not exist.",
+        error: "User does not exist.",
       });
 
     // Validate password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (!isMatch)
         return res.status(400).json({
-          msg: "Invalid credentials.",
+          error: "Invalid credentials.",
         });
 
       // Correct login details
@@ -92,7 +92,7 @@ userrouter.post("/google-login", (req, res, next) => {
           .then((user) => {
             if (!user)
               return res.status(400).json({
-                msg: "User does not exist.",
+                error: "User does not exist.",
               });
 
             UserProfile.findOne({ uid: user.id })
@@ -123,7 +123,7 @@ userrouter.post("/google-login", (req, res, next) => {
           })
           .catch((err) => console.log(err));
       } else {
-        res.status(401).json({ msg: "Email not verified with Google." });
+        res.status(401).json({ error: "Email not verified with Google." });
       }
     })
     .catch((err) => console.log(err));
@@ -137,7 +137,7 @@ userrouter.post("/register", (req, res, next) => {
   if (!name || !email || !password) {
     // Bad request
     return res.status(400).json({
-      msg: "Please enter all fields.",
+      error: "Please enter all fields.",
     });
   }
 
@@ -147,7 +147,7 @@ userrouter.post("/register", (req, res, next) => {
   }).then((user) => {
     if (user)
       return res.status(400).json({
-        msg: "User already exists.",
+        error: "User already exists.",
       });
 
     // If indeed new user
