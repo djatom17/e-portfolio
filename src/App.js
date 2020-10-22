@@ -26,7 +26,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
+        <div className="App ">
           <Navbar />
           <Route exact path="/" component={Landing} />
           <div>
@@ -37,7 +37,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/about" component={About} />
           </div>
-          <Footer />
+          <Footer id="footer" />
         </div>
       </Router>
     );
