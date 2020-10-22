@@ -54,28 +54,22 @@ class NavBar extends Component {
 
     const authLinks = (
       <Fragment>
-        <Col className="nav-link text-light">
+        <Menu.Item key="greeting">
           {user ? `Welcome, ${user.name}!` : ""}
-        </Col>
-        <Col>
+        </Menu.Item>
+        <Menu.Item>
           <Logout />
-        </Col>
+        </Menu.Item>
       </Fragment>
     );
     const guestLinks = (
       <Fragment>
-        <Col>
-          <Link className="nav-link text-light" to="/register">
-            {" "}
-            Sign Up
-          </Link>
-        </Col>
-        <Col>
-          <Link className="nav-link text-light" to="/login">
-            {" "}
-            Login
-          </Link>
-        </Col>
+        <Menu.Item key="register">
+          <Link to="/register"> Sign Up</Link>
+        </Menu.Item>
+        <Menu.Item key="login">
+          <Link to="/login"> Login</Link>
+        </Menu.Item>
       </Fragment>
     );
 
@@ -91,17 +85,23 @@ class NavBar extends Component {
           justifyContent: !this.mobileView ? "flex-end" : "normal",
         }}
       >
-        <Menu.Item
-          key="mail"
-          icon={<MailOutlined />}
-          style={{ marginRight: "auto" }}
-        >
-          Navigation One
+        <Menu.Item key="home" style={{ marginRight: "auto" }}>
+          <Link to="/">Ctrl Alt Elite</Link>
         </Menu.Item>
-        <Space size="large" />
-        <Menu.Item key="app" disabled icon={<AppstoreOutlined />}>
-          Navigation Two
+
+        <Menu.Item key="about">
+          <Link to="/about"> About</Link>
         </Menu.Item>
+
+        <Menu.Item key="browse">
+          <Link to="/browse"> Browse</Link>
+        </Menu.Item>
+
+        <Menu.Item key="profile">
+          <Link to="/my-profile"> My Profile</Link>
+        </Menu.Item>
+
+        {isAuthenticated ? authLinks : guestLinks}
         <SubMenu
           key="SubMenu"
           icon={<SettingOutlined />}
@@ -116,15 +116,6 @@ class NavBar extends Component {
             <Menu.Item key="setting:4">Option 4</Menu.Item>
           </Menu.ItemGroup>
         </SubMenu>
-        <Menu.Item key="alipay">
-          <a
-            href="https://ant.design"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Navigation Four - Link
-          </a>
-        </Menu.Item>
       </Menu>
 
       // <Row className="nav-height" style={{ background: "black" }}>
@@ -150,16 +141,10 @@ class NavBar extends Component {
       //         </Link>
       //       </Col>
       //       <Col>
-      //         <Link className="nav-link text-light" to="/browse">
-      //           {" "}
-      //           Browse
-      //         </Link>
+
       //       </Col>
       //       <Col>
-      //         <Link className="nav-link text-light" to="/my-profile">
-      //           {" "}
-      //           My Profile
-      //         </Link>
+
       //       </Col>
       //       {isAuthenticated ? authLinks : guestLinks}
       //     </Row>
