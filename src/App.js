@@ -28,8 +28,9 @@ class App extends Component {
       <Router>
         <div className="App ">
           <Navbar />
-          <Route exact path="/" component={Landing} />
-          <div>
+
+          <div className="body-size">
+            <Route exact path="/" component={Landing} />
             <Route exact path="/browse" component={Browse} />
             <Route exact path="/profile/*" component={PlaceholderProfile} />
             <Route exact path="/my-profile" component={MyProfile} />
