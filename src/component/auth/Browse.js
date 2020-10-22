@@ -234,15 +234,12 @@ class Browse extends Component {
       <div>
         <p />
         <Row justify="center">
-          <Col>
-            <h1 className="d-flex justify-content-center h1size">
-              {" "}
-              Browse to your heart's content!
-            </h1>
+          <Col className="justify-center">
+            <h1 className="d-flex  h1size"> Browse to your heart's content!</h1>
           </Col>
         </Row>
         <Row justify="center">
-          <Col>
+          <Col className="justify-center">
             <Search
               placeholder="Find your Expert"
               enterButton="Search"
