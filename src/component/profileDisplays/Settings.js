@@ -29,7 +29,9 @@ export class Settings extends Component {
               key="save"
               type="primary"
               loading={this.props.loading}
-              onClick={(e) => this.props.handleOk(this.state.layout, e)}
+              onClick={(e) =>
+                this.props.handleOk(this.state.layout, this.props.pid, e)
+              }
             >
               Save
             </Button>,
