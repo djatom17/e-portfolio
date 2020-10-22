@@ -9,6 +9,8 @@ import {
   MailOutlined,
   AppstoreOutlined,
   SettingOutlined,
+  LoginOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -52,18 +54,23 @@ class NavBar extends Component {
 
     const authLinks = (
       <Fragment>
-        <Menu.Item key="greeting">
-          {user ? `Welcome, ${user.name}!` : ""}
-        </Menu.Item>
-        <Menu.Item>
-          <Logout />
-        </Menu.Item>
+        <SubMenu key="SubMenu" title={user ? `Welcome, ${user.name}!` : ""}>
+          <Menu.Item key="logout" icon={<LogoutOutlined />}>
+            <Logout />
+          </Menu.Item>
+          <Menu.Item key="settings" icon={<SettingOutlined />}>
+            <Link to="/my-profile">Settings</Link>
+          </Menu.Item>
+        </SubMenu>
       </Fragment>
     );
     const guestLinks = (
       <Fragment>
         <Menu.Item key="register">
-          <Link to="/register"> Sign Up</Link>
+          <Link to="/register" icon={<LoginOutlined />}>
+            {" "}
+            Sign Up
+          </Link>
         </Menu.Item>
         <Menu.Item key="login">
           <Link to="/login"> Login</Link>
@@ -101,54 +108,7 @@ class NavBar extends Component {
         </Menu.Item>
 
         {isAuthenticated ? authLinks : guestLinks}
-        <SubMenu
-          key="SubMenu"
-          icon={<SettingOutlined />}
-          title="Navigation Three - Submenu"
-        >
-          <Menu.ItemGroup title="Item 1">
-            <Menu.Item key="setting:1">Option 1</Menu.Item>
-            <Menu.Item key="setting:2">Option 2</Menu.Item>
-          </Menu.ItemGroup>
-          <Menu.ItemGroup title="Item 2">
-            <Menu.Item key="setting:3">Option 3</Menu.Item>
-            <Menu.Item key="setting:4">Option 4</Menu.Item>
-          </Menu.ItemGroup>
-        </SubMenu>
       </Menu>
-
-      // <Row className="nav-height" style={{ background: "black" }}>
-      //   <Col offset={1}>
-      //     <Link className="navbar-brand text-light" to="/">
-      //       Ctrl Alt Elite
-      //     </Link>
-      //     <button
-      //       className="navbar-toggler"
-      //       type="button"
-      //       data-toggle="collapse"
-      //       data-target="#mobile-nav"
-      //     >
-      //       <span className="navbar-toggler-icon" />
-      //     </button>
-      //   </Col>
-      //   <Col flex="auto">
-      //     <Row justify="end">
-      //       <Col>
-      //         <Link className="nav-link text-light" to="/about">
-      //           {" "}
-      //           About
-      //         </Link>
-      //       </Col>
-      //       <Col>
-
-      //       </Col>
-      //       <Col>
-
-      //       </Col>
-      //       {isAuthenticated ? authLinks : guestLinks}
-      //     </Row>
-      //   </Col>
-      // </Row>
     );
   }
 }
