@@ -59,7 +59,7 @@ img {
   background: url("./img/option5-min.png") no-repeat;
   background-size: cover;
   background-position: center;
-  height: 89vh !important;
+  height: 90vh !important;
   /* margin-top: -24px; */
   margin-bottom: -16px;
 }
@@ -390,4 +390,8 @@ img {
   padding: 10px;
   border: black !important;
   border-width: 2px !important;
+}
+
+.body-size {
+  min-height: 87.6vh;
 }

@@ -11,10 +11,9 @@ import {
   AppstoreOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const { SubMenu } = Menu;
-
-import { Link } from "react-router-dom";
 
 class NavBar extends Component {
   state = {
@@ -77,6 +76,7 @@ class NavBar extends Component {
       <Menu
         onClick={this.handleClick}
         selectedKeys={[current]}
+        theme="dark"
         mode="horizontal"
         style={{
           top: "0",
