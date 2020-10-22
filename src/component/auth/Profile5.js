@@ -144,7 +144,7 @@ class Profile5 extends Component {
   render() {
     const { current } = this.state.tabdisp;
     return (
-      <div className="container-fluid ml-n3">
+      <div className="container-fluid ml-n3 mb-3">
         <Row className="prof5height">
           <Col flex={1}>
             <div className="prof5">
