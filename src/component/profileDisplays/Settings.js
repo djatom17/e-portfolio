@@ -44,11 +44,22 @@ export class Settings extends Component {
                     <Avatar
                       shape="square"
                       size={64}
-                      style={{
-                        color: "white",
-                        cursor: "pointer",
-                        backgroundColor: "purple",
-                      }}
+                      style={
+                        this.state.layout === "1"
+                          ? {
+                              color: "white",
+                              cursor: "pointer",
+                              backgroundColor: "purple",
+                              borderWidth: 2.5,
+                              borderColor: "#04AED2",
+                              borderStyle: "solid",
+                            }
+                          : {
+                              color: "white",
+                              cursor: "pointer",
+                              backgroundColor: "purple",
+                            }
+                      }
                       onClick={() => this.setState({ layout: "1" })}
                     >
                       Layout 1
@@ -58,11 +69,22 @@ export class Settings extends Component {
                     <Avatar
                       shape="square"
                       size={64}
-                      style={{
-                        color: "white",
-                        backgroundColor: "#40E0D0",
-                        cursor: "pointer",
-                      }}
+                      style={
+                        this.state.layout === "2"
+                          ? {
+                              color: "white",
+                              backgroundColor: "#40E0D0",
+                              cursor: "pointer",
+                              borderWidth: 2.5,
+                              borderColor: "#04AED2",
+                              borderStyle: "solid",
+                            }
+                          : {
+                              color: "white",
+                              backgroundColor: "#40E0D0",
+                              cursor: "pointer",
+                            }
+                      }
                       onClick={() => this.setState({ layout: "2" })}
                       cursor="pointer"
                     >
@@ -77,11 +99,22 @@ export class Settings extends Component {
                     <Avatar
                       shape="square"
                       size={64}
-                      style={{
-                        color: "white",
-                        cursor: "pointer",
-                        backgroundColor: "blue",
-                      }}
+                      style={
+                        this.state.layout === "3"
+                          ? {
+                              color: "white",
+                              cursor: "pointer",
+                              backgroundColor: "blue",
+                              borderWidth: 2.5,
+                              borderColor: "#04AED2",
+                              borderStyle: "solid",
+                            }
+                          : {
+                              color: "white",
+                              cursor: "pointer",
+                              backgroundColor: "blue",
+                            }
+                      }
                       onClick={() => this.setState({ layout: "3" })}
                     >
                       Layout 3
@@ -91,11 +124,22 @@ export class Settings extends Component {
                     <Avatar
                       shape="square"
                       size={64}
-                      style={{
-                        color: "white",
-                        cursor: "pointer",
-                        backgroundColor: "orange",
-                      }}
+                      style={
+                        this.state.layout === "5"
+                          ? {
+                              color: "white",
+                              cursor: "pointer",
+                              backgroundColor: "orange",
+                              borderWidth: 2.5,
+                              borderColor: "#04AED2",
+                              borderStyle: "solid",
+                            }
+                          : {
+                              color: "white",
+                              cursor: "pointer",
+                              backgroundColor: "orange",
+                            }
+                      }
                       onClick={() => this.setState({ layout: "5" })}
                     >
                       Layout 4
