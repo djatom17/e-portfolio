@@ -176,17 +176,13 @@ class Browse extends Component {
     return (
       <div>
         <p />
-        <Row justify="space-between">
-          <Col className="ml-2">
-            <Pagination defaultCurrent={1} total={50} />
+        <Row justify="center">
+          <Col className="justify-center">
+            <h1 className="d-flex  h1size"> Browse to your heart's content!</h1>
           </Col>
-          <Col>
-            <h1 className="d-flex justify-content-center">
-              {" "}
-              Browse to your heart's content!
-            </h1>
-          </Col>
-          <Col className="mr-2">
+        </Row>
+        <Row justify="center">
+          <Col className="justify-center">
             <Search
               placeholder="Find your Expert"
               enterButton="Search"
