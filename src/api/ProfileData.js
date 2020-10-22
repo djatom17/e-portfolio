@@ -23,6 +23,20 @@ export function getFileDownload(filename, fileLocation) {
   });
 }
 
+// Handles the change of the file list when something new is uploaded.
+export function onFileListChange(name, url, description) {
+  this.setState({
+    profile: {
+      ...this.state.profile,
+      filesAndDocs: [
+        ...this.state.profile.filesAndDocs,
+        { name, url, description },
+      ],
+    },
+  });
+  console.log(name, url, description);
+}
+
 /**
  * Handles API calls to fetch data of a specified profile
  *

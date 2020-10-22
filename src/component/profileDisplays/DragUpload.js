@@ -5,7 +5,7 @@ import axios from "axios";
 import { InboxOutlined } from "@ant-design/icons";
 const { Dragger } = Upload;
 
-export class DragUpload extends Component {
+class DragUpload extends Component {
   state = {
     visible: false,
     uploading: false,
@@ -44,7 +44,7 @@ export class DragUpload extends Component {
     }, countdown * 1000);
   };
 
-  handleUpload = () => {
+  handleUpload = (values) => {
     const { fileList } = this.state;
     const formData = new FormData();
 
@@ -53,6 +53,8 @@ export class DragUpload extends Component {
     //   formData.append('files[]', file);
     // });
     formData.append("file", fileList[0]);
+    formData.append("name", values.name);
+    formData.append("description", values.description);
 
     this.setState({ uploading: true });
 
@@ -73,6 +75,13 @@ export class DragUpload extends Component {
 
           // Show success dialog box
           this.handleUploadSuccess();
+
+          // Update parent list
+          this.props.onChange(
+            values.name,
+            response.data.fileUrl,
+            values.description
+          );
         }
       });
   };
@@ -85,8 +94,8 @@ export class DragUpload extends Component {
     const draggerProps = {
       onRemove: (file) => {
         this.setState((state) => {
-          const index = this.state.fileList.indexOf(file);
-          const newFileList = this.state.fileList.slice();
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
           newFileList.splice(index, 1);
           return {
             fileList: newFileList,
@@ -95,7 +104,7 @@ export class DragUpload extends Component {
       },
       beforeUpload: (file) => {
         this.setState((state) => ({
-          fileList: [...this.state.fileList, file],
+          fileList: [...state.fileList, file],
         }));
         return false;
       },
@@ -110,7 +119,6 @@ export class DragUpload extends Component {
         <Modal
           visible={this.state.visible}
           title="Add New Project"
-          onOk={this.handleUpload}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
@@ -120,14 +128,15 @@ export class DragUpload extends Component {
               key="submit"
               type="primary"
               loading={uploading}
-              onClick={this.handleUpload}
-              disabled={fileList.length === 0}
+              htmlType="submit"
+              // disabled={fileList.length === 0}
+              form="projectForm"
             >
               {uploading ? "Uploading" : "Add Project"}
             </Button>,
           ]}
         >
-          <Form name="Projects">
+          <Form id="projectForm" name="Projects" onFinish={this.handleUpload}>
             <Form.Item
               label="Project Name"
               name="name"
