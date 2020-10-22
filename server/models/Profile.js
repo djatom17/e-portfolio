@@ -33,6 +33,10 @@ const WorkSchema = require("./Work");
  *  has not set up profile information.
  */
 const ProfileSchema = new mongoose.Schema({
+  //POSSIBLE TODO
+  // Add DOB
+  // Change education to be like Work object
+  // Add contactEmail or similar field
   firstName: {
     type: String,
     required: true,
