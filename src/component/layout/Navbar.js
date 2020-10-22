@@ -59,8 +59,12 @@ class NavBar extends Component {
           <Menu.Item key="logout" icon={<LogoutOutlined />}>
             <Logout />
           </Menu.Item>
-          <Menu.Item key="settings" icon={<SettingOutlined />}>
-            <Link to="/my-profile">Settings</Link>
+          <Menu.Item
+            key="settings"
+            icon={<SettingOutlined />}
+            onClick={() => this.props.showSettings()}
+          >
+            Settings
           </Menu.Item>
         </SubMenu>
       </Fragment>
@@ -68,12 +72,9 @@ class NavBar extends Component {
     const guestLinks = (
       <Fragment>
         <Menu.Item key="register">
-          <Link to="/register" icon={<LoginOutlined />}>
-            {" "}
-            Sign Up
-          </Link>
+          <Link to="/register"> Sign Up</Link>
         </Menu.Item>
-        <Menu.Item key="login">
+        <Menu.Item key="login" icon={<LoginOutlined />}>
           <Link to="/login"> Login</Link>
         </Menu.Item>
       </Fragment>

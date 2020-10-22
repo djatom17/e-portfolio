@@ -26,6 +26,7 @@ class Profile5 extends Component {
     loading: false,
     visible: false,
     layout: "0",
+    settingsVisible: false,
     inputVisible: false,
     inputValue: "",
     editInputIndex: -1,
@@ -52,13 +53,19 @@ class Profile5 extends Component {
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
     //Authorisation check.
-    this.setState({ layout: this.props.profile.layout });
+    this.setState({
+      layout: this.props.profile.layout,
+      visible: this.props.settingsVisible,
+    });
     this.props.isAuthenticated &&
     this.props.profile.userid &&
     this.props.user._id &&
     this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
       ? this.setState({ isMyProfile: true })
       : this.setState({ isMyProfile: false });
+    {
+      () => this.props.settingsCallback(profile._id, this.props.token);
+    }
   };
 
   componentWillUnmount() {
