@@ -76,7 +76,11 @@ class NavBar extends Component {
               </Link>
             </Col>
             <Col>
-              <Link className="nav-link text-light" to="/browse">
+              <Link
+                className="nav-link text-light"
+                to="/browse"
+                onClick={() => window.location.replace("/browse")}
+              >
                 {" "}
                 Browse
               </Link>
