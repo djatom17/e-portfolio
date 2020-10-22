@@ -129,7 +129,7 @@ class DragUpload extends Component {
               type="primary"
               loading={uploading}
               htmlType="submit"
-              // disabled={fileList.length === 0}
+              disabled={fileList.length === 0}
               form="projectForm"
             >
               {uploading ? "Uploading" : "Add Project"}
