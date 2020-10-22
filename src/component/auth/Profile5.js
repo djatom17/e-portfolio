@@ -32,6 +32,8 @@ class Profile5 extends Component {
     editInputIndex: -1,
     editInputValue: "",
     mobileView: false,
+    primaryColor: "coral",
+    secondaryColor: "white",
   };
 
   constructor() {
@@ -84,6 +86,11 @@ class Profile5 extends Component {
       ));
     }
   }
+  handlePrimColor = (color, str) => {
+    str === "Prim"
+      ? this.setState({ primaryColor: color.hex })
+      : this.setState({ secondaryColor: color.hex });
+  };
 
   displayProfileSeg = () => {
     if (this.state.tabdisp === "about") {
@@ -144,10 +151,16 @@ class Profile5 extends Component {
   render() {
     const { current } = this.state.tabdisp;
     return (
-      <div className="container-fluid ml-n3 mb-3">
+      <div
+        className="container-fluid ml-n3 mb-3"
+        style={{ backgroundColor: this.state.secondaryColor }}
+      >
         <Row className="prof5height">
           <Col flex={1}>
-            <div className="prof5">
+            <div
+              className="prof5"
+              style={{ backgroundColor: this.state.primaryColor }}
+            >
               <div className="container-fluid prof5-img">
                 <ProfilePicture
                   image={this.state.profile.image}
@@ -179,7 +192,7 @@ class Profile5 extends Component {
                   onClick={this.handleTabClick}
                   selectedKeys={[current]}
                   mode="vertical"
-                  style={{ backgroundColor: "coral" }}
+                  style={{ backgroundColor: this.state.primaryColor }}
                   className="text-center"
                 >
                   <Menu.Item key="about" className="modified-item">
@@ -235,6 +248,8 @@ class Profile5 extends Component {
                     layout={this.state.layout}
                     visible={this.state.visible}
                     loading={this.state.loading}
+                    handlePrimColor={this.handlePrimColor}
+                    // handleSecColor={this.}
                   />
                 ) : null}
               </Col>
