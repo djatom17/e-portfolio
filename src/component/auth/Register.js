@@ -22,7 +22,7 @@ const Register = (props) => {
   };
 
   return (
-    <div className={"register body-height"}>
+    <div className={"register "}>
       <div className={"container"}>
         <div className={"row"}>
           <div className="col-mid-8 m-auto">

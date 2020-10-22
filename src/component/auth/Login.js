@@ -54,7 +54,7 @@ class Login extends Component {
     if (isAuthenticated) return <Redirect to="/my-profile" />;
 
     return (
-      <div className={"login body-height"}>
+      <div className={"login "}>
         <div className={"container"}>
           <div className={"row"}>
             <div className="col-mid-8 m-auto">
