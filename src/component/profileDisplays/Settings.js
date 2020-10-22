@@ -1,14 +1,16 @@
 import React, { Component, Fragment } from "react";
-import { Modal, Button, Row, Col, Avatar, Tabs } from "antd";
+import { Modal, Button, Row, Col, Avatar, Tabs, Select } from "antd";
 import { SketchPicker } from "react-color";
 import "antd/dist/antd.css";
 
 const { TabPane } = Tabs;
+const { Option } = Select;
 
 export class Settings extends Component {
   state = {
     layout: "0",
     color: "#fff",
+    colorSection: "Prim",
   };
 
   componentDidMount = () => {
@@ -153,19 +155,27 @@ export class Settings extends Component {
                   </Col>
                 </Row>
               </TabPane>
-              <TabPane tab="Themes-Primary" key="2">
-                <SketchPicker
-                  disableAlpha
-                  color={this.state.color}
-                  onChangeComplete={(e) => this.handleChangeComplete(e, "Prim")}
-                />
-              </TabPane>
-              <TabPane tab="Themes-Secondary" key="3">
-                <SketchPicker
-                  disableAlpha
-                  color={this.state.color}
-                  onChangeComplete={(e) => this.handleChangeComplete(e, "Sec")}
-                />
+              <TabPane tab="Colour-Themes" key="2">
+                <Row>
+                  <Col>
+                    <SketchPicker
+                      disableAlpha
+                      color={this.state.color}
+                      onChangeComplete={(e) =>
+                        this.handleChangeComplete(e, this.state.colorSection)
+                      }
+                    />
+                  </Col>
+                  <Col>
+                    <Select
+                      defaultValue="Primary"
+                      onSelect={(key) => this.setState({ colorSection: key })}
+                    >
+                      <Option value="Prim">Primary Colour</Option>
+                      <Option value="Sec"> Secondary Colour</Option>
+                    </Select>
+                  </Col>
+                </Row>
               </TabPane>
             </Tabs>
           </div>
