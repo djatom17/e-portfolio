@@ -145,7 +145,7 @@ class Profile5 extends Component {
     const { current } = this.state.tabdisp;
     return (
       <div className="container-fluid ml-n3">
-        <Row>
+        <Row className="prof5height">
           <Col flex={1}>
             <div className="prof5">
               <div className="container-fluid prof5-img">
@@ -157,7 +157,7 @@ class Profile5 extends Component {
                 />
               </div>
               <div className="prof5-img">
-                <Title className=" text-center">
+                <Title className=" text-center h1size">
                   {" "}
                   {ProfileData.getName(this.state.profile)}
                 </Title>

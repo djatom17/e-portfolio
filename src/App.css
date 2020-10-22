@@ -321,8 +321,14 @@ img {
 
 .prof5 {
   background-color: coral;
+  /* min-height: 85vh; */
   height: 100%;
   width: 25vw;
+  /* margin-bottom: -16px; */
+}
+.prof5height {
+  min-height: 90vh;
+  height: 100%;
   margin-bottom: -16px;
 }
 
@@ -351,7 +357,7 @@ img {
 }
 
 .h1size {
-  font-size: calc(12px + 2.5vw) !important;
+  font-size: calc(11px + 2.5vw) !important;
 }
 
 .psize {
