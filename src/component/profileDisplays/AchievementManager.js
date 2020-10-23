@@ -36,7 +36,7 @@ export class AchievementManager extends Component {
     } = this.state;
     return (
       <div>
-        <Title>Achievements</Title>
+        <Title className="h1size">Achievements</Title>
         <div>
           <Paragraph>
             {" "}
