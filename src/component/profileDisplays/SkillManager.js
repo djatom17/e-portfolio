@@ -32,7 +32,7 @@ export class SkillManager extends Component {
       editInputValue,
     } = this.state;
     return (
-      <div>
+      <div className="mb-5">
         <Title>Key Skills</Title>
         <div>
           {this.props.data &&

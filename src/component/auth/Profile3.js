@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 //import MediaQuery from "react-responsive";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
+import CareerManager from "../profileDisplays/CareerManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import Settings from "../profileDisplays/Settings";
 import SettingsButton from "../profileDisplays/SettingsButton";
@@ -159,9 +160,6 @@ class Profile3 extends Component {
                     }
                   />
                 </Col>
-                <Col>
-                  <SettingsButton showModal={this.showModal} />
-                </Col>
               </Row>
             ) : null}
           </Col>
@@ -190,16 +188,6 @@ class Profile3 extends Component {
             >
               {this.state.profile.about}
             </Paragraph>
-            {this.state.isMyProfile ? (
-              <Settings
-                handleOk={this.handleOk}
-                handleCancel={this.handleCancel}
-                showModal={this.showModal}
-                layout={this.state.layout}
-                visible={this.state.visible}
-                loading={this.state.loading}
-              />
-            ) : null}
           </Col>
           <Col>
             <Row>
@@ -242,9 +230,6 @@ class Profile3 extends Component {
                       })
                     }
                   />
-                </Col>
-                <Col>
-                  <SettingsButton showModal={this.showModal} />
                 </Col>
               </Row>
             ) : null}
@@ -303,7 +288,7 @@ class Profile3 extends Component {
     );
 
     return (
-      <div>
+      <Row className="mb-4">
         <Col span={20} push={2}>
           <Typography
             component="div"
@@ -332,8 +317,8 @@ class Profile3 extends Component {
                     changeList={this.changeList}
                   />
                 </TabPane>
-                <TabPane tab="Projects" key="3">
-                  <Typography.Title>Projects</Typography.Title>
+                <TabPane tab="Career" key="3">
+                  <CareerManager />
                   Content of Tab Pane 3
                 </TabPane>
                 <TabPane tab="Certificates" key="4">
@@ -348,7 +333,7 @@ class Profile3 extends Component {
             </Row>
           </Typography>
         </Col>
-      </div>
+      </Row>
     );
   }
 }
