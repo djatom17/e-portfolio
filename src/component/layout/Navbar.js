@@ -63,7 +63,7 @@ class NavBar extends Component {
             icon={<SettingOutlined />}
             onClick={() => this.props.showSettings()}
           >
-            Settings
+            <Link to="/my-profile"> Settings</Link>
           </Menu.Item>
         </SubMenu>
       </Fragment>
