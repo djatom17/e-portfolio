@@ -53,7 +53,7 @@ export class Settings extends Component {
                               cursor: "pointer",
                               backgroundColor: "purple",
                               borderWidth: 2.5,
-                              borderColor: "#04AED2",
+                              borderColor: "black",
                               borderStyle: "solid",
                             }
                           : {
@@ -78,7 +78,7 @@ export class Settings extends Component {
                               backgroundColor: "#40E0D0",
                               cursor: "pointer",
                               borderWidth: 2.5,
-                              borderColor: "#04AED2",
+                              borderColor: "black",
                               borderStyle: "solid",
                             }
                           : {
@@ -108,7 +108,7 @@ export class Settings extends Component {
                               cursor: "pointer",
                               backgroundColor: "blue",
                               borderWidth: 2.5,
-                              borderColor: "#04AED2",
+                              borderColor: "black",
                               borderStyle: "solid",
                             }
                           : {
@@ -133,7 +133,7 @@ export class Settings extends Component {
                               cursor: "pointer",
                               backgroundColor: "orange",
                               borderWidth: 2.5,
-                              borderColor: "#04AED2",
+                              borderColor: "black",
                               borderStyle: "solid",
                             }
                           : {
