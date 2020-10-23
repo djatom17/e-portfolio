@@ -63,9 +63,9 @@ class Profile5 extends Component {
     this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
       ? this.setState({ isMyProfile: true })
       : this.setState({ isMyProfile: false });
-    {
-      () => this.props.settingsCallback(profile._id, this.props.token);
-    }
+    // {
+    //   () => this.props.settingsCallback(profile._id, this.props.token);
+    // }
   };
 
   componentWillUnmount() {
