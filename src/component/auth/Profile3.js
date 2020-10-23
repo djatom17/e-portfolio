@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 //import MediaQuery from "react-responsive";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
+import CareerManager from "../profileDisplays/CareerManager";
 import SkillManager from "../profileDisplays/SkillManager";
-// import Settings from "../profileDisplays/Settings";
-// import SettingsButton from "../profileDisplays/SettingsButton";
+import Settings from "../profileDisplays/Settings";
+import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
 import {
@@ -24,7 +25,7 @@ import {
   GithubOutlined,
 } from "@ant-design/icons";
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 const { TabPane } = Tabs;
 
 // functions for img upload
@@ -59,7 +60,7 @@ class Profile3 extends Component {
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
-    // loading: false,
+    loading: false,
     pfpVisible: true,
     canEdit: false,
     isMyProfile: false,
@@ -109,22 +110,22 @@ class Profile3 extends Component {
     });
   };
 
-  // // pfp image upload methods
-  // handleChange = (info) => {
-  //   if (info.file.status === "uploading") {
-  //     this.setState({ loading: true });
-  //     return;
-  //   }
-  //   if (info.file.status === "done") {
-  //     // Get this url from response in real world.
-  //     getBase64(info.file.originFileObj, (imageUrl) =>
-  //       this.setState({
-  //         imageUrl,
-  //         loading: false,
-  //       })
-  //     );
-  //   }
-  // };
+  // pfp image upload methods
+  handleChange = (info) => {
+    if (info.file.status === "uploading") {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === "done") {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl) =>
+        this.setState({
+          imageUrl,
+          loading: false,
+        })
+      );
+    }
+  };
 
   render() {
     // whether the app is in mobile view
@@ -159,7 +160,6 @@ class Profile3 extends Component {
                     }
                   />
                 </Col>
-                <Col>{/* <SettingsButton showModal={this.showModal} /> */}</Col>
               </Row>
             ) : null}
           </Col>
@@ -188,16 +188,6 @@ class Profile3 extends Component {
             >
               {this.state.profile.about}
             </Paragraph>
-            {/* {this.state.isMyProfile ? (
-            //   <Settings
-            //     handleOk={this.handleOk}
-            //     handleCancel={this.handleCancel}
-            //     showModal={this.showModal}
-            //     layout={this.state.layout}
-            //     visible={this.state.visible}
-            //     loading={this.state.loading}
-            //   />
-            // ) : null} */}
           </Col>
           <Col>
             <Row>
@@ -241,7 +231,6 @@ class Profile3 extends Component {
                     }
                   />
                 </Col>
-                <Col>{/* <SettingsButton showModal={this.showModal} /> */}</Col>
               </Row>
             ) : null}
           </Col>
@@ -299,7 +288,7 @@ class Profile3 extends Component {
     );
 
     return (
-      <div>
+      <Row className="mb-4">
         <Col span={20} push={2}>
           <Typography
             component="div"
@@ -311,7 +300,6 @@ class Profile3 extends Component {
             <Row className=" my-4 ml-5">
               <Tabs onChange={callback} type="card">
                 <TabPane tab="Achievements" key="1">
-                  <Title className="h1size">Achievements</Title>
                   <AchievementManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
@@ -322,7 +310,6 @@ class Profile3 extends Component {
 
                 {/* Tab 2: skills  */}
                 <TabPane tab="Skills" key="2">
-                  <Title className="h1size">Key Skills</Title>
                   <SkillManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
@@ -330,8 +317,8 @@ class Profile3 extends Component {
                     changeList={this.changeList}
                   />
                 </TabPane>
-                <TabPane tab="Projects" key="3">
-                  <Typography.Title>Projects</Typography.Title>
+                <TabPane tab="Career" key="3">
+                  <CareerManager />
                   Content of Tab Pane 3
                 </TabPane>
                 <TabPane tab="Certificates" key="4">
@@ -346,7 +333,7 @@ class Profile3 extends Component {
             </Row>
           </Typography>
         </Col>
-      </div>
+      </Row>
     );
   }
 }
