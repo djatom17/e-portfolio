@@ -5,9 +5,8 @@ import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
-import Settings from "../profileDisplays/Settings";
+// import Settings from "../profileDisplays/Settings";
 import DragUpload from "../profileDisplays/DragUpload";
-import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
@@ -24,10 +23,10 @@ class Profile5 extends Component {
     tabdisp: "about",
     canEdit: false,
     isMyProfile: false,
-    loading: false,
-    visible: false,
-    layout: "0",
-    settingsVisible: false,
+    // loading: false,
+    // visible: false,
+    // layout: "0",
+    // settingsVisible: false,
     inputVisible: false,
     inputValue: "",
     editInputIndex: -1,
@@ -54,10 +53,10 @@ class Profile5 extends Component {
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
     //Authorisation check.
-    this.setState({
-      layout: this.props.profile.layout,
-      visible: this.props.settingsVisible,
-    });
+    // this.setState({
+    //   layout: this.props.profile.layout,
+    //   visible: this.props.settingsVisible,
+    // });
     this.props.isAuthenticated &&
     this.props.profile.userid &&
     this.props.user._id &&
@@ -186,7 +185,10 @@ class Profile5 extends Component {
                   onClick={this.handleTabClick}
                   selectedKeys={[current]}
                   mode="vertical"
-                  style={{ backgroundColor: "coral" }}
+                  style={{
+                    backgroundColor: "coral",
+                    border: "transparent",
+                  }}
                   className="text-center"
                 >
                   <Menu.Item key="about" className="modified-item">
@@ -224,9 +226,6 @@ class Profile5 extends Component {
                       }
                     />
                   </Col>
-                  <Col>
-                    <SettingsButton showModal={this.showModal} />
-                  </Col>
                 </Row>
               ) : null}
             </div>
@@ -234,7 +233,7 @@ class Profile5 extends Component {
               <Col>
                 {" "}
                 {this.displayProfileSeg()}
-                {this.state.isMyProfile ? (
+                {/* {this.state.isMyProfile ? (
                   <Settings
                     handleOk={this.handleOk}
                     handleCancel={this.handleCancel}
@@ -243,7 +242,7 @@ class Profile5 extends Component {
                     visible={this.state.visible}
                     loading={this.state.loading}
                   />
-                ) : null}
+                ) : null} */}
               </Col>
             </Row>
           </Col>

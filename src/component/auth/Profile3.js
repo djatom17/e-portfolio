@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
-import Settings from "../profileDisplays/Settings";
-import SettingsButton from "../profileDisplays/SettingsButton";
+// import Settings from "../profileDisplays/Settings";
+// import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
 import {
@@ -59,7 +59,7 @@ class Profile3 extends Component {
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
-    loading: false,
+    // loading: false,
     pfpVisible: true,
     canEdit: false,
     isMyProfile: false,
@@ -109,22 +109,22 @@ class Profile3 extends Component {
     });
   };
 
-  // pfp image upload methods
-  handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl) =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        })
-      );
-    }
-  };
+  // // pfp image upload methods
+  // handleChange = (info) => {
+  //   if (info.file.status === "uploading") {
+  //     this.setState({ loading: true });
+  //     return;
+  //   }
+  //   if (info.file.status === "done") {
+  //     // Get this url from response in real world.
+  //     getBase64(info.file.originFileObj, (imageUrl) =>
+  //       this.setState({
+  //         imageUrl,
+  //         loading: false,
+  //       })
+  //     );
+  //   }
+  // };
 
   render() {
     // whether the app is in mobile view
@@ -159,9 +159,7 @@ class Profile3 extends Component {
                     }
                   />
                 </Col>
-                <Col>
-                  <SettingsButton showModal={this.showModal} />
-                </Col>
+                <Col>{/* <SettingsButton showModal={this.showModal} /> */}</Col>
               </Row>
             ) : null}
           </Col>
@@ -190,16 +188,16 @@ class Profile3 extends Component {
             >
               {this.state.profile.about}
             </Paragraph>
-            {this.state.isMyProfile ? (
-              <Settings
-                handleOk={this.handleOk}
-                handleCancel={this.handleCancel}
-                showModal={this.showModal}
-                layout={this.state.layout}
-                visible={this.state.visible}
-                loading={this.state.loading}
-              />
-            ) : null}
+            {/* {this.state.isMyProfile ? (
+            //   <Settings
+            //     handleOk={this.handleOk}
+            //     handleCancel={this.handleCancel}
+            //     showModal={this.showModal}
+            //     layout={this.state.layout}
+            //     visible={this.state.visible}
+            //     loading={this.state.loading}
+            //   />
+            // ) : null} */}
           </Col>
           <Col>
             <Row>
@@ -243,9 +241,7 @@ class Profile3 extends Component {
                     }
                   />
                 </Col>
-                <Col>
-                  <SettingsButton showModal={this.showModal} />
-                </Col>
+                <Col>{/* <SettingsButton showModal={this.showModal} /> */}</Col>
               </Row>
             ) : null}
           </Col>
