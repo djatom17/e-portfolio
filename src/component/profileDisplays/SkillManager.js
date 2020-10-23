@@ -33,7 +33,7 @@ export class SkillManager extends Component {
     } = this.state;
     return (
       <div>
-        <Title>Key Skills</Title>
+        <Title className="h1size">Key Skills</Title>
         <div>
           {this.props.data &&
             this.props.data.map((tag, index) => {
