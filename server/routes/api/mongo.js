@@ -137,15 +137,29 @@ mongorouter.post("/p-insert", auth, function (req, res, next) {
  * Can be expanded to become a full-fledged search functionality.
  */
 mongorouter.get("/search", function (req, res, next) {
-  var searchQuery = decodeURIComponent(req.query.skills);
-  console.log("[Mongoose] Searching profiles with", searchQuery);
+  const searchSkills = decodeURIComponent(req.query.skills);
+  const searchName = decodeURIComponent(req.query.name);
+  var options = [];
+  if (req.query.name) {
+    options.push({
+      text: { query: searchName, path: ["firstName", "lastName"] },
+    });
+  }
+  if (req.query.skills) {
+    options.push({
+      text: {
+        query: searchSkills,
+        path: "keySkills",
+      },
+    });
+  }
+  console.log("[Mongoose] Searching profiles with", options);
   Profile.aggregate(
     [
       {
         $search: {
-          text: {
-            query: searchQuery,
-            path: "keySkills",
+          compound: {
+            must: options,
           },
         },
       },
@@ -159,7 +173,7 @@ mongorouter.get("/search", function (req, res, next) {
         "[Mongoose] Retrieved",
         profiles.length,
         "profiles with search term",
-        searchQuery
+        searchSkills
       );
       profiles.forEach((profile) => {
         profile = appendProfilePaths(profile);
@@ -233,8 +247,10 @@ function checkLink(req, res, next) {
           );
           return res.status(500).json({ error: err });
         }
+        
         //Found a conflicting profile
         if (profile) {
+          console.log("Conflict link");
           delete req.body.linkToProfile;
           return res.status(409).send(req.body);
         } else {

@@ -14,6 +14,31 @@ import { Typography, Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 const { Paragraph } = Typography;
 
+export function getFileDownload(filename, fileLocation) {
+  axios.get(fileLocation, { responseType: "blob" }).then((response) => {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+  });
+}
+
+// Handles the change of the file list when something new is uploaded.
+export function onFileListChange(name, url, description) {
+  this.setState({
+    profile: {
+      ...this.state.profile,
+      filesAndDocs: [
+        ...this.state.profile.filesAndDocs,
+        { name, url, description },
+      ],
+    },
+  });
+  console.log(name, url, description);
+}
+
 /**
  * Handles API calls to fetch data of a specified profile
  *
@@ -332,3 +357,14 @@ export function deleteButt(fieldName, item) {
   );
 }
 //End of Adding , Deleting and Editing of data helper functions
+
+/**
+ *
+ * Switches between desktop viewing and mobile viewing modes
+ *
+ * @function [resize]
+ *
+ */
+export function resize() {
+  this.setState({ mobileView: window.innerWidth <= 760 });
+}
