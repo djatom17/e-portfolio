@@ -133,15 +133,13 @@ class Profile extends Component {
                     <h2></h2>
                     <Carousel afterChange={onChange}>
                       <div>
-                        <h3 style={contentStyle}>1</h3>
-                      </div>
-                      <div>
-                        <h3 style={contentStyle}>2</h3>
-                      </div>
-                      <div>
-                        <h3 style={contentStyle}>3</h3>
+                        <h3 style={contentStyle}></h3>
                       </div>
                     </Carousel>
+                    <Descriptions title="About me" bordered>
+                      <div className="google-map-code">
+                      </div>
+                    </Descriptions>
                     <Descriptions title="User Info Card" bordered>
                       <Descriptions.Item label="Name" span={2}>
                         {ProfileData.getName(this.state.profile)}
@@ -150,14 +148,9 @@ class Profile extends Component {
                         Male
                       </Descriptions.Item>
                       <Descriptions.Item label="Occupation Status">Crewmate</Descriptions.Item>
-                      <Descriptions.Item label="Date of Brith">2018-04-24</Descriptions.Item>
                       <Descriptions.Item label="Work hour" span={2}>
                         Korean Standard Time (GMT +9)
                       </Descriptions.Item>
-                      <Descriptions.Item label="Status" span={3}>
-                        <Badge status="processing" text="Junior developer that Naver" />
-                      </Descriptions.Item>
-                      <Descriptions.Item label="GPA">9000</Descriptions.Item>
                       <Descriptions.Item label="Skills">C, C++, Python, React</Descriptions.Item>
                       <Descriptions.Item label="Speciality">Front end development</Descriptions.Item>
                       <Descriptions.Item label="Education">
