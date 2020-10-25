@@ -96,7 +96,7 @@ class Browse extends Component {
     if (keySkills) {
       return keySkills.map((item, index) => (
         <Tag color="#108ee9" key={index}>
-          {item}
+          <a href={`/browse?skills=${item}`}>{item}</a>
         </Tag>
       ));
     }
