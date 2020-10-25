@@ -118,21 +118,27 @@ class Profile5 extends Component {
       );
     } else if (this.state.tabdisp === "achievements") {
       return (
-        <AchievementManager
-          isMyProfile={this.state.isMyProfile}
-          canEdit={this.state.canEdit}
-          data={this.state.profile.achievements}
-          changeList={this.changeList}
-        />
+        <div>
+          <Title className="h1size">Achievements</Title>
+          <AchievementManager
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
+          />
+        </div>
       );
     } else if (this.state.tabdisp === "skills") {
       return (
-        <SkillManager
-          isMyProfile={this.state.isMyProfile}
-          canEdit={this.state.canEdit}
-          data={this.state.profile.keySkills}
-          changeList={this.changeList}
-        />
+        <div>
+          <Title className="h1size">Key Skills</Title>
+          <SkillManager
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.keySkills}
+            changeList={this.changeList}
+          />
+        </div>
       );
     } else if (this.state.tabdisp === "projects") {
       return (

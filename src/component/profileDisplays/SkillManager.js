@@ -33,93 +33,88 @@ export class SkillManager extends Component {
     } = this.state;
     return (
       <div>
-        <Title className="h1size">Key Skills</Title>
-        <div>
-          {this.props.data &&
-            this.props.data.map((tag, index) => {
-              if (editInputIndex === index) {
-                return (
-                  <Input
-                    ref={this.saveEditInputRef}
-                    key={tag}
-                    size={40}
-                    className="tag-input"
-                    value={editInputValue}
-                    onChange={this.handleEditInputChange}
-                    onBlur={() => this.handleEditInputConfirm("keySkills")}
-                    onPressEnter={() =>
-                      this.handleEditInputConfirm("keySkills")
-                    }
-                  />
-                );
-              }
-
-              const isLongTag = tag.length > 40;
-
-              const tagElem = (
-                <Tag
-                  className="skills-tag"
+        {this.props.data &&
+          this.props.data.map((tag, index) => {
+            if (editInputIndex === index) {
+              return (
+                <Input
+                  ref={this.saveEditInputRef}
                   key={tag}
-                  closable={
-                    index !== 0 && this.props.isMyProfile && this.props.canEdit
-                  }
-                  onClose={() => this.handleCloseTag("keySkills", tag)}
-                >
-                  <span
-                    className="skills-span"
-                    onDoubleClick={
-                      this.props.isMyProfile &&
-                      this.props.canEdit &&
-                      ((e) => {
-                        this.setState(
-                          { editInputIndex: index, editInputValue: tag },
-                          () => {
-                            this.editInput.focus();
-                          }
-                        );
-                        e.preventDefault();
-                      })
-                    }
-                  >
-                    {isLongTag ? `${tag.slice(0, 40)}...` : tag}
-                  </span>
-                </Tag>
+                  size={40}
+                  className="tag-input"
+                  value={editInputValue}
+                  onChange={this.handleEditInputChange}
+                  onBlur={() => this.handleEditInputConfirm("keySkills")}
+                  onPressEnter={() => this.handleEditInputConfirm("keySkills")}
+                />
               );
-              return isLongTag ? (
-                <Tooltip title={tag} key={tag}>
-                  {tagElem}
-                </Tooltip>
-              ) : (
-                tagElem
-              );
-            })}
+            }
 
-          {inputVisible && (
-            <Input
-              ref={this.saveInputRef}
-              type="text"
-              size="small"
-              className="tag-input"
-              value={inputValue}
-              onChange={this.handleInputChange}
-              onBlur={() => this.handleInputConfirm("keySkills")}
-              onPressEnter={() => this.handleInputConfirm("keySkills")}
-            />
-          )}
-          {!inputVisible && this.props.isMyProfile && this.props.canEdit && (
-            <Tag
-              className="site-tag-plus"
-              onClick={(e) => {
-                this.setState({ inputVisible: true }, () => {
-                  this.input.focus();
-                });
-                e.preventDefault();
-              }}
-            >
-              <PlusOutlined /> New Tag
-            </Tag>
-          )}
-        </div>
+            const isLongTag = tag.length > 40;
+
+            const tagElem = (
+              <Tag
+                className="skills-tag"
+                key={tag}
+                closable={
+                  index !== 0 && this.props.isMyProfile && this.props.canEdit
+                }
+                onClose={() => this.handleCloseTag("keySkills", tag)}
+              >
+                <span
+                  className="skills-span"
+                  onDoubleClick={
+                    this.props.isMyProfile &&
+                    this.props.canEdit &&
+                    ((e) => {
+                      this.setState(
+                        { editInputIndex: index, editInputValue: tag },
+                        () => {
+                          this.editInput.focus();
+                        }
+                      );
+                      e.preventDefault();
+                    })
+                  }
+                >
+                  {isLongTag ? `${tag.slice(0, 40)}...` : tag}
+                </span>
+              </Tag>
+            );
+            return isLongTag ? (
+              <Tooltip title={tag} key={tag}>
+                {tagElem}
+              </Tooltip>
+            ) : (
+              tagElem
+            );
+          })}
+
+        {inputVisible && (
+          <Input
+            ref={this.saveInputRef}
+            type="text"
+            size="small"
+            className="tag-input"
+            value={inputValue}
+            onChange={this.handleInputChange}
+            onBlur={() => this.handleInputConfirm("keySkills")}
+            onPressEnter={() => this.handleInputConfirm("keySkills")}
+          />
+        )}
+        {!inputVisible && this.props.isMyProfile && this.props.canEdit && (
+          <Tag
+            className="site-tag-plus"
+            onClick={(e) => {
+              this.setState({ inputVisible: true }, () => {
+                this.input.focus();
+              });
+              e.preventDefault();
+            }}
+          >
+            <PlusOutlined /> New Tag
+          </Tag>
+        )}
       </div>
     );
   }
