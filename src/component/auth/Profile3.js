@@ -1,19 +1,16 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+//import MediaQuery from "react-responsive";
+import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import Settings from "../profileDisplays/Settings";
 import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
-import { connect } from "react-redux";
-// import {Link} from "react-router-dom";
-// import axios from 'axios';
-// import CssBaseline from "@material-ui/core/CssBaseline";
-// import Container from "@material-ui/core/Container";
 import * as ProfileData from "../../api/ProfileData";
 import {
   Row,
   Col,
-  Avatar,
   Typography,
   Button,
   Divider,
@@ -66,6 +63,7 @@ class Profile3 extends Component {
     pfpVisible: true,
     canEdit: false,
     isMyProfile: false,
+    mobileView: false,
   };
 
   constructor() {
@@ -77,10 +75,14 @@ class Profile3 extends Component {
     this.handleCancel = ProfileData.handleCancel.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
+    this.resize = ProfileData.resize.bind(this);
   }
 
   componentDidMount() {
     this.setState({ profile: this.props.profile });
+    //Size check.
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
     //Authorisation check.
     this.props.isAuthenticated &&
     this.props.profile.userid &&
@@ -88,6 +90,10 @@ class Profile3 extends Component {
     this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
       ? this.setState({ isMyProfile: true })
       : this.setState({ isMyProfile: false });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resize.bind(this));
   }
 
   handleButtonClick = () => {
@@ -101,15 +107,6 @@ class Profile3 extends Component {
       canEdit: !this.state.canEdit,
       profileChanges: {},
     });
-  };
-
-  // pfp hovering methods
-  onEnterPFP = () => {
-    this.setState({ pfpVisible: false });
-  };
-
-  onLeavePFP = () => {
-    this.setState({ pfpVisible: true });
   };
 
   // pfp image upload methods
@@ -130,24 +127,179 @@ class Profile3 extends Component {
   };
 
   render() {
-    // for tags
-    const { pfpVisible } = this.state;
+    // whether the app is in mobile view
+    const { mobileView } = this.state;
 
-    // pfp
-    const pfp = (
-      <Avatar
-        alt="pfp"
-        src={this.state.profile.image}
-        shape="square"
-        size={200}
-      />
+    // desktop version of the profile header
+    const desktopHeader = (
+      <div>
+        <Row className="pt-4 mt-4 ml-5" justify="space-between">
+          <Col>
+            <h2>
+              {ProfileData.getName(this.state.profile)}
+              {", "}
+              <small>[get job from db]</small>
+            </h2>
+          </Col>
+          <Col className="mr-5">
+            {this.state.isMyProfile ? (
+              <Row className="mt-3" gutter={8}>
+                <Col>
+                  <EditButton
+                    _id={this.state.profile._id}
+                    profileChanges={this.state.profileChanges}
+                    token={this.props.token}
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    changeEdit={() =>
+                      this.setState({
+                        canEdit: !this.state.canEdit,
+                        profileChanges: {},
+                      })
+                    }
+                  />
+                </Col>
+                <Col>
+                  <SettingsButton showModal={this.showModal} />
+                </Col>
+              </Row>
+            ) : null}
+          </Col>
+        </Row>
+        <Row justify="space-around" gutter={24} className="mx-5">
+          {" "}
+          <ProfilePicture
+            image={this.state.profile.image}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            mobileView={false}
+          />
+          <Col xs={4} sm={6} md={10} lg={14} xl={16}>
+            <h4>A little bit about me...</h4>
+            <Paragraph
+              ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+              editable={
+                this.state.canEdit
+                  ? {
+                      onChange: (fieldName) =>
+                        this.setEditablefieldName("about", fieldName),
+                      autoSize: { minRows: 1, maxRows: 5 },
+                    }
+                  : false
+              }
+            >
+              {this.state.profile.about}
+            </Paragraph>
+            {this.state.isMyProfile ? (
+              <Settings
+                handleOk={this.handleOk}
+                handleCancel={this.handleCancel}
+                showModal={this.showModal}
+                layout={this.state.layout}
+                visible={this.state.visible}
+                loading={this.state.loading}
+              />
+            ) : null}
+          </Col>
+          <Col>
+            <Row>
+              <Button
+                type="link"
+                icon={<LinkedinOutlined />}
+                className="mt-3"
+              />
+            </Row>
+            <Row>
+              {" "}
+              <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
+            </Row>
+            <Row>
+              <Button type="link" icon={<GithubOutlined />} className="mt-3" />
+            </Row>
+          </Col>
+        </Row>
+      </div>
     );
 
-    // upload button
-    const uploadButton = (
-      <Avatar shape="square" size={200}>
-        <Upload> Change </Upload>
-      </Avatar>
+    // mobile version of the profile header
+    const mobileHeader = (
+      <div>
+        <Row>
+          <Col className="mr-5">
+            {this.state.isMyProfile ? (
+              <Row className="ml-3 mt-3" gutter={8}>
+                <Col>
+                  <EditButton
+                    _id={this.state.profile._id}
+                    profileChanges={this.state.profileChanges}
+                    token={this.props.token}
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    changeEdit={() =>
+                      this.setState({
+                        canEdit: !this.state.canEdit,
+                        profileChanges: {},
+                      })
+                    }
+                  />
+                </Col>
+                <Col>
+                  <SettingsButton showModal={this.showModal} />
+                </Col>
+              </Row>
+            ) : null}
+          </Col>
+        </Row>
+        <Row className="ml-3 ">
+          <Col>
+            <h2>
+              {ProfileData.getName(this.state.profile)}
+              {", "}
+              <small>[get job from db]</small>
+            </h2>
+          </Col>
+        </Row>
+        <Row gutter={8} justify="center">
+          <ProfilePicture
+            image={this.state.profile.image}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            mobileView={false}
+          />
+          <Col>
+            <Row>
+              <Button
+                type="link"
+                icon={<LinkedinOutlined />}
+                className="mt-3"
+              />
+            </Row>
+            <Row>
+              {" "}
+              <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
+            </Row>
+            <Row>
+              <Button type="link" icon={<GithubOutlined />} className="mt-3" />
+            </Row>
+          </Col>
+        </Row>
+        <Row className="mx-3 mt-2">
+          <Paragraph
+            ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+            editable={
+              this.state.canEdit
+                ? {
+                    onChange: (fieldName) =>
+                      this.setEditablefieldName("about", fieldName),
+                    autoSize: { minRows: 1, maxRows: 5 },
+                  }
+                : false
+            }
+          >
+            {this.state.profile.about}
+          </Paragraph>
+        </Row>
+      </div>
     );
 
     return (
@@ -157,138 +309,42 @@ class Profile3 extends Component {
             component="div"
             style={{ backgroundColor: "#ffffff", height: "auto" }}
           >
-            <Row className="mt-3 mx-4">
-              <Row className=" mt-4 ml-5" justify="space-between">
-                <Col>
-                  <h2>
-                    {ProfileData.getName(this.state.profile)}
-                    {", "}
-                    <small>[get job from db]</small>
-                  </h2>
-                </Col>
-                <Col className="mr-5">
-                  {this.state.isMyProfile ? (
-                    <Row className="mt-3" justify="end" gutter={8}>
-                      <Col>
-                        <EditButton
-                          _id={this.state.profile._id}
-                          profileChanges={this.state.profileChanges}
-                          token={this.props.token}
-                          isMyProfile={this.state.isMyProfile}
-                          canEdit={this.state.canEdit}
-                          changeEdit={() =>
-                            this.setState({
-                              canEdit: !this.state.canEdit,
-                              profileChanges: {},
-                            })
-                          }
-                        />
-                      </Col>
-                      <Col>
-                        <SettingsButton showModal={this.showModal} />
-                      </Col>
-                    </Row>
-                  ) : null}
-                </Col>
-              </Row>
-              <Row justify="space-around" gutter={24} className="mx-5">
-                <Col
-                  flex="200px"
-                  onMouseEnter={() => this.onEnterPFP()}
-                  onMouseLeave={() => this.onLeavePFP()}
-                >
-                  {" "}
-                  {this.state.isMyProfile && this.state.canEdit && !pfpVisible
-                    ? uploadButton
-                    : pfp}
-                </Col>
-                <Col xs={4} sm={6} md={10} lg={14} xl={16}>
-                  <h4>A little bit about me...</h4>
-                  <Paragraph
-                    ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
-                    editable={
-                      this.state.canEdit
-                        ? {
-                            onChange: (fieldName) =>
-                              this.setEditablefieldName("about", fieldName),
-                            autoSize: { minRows: 1, maxRows: 5 },
-                          }
-                        : false
-                    }
-                  >
-                    {this.state.profile.about}
-                  </Paragraph>
-                  {this.state.isMyProfile ? (
-                    <Settings
-                      handleOk={this.handleOk}
-                      handleCancel={this.handleCancel}
-                      showModal={this.showModal}
-                      layout={this.state.layout}
-                      visible={this.state.visible}
-                      loading={this.state.loading}
-                    />
-                  ) : null}
-                </Col>
-                <Col>
-                  <Row>
-                    <Button
-                      type="link"
-                      icon={<LinkedinOutlined />}
-                      className="mt-3"
-                    />
-                  </Row>
-                  <Row>
-                    {" "}
-                    <Button
-                      type="link"
-                      icon={<TwitterOutlined />}
-                      className="mt-3"
-                    />
-                  </Row>
-                  <Row>
-                    <Button
-                      type="link"
-                      icon={<GithubOutlined />}
-                      className="mt-3"
-                    />
-                  </Row>
-                </Col>
-              </Row>
-              <Divider />
-              <Row className=" my-4 ml-5">
-                <Tabs onChange={callback} type="card">
-                  <TabPane tab="Achievements" key="1">
-                    <AchievementManager
-                      isMyProfile={this.state.isMyProfile}
-                      canEdit={this.state.canEdit}
-                      changeList={this.changeList}
-                      data={this.state.profile.achievements}
-                    />
-                  </TabPane>
+            {!mobileView ? desktopHeader : mobileHeader}
 
-                  {/* Tab 2: skills  */}
-                  <TabPane tab="Skills" key="2">
-                    <SkillManager
-                      isMyProfile={this.state.isMyProfile}
-                      canEdit={this.state.canEdit}
-                      data={this.state.profile.keySkills}
-                      changeList={this.changeList}
-                    />
-                  </TabPane>
-                  <TabPane tab="Projects" key="3">
-                    <Typography.Title>Projects</Typography.Title>
-                    Content of Tab Pane 3
-                  </TabPane>
-                  <TabPane tab="Certificates" key="4">
-                    <Typography.Title>Certificates</Typography.Title>
-                  </TabPane>
+            <Divider />
+            <Row className=" my-4 ml-5">
+              <Tabs onChange={callback} type="card">
+                <TabPane tab="Achievements" key="1">
+                  <AchievementManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    changeList={this.changeList}
+                    data={this.state.profile.achievements}
+                  />
+                </TabPane>
 
-                  <TabPane tab="Contact Details" key="5">
-                    <Typography.Title>Contact Details</Typography.Title>
-                    Content of Tab Pane 5
-                  </TabPane>
-                </Tabs>
-              </Row>
+                {/* Tab 2: skills  */}
+                <TabPane tab="Skills" key="2">
+                  <SkillManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.keySkills}
+                    changeList={this.changeList}
+                  />
+                </TabPane>
+                <TabPane tab="Projects" key="3">
+                  <Typography.Title>Projects</Typography.Title>
+                  Content of Tab Pane 3
+                </TabPane>
+                <TabPane tab="Certificates" key="4">
+                  <Typography.Title>Certificates</Typography.Title>
+                </TabPane>
+
+                <TabPane tab="Contact Details" key="5">
+                  <Typography.Title>Contact Details</Typography.Title>
+                  Content of Tab Pane 5
+                </TabPane>
+              </Tabs>
             </Row>
           </Typography>
         </Col>

@@ -10,8 +10,9 @@ import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
-import { Row, Col, Menu, Typography } from "antd";
+import { Row, Col, Menu, Typography, Button } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
+import ProfilePicture from "../profileDisplays/ProfilePicture";
 
 const { Title, Paragraph } = Typography;
 
@@ -29,18 +30,7 @@ class Profile5 extends Component {
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
-  };
-
-  componentDidMount = () => {
-    this.setState({ profile: this.props.profile });
-    //Authorisation check.
-    this.setState({ layout: this.props.profile.layout });
-    this.props.isAuthenticated &&
-    this.props.profile.userid &&
-    this.props.user._id &&
-    this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
-      ? this.setState({ isMyProfile: true })
-      : this.setState({ isMyProfile: false });
+    mobileView: false,
   };
 
   constructor() {
@@ -53,6 +43,26 @@ class Profile5 extends Component {
     this.handleCancel = ProfileData.handleCancel.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
+    this.resize = ProfileData.resize.bind(this);
+  }
+
+  componentDidMount = () => {
+    this.setState({ profile: this.props.profile });
+    //Size check.
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
+    //Authorisation check.
+    this.setState({ layout: this.props.profile.layout });
+    this.props.isAuthenticated &&
+    this.props.profile.userid &&
+    this.props.user._id &&
+    this.props.user._id.valueOf() === this.props.profile.userid.valueOf()
+      ? this.setState({ isMyProfile: true })
+      : this.setState({ isMyProfile: false });
+  };
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resize.bind(this));
   }
 
   // Tab click event handler
@@ -65,10 +75,14 @@ class Profile5 extends Component {
     if (lst) {
       return lst.map((item, index) => (
         <div>
-          <Link to={item.url}>
+          <Button
+            onClick={() => {
+              ProfileData.getFileDownload(item.name, item.url);
+            }}
+          >
             <PaperClipOutlined />
             {item.name}
-          </Link>
+          </Button>
         </div>
       ));
     }
@@ -120,7 +134,10 @@ class Profile5 extends Component {
           <Title className="h1size">Projects</Title>
           <div>
             {this.state.isMyProfile && this.state.canEdit ? (
-              <DragUpload token={this.props.token} />
+              <DragUpload
+                token={this.props.token}
+                onChange={ProfileData.onFileListChange.bind(this)}
+              />
             ) : null}
             {console.log(this.state.isMyProfile)}
           </div>
@@ -138,11 +155,11 @@ class Profile5 extends Component {
           <Col flex={1}>
             <div className="prof5">
               <div className="container-fluid prof5-img">
-                <img
-                  src={this.state.profile.image}
-                  aria-hidden
-                  alt="description of image"
-                  className="mt-4 "
+                <ProfilePicture
+                  image={this.state.profile.image}
+                  isMyProfile={this.state.isMyProfile}
+                  canEdit={this.state.canEdit}
+                  mobileView={this.state.mobileView}
                 />
               </div>
               <div className="prof5-img">
