@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import Settings from "../profileDisplays/Settings";
+import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
 // import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import "antd/dist/antd.css";
@@ -101,6 +102,23 @@ class Profile2 extends Component {
               <Link href="#About" title="About Me" />
               <Link href="#Skills" title="Key Skills" />
               <Link href="#Achievements" title="Achievements" />
+              <div>
+                {this.state.isMyProfile ? (
+                  <EditButton
+                    _id={this.state.profile._id}
+                    profileChanges={this.state.profileChanges}
+                    token={this.props.token}
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    changeEdit={() =>
+                      this.setState({
+                        canEdit: !this.state.canEdit,
+                        profileChanges: {},
+                      })
+                    }
+                  />
+                ) : null}
+              </div>
             </Anchor>
           </div>
         </Row>
