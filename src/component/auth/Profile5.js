@@ -111,43 +111,79 @@ class Profile5 extends Component {
               {this.state.profile.about}
             </Paragraph>
           </div>
-        </div>
-      );
-    } else if (this.state.tabdisp === "achievements") {
-      return (
-        <div>
+          <Title className="h1size">Work Time Zone</Title>
+          <AchievementManager
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              data={this.state.profile.achievements}
+              changeList={this.changeList}
+          />
           <Title className="h1size">Achievements</Title>
           <AchievementManager
-            isMyProfile={this.state.isMyProfile}
-            canEdit={this.state.canEdit}
-            data={this.state.profile.achievements}
-            changeList={this.changeList}
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              data={this.state.profile.achievements}
+              changeList={this.changeList}
           />
         </div>
       );
-    } else if (this.state.tabdisp === "skills") {
+    } else if (this.state.tabdisp === "profession") {
       return (
         <div>
           <Title className="h1size">Key Skills</Title>
-          <SkillManager
-            isMyProfile={this.state.isMyProfile}
-            canEdit={this.state.canEdit}
-            data={this.state.profile.keySkills}
-            changeList={this.changeList}
+          <AchievementManager
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              data={this.state.profile.achievements}
+              changeList={this.changeList}
+          />
+          <Title className="h1size">Speciality</Title>
+          <AchievementManager
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              data={this.state.profile.achievements}
+              changeList={this.changeList}
+          />
+          <Title className="h1size">Projects</Title>
+          <div>
+            {this.state.isMyProfile && this.state.canEdit ? (
+                <DragUpload token={this.props.token} />
+            ) : null}
+            {console.log(this.state.isMyProfile)}
+          </div>
+          {this.getFiles(this.state.profile.filesAndDocs)}
+        </div>
+
+      );
+    } else if (this.state.tabdisp === "experience") {
+      return (
+        <div>
+          <Title className="h1size">Education</Title>
+          <AchievementManager
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              data={this.state.profile.achievements}
+              changeList={this.changeList}
+          />
+          <Title className="h1size">Work Experience</Title>
+          <AchievementManager
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              data={this.state.profile.achievements}
+              changeList={this.changeList}
           />
         </div>
       );
     } else if (this.state.tabdisp === "projects") {
       return (
         <div>
-          <Title className="h1size">Projects</Title>
-          <div>
-            {this.state.isMyProfile && this.state.canEdit ? (
-              <DragUpload token={this.props.token} />
-            ) : null}
-            {console.log(this.state.isMyProfile)}
-          </div>
-          {this.getFiles(this.state.profile.filesAndDocs)}
+          <Title className="h1size">Social Media</Title>
+          <AchievementManager
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              data={this.state.profile.achievements}
+              changeList={this.changeList}
+          />
         </div>
       );
     }
@@ -198,16 +234,16 @@ class Profile5 extends Component {
                   className="text-center"
                 >
                   <Menu.Item key="about" className="modified-item">
-                    About Me
+                    Personal Info
                   </Menu.Item>
-                  <Menu.Item key="achievements" className="modified-item">
-                    Achievements
+                  <Menu.Item key="profession" className="modified-item">
+                    Profession
                   </Menu.Item>
-                  <Menu.Item key="skills" className="modified-item">
-                    Skills
+                  <Menu.Item key="experience" className="modified-item">
+                    Experience
                   </Menu.Item>
                   <Menu.Item key="projects" className="modified-item">
-                    Projects
+                    Contacts
                   </Menu.Item>
                 </Menu>
               </div>
