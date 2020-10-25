@@ -24,7 +24,7 @@ import {
   GithubOutlined,
 } from "@ant-design/icons";
 
-const { Paragraph } = Typography;
+const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
 
 // functions for img upload
@@ -311,6 +311,7 @@ class Profile3 extends Component {
             <Row className=" my-4 ml-5">
               <Tabs onChange={callback} type="card">
                 <TabPane tab="Achievements" key="1">
+                  <Title className="h1size">Achievements</Title>
                   <AchievementManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
@@ -321,6 +322,7 @@ class Profile3 extends Component {
 
                 {/* Tab 2: skills  */}
                 <TabPane tab="Skills" key="2">
+                  <Title className="h1size">Key Skills</Title>
                   <SkillManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
