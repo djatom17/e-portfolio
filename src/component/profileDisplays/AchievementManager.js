@@ -62,20 +62,20 @@ export class AchievementManager extends Component {
                     <Paragraph key={item}>
                       <span
                         onDoubleClick={
-                          this.props.isMyProfile &&
-                          this.props.canEdit &&
-                          ((e) => {
-                            this.setState(
-                              {
-                                editInputIndex: index,
-                                editInputValue: item,
-                              },
-                              () => {
-                                this.editInput.focus();
+                          this.props.isMyProfile && this.props.canEdit
+                            ? (e) => {
+                                this.setState(
+                                  {
+                                    editInputIndex: index,
+                                    editInputValue: item,
+                                  },
+                                  () => {
+                                    this.editInput.focus();
+                                  }
+                                );
+                                e.preventDefault();
                               }
-                            );
-                            e.preventDefault();
-                          })
+                            : null
                         }
                       >
                         {item}
