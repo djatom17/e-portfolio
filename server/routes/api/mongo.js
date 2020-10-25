@@ -38,7 +38,7 @@ mongorouter.get("/profiles", function (req, res, next) {
   })
     .lean()
     .exec((err, profiles) => {
-      if (err) return res.status(500).json({error:err});
+      if (err) return res.status(500).json({ error: err });
 
       console.log("[Mongoose] Fetched all profiles.");
       profiles.forEach((profile) => {
@@ -59,7 +59,7 @@ mongorouter.get("/p/:ID", function (req, res, next) {
   console.log("[Mongoose] Fetching " + req.params.ID + " from mongo.");
 
   var query = {};
-  
+
   //Select appropriate query to pass (custom user links or profile od links)
   if (isValidObjectId(req.params.ID)) {
     query = { _id: ObjectID(req.params.ID) };
@@ -72,13 +72,11 @@ mongorouter.get("/p/:ID", function (req, res, next) {
       console.log(
         "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
       );
-      res.status(500).json({error:err});
-    } 
-    else if (!profile) {
-      console.log("[Mongoose] No profile found.")
+      res.status(500).json({ error: err });
+    } else if (!profile) {
+      console.log("[Mongoose] No profile found.");
       res.status(204).send(null);
-    }
-    else {
+    } else {
       //Successful operation
       console.log("[Mongoose] Fetched " + req.params.ID);
       profile = appendProfilePaths(profile);
@@ -99,7 +97,13 @@ mongorouter.get("/p/:ID", function (req, res, next) {
  *
  * @param {String} ID Profile ID must be listed in req.params.ID
  */
-mongorouter.post("/p-update/:ID", [auth,checkLink], function (req, res, next) {
+mongorouter.post("/p-update/:ID", [auth, checkLink], function (req, res, next) {
+  console.log(
+    "[Mongoose] Updating profile",
+    req.params.ID,
+    "with new information."
+  );
+
   //Post updates to mongo
   Profile.findOneAndUpdate(
     { _id: ObjectID(req.params.ID) },
@@ -107,7 +111,9 @@ mongorouter.post("/p-update/:ID", [auth,checkLink], function (req, res, next) {
     { returnNewDocument: true, useFindAndModify: false }
   ).then((updated_profile) => {
     if (!updated_profile) {
-      return res.status(500).json({error:"[Mongoose] Profile update unsuccessful."});
+      return res
+        .status(500)
+        .json({ error: "[Mongoose] Profile update unsuccessful." });
     }
     //Successful Operation
     console.log("[Mongoose] Successfully posted updates to MongoDB.");
@@ -200,11 +206,11 @@ const fetchProfileByUID = (uid, callback) => {
 
 /**
  * Validates link change in request body is not taken, if any.
- * 
+ *
  * Checks if the link belongs to another user, rejects the update if
  * conflicting. Moves to next route if link is available or no link
  * change is requested.
- * 
+ *
  * @param {JSON} req request body.
  * @param {JSON} res response body.
  * @param {} next method to next route.
@@ -218,22 +224,24 @@ function checkLink(req, res, next) {
       return res.status(400).send(req.body);
     }
     //Run distinct checks for linkToProfile, if exists.
-    Profile.findOne({"linkToProfile":req.body.linkToProfile}, (err, profile) => {
-      if (err) {
-        console.log(
-          "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
-        );
-        return res.status(500).json({error:err});
-      } 
-      //Found a conflicting profile
-      if (profile) {
-        delete req.body.linkToProfile;
-        return res.status(409).send(req.body);
+    Profile.findOne(
+      { linkToProfile: req.body.linkToProfile },
+      (err, profile) => {
+        if (err) {
+          console.log(
+            "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
+          );
+          return res.status(500).json({ error: err });
+        }
+        //Found a conflicting profile
+        if (profile) {
+          delete req.body.linkToProfile;
+          return res.status(409).send(req.body);
+        } else {
+          next();
+        }
       }
-      else{
-        next();
-      }
-    });
+    );
   }
   //No link change found in body, move to next route.
   else {
@@ -243,9 +251,9 @@ function checkLink(req, res, next) {
 
 /**
  * Finds the mapped PID of a given UID.
- * 
+ *
  * Maps the given UID to a PID, if any, from users_to_profiles.
- * 
+ *
  * @function [mapUIDtoPID]
  * @callback Requester~requestCallback
  * @param {String} uid User ID to be mapped.
@@ -256,28 +264,28 @@ const mapUIDtoPID = (uid, callback) => {
   //Find authenticated user's profile from DB
   UserProfile.findOne({
     uid: uid,
-  }).then((userMap) => {
-    //Handles non-existent user profile
-    if (!userMap) {
-      console.log("[Mongoose] User profile does not exist.");
-      return callback(null, null);
-    }
-    else {
-      //Successful operation
-      return callback(null, userMap);
-    }
   })
-  .catch((err) => {
-    console.log("[Mongoose] Error fetchign a profile");
-    return callback(err, null);
-  });
+    .then((userMap) => {
+      //Handles non-existent user profile
+      if (!userMap) {
+        console.log("[Mongoose] User profile does not exist.");
+        return callback(null, null);
+      } else {
+        //Successful operation
+        return callback(null, userMap);
+      }
+    })
+    .catch((err) => {
+      console.log("[Mongoose] Error fetchign a profile");
+      return callback(err, null);
+    });
 };
 
 /**
  * Creates a document entry in "files" table in MongoDB.
  *
  * Triggered after file upload to S3 is successful. Stores the filename,
- * key, file description and User ID into "files", for convenience of 
+ * key, file description and User ID into "files", for convenience of
  * file retrieval/access.
  *
  * @function [postUpload]
@@ -320,9 +328,9 @@ const postUpload = (name, url, desc, uid) => {
 
 /**
  * Deletes File entry from Profile's filesAndDocs.
- * 
- * Usually called after removing a file from S3. 
- * 
+ *
+ * Usually called after removing a file from S3.
+ *
  * @function [postDelete]
  * @param {String} url Stored filepath in File entry.
  * @param {String} uid User ID of requester.
@@ -359,9 +367,9 @@ const postDelete = (url, uid) => {
 
 /**
  * Checks if str is ObjectId format.
- * 
+ *
  * Does str adhere to MongoDB ObjectId format?
- * 
+ *
  * @param {String} str String to test.
  * @returns {Boolean} String is valid ObjectId or not.
  */
