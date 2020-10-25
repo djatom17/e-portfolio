@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Button } from "antd";
+import { Modal, Button, Row, Col, Avatar } from "antd";
 import "antd/dist/antd.css";
 import * as ProfileData from "../../api/ProfileData";
 
@@ -19,16 +19,17 @@ export class EditButton extends Component {
   render() {
     return (
       <Fragment>
-        {this.props.isMyProfile ? (
-          <Button
-            type="primary"
-            data-toggle="collapse"
-            data-target="#mobile-nav"
-            onClick={() => this.handleEditButtonClick()}
-          >
-            {this.props.canEdit ? "Done" : "Edit"}
-          </Button>
-        ) : null}
+        <Button
+          style={{ fontWeight: "bold", fontSize: 16 }}
+          type="link"
+          data-toggle="collapse"
+          data-target="#mobile-nav"
+          onClick={() => this.handleEditButtonClick()}
+        >
+          {this.props.isMyProfile && this.props.canEdit
+            ? "Save"
+            : "Edit Profile"}
+        </Button>
       </Fragment>
     );
   }
