@@ -3,18 +3,34 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const config = require("config");
+const config =
+  process.env.NODE_ENV === "development" ? require("config") : null;
 
 var cors = require("cors");
 var busboy = require("connect-busboy");
 var busboyBodyParser = require("busboy-body-parser");
 
-//var indexRouter = require('./routes/index');
-//var s3u = require('./routes/api/s3upload');
-
 // DB connect
 const mongoose = require("mongoose");
-const db = config.get("mongoURI");
+// var db = "";
+// if (process.env.NODE_ENV === "development") {
+//   if (process.env.NODE_TEST === "true") {
+//     db = config.get("mongoTestURI");
+//   }
+//   db = config.get("mongoURI");
+// } else if (process.env.NODE_ENV === "test") {
+//   db = process.env.MONGODB_TEST_URI;
+// } else {
+//   db = process.env.MONGODB_URI;
+// }
+const db =
+  process.env.NODE_ENV === "development"
+    ? process.env.NODE_TEST === "true"
+      ? config.get("mongoTestURI")
+      : config.get("mongoURI")
+    : process.env.NODE_ENV === "test"
+    ? process.env.MONGODB_TEST_URI
+    : process.env.MONGODB_URI;
 mongoose
   .connect(db, {
     useNewUrlParser: true,
@@ -29,10 +45,6 @@ var app = express();
 app.use(cors());
 app.use(busboy());
 
-// view engine setup
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "jade");
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(
@@ -43,21 +55,13 @@ app.use(
 
 app.use(busboyBodyParser());
 
-// upload API (?)...
-//require('./routes/api/file')(app);
-
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "/../build")));
-//app.get("/", (req, res) => {
-//  res.sendFile(path.join(__dirname, "/../build", "index.html"));
-//});
 
-//app.use('/', indexRouter);
 app.use("/api/file", require("./routes/api/s3"));
 app.use("/api/mongo", require("./routes/api/mongo").mongorouter);
 app.use("/api/auth", require("./routes/api/userAuth"));
 app.use("/api/my-profile", require("./routes/api/myProfile"));
-//app.use('/s3proxy', s3u);
 
 // Handle React routing, return all requests to React app
 app.get("/*", function (req, res) {

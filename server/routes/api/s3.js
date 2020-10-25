@@ -12,16 +12,26 @@
 var express = require("express");
 var s3router = express.Router();
 var crypto = require("crypto");
-const config = require("config");
+const config =
+  process.env.NODE_ENV === "development" ? require("config") : null;
 const AWS = require("aws-sdk");
 const Busboy = require("busboy");
 const auth = require("./auth");
 const mongo = require("./mongo");
 
-const AWSBucket = config.get("s3Bucket");
+const AWSBucket =
+  process.env.NODE_ENV === "development"
+    ? config.get("s3Bucket")
+    : process.env.S3_BUCKET;
 const s3 = new AWS.S3({
-  accessKeyId: config.get("iamUser"),
-  secretAccessKey: config.get("iamSecret"),
+  accessKeyId:
+    process.env.NODE_ENV === "development"
+      ? config.get("iamUser")
+      : process.env.S3_USER,
+  secretAccessKey:
+    process.env.NODE_ENV === "development"
+      ? config.get("iamSecret")
+      : process.env.S3_SECRET,
 });
 
 /**
@@ -112,9 +122,8 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
       s3.deleteObject(params, (err, res) => {
         if (err) {
           console.log("[S3] File deletion failed.");
-          return res.status(500).json({error:err});
-        }
-        else {
+          return res.status(500).json({ error: err });
+        } else {
           console.log("[S3] File deletion successful.");
           mongo
             .postDelete(req.params.file, req.user.id)

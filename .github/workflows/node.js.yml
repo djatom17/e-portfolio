@@ -47,16 +47,16 @@ jobs:
         run: npm install
         working-directory: server
 
-      # no need to build if not required; save time
-      # - name: Build React app
-      #   run: npm run build --if-present
-      #   env:
-      #     CI: ""
-
       - name: Test React app
         run: npm test
 
       - name: Test Express server
+        env:
+          MONGODB_TEST_URI: ${{ secrets.MONGODB_TEST_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+          S3_SECRET: ${{ secrets.S3_SECRET }}
+          S3_USER: ${{ secrets.S3_USER }}
         run: npm test
         working-directory: server
 

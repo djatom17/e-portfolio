@@ -3,20 +3,22 @@ let User = require("../models/User");
 
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = require("../app");
+let server = require("../app").set("NODE_ENV", "test");
 let should = chai.should();
 
 chai.use(chaiHttp);
 
-// Give time for Mongoose to establish connection to MongoDB.
-before((done) => setTimeout(done, 5000));
+before((done) => {
+  // Give time for Mongoose to establish connection to MongoDB.
+  setTimeout(done, 5000);
+});
 
 // Parent block
-describe("Users", () => {
+describe("Backend API Tests", () => {
   // Allow time for MongoDB to take a breather between requests.
   beforeEach((done) => setTimeout(done, 300));
 
-  describe("/AUTH user", () => {
+  describe("Authorisation Tests", () => {
     it("should not auth a random visitor", (done) => {
       chai
         .request(server)
@@ -33,8 +35,8 @@ describe("Users", () => {
         .get("/api/auth/user")
         .set("x-auth-token", "random_non-empty_string")
         .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.have.property("error").eq("Token is not valid.");
+          res.should.have.status(401);
+          res.body.should.have.property("error");
           done();
         });
     });
@@ -48,8 +50,8 @@ describe("Users", () => {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNmY2MDRmM2NkMzEwMjZiMDg3MzQ0MCIsImlhdCI6MTYwMTEzNDY3MiwiZXhwIjoxNjAxMTM0ODAwfQ.EFrFMAPgRAMqEuaDhrjQhRHKtcFGxNyUtFiy19dWZ88"
         )
         .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.have.property("error").eq("Token is not valid.");
+          res.should.have.status(401);
+          res.body.should.have.property("error");
           done();
         });
     });
@@ -60,8 +62,8 @@ describe("Users", () => {
         .post("/api/auth/login")
         .send({ email: "randomemail@gmail.com", password: "admin" })
         .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.have.property("error").eq("User does not exist.");
+          res.should.have.status(401);
+          res.body.should.have.property("error");
           done();
         });
     });
@@ -72,8 +74,8 @@ describe("Users", () => {
         .post("/api/auth/login")
         .send({ email: "amanbhuyan20@gmail.com", password: "adminpassword" })
         .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.have.property("error").eq("Invalid credentials.");
+          res.should.have.status(401);
+          res.body.should.have.property("error");
           done();
         });
     });
@@ -91,4 +93,6 @@ describe("Users", () => {
         });
     });
   });
+
+  describe("Database Tests", () => {});
 });
