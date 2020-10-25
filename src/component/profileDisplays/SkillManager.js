@@ -64,17 +64,17 @@ export class SkillManager extends Component {
                 <span
                   className="skills-span"
                   onDoubleClick={
-                    this.props.isMyProfile &&
-                    this.props.canEdit &&
-                    ((e) => {
-                      this.setState(
-                        { editInputIndex: index, editInputValue: tag },
-                        () => {
-                          this.editInput.focus();
+                    this.props.isMyProfile && this.props.canEdit
+                      ? (e) => {
+                          this.setState(
+                            { editInputIndex: index, editInputValue: tag },
+                            () => {
+                              this.editInput.focus();
+                            }
+                          );
+                          e.preventDefault();
                         }
-                      );
-                      e.preventDefault();
-                    })
+                      : null
                   }
                 >
                   {isLongTag ? `${tag.slice(0, 40)}...` : tag}
