@@ -31,6 +31,7 @@ const User = require("../../models/User");
 
 // User to profile mapping Model
 const UserProfile = require("../../models/UserProfile");
+const Profile = require("../../models/Profile");
 
 /**
  * Authenticates a user when logging in.
@@ -186,26 +187,45 @@ userrouter.post("/register", (req, res, next) => {
         if (err) throw err;
         newUser.password = hash;
         newUser.save().then((user) => {
-          jwt.sign(
-            {
-              id: user.id,
-            },
-            jwtSecret,
-            {
-              expiresIn: 3600,
-            },
-            (err, token) => {
-              if (err) throw err;
-              res.status(200).json({
-                token,
-                user: {
-                  id: user.id,
-                  name: user.name,
-                  email: user.email,
-                },
+          const firstSpaceIndex = user.name.indexOf(" ");
+          const firstName = user.name.substr(0, firstSpaceIndex);
+          const lastName = user.name.substr(firstSpaceIndex + 1);
+          bcrypt.hash(user.email, salt, (err, hashedEmail) => {
+            const newProfile = new Profile({
+              firstName: firstName,
+              lastName: lastName,
+              linkToProfile: encodeURIComponent(hashedEmail.replace(".", "")),
+            });
+            newProfile.save().then((profile) => {
+              const newUserProfile = new UserProfile({
+                uid: user.id,
+                pid: profile.id,
               });
-            }
-          );
+              newUserProfile.save().then((userProfile) => {
+                jwt.sign(
+                  {
+                    id: user.id,
+                  },
+                  jwtSecret,
+                  {
+                    expiresIn: 3600,
+                  },
+                  (err, token) => {
+                    if (err) throw err;
+                    res.status(200).json({
+                      token,
+                      profile: profile,
+                      user: {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                      },
+                    });
+                  }
+                );
+              });
+            });
+          });
         });
       });
     });
