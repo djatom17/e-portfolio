@@ -68,30 +68,30 @@ describe("Backend API Tests", () => {
         });
     });
 
-    it("should not login correct email but wrong password", (done) => {
-      chai
-        .request(server)
-        .post("/api/auth/login")
-        .send({ email: "amanbhuyan20@gmail.com", password: "adminpassword" })
-        .end((err, res) => {
-          res.should.have.status(401);
-          res.body.should.have.property("error");
-          done();
-        });
-    });
+    // it("should not login correct email but wrong password", (done) => {
+    //   chai
+    //     .request(server)
+    //     .post("/api/auth/login")
+    //     .send({ email: "testaccount@cae.com", password: "adminpassword" })
+    //     .end((err, res) => {
+    //       res.should.have.status(401);
+    //       res.body.should.have.property("error");
+    //       done();
+    //     });
+    // });
 
-    it("should correctly auth valid user and provide token", (done) => {
-      chai
-        .request(server)
-        .post("/api/auth/login")
-        .send({ email: "amanbhuyan20@gmail.com", password: "testpassword123" })
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property("token");
-          res.body.should.have.property("user");
-          done();
-        });
-    });
+    // it("should correctly auth valid user and provide token", (done) => {
+    //   chai
+    //     .request(server)
+    //     .post("/api/auth/login")
+    //     .send({ email: "testaccount@cae.com", password: "testpassword123" })
+    //     .end((err, res) => {
+    //       res.should.have.status(200);
+    //       res.body.should.have.property("token");
+    //       res.body.should.have.property("user");
+    //       done();
+    //     });
+    // });
   });
 
   describe("Database Tests", () => {});
