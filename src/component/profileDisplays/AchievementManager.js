@@ -56,7 +56,7 @@ export class AchievementManager extends Component {
                 );
               }
               const achievement = (
-                <Row>
+                <Row key={item}>
                   <Col flex="auto">
                     <Paragraph key={item}>
                       <span
