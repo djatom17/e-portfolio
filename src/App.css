@@ -20,14 +20,18 @@ img {
   font-size: calc(12px + 2.5vw) !important;
 }
 
+.h9size {
+  font-size: calc(11px + 1.5vw) !important;
+}
+
 .psize {
   font-size: calc(8px + 0.8vw) !important;
 }
 
-/* nav and footer styles */
+/* nav and footer styles *s
 .footer-height {
-  height: 4vh;
-}
+  height: 4vhs
+}s
 
 /* body styles*/
 

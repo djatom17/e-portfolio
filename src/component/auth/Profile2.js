@@ -140,7 +140,7 @@ class Profile2 extends Component {
               style={{ backgroundColor: "#ffffff", height: "auto" }}
             >
               <Row className="mt-3 mx-4">
-                <Divider id="About" className="h1size" orientation="left">
+                <Divider id="About" className="h9size" orientation="left">
                   About Me
                 </Divider>
                 <Paragraph
@@ -152,28 +152,67 @@ class Profile2 extends Component {
                         }
                       : false
                   }
-                  ellipsis={{ rows: 1, expandable: true, symbol: "more" }}
                 >
-                  {this.state.profile.about}
+                  <Row className="my-3 mx-4">
+                    {this.state.profile.about}
+                  </Row>
                 </Paragraph>
               </Row>
               <Row className="mt-3 mx-4">
-                <Divider id="About" className="h1size" orientation="left">
+                <Divider
+                    id="Education"
+                    className="h9size"
+                    orientation="left"
+                >
+                  Education
+                </Divider>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    <AchievementManager
+                    />
+                  </Col>
+                </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider id="Key Skills" className="h9size" orientation="left">
                   Key Skills
                 </Divider>
+                <Row className="my-3 mx-4">
+                  <SkillManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.keySkills}
+                      changeList={this.changeList}
+                  />
+                </Row>
               </Row>
-              <Row className="my-3 mx-4">
-                <SkillManager
-                  isMyProfile={this.state.isMyProfile}
-                  canEdit={this.state.canEdit}
-                  data={this.state.profile.keySkills}
-                  changeList={this.changeList}
-                />
+              <Row className="mt-3 mx-4">
+                <Divider id="Key Skills" className="h9size" orientation="left">
+                  Areas of Speciality
+                </Divider>
+                <Row className="my-3 mx-4">
+                </Row>
+              </Row>
+
+              <Row className="mt-3 mx-4">
+                <Divider
+                    id="JobExperience"
+                    className="h9size"
+                    orientation="left"
+                >
+                  Job Experience
+                </Divider>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    <AchievementManager
+                    />
+                  </Col>
+                </Row>
               </Row>
               <Row className="mt-3 mx-4">
                 <Divider
                   id="Achievements"
-                  className="h1size"
+                  className="h9size"
                   orientation="left"
                 >
                   Achievements
