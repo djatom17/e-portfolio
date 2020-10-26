@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from "react";
 import { Col, Upload, Button, Avatar } from "antd";
+import ImgCrop from "antd-img-crop";
 import "antd/dist/antd.css";
 import { UserOutlined } from "@ant-design/icons";
 
 export class ProfilePicture extends Component {
   state = {
     pfpVisible: true,
+    fileList: [],
   };
 
   // pfp hovering methods
@@ -18,7 +20,16 @@ export class ProfilePicture extends Component {
   };
 
   render() {
-    const { pfpVisible } = this.state;
+    const { pfpVisible, fileList } = this.state;
+
+    const uploadProps = {
+      beforeUpload: (file) => {
+        file.preview = window.URL.createObjectURL(file);
+        this.props.onPFPChange(file);
+        return false;
+      },
+      fileList,
+    };
 
     // pfp present by default
     const pfp = (
@@ -27,13 +38,15 @@ export class ProfilePicture extends Component {
 
     // upload button that appears while hovering in edit mode
     const uploadButton = (
-      <Upload className="pfp-button">
-        {!this.props.mobileView ? (
-          <Button type="primary"> Change </Button>
-        ) : (
-          <Button type="primary" size="small" icon={<UserOutlined />} block />
-        )}
-      </Upload>
+      <ImgCrop modalOk="Confirm" rotate={true}>
+        <Upload className="pfp-button" {...uploadProps}>
+          {!this.props.mobileView ? (
+            <Button type="primary"> Change </Button>
+          ) : (
+            <Button type="primary" size="small" icon={<UserOutlined />} block />
+          )}
+        </Upload>
+      </ImgCrop>
     );
 
     return (

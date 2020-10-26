@@ -28,12 +28,6 @@ const { Paragraph } = Typography;
 const { TabPane } = Tabs;
 
 // functions for img upload
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
 function beforeUpload(file) {
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
   if (!isJpgOrPng) {
@@ -64,6 +58,7 @@ class Profile3 extends Component {
     canEdit: false,
     isMyProfile: false,
     mobileView: false,
+    originalImage: "",
   };
 
   constructor() {
@@ -79,7 +74,10 @@ class Profile3 extends Component {
   }
 
   componentDidMount() {
-    this.setState({ profile: this.props.profile });
+    this.setState({
+      profile: this.props.profile,
+      originalImage: this.props.profile.image,
+    });
     //Size check.
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
@@ -96,34 +94,26 @@ class Profile3 extends Component {
     window.removeEventListener("resize", this.resize.bind(this));
   }
 
-  handleButtonClick = () => {
-    // Make changes reflect on database
-    ProfileData.updateProfile(
-      this.state.profile._id,
-      this.state.profileChanges,
-      this.props.token
-    );
-    this.setState({
-      canEdit: !this.state.canEdit,
-      profileChanges: {},
-    });
-  };
+  // handleButtonClick = () => {
+  //   // Make changes reflect on database
+  //   ProfileData.updateProfile(
+  //     this.state.profile._id,
+  //     this.state.profileChanges,
+  //     this.props.token
+  //   );
+  //   this.setState({
+  //     canEdit: !this.state.canEdit,
+  //     profileChanges: {},
+  //   });
+  // };
 
-  // pfp image upload methods
-  handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl) =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        })
-      );
-    }
+  // Profile picture changing
+  // When the user selects a new image, preview it on the thumbnail
+  handlePFPChange = (file) => {
+    this.setState({
+      profile: { ...this.state.profile, image: file.preview },
+      profileChanges: { ...this.state.profileChanges, image: file },
+    });
   };
 
   render() {
@@ -148,7 +138,6 @@ class Profile3 extends Component {
                   <EditButton
                     _id={this.state.profile._id}
                     profileChanges={this.state.profileChanges}
-                    token={this.props.token}
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
                     changeEdit={() =>
@@ -170,6 +159,7 @@ class Profile3 extends Component {
           {" "}
           <ProfilePicture
             image={this.state.profile.image}
+            onPFPChange={this.handlePFPChange.bind(this)}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
             mobileView={false}
@@ -232,7 +222,6 @@ class Profile3 extends Component {
                   <EditButton
                     _id={this.state.profile._id}
                     profileChanges={this.state.profileChanges}
-                    token={this.props.token}
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
                     changeEdit={() =>
