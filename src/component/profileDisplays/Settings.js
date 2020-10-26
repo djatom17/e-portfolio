@@ -18,7 +18,7 @@ export class Settings extends Component {
   };
   handleChangeComplete = (color, str) => {
     this.setState({ color: color.hex });
-    this.props.handlePrimColor(color, str);
+    this.props.handlePrimColour(color, str);
   };
 
   render() {

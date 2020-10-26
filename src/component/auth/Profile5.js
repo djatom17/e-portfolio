@@ -32,8 +32,8 @@ class Profile5 extends Component {
     editInputIndex: -1,
     editInputValue: "",
     mobileView: false,
-    primaryColor: "coral",
-    secondaryColor: "white",
+    primaryColour: "",
+    secondaryColour: "",
   };
 
   constructor() {
@@ -59,6 +59,11 @@ class Profile5 extends Component {
     //   layout: this.props.profile.layout,
     //   visible: this.props.settingsVisible,
     // });
+    this.setState({
+      layout: this.props.profile.layout,
+      primaryColour: this.props.profile.primaryColour,
+      secondaryColour: this.props.profile.secondaryColour,
+    });
     this.props.isAuthenticated &&
     this.props.profile.userid &&
     this.props.user._id &&
@@ -92,10 +97,10 @@ class Profile5 extends Component {
       ));
     }
   }
-  handlePrimColor = (color, str) => {
+  handlePrimColour = (color, str) => {
     str === "Prim"
-      ? this.setState({ primaryColor: color.hex })
-      : this.setState({ secondaryColor: color.hex });
+      ? this.setState({ primaryColour: color.hex })
+      : this.setState({ secondaryColour: color.hex });
   };
 
   displayProfileSeg = () => {
@@ -199,14 +204,16 @@ class Profile5 extends Component {
     const { current } = this.state.tabdisp;
     return (
       <div
-        className="container-fluid ml-n3 mb-3"
-        style={{ backgroundColor: this.state.secondaryColor }}
+        className="container-fluid"
+        style={{
+          backgroundColor: this.state.secondaryColour,
+        }}
       >
-        <Row className="prof5height">
+        <Row className="prof5height ml-n3">
           <Col flex={1}>
             <div
               className="prof5"
-              style={{ backgroundColor: this.state.primaryColor }}
+              style={{ backgroundColor: this.state.primaryColour }}
             >
               <div className="container-fluid prof5-img">
                 <ProfilePicture
@@ -295,7 +302,7 @@ class Profile5 extends Component {
                     layout={this.state.layout}
                     visible={this.state.visible}
                     loading={this.state.loading}
-                    handlePrimColor={this.handlePrimColor}
+                    handlePrimColour={this.handlePrimColour}
                     // handleSecColor={this.}
                   />
                 ) : null} */}
