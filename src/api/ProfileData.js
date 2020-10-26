@@ -158,6 +158,7 @@ export function changeList(data, fieldName) {
 }
 
 //Modal  helper Functions
+// delete ?
 export function showModal() {
   this.setState({
     visible: true,
@@ -170,6 +171,7 @@ export function showSettings() {
   });
 }
 
+// delete ?
 export function handleOk(num, info) {
   this.setState({ loading: true });
   setTimeout(() => {
@@ -189,17 +191,7 @@ export function settingsOk(num, pid, info) {
   updateProfile(pid, { layout: num }, this.props.token);
   window.location.reload();
 }
-
-export function SettingsOk(num, info) {
-  this.setState({ settingsLoading: true });
-  setTimeout(() => {
-    this.setState({ settingsLoading: false, settingsVisible: false });
-  }, 3000);
-
-  updateProfile(this.state.profile._id, { layout: num }, this.props.token);
-  window.location.reload();
-}
-
+// delete ?
 export function handleCancel() {
   this.setState({ visible: false });
 }
@@ -212,6 +204,73 @@ export function changeLayout(str, info) {
   this.setState({ layout: str });
 }
 // End of modal Functions
+
+// Editable Card List Functions: Add, Delete and Edit
+
+/**
+ *
+ * Updates the values given object in the profile state variable for a card
+ * by removing elements as directed by the UI
+ *
+ * This change is passed on to the database to be updated
+ *
+ * @function [handleCloseCard]
+ * @param {String} fieldName - String name of the object in profile being modified e.g. "workplace".
+ * @param {Object} item - the object value to be deleted
+ * @param {String} keyFieldName - String name of the field to be used for comparison
+ *
+ */
+export function handleCloseCard(fieldName, item, keyFieldName) {
+  const field = this.props.data.filter(function (value) {
+    return value[keyFieldName] != item[keyFieldName];
+  });
+  let data = this.props.data;
+  data = field;
+  this.setState({
+    editInputIndex: -1,
+    editInputValue: "",
+  });
+  this.props.changeList(data, fieldName);
+  // this.setState({ editInputIndex: -1, editInputValue: "" });
+}
+
+/**
+ *
+ * Sets generic inputValue1 (new) to be text from input event
+ *
+ * @function [handleInputChange1]
+ * @param {event} e - Input Event.
+ *
+ */
+export function handleInputChange1(e) {
+  this.setState({ inputValue1: e.target.value });
+}
+
+/**
+ *
+ * Sets generic inputValue2 (new) to be text from input event
+ *
+ * @function [handleInputChange2]
+ * @param {event} e - Input Event.
+ *
+ */
+export function handleInputChange2(e) {
+  this.setState({ inputValue2: e.target.value });
+}
+
+/**
+ *
+ * Sets generic inputValue3 (new) to be text from input event
+ *
+ * @function [handleInputChange3]
+ * @param {event} e - Input Event.
+ *
+ */
+export function handleInputChange3(e) {
+  this.setState({ inputValue3: e.target.value });
+}
+
+// Edit Card List Functions
 
 // Editable List Helper Functions: Add, Delete and Edit.
 
@@ -280,33 +339,6 @@ export function handleInputConfirm(fieldName) {
  */
 export function handleCloseTag(fieldName, removedTag) {
   const field = this.props.data.filter((tag) => tag !== removedTag);
-  let data = this.props.data;
-  data = field;
-  this.setState({
-    editInputIndex: -1,
-    editInputValue: "",
-  });
-  this.props.changeList(data, fieldName);
-  // this.setState({ editInputIndex: -1, editInputValue: "" });
-}
-
-/**
- *
- * Updates the values given object in the profile state variable for a card
- * by removing elements as directed by the UI
- *
- * This change is passed on to the database to be updated
- *
- * @function [handleCloseCard]
- * @param {String} fieldName - String name of the object in profile being modified e.g. "workplace".
- * @param {Object} item - the object value to be deleted
- * @param {String} keyFieldName - String name of the field to be used for comparison
- *
- */
-export function handleCloseCard(fieldName, item, keyFieldName) {
-  const field = this.props.data.filter(function (value) {
-    return value[keyFieldName] != item[keyFieldName];
-  });
   let data = this.props.data;
   data = field;
   this.setState({

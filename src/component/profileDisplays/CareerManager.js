@@ -16,27 +16,27 @@ const { Meta } = Card;
 export class CareerManager extends Component {
   state = {
     inputVisible: false,
-    inputValue: "",
+    inputValue1: "", // Role
+    inputValue2: "", // WorkPlace
+    inputValue3: "", // Description
     editInputIndex: -1,
     editInputValue: "",
   };
 
   constructor() {
     super();
-    this.handleInputChange = ProfileData.handleInputChange.bind(this);
-    this.handleEditInputChange = ProfileData.handleEditInputChange.bind(this);
-    this.handleInputConfirm = ProfileData.handleInputConfirm.bind(this);
+    this.handleInputChangeRole = ProfileData.handleInputChange1.bind(this);
+    this.handleInputChangePlace = ProfileData.handleInputChange2.bind(this);
+    this.handleInputChangeDesc = ProfileData.handleInputChange3.bind(this);
     this.handleCloseCard = ProfileData.handleCloseCard.bind(this);
-    this.handleEditInputConfirm = ProfileData.handleEditInputConfirm.bind(this);
-    this.saveInputRef = ProfileData.saveInputRef.bind(this);
-    this.saveEditInputRef = ProfileData.saveEditInputRef.bind(this);
-    this.deleteButt = ProfileData.deleteButt.bind(this);
   }
 
   render() {
     const {
       inputVisible,
-      inputValue,
+      inputValue1,
+      inputValue2,
+      inputValue3,
       editInputIndex,
       editInputValue,
     } = this.state;
@@ -77,7 +77,7 @@ export class CareerManager extends Component {
                             width: 230,
                             textAlign: "center",
                           }}
-                          placeholder="Job Title"
+                          placeholder="Company"
                           value={item.workplace}
                         />
                       </Input.Group>
@@ -170,8 +170,9 @@ export class CareerManager extends Component {
                 </Card>
               );
             })}
+
           {inputVisible && (
-            // inputVisible to add new career
+            // inputVisible: add new career card
             <Card
               style={{ width: "auto", minWidth: 500, marginTop: 16 }}
               hoverable={true}
@@ -181,6 +182,8 @@ export class CareerManager extends Component {
                   <Input
                     style={{ width: 230, textAlign: "center" }}
                     placeholder="Job Title"
+                    value={inputValue1}
+                    onChange={this.handleInputChangeRole}
                   />{" "}
                   <Input
                     className="site-input-split"
@@ -199,7 +202,9 @@ export class CareerManager extends Component {
                       width: 230,
                       textAlign: "center",
                     }}
-                    placeholder="Job Title"
+                    placeholder="Company"
+                    value={inputValue2}
+                    onChange={this.handleInputChangePlace}
                   />
                 </Input.Group>
               </Row>
@@ -208,6 +213,8 @@ export class CareerManager extends Component {
                   showCount
                   maxLength={100}
                   placeholder="Add a description"
+                  value={inputValue3}
+                  onChange={this.handleInputChangeDesc}
                 />
               </Row>
               <Row justify="space-around">
@@ -227,6 +234,7 @@ export class CareerManager extends Component {
               </Row>
             </Card>
           )}
+
           {!inputVisible && this.props.isMyProfile && this.props.canEdit ? (
             // add experience button
             <Card
