@@ -5,6 +5,7 @@ import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import { Redirect } from "react-router-dom";
 import GoogleButton from "./GoogleButton";
+import { Row } from "antd";
 
 class Login extends Component {
   state = {
@@ -84,9 +85,9 @@ class Login extends Component {
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
-              <div>
+              <Row justify="center" className="mt-4">
                 <GoogleButton />
-              </div>
+              </Row>
             </div>
           </div>
         </div>
