@@ -5,8 +5,8 @@ import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import CareerManager from "../profileDisplays/CareerManager";
 import SkillManager from "../profileDisplays/SkillManager";
-import Settings from "../profileDisplays/Settings";
-import SettingsButton from "../profileDisplays/SettingsButton";
+// import Settings from "../profileDisplays/Settings";
+// import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
 import {
@@ -25,7 +25,7 @@ import {
   GithubOutlined,
 } from "@ant-design/icons";
 
-const { Paragraph } = Typography;
+const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
 
 // functions for img upload
@@ -60,7 +60,7 @@ class Profile3 extends Component {
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
-    loading: false,
+    // loading: false,
     pfpVisible: true,
     canEdit: false,
     isMyProfile: false,
@@ -97,35 +97,22 @@ class Profile3 extends Component {
     window.removeEventListener("resize", this.resize.bind(this));
   }
 
-  handleButtonClick = () => {
-    // Make changes reflect on database
-    ProfileData.updateProfile(
-      this.state.profile._id,
-      this.state.profileChanges,
-      this.props.token
-    );
-    this.setState({
-      canEdit: !this.state.canEdit,
-      profileChanges: {},
-    });
-  };
-
-  // pfp image upload methods
-  handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl) =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        })
-      );
-    }
-  };
+  // // pfp image upload methods
+  // handleChange = (info) => {
+  //   if (info.file.status === "uploading") {
+  //     this.setState({ loading: true });
+  //     return;
+  //   }
+  //   if (info.file.status === "done") {
+  //     // Get this url from response in real world.
+  //     getBase64(info.file.originFileObj, (imageUrl) =>
+  //       this.setState({
+  //         imageUrl,
+  //         loading: false,
+  //       })
+  //     );
+  //   }
+  // };
 
   render() {
     // whether the app is in mobile view
@@ -140,7 +127,8 @@ class Profile3 extends Component {
               {ProfileData.getName(this.state.profile)}
               {", "}
               <small>
-                {this.state.profile.workHistory
+                {this.state.profile.workHistory &&
+                this.state.profile.workHistory[0]
                   ? this.state.profile.workHistory[0].role +
                     " - " +
                     this.state.profile.workHistory[0].workplace
@@ -306,6 +294,7 @@ class Profile3 extends Component {
             <Row className=" my-4 ml-5">
               <Tabs onChange={callback} type="card">
                 <TabPane tab="Achievements" key="1">
+                  <Title className="h1size">Achievements</Title>
                   <AchievementManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
@@ -316,6 +305,7 @@ class Profile3 extends Component {
 
                 {/* Tab 2: skills  */}
                 <TabPane tab="Skills" key="2">
+                  <Title className="h1size">Key Skills</Title>
                   <SkillManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
@@ -327,8 +317,9 @@ class Profile3 extends Component {
                   <CareerManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
+                    data={this.state.profile.workHistory}
+                    changeList={this.changeList}
                   />
-                  Content of Tab Pane 3
                 </TabPane>
                 <TabPane tab="Certificates" key="4">
                   <Typography.Title>Certificates</Typography.Title>

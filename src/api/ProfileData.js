@@ -332,6 +332,33 @@ export function handleCloseTag(fieldName, removedTag) {
 
 /**
  *
+ * Updates the values given object in the profile state variable for a card
+ * by removing elements as directed by the UI
+ *
+ * This change is passed on to the database to be updated
+ *
+ * @function [handleCloseCard]
+ * @param {String} fieldName - String name of the object in profile being modified e.g. "workplace".
+ * @param {Object} item - the object value to be deleted
+ * @param {String} keyFieldName - String name of the field to be used for comparison
+ *
+ */
+export function handleCloseCard(fieldName, item, keyFieldName) {
+  const field = this.props.data.filter(function (value) {
+    return value[keyFieldName] != item[keyFieldName];
+  });
+  let data = this.props.data;
+  data = field;
+  this.setState({
+    editInputIndex: -1,
+    editInputValue: "",
+  });
+  this.props.changeList(data, fieldName);
+  // this.setState({ editInputIndex: -1, editInputValue: "" });
+}
+
+/**
+ *
  * Updates the values given fieldName in the profile state variable
  * by editing elements as directed by the UI
  *
