@@ -50,7 +50,7 @@ export class CareerManager extends Component {
                 return (
                   // career card in edit mode
                   <Card
-                    style={{ width: "auto", marginTop: 16 }}
+                    style={{ width: "auto", minWidth500, marginTop: 16 }}
                     hoverable={true}
                   >
                     <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
@@ -114,7 +114,10 @@ export class CareerManager extends Component {
 
               // normal version of career card
               return (
-                <Card style={{ width: "auto", marginTop: 16 }} hoverable={true}>
+                <Card
+                  style={{ width: "auto", minWidth: 500, marginTop: 16 }}
+                  hoverable={true}
+                >
                   {" "}
                   <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
                     <Col>
@@ -167,14 +170,77 @@ export class CareerManager extends Component {
                 </Card>
               );
             })}
-
-          {this.props.isMyProfile && this.props.canEdit ? (
+          {inputVisible && (
+            // inputVisible to add new career
+            <Card
+              style={{ width: "auto", minWidth: 500, marginTop: 16 }}
+              hoverable={true}
+            >
+              <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
+                <Input.Group compact>
+                  <Input
+                    style={{ width: 230, textAlign: "center" }}
+                    placeholder="Job Title"
+                  />{" "}
+                  <Input
+                    className="site-input-split"
+                    style={{
+                      width: 40,
+                      borderLeft: 0,
+                      borderRight: 0,
+                      pointerEvents: "none",
+                    }}
+                    placeholder="@"
+                    disabled
+                  />
+                  <Input
+                    className="site-input-right"
+                    style={{
+                      width: 230,
+                      textAlign: "center",
+                    }}
+                    placeholder="Job Title"
+                  />
+                </Input.Group>
+              </Row>
+              <Row className="my-1">
+                <Input.TextArea
+                  showCount
+                  maxLength={100}
+                  placeholder="Add a description"
+                />
+              </Row>
+              <Row justify="space-around">
+                <Col>
+                  <Button size="large" type="link" icon={<SaveOutlined />} />
+                </Col>
+                <Col>
+                  <Button
+                    size="large"
+                    type="link"
+                    icon={<DeleteOutlined />}
+                    onClick={() =>
+                      this.handleCloseCard("workHistory", item, "role")
+                    }
+                  />
+                </Col>
+              </Row>
+            </Card>
+          )}
+          {!inputVisible && this.props.isMyProfile && this.props.canEdit ? (
             // add experience button
-            <Card style={{ width: 500, marginTop: 16 }} hoverable={true}>
+            <Card
+              style={{ width: 500, marginTop: 16 }}
+              hoverable={true}
+              onClick={(e) => {
+                this.setState({ inputVisible: true });
+                e.preventDefault();
+              }}
+            >
               <Row justify="center" class="mt-5">
                 <Col>
                   <Typography.Text
-                    style={{ fontSize: "28px" }}
+                    style={{ fontSize: "28px", color: "#1890ff" }}
                     type="secondary"
                   >
                     Add Experience
@@ -184,7 +250,7 @@ export class CareerManager extends Component {
               <Row justify="center">
                 <Col>
                   <Typography.Text
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "20px", color: "#1890ff" }}
                     type="secondary"
                   >
                     {" "}

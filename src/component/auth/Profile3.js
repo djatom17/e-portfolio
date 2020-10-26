@@ -125,8 +125,9 @@ class Profile3 extends Component {
           <Col>
             <h2>
               {ProfileData.getName(this.state.profile)}
-              {", "}
+
               <small>
+                {", "}
                 {this.state.profile.workHistory &&
                 this.state.profile.workHistory[0]
                   ? this.state.profile.workHistory[0].role +
@@ -314,6 +315,7 @@ class Profile3 extends Component {
                   />
                 </TabPane>
                 <TabPane tab="Career" key="3">
+                  <Title className="h1size">Experience</Title>
                   <CareerManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
