@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Row, Col, Card, Typography, Input } from "antd";
+import { Row, Col, Card, Typography, Input, Divider, Button } from "antd";
 import "antd/dist/antd.css";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, SaveOutlined } from "@ant-design/icons";
 import * as ProfileData from "../../api/ProfileData";
+import { Hidden } from "@material-ui/core";
 
 const { Title, Paragraph } = Typography;
 const { Meta } = Card;
@@ -36,54 +37,89 @@ export class CareerManager extends Component {
     } = this.state;
 
     const careerTitle = <h3>Job Title</h3>;
-    const careerTitleEditable = <Input />;
-
     const workPlace = <h3>WorkPlace</h3>;
-    const workPlaceEditable = <Input />;
-
     const careerDesc = (
       <Paragraph>ndkdlskdlskclxk c dojldksld ldksld</Paragraph>
     );
-    const careerDescEditable = <Input.TextArea />;
 
     const careerCard = (
-      <Card style={{ width: 400, marginTop: 16 }} hoverable={true}>
+      <Card style={{ width: 500, marginTop: 16 }} hoverable={true}>
         {" "}
         <Row>
-          <Col>
-            {this.props.isMyProfile && this.props.canEdit
-              ? careerTitleEditable
-              : careerTitle}
-          </Col>
+          <Col>{careerTitle}</Col>
           <Col>
             <h3> @ </h3>
           </Col>
+          <Col>{workPlace}</Col>
+        </Row>
+        <Row>{careerDesc}</Row>
+        {this.props.isMyProfile && this.props.canEdit ? (
+          <Row justify="space-around">
+            <Divider />
+            <Col>
+              <Button size="small" type="link" icon={<EditOutlined />} />
+            </Col>
+            <Col>
+              <Button size="small" type="link" icon={<DeleteOutlined />} />
+            </Col>
+          </Row>
+        ) : null}
+      </Card>
+    );
+    const careerCardEditing = (
+      <Card style={{ width: "auto", marginTop: 16 }} hoverable={true}>
+        <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
+          <Input.Group compact>
+            <Input
+              style={{ width: 230, textAlign: "center" }}
+              placeholder="Job Title"
+            />{" "}
+            <Input
+              className="site-input-split"
+              style={{
+                width: 40,
+                borderLeft: 0,
+                borderRight: 0,
+                pointerEvents: "none",
+              }}
+              placeholder="@"
+              disabled
+            />
+            <Input
+              className="site-input-right"
+              style={{
+                width: 230,
+                textAlign: "center",
+              }}
+              placeholder="Job Title"
+            />
+          </Input.Group>
+        </Row>
+        <Row className="my-1">
+          <Input.TextArea showCount maxLength={100} />
+        </Row>
+
+        <Row justify="space-around">
           <Col>
-            {this.props.isMyProfile && this.props.canEdit
-              ? workPlaceEditable
-              : workPlace}
+            <Button size="small" type="link" icon={<SaveOutlined />} />
+          </Col>
+          <Col>
+            <Button size="small" type="link" icon={<DeleteOutlined />} />
           </Col>
         </Row>
       </Card>
     );
-    const careerCardLoggedIn = <Card></Card>;
-    const careerCardEditing = <Card></Card>;
 
     return (
       <div>
-        <Title>Career</Title>
-        {careerCard}
+        {careerCardEditing}
         <Row>
           {this.props.data &&
             this.props.data.map((item, index) => {
               if (editInputIndex === index) {
                 return careerCardEditing;
               }
-              if (this.props.isMyProfile) {
-                if (this.props.canEdit) {
-                  return careerCardEditing;
-                }
-                return careerCardLoggedIn;
+              if (this.props.isMyProfile && this.props.canEdit) {
               }
               return careerCard;
             })}
