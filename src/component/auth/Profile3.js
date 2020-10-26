@@ -97,19 +97,6 @@ class Profile3 extends Component {
     window.removeEventListener("resize", this.resize.bind(this));
   }
 
-  handleButtonClick = () => {
-    // Make changes reflect on database
-    ProfileData.updateProfile(
-      this.state.profile._id,
-      this.state.profileChanges,
-      this.props.token
-    );
-    this.setState({
-      canEdit: !this.state.canEdit,
-      profileChanges: {},
-    });
-  };
-
   // // pfp image upload methods
   // handleChange = (info) => {
   //   if (info.file.status === "uploading") {
@@ -140,7 +127,8 @@ class Profile3 extends Component {
               {ProfileData.getName(this.state.profile)}
               {", "}
               <small>
-                {this.state.profile.workHistory
+                {this.state.profile.workHistory &&
+                this.state.profile.workHistory[0]
                   ? this.state.profile.workHistory[0].role +
                     " - " +
                     this.state.profile.workHistory[0].workplace
@@ -329,8 +317,9 @@ class Profile3 extends Component {
                   <CareerManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
+                    data={this.state.profile.workHistory}
+                    changeList={this.changeList}
                   />
-                  Content of Tab Pane 3
                 </TabPane>
                 <TabPane tab="Certificates" key="4">
                   <Typography.Title>Certificates</Typography.Title>
