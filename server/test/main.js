@@ -1,11 +1,8 @@
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-const Profile = require("../models/Profile");
-const User = require("../models/User");
-const UserProfile = require("../models/UserProfile");
 let server = require("../app").set("NODE_ENV", "test");
-let should = chai.should();
-
+chai.should();
+chai.use(require("chai-things"));
 chai.use(chaiHttp);
 
 let testProfile = {
@@ -165,27 +162,59 @@ describe("Backend API Tests", () => {
           res.body.should.have
             .property("keySkills")
             .that.is.an("Array")
-            .to.have.length(8);
+            .with.lengthOf(8);
           done();
         });
     });
 
-    // it("should reset the test profile for the future", (done) => {
-    //   chai
-    //     .request(server)
-    //     .post("/api/mongo/p-update/" + testAuthUser.pid)
-    //     .set("x-auth-token", testToken)
-    //     .send(postTestProfile)
-    //     .end((err, res) => {
-    //       res.should.have.status(200);
-    //       res.body.should.be.an("Object");
-    //       res.body.should.have.property("firstName", "Testing");
-    //       res.body.should.have
-    //         .property("keySkills")
-    //         .that.is.an("Array")
-    //         .to.have.length(0);
-    //       done();
-    //     });
-    // });
+    it("should search up a name to get relevant results", (done) => {
+      chai
+        .request(server)
+        .get("/api/mongo/search")
+        .query({ name: "john" })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.an("Array").with.lengthOf(1);
+          done();
+        });
+    });
+
+    it("should search up skills to get relevant results", (done) => {
+      chai
+        .request(server)
+        .get("/api/mongo/search")
+        .query({ skills: "python java" })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.an("Array").with.lengthOf(2);
+          done();
+        });
+    });
+
+    it("should perform advanced search", (done) => {
+      chai
+        .request(server)
+        .get("/api/mongo/search")
+        .query({ skills: "python java", name: "Mocha" })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.an("Array").with.lengthOf(1);
+          done();
+        });
+    });
+  });
+
+  describe("Database Test Profile Reset", () => {
+    it("should reset the test profile for the future", (done) => {
+      chai
+        .request(server)
+        .post("/api/mongo/p-update/" + testAuthUser.pid)
+        .set("x-auth-token", testToken)
+        .send(postTestProfile)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
   });
 });
