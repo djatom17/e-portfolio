@@ -326,7 +326,10 @@ class Profile3 extends Component {
                   />
                 </TabPane>
                 <TabPane tab="Career" key="3">
-                  <CareerManager />
+                  <CareerManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                  />
                   Content of Tab Pane 3
                 </TabPane>
                 <TabPane tab="Certificates" key="4">
