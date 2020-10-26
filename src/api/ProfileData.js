@@ -80,14 +80,14 @@ export function getName(profile) {
  * 
  * @returns {?Array} [role, workplace] or null 
  */
-export function getCurrJob(profile) {
-  //If the profile does not have any work history, returns null
-  if (!profile.workHistory.length) return null;
-  else {
-    const work_str = profile.workHistory[profile.workHistory.length - 1];
-    return work_str.split("@ ");
-  }
-}
+// export function getCurrJob(profile) {
+//   //If the profile does not have any work history, returns null
+//   if (!profile.workHistory.length) return null;
+//   else {
+//     const work_str = profile.workHistory[profile.workHistory.length - 1];
+//     return work_str.split("@ ");
+//   }
+// }
 
 export function updateProfile(pid, profileChanges, token) {
   if (

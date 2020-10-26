@@ -44,7 +44,6 @@ class MyProfile extends Component {
         component = <PlaceholderProfile profile={this.state.profile} />;
       }
     }
-
     return <div>{component}</div>;
   }
 }

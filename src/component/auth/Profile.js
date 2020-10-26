@@ -15,6 +15,8 @@ import "antd/dist/antd.css";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import SkillManager from "../profileDisplays/SkillManager";
+import CareerManager from "../profileDisplays/CareerManager";
 
 const { Title, Paragraph } = Typography;
 const { Link } = Anchor;
@@ -137,22 +139,42 @@ class Profile extends Component {
                       </div>
                     </Carousel>
                     <Descriptions title="About me" bordered>
-                      <div className="google-map-code">
-                      </div>
+                      <Paragraph
+                          ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+                          editable={
+                            this.state.canEdit
+                                ? {
+                                  onChange: (fieldName) =>
+                                      this.setEditablefieldName("about", fieldName),
+                                  autoSize: { minRows: 1, maxRows: 5 },
+                                }
+                                : false
+                          }
+                      >
+                        {this.state.profile.about}
+                      </Paragraph>
                     </Descriptions>
                     <Descriptions title="User Info Card" bordered>
                       <Descriptions.Item label="Name" span={2}>
                         {ProfileData.getName(this.state.profile)}
                       </Descriptions.Item>
-                      <Descriptions.Item label="Gender" span={2}>
-                        Male
+                      <Descriptions.Item label="Occupation Status">
+
                       </Descriptions.Item>
-                      <Descriptions.Item label="Occupation Status">Crewmate</Descriptions.Item>
                       <Descriptions.Item label="Work hour" span={2}>
                         Korean Standard Time (GMT +9)
                       </Descriptions.Item>
-                      <Descriptions.Item label="Skills">C, C++, Python, React</Descriptions.Item>
-                      <Descriptions.Item label="Speciality">Front end development</Descriptions.Item>
+                      <Descriptions.Item label="Skills">
+                        <SkillManager
+                            isMyProfile={this.state.isMyProfile}
+                            canEdit={this.state.canEdit}
+                            data={this.state.profile.keySkills}
+                            changeList={this.changeList}
+                        />
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Speciality">
+                        Front end development
+                      </Descriptions.Item>
                       <Descriptions.Item label="Education">
                         University of Melbourne/ Computing/ under grad/ 2010~2013
                         <br />
@@ -162,15 +184,7 @@ class Profile extends Component {
                         <br />
                       </Descriptions.Item>
                       <Descriptions.Item label="Job Experience">
-                        MicroSoft/ Senior developer/ 3years/ 2003~2006
-                        <br />
-                        Naver/ Senior developer/ 3years/ 2003~2006
-                        <br />
-                        Nintendo/ Senior developer/ 3years/ 2003~2006
-                        <br />
-                        Bethsesda/ Senior developer/ 3years/ 2003~2006
-                        <br />
-                        Samsong/ Junior developer/ 3years/ 2003~2006
+                        <CareerManager />
                       </Descriptions.Item>
                     </Descriptions>
                     <Descriptions title="Social Media" bordered>
