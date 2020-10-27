@@ -10,16 +10,16 @@ export class Settings extends Component {
   state = {
     layout: "0",
     color: "#fff",
-    colorSection: "Prim",
+    theme: "theme1",
   };
 
   componentDidMount = () => {
     this.setState({ layout: this.props.layout });
   };
-  handleChangeComplete = (color, str) => {
-    this.setState({ color: color.hex });
-    this.props.handlePrimColour(color, str);
-  };
+  // handleChangeComplete = (color, str) => {
+  //   this.setState({ color: color.hex });
+  //   this.props.handlePrimColour(color, str);
+  // };
 
   render() {
     return (
@@ -160,21 +160,24 @@ export class Settings extends Component {
               <TabPane tab="Colour-Themes" key="2">
                 <Row>
                   <Col>
-                    <SketchPicker
+                    {/* <SketchPicker
                       disableAlpha
                       color={this.state.color}
                       onChangeComplete={(e) =>
                         this.handleChangeComplete(e, this.state.colorSection)
                       }
-                    />
+                    /> */}
                   </Col>
                   <Col>
                     <Select
-                      defaultValue="Primary"
-                      onSelect={(key) => this.setState({ colorSection: key })}
+                      defaultValue="0"
+                      onSelect={(key) => this.props.themeCustom(key)}
                     >
-                      <Option value="Prim">Primary Colour</Option>
-                      <Option value="Sec"> Secondary Colour</Option>
+                      <Option value="0">default</Option>
+                      <Option value="1">Theme-1</Option>
+                      <Option value="2"> Theme-2</Option>
+                      <Option value="3"> Theme-3</Option>
+                      <Option value="4"> Theme-4</Option>
                     </Select>
                   </Col>
                 </Row>

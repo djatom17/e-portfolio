@@ -454,3 +454,32 @@ export function deleteButt(fieldName, item) {
 export function resize() {
   this.setState({ mobileView: window.innerWidth <= 760 });
 }
+
+export function themeCustom(theme) {
+  var primCol;
+  var secCol;
+  switch (theme) {
+    case "1":
+      primCol = "red";
+      secCol = "blue";
+      break;
+    case "2":
+      primCol = "green";
+      secCol = "red";
+      break;
+    case "3":
+      primCol = "coral";
+      secCol = "white";
+      break;
+    case "4":
+      primCol = "white";
+      secCol = "red";
+      break;
+    default:
+      primCol = "white";
+      secCol = "#e5e5e5";
+      break;
+  }
+  console.log({ primCol });
+  this.setState({ primaryColour: primCol, secondaryColour: secCol });
+}
