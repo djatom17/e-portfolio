@@ -216,76 +216,72 @@ export class CareerManager extends Component {
               style={{ width: "auto", minWidth: 500, marginTop: 16 }}
               hoverable={true}
             >
-              <Form name="add_achievement" onFieldsChange>
-                <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                  <Input.Group compact>
-                    <Item name="role">
-                      <Input
-                        style={{ width: 230, textAlign: "center" }}
-                        placeholder="Job Title"
-                      />{" "}
-                    </Item>
-                    <Input
-                      className="site-input-split"
-                      style={{
-                        width: 40,
-                        borderLeft: 0,
-                        borderRight: 0,
-                        pointerEvents: "none",
-                      }}
-                      placeholder="@"
-                      disabled
-                    />
-                    <Item name="workplace">
-                      <Input
-                        className="site-input-right"
-                        style={{
-                          width: 230,
-                          textAlign: "center",
-                        }}
-                        placeholder="Company"
-                      />
-                    </Item>
-                  </Input.Group>
-                </Row>
-                <Row className="my-1">
-                  <Item name="description" style={{ width: "100%" }}>
-                    <Input.TextArea
-                      showCount
-                      maxLength={100}
-                      placeholder="Add a description"
-                    />
-                  </Item>
-                </Row>
-                <Row justify="space-around">
-                  <Col>
-                    <Item name="save">
-                      <Button
-                        size="large"
-                        type="link"
-                        icon={<SaveOutlined />}
-                        onClick={() =>
-                          this.handleAddCard("workHistory", [
-                            "role",
-                            "workplace",
-                            "from",
-                          ])
-                        }
-                      />
-                    </Item>
-                  </Col>
-                  <Col>
-                    <Button
-                      size="large"
-                      type="link"
-                      icon={<DeleteOutlined />}
-                      onClick={() =>
-                        this.handleCloseCard("workHistory", item, "role")
-                      }
-                    />
-                  </Col>
-                </Row>
-              </Form>
+              <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
+                <Input.Group compact>
+                  <Input
+                    style={{ width: 230, textAlign: "center" }}
+                    placeholder="Job Title"
+                    value={inputValue1}
+                    onChange={this.handleInputChangeRole}
+                  />{" "}
+                  <Input
+                    className="site-input-split"
+                    style={{
+                      width: 40,
+                      borderLeft: 0,
+                      borderRight: 0,
+                      pointerEvents: "none",
+                    }}
+                    placeholder="@"
+                    disabled
+                  />
+                  <Input
+                    className="site-input-right"
+                    style={{
+                      width: 230,
+                      textAlign: "center",
+                    }}
+                    placeholder="Company"
+                    value={inputValue2}
+                    onChange={this.handleInputChangePlace}
+                  />
+                </Input.Group>
+              </Row>
+              <Row className="my-1">
+                <Input.TextArea
+                  showCount
+                  maxLength={100}
+                  placeholder="Add a description"
+                  value={inputValue3}
+                  onChange={this.handleInputChangeDesc}
+                />
+              </Row>
+              <Row justify="space-around">
+                <Col>
+                  <Button
+                    size="large"
+                    type="link"
+                    icon={<SaveOutlined />}
+                    onClick={() =>
+                      this.handleAddCard("workHistory", [
+                        "role",
+                        "workplace",
+                        "from",
+                      ])
+                    }
+                  />
+                </Col>
+                <Col>
+                  <Button
+                    size="large"
+                    type="link"
+                    icon={<DeleteOutlined />}
+                    onClick={() =>
+                      this.handleCloseCard("workHistory", item, "role")
+                    }
+                  />
+                </Col>
+              </Row>
             </Card>
           )}
 
