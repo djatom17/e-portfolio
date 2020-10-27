@@ -48,14 +48,14 @@ userrouter.post("/login", (req, res, next) => {
     email,
   }).then((user) => {
     if (!user)
-      return res.status(401).json({
+      return res.status(400).json({
         error: "Invalid credentials.",
       });
 
     // Validate password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (!isMatch)
-        return res.status(401).json({
+        return res.status(400).json({
           error: "Invalid credentials.",
         });
 
