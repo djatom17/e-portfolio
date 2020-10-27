@@ -236,35 +236,6 @@ export function handleCloseCard(fieldName, item, keyFieldName) {
 
 /**
  *
- * @function [handleAddCard]
- * @param {String} fieldName - String name of the list in profile being modified e.g. "workHistory".
- * @param {[String]} subFields - Ordered list of String names for the subfields of the object
- */
-export function handleAddCard(fieldName, subFields) {
-  let { inputValue1, inputValue2, inputValue3 } = this.state;
-  let data = this.props.data;
-  var inputValues = {};
-
-  // assign values to subfields
-  inputValues[subFields[0]] = inputValue1;
-  inputValues[subFields[1]] = inputValue2;
-  inputValues[subFields[2]] = inputValue3;
-
-  // confirm if array, and item to be add is not empty
-  if (inputValues && data) {
-    data = [...data, inputValues];
-  }
-  this.setState({
-    inputVisible: false,
-    inputValue1: "",
-    inputValue2: "",
-    inputValue3: "",
-  });
-  this.props.changeList(data, fieldName);
-}
-
-/**
- *
  * Updates the values of subfields for the given fieldName in the
  * profile state variable
  * by editing elements as directed by the UI
@@ -298,42 +269,6 @@ export function handleEditCard(fieldName, subFields) {
   });
 
   this.props.changeList(data, fieldName);
-}
-
-/**
- *
- * Sets generic inputValue1 (new) to be text from input event
- *
- * @function [handleInputChange1]
- * @param {event} e - Input Event.
- *
- */
-export function handleInputChange1(e) {
-  this.setState({ inputValue1: e.target.value });
-}
-
-/**
- *
- * Sets generic inputValue2 (new) to be text from input event
- *
- * @function [handleInputChange2]
- * @param {event} e - Input Event.
- *
- */
-export function handleInputChange2(e) {
-  this.setState({ inputValue2: e.target.value });
-}
-
-/**
- *
- * Sets generic inputValue3 (new) to be text from input event
- *
- * @function [handleInputChange3]
- * @param {event} e - Input Event.
- *
- */
-export function handleInputChange3(e) {
-  this.setState({ inputValue3: e.target.value });
 }
 
 /**

@@ -16,42 +16,27 @@ const { Item } = Form;
 export class CareerManager extends Component {
   state = {
     inputVisible: false,
-    inputValues: {},
-    inputValue1: "", // role
-    inputValue2: "", // workplace
-    inputValue3: "", // description
+    inputValue: {},
     editInputIndex: -1,
-    editValue1: "", // role
-    editValue2: "", // workplace
-    editValue3: "", // description
+    editValue: {},
   };
 
   constructor() {
     super();
-    this.handleInputChangeRole = ProfileData.handleInputChange1.bind(this);
-    this.handleInputChangePlace = ProfileData.handleInputChange2.bind(this);
-    this.handleInputChangeDesc = ProfileData.handleInputChange3.bind(this);
-    this.handleEditChangeRole = ProfileData.handleEditInput1.bind(this);
-    this.handleEditChangePlace = ProfileData.handleEditInput2.bind(this);
-    this.handleEditChangeDesc = ProfileData.handleEditInput3.bind(this);
+    this.handleInputConfirm = ProfileData.handleInputConfirm.bind(this);
     this.handleCloseCard = ProfileData.handleCloseCard.bind(this);
-    this.handleAddCard = ProfileData.handleAddCard.bind(this);
     this.handleEditCard = ProfileData.handleEditCard.bind(this);
     this.saveInputRef = ProfileData.saveInputRef.bind(this);
     this.saveEditInputRef = ProfileData.saveEditInputRef.bind(this);
   }
 
+  trackEdit = (changedFields, allFields) => {
+    console.log(allFields);
+    this.setState({ inputValue: allFields });
+  };
+
   render() {
-    const {
-      inputVisible,
-      inputValue1,
-      inputValue2,
-      inputValue3,
-      editInputIndex,
-      editValue1,
-      editValue2,
-      editValue3,
-    } = this.state;
+    const { inputVisible, inputValue, editInputIndex, editValue } = this.state;
 
     return (
       <div>
@@ -70,9 +55,6 @@ export class CareerManager extends Component {
                         <Input
                           style={{ width: 230, textAlign: "center" }}
                           placeholder="Job Title"
-                          value={editValue1}
-                          ref={this.saveEditInputRef}
-                          onChange={this.handleEditChangeRole}
                         />{" "}
                         <Input
                           className="site-input-split"
@@ -92,9 +74,6 @@ export class CareerManager extends Component {
                             textAlign: "center",
                           }}
                           placeholder="Company"
-                          value={editValue2}
-                          ref={this.saveEditInputRef}
-                          onChange={this.handleEditChangePlace}
                         />
                       </Input.Group>
                     </Row>
@@ -102,9 +81,6 @@ export class CareerManager extends Component {
                       <Input.TextArea
                         showCount
                         maxLength={100}
-                        value={editValue3}
-                        ref={this.saveEditInputRef}
-                        onChange={this.handleEditChangeDesc}
                         // save when enter on the last field
                         onPressEnter={() =>
                           this.handleEditCard("workHistory", [
@@ -181,12 +157,7 @@ export class CareerManager extends Component {
                                   this.setState({
                                     editInputIndex: index,
                                     inputVisible: false,
-                                    editValue1: item.role,
-                                    editValue2: item.workplace,
-                                    editValue3: "descriptioooon",
-                                    inputValue1: "",
-                                    inputValue2: "",
-                                    inputValue3: "",
+                                    editValue: item,
                                   });
                                   e.preventDefault();
                                 }
@@ -216,65 +187,79 @@ export class CareerManager extends Component {
               style={{ width: "auto", minWidth: 500, marginTop: 16 }}
               hoverable={true}
             >
-              <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                <Input.Group compact>
-                  <Input
-                    style={{ width: 230, textAlign: "center" }}
-                    placeholder="Job Title"
-                    value={inputValue1}
-                    onChange={this.handleInputChangeRole}
-                  />{" "}
-                  <Input
-                    className="site-input-split"
-                    style={{
-                      width: 40,
-                      borderLeft: 0,
-                      borderRight: 0,
-                      pointerEvents: "none",
-                    }}
-                    placeholder="@"
-                    disabled
-                  />
-                  <Input
-                    className="site-input-right"
-                    style={{
-                      width: 230,
-                      textAlign: "center",
-                    }}
-                    placeholder="Company"
-                    value={inputValue2}
-                    onChange={this.handleInputChangePlace}
-                  />
-                </Input.Group>
-              </Row>
-              <Row className="my-1">
-                <Input.TextArea
-                  showCount
-                  maxLength={100}
-                  placeholder="Add a description"
-                  value={inputValue3}
-                  onChange={this.handleInputChangeDesc}
-                />
-              </Row>
-              <Row justify="space-around">
-                <Col>
-                  <Button
-                    size="large"
-                    type="link"
-                    icon={<SaveOutlined />}
-                    onClick={() =>
-                      this.handleAddCard("workHistory", [
-                        "role",
-                        "workplace",
-                        "from",
-                      ])
-                    }
-                  />
-                </Col>
-                <Col>
-                  <Button size="large" type="link" icon={<DeleteOutlined />} />
-                </Col>
-              </Row>
+              <Form
+                name="add_career"
+                onValuesChange={this.trackEdit}
+                onFinish={this.handleInputConfirm("workHistory")}
+              >
+                <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
+                  <Input.Group compact>
+                    <Item name="role">
+                      <Input
+                        style={{ width: 230, textAlign: "center" }}
+                        placeholder="Job Title"
+                      />{" "}
+                    </Item>
+
+                    <Input
+                      className="site-input-split"
+                      style={{
+                        width: 40,
+                        borderLeft: 0,
+                        borderRight: 0,
+                        pointerEvents: "none",
+                      }}
+                      placeholder="@"
+                      disabled
+                    />
+                    <Item name="workplace">
+                      <Input
+                        className="site-input-right"
+                        style={{
+                          width: 230,
+                          textAlign: "center",
+                        }}
+                        placeholder="Company"
+                      />
+                    </Item>
+                  </Input.Group>
+                </Row>
+                <Row className="my-1">
+                  <Item name="description">
+                    <Input.TextArea
+                      showCount
+                      maxLength={100}
+                      placeholder="Add a description"
+                    />
+                  </Item>
+                </Row>
+                <Row justify="space-around">
+                  <Col>
+                    <Item>
+                      <Button
+                        htmlType="submit"
+                        size="large"
+                        type="link"
+                        icon={<SaveOutlined />}
+                        onClick={() =>
+                          this.handleAddCard("workHistory", [
+                            "role",
+                            "workplace",
+                            "from",
+                          ])
+                        }
+                      />
+                    </Item>
+                  </Col>
+                  <Col>
+                    <Button
+                      size="large"
+                      type="link"
+                      icon={<DeleteOutlined />}
+                    />
+                  </Col>
+                </Row>
+              </Form>
             </Card>
           )}
 
