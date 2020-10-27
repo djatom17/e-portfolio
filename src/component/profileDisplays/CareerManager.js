@@ -272,14 +272,7 @@ export class CareerManager extends Component {
                   />
                 </Col>
                 <Col>
-                  <Button
-                    size="large"
-                    type="link"
-                    icon={<DeleteOutlined />}
-                    onClick={() =>
-                      this.handleCloseCard("workHistory", item, "role")
-                    }
-                  />
+                  <Button size="large" type="link" icon={<DeleteOutlined />} />
                 </Col>
               </Row>
             </Card>
