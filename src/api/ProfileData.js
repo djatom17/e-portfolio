@@ -1,16 +1,43 @@
 /**
+ * Aggregrates backend APIs into core frontend function calls.
+ *
  * @file Functions for front-end to route API calls
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
  * of the University of Melbourne.
- * @requires react,axios
- * @exports getProfile,getElements,getName,getCurrJob
+ * @requires react,axios,antd
+ * @exports getProfile,getElements,getName,updateProfile,changePassword
  */
 import React from "react";
 import axios from "axios";
 import { Typography, Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 const { Paragraph } = Typography;
+
+export function getFileDownload(filename, fileLocation) {
+  axios.get(fileLocation, { responseType: "blob" }).then((response) => {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+  });
+}
+
+// Handles the change of the file list when something new is uploaded.
+export function onFileListChange(name, url, description) {
+  this.setState({
+    profile: {
+      ...this.state.profile,
+      filesAndDocs: [
+        ...this.state.profile.filesAndDocs,
+        { name, url, description },
+      ],
+    },
+  });
+  console.log(name, url, description);
+}
 
 /**
  * Handles API calls to fetch data of a specified profile
@@ -27,7 +54,7 @@ const { Paragraph } = Typography;
  * @param {Requester~requestCallback} callback - Handles callback for response.
  */
 export function getProfile(profileID, callback) {
-  axios.get("/info/p/" + profileID).then((res) => {
+  axios.get("/api/mongo/p/" + profileID).then((res) => {
     return callback(res.data);
   });
 }
@@ -67,35 +94,21 @@ export function getName(profile) {
 }
 
 /**
- * Retrieves a given profile's work role and Place of Employment.
- * 
- * ASSUMES LAST ELEMENT IN WORKHISTORY ARRAY AS MOST RECENT JOB.
- * Checks if the given profile has any workHistory, if 0, return null.
- * Else, return the split String of the last entry in workHistory array.
- * 
- * @function [getCurrJob]
- * @see Models.Profile,Array.prototype.split
- 
- * @param {Object} profile - Profile JSON Schema
- * 
- * @returns {?Array} [role, workplace] or null 
+ * Pushes user profile changes onto the database.
+ *
+ * Will not perform updates if profileChanges is empty.
+ *
+ * @param {String} pid Profile ID of affected profile.
+ * @param {Object} profileChanges Profile JSON schema of attribute changes.
+ * @param {String} token Auth token of user.
  */
-// export function getCurrJob(profile) {
-//   //If the profile does not have any work history, returns null
-//   if (!profile.workHistory.length) return null;
-//   else {
-//     const work_str = profile.workHistory[profile.workHistory.length - 1];
-//     return work_str.split("@ ");
-//   }
-// }
-
 export function updateProfile(pid, profileChanges, token) {
   if (
     Object.keys(profileChanges).length !== 0 &&
     profileChanges.constructor === Object
   ) {
     axios
-      .post("/info/p-update/" + pid, profileChanges, {
+      .post("/api/mongo/p-update/" + pid, profileChanges, {
         headers: { "x-auth-token": token, "Content-Type": "application/json" },
       })
       .then((res) => {
@@ -103,6 +116,33 @@ export function updateProfile(pid, profileChanges, token) {
         else {
           console.log("Edit successful, profile saved.");
         }
+      });
+  }
+}
+
+/**
+ * Changes user password on the users database.
+ *
+ * Does not refresh user session nor log users out.
+ * Will only perform update operations if newPassword is not empty.
+ * newPassword should follow password attribute of User schema.
+ *
+ * @function [changePassword]
+ * @see userAuth.js
+ * @param {Object} newPassword Password to be changed to.
+ * @param {String} token Auth token of user.
+ */
+export function changePassword(newPassword, token) {
+  if (
+    Object.keys(newPassword).length !== 0 &&
+    newPassword.constructor === Object
+  ) {
+    axios
+      .post("/api/auth/change-password", newPassword, {
+        headers: { "x-auth-token": token, "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        console.log(res);
       });
   }
 }

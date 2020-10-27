@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import { Redirect } from "react-router-dom";
+import GoogleButton from "./GoogleButton";
+import { Row } from "antd";
 
 class Login extends Component {
   state = {
@@ -20,7 +22,7 @@ class Login extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    const { error, isAuthenticated } = this.props;
+    const { error } = this.props;
     if (error !== prevProps.error) {
       // Check for login error
       if (error.id === "LOGIN_FAIL") {
@@ -50,7 +52,7 @@ class Login extends Component {
   };
 
   render() {
-    const { error, isAuthenticated } = this.props;
+    const { isAuthenticated } = this.props;
     if (isAuthenticated) return <Redirect to="/my-profile" />;
 
     return (
@@ -83,6 +85,9 @@ class Login extends Component {
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
+              <Row justify="center" className="mt-4">
+                <GoogleButton />
+              </Row>
             </div>
           </div>
         </div>
