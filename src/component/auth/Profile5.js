@@ -47,6 +47,7 @@ class Profile5 extends Component {
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
     this.resize = ProfileData.resize.bind(this);
+    this.themeCustom = ProfileData.themeCustom.bind(this);
   }
 
   componentDidMount = () => {
@@ -97,11 +98,11 @@ class Profile5 extends Component {
       ));
     }
   }
-  handlePrimColour = (color, str) => {
-    str === "Prim"
-      ? this.setState({ primaryColour: color.hex })
-      : this.setState({ secondaryColour: color.hex });
-  };
+  // handlePrimColour = (color, str) => {
+  //   str === "Prim"
+  //     ? this.setState({ primaryColour: color.hex })
+  //     : this.setState({ secondaryColour: color.hex });
+  // };
 
   displayProfileSeg = () => {
     if (this.state.tabdisp === "about") {
@@ -302,8 +303,7 @@ class Profile5 extends Component {
                     layout={this.state.layout}
                     visible={this.state.visible}
                     loading={this.state.loading}
-                    handlePrimColour={this.handlePrimColour}
-                    // handleSecColor={this.}
+                    themeCustom={this.themeCustom}
                   />
                 ) : null} */}
               </Col>
