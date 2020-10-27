@@ -17,11 +17,13 @@ export class CareerManager extends Component {
   state = {
     inputVisible: false,
     inputValues: {},
-    inputValue1: "", // Role
-    inputValue2: "", // WorkPlace
-    inputValue3: "", // Description
+    inputValue1: "", // role
+    inputValue2: "", // workplace
+    inputValue3: "", // description
     editInputIndex: -1,
-    editInputValue: "",
+    editValue1: "", // role
+    editValue2: "", // workplace
+    editValue3: "", // description
   };
 
   constructor() {
@@ -29,8 +31,14 @@ export class CareerManager extends Component {
     this.handleInputChangeRole = ProfileData.handleInputChange1.bind(this);
     this.handleInputChangePlace = ProfileData.handleInputChange2.bind(this);
     this.handleInputChangeDesc = ProfileData.handleInputChange3.bind(this);
+    this.handleEditChangeRole = ProfileData.handleEditInput1.bind(this);
+    this.handleEditChangePlace = ProfileData.handleEditInput2.bind(this);
+    this.handleEditChangeDesc = ProfileData.handleEditInput3.bind(this);
     this.handleCloseCard = ProfileData.handleCloseCard.bind(this);
     this.handleAddCard = ProfileData.handleAddCard.bind(this);
+    this.handleEditCard = ProfileData.handleEditCard.bind(this);
+    this.saveInputRef = ProfileData.saveInputRef.bind(this);
+    this.saveEditInputRef = ProfileData.saveEditInputRef.bind(this);
   }
 
   render() {
@@ -40,7 +48,9 @@ export class CareerManager extends Component {
       inputValue2,
       inputValue3,
       editInputIndex,
-      editInputValue,
+      editValue1,
+      editValue2,
+      editValue3,
     } = this.state;
 
     return (
@@ -50,9 +60,9 @@ export class CareerManager extends Component {
             this.props.data.map((item, index) => {
               if (editInputIndex === index) {
                 return (
-                  // career card in edit mode
+                  // edit mode version of career card
                   <Card
-                    style={{ width: "auto", minWidth500, marginTop: 16 }}
+                    style={{ width: "auto", marginTop: 16 }}
                     hoverable={true}
                   >
                     <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
@@ -60,7 +70,9 @@ export class CareerManager extends Component {
                         <Input
                           style={{ width: 230, textAlign: "center" }}
                           placeholder="Job Title"
-                          value={item.role}
+                          value={editValue1}
+                          ref={this.saveEditInputRef}
+                          onChange={this.handleEditChangeRole}
                         />{" "}
                         <Input
                           className="site-input-split"
@@ -80,7 +92,9 @@ export class CareerManager extends Component {
                             textAlign: "center",
                           }}
                           placeholder="Company"
-                          value={item.workplace}
+                          value={editValue2}
+                          ref={this.saveEditInputRef}
+                          onChange={this.handleEditChangePlace}
                         />
                       </Input.Group>
                     </Row>
@@ -88,7 +102,17 @@ export class CareerManager extends Component {
                       <Input.TextArea
                         showCount
                         maxLength={100}
-                        value="add descriptioon"
+                        value={editValue3}
+                        ref={this.saveEditInputRef}
+                        onChange={this.handleEditChangeDesc}
+                        // save when enter on the last field
+                        onPressEnter={() =>
+                          this.handleEditCard("workHistory", [
+                            "role",
+                            "workplace",
+                            "from",
+                          ])
+                        }
                       />
                     </Row>
                     <Row justify="space-around">
@@ -97,6 +121,13 @@ export class CareerManager extends Component {
                           size="large"
                           type="link"
                           icon={<SaveOutlined />}
+                          onClick={() =>
+                            this.handleEditCard("workHistory", [
+                              "role",
+                              "workplace",
+                              "from",
+                            ])
+                          }
                         />
                       </Col>
                       <Col>
@@ -149,7 +180,13 @@ export class CareerManager extends Component {
                               ? (e) => {
                                   this.setState({
                                     editInputIndex: index,
-                                    editInputValue: item,
+                                    inputVisible: false,
+                                    editValue1: item.role,
+                                    editValue2: item.workplace,
+                                    editValue3: "descriptioooon",
+                                    inputValue1: "",
+                                    inputValue2: "",
+                                    inputValue3: "",
                                   });
                                   e.preventDefault();
                                 }

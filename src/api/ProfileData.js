@@ -265,6 +265,43 @@ export function handleAddCard(fieldName, subFields) {
 
 /**
  *
+ * Updates the values of subfields for the given fieldName in the
+ * profile state variable
+ * by editing elements as directed by the UI
+ *
+ * This change is passed on to the database to be updated
+ *
+ * @function [handleEditCard]
+ * @param {String} fieldName - String name of the list in profile being modified e.g. "workHistory".
+ * @param {[String]} subFields - Ordered string names of the subfields of the list e.g "workplace"
+ *
+ */
+export function handleEditCard(fieldName, subFields) {
+  let { editValue1, editValue2, editValue3, editInputIndex } = this.state;
+  let data = this.props.data;
+  var editValues = {};
+
+  // assign values to subfields
+  editValues[subFields[0]] = editValue1;
+  editValues[subFields[1]] = editValue2;
+  editValues[subFields[2]] = editValue3;
+
+  var newData = [...data];
+  newData[editInputIndex] = editValues;
+  data = newData;
+
+  this.setState({
+    editInputIndex: -1,
+    editValue1: "",
+    editValue2: "",
+    editValue3: "",
+  });
+
+  this.props.changeList(data, fieldName);
+}
+
+/**
+ *
  * Sets generic inputValue1 (new) to be text from input event
  *
  * @function [handleInputChange1]
@@ -299,7 +336,43 @@ export function handleInputChange3(e) {
   this.setState({ inputValue3: e.target.value });
 }
 
-// Edit Card List Functions
+/**
+ *
+ * Sets editValue1 (existing) to be text from input event
+ *
+ * @function [handEditInput1]
+ * @param {event} e - Input Event.
+ *
+ */
+export function handleEditInput1(e) {
+  this.setState({ editValue1: e.target.value });
+}
+
+/**
+ *
+ * Sets editValue2 (existing) to be text from input event
+ *
+ * @function [handleEditInput2]
+ * @param {event} e - Input Event.
+ *
+ */
+export function handleEditInput2(e) {
+  this.setState({ editValue2: e.target.value });
+}
+
+/**
+ *
+ * Sets editValue3 (existing) to be text from input event
+ *
+ * @function [handleEditInput3]
+ * @param {event} e - Input Event.
+ *
+ */
+export function handleEditInput3(e) {
+  this.setState({ editValue3: e.target.value });
+}
+
+// End Card List Functions
 
 // Editable List Helper Functions: Add, Delete and Edit.
 
