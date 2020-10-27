@@ -10,7 +10,7 @@ export class Settings extends Component {
   state = {
     layout: "0",
     color: "#fff",
-    theme: "theme1",
+    theme: "0",
   };
 
   componentDidMount = () => {
