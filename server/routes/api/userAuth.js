@@ -49,7 +49,7 @@ userrouter.post("/login", (req, res, next) => {
   }).then((user) => {
     if (!user)
       return res.status(400).json({
-        error: "Invalid credentials.",
+        error: "User does not exist.",
       });
 
     // Validate password
