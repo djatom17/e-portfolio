@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-//import MediaQuery from "react-responsive";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
@@ -8,16 +7,7 @@ import Settings from "../profileDisplays/Settings";
 import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
-import {
-  Row,
-  Col,
-  Typography,
-  Button,
-  Divider,
-  Tabs,
-  Upload,
-  message,
-} from "antd";
+import { Row, Col, Typography, Button, Divider, Tabs } from "antd";
 import {
   LinkedinOutlined,
   TwitterOutlined,
@@ -26,19 +16,6 @@ import {
 
 const { Paragraph } = Typography;
 const { TabPane } = Tabs;
-
-// functions for img upload
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-  return isJpgOrPng && isLt2M;
-}
 
 // function for tabs
 function callback(key) {
@@ -94,28 +71,6 @@ class Profile3 extends Component {
     window.removeEventListener("resize", this.resize.bind(this));
   }
 
-  // handleButtonClick = () => {
-  //   // Make changes reflect on database
-  //   ProfileData.updateProfile(
-  //     this.state.profile._id,
-  //     this.state.profileChanges,
-  //     this.props.token
-  //   );
-  //   this.setState({
-  //     canEdit: !this.state.canEdit,
-  //     profileChanges: {},
-  //   });
-  // };
-
-  // Profile picture changing
-  // When the user selects a new image, preview it on the thumbnail
-  handlePFPChange = (file) => {
-    this.setState({
-      profile: { ...this.state.profile, image: file.preview },
-      profileChanges: { ...this.state.profileChanges, image: file },
-    });
-  };
-
   render() {
     // whether the app is in mobile view
     const { mobileView } = this.state;
@@ -159,7 +114,7 @@ class Profile3 extends Component {
           {" "}
           <ProfilePicture
             image={this.state.profile.image}
-            onPFPChange={this.handlePFPChange.bind(this)}
+            onPFPChange={ProfileData.handlePFPChange.bind(this)}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
             mobileView={false}
@@ -251,6 +206,7 @@ class Profile3 extends Component {
         <Row gutter={8} justify="center">
           <ProfilePicture
             image={this.state.profile.image}
+            onPFPChange={ProfileData.handlePFPChange.bind(this)}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
             mobileView={false}
