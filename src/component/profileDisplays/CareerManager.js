@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Card, Typography, Input, Divider, Button } from "antd";
+import { Row, Col, Card, Typography, Input, Divider, Button, Form } from "antd";
 import "antd/dist/antd.css";
 import {
   DeleteOutlined,
@@ -10,12 +10,13 @@ import {
 import * as ProfileData from "../../api/ProfileData";
 import { Hidden } from "@material-ui/core";
 
-const { Title, Paragraph } = Typography;
-const { Meta } = Card;
+const { Paragraph } = Typography;
+const { Item } = Form;
 
 export class CareerManager extends Component {
   state = {
     inputVisible: false,
+    inputValues: {},
     inputValue1: "", // Role
     inputValue2: "", // WorkPlace
     inputValue3: "", // Description
@@ -29,6 +30,7 @@ export class CareerManager extends Component {
     this.handleInputChangePlace = ProfileData.handleInputChange2.bind(this);
     this.handleInputChangeDesc = ProfileData.handleInputChange3.bind(this);
     this.handleCloseCard = ProfileData.handleCloseCard.bind(this);
+    this.handleAddCard = ProfileData.handleAddCard.bind(this);
   }
 
   render() {
@@ -219,7 +221,18 @@ export class CareerManager extends Component {
               </Row>
               <Row justify="space-around">
                 <Col>
-                  <Button size="large" type="link" icon={<SaveOutlined />} />
+                  <Button
+                    size="large"
+                    type="link"
+                    icon={<SaveOutlined />}
+                    onClick={() =>
+                      this.handleAddCard("workHistory", [
+                        "role",
+                        "workplace",
+                        "from",
+                      ])
+                    }
+                  />
                 </Col>
                 <Col>
                   <Button
