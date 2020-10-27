@@ -12,7 +12,6 @@
 const mongoose = require("mongoose");
 const FileSchema = require('./File');
 const WorkSchema = require("./Work");
-const ReferenceSchema = require("./Reference");
 
 /**
  * MongoDB Schema to store all profile information of a user.
@@ -25,7 +24,6 @@ const ReferenceSchema = require("./Reference");
  * @param {String} image filepath to user's profile picture on S3.
  * @param {String} linkToProfile unique url to user profile page.
  * @param {String[]} social Array of links to user-given social media.
- * @param {ReferenceSchema[]} reference Array of Reference as user's referrals.
  * @param {FileSchema[]} filesAndDocs Array of File of uploaded user documents.
  * @param {String} primaryColour Colour representation for primary color of theme.
  * @param {String} secondaryColour Colour representation for secondary color of theme.
@@ -70,7 +68,6 @@ const ProfileSchema = new mongoose.Schema({
     type: Array,
     of: String,
   },
-  reference : [ReferenceSchema],
   primaryColour: {
     type: String,
     default: "#ffffff",
