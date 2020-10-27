@@ -90,6 +90,7 @@ class NavBar extends Component {
           width: "100%",
           display: "flex",
           justifyContent: !this.mobileView ? "flex-end" : "normal",
+          minHeight: "6vh",
         }}
       >
         <Menu.Item key="home" style={{ marginRight: "auto" }}>
