@@ -314,7 +314,7 @@ class Profile3 extends Component {
                     changeList={this.changeList}
                   />
                 </TabPane>
-                <TabPane tab="Career" key="3">
+                <TabPane tab="Career" key="3" className="mb-3">
                   <Title className="h1size">Experience</Title>
                   <CareerManager
                     isMyProfile={this.state.isMyProfile}
