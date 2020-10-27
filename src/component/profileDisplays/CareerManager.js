@@ -11,28 +11,50 @@ import * as ProfileData from "../../api/ProfileData";
 import { Hidden } from "@material-ui/core";
 
 const { Paragraph } = Typography;
-const { Item } = Form;
 
 export class CareerManager extends Component {
   state = {
     inputVisible: false,
-    inputValue: {},
     editInputIndex: -1,
-    editValue: {},
   };
 
   constructor() {
     super();
     this.handleInputConfirm = ProfileData.handleInputConfirm.bind(this);
     this.handleCloseCard = ProfileData.handleCloseCard.bind(this);
-    this.handleEditCard = ProfileData.handleEditCard.bind(this);
     this.saveInputRef = ProfileData.saveInputRef.bind(this);
     this.saveEditInputRef = ProfileData.saveEditInputRef.bind(this);
   }
 
   trackEdit = (changedFields, allFields) => {
-    console.log(allFields);
     this.setState({ inputValue: allFields });
+  };
+
+  // add new career card
+  addCareerCard = (values) => {
+    let data = this.props.data;
+    console.log(data);
+    if (values && data) {
+      data = [...data, values];
+    }
+    this.setState({
+      inputVisible: false,
+    });
+    this.props.changeList(data, "workHistory");
+  };
+
+  // edit existing career card
+  editCareerCard = (values) => {
+    let { editInputIndex } = this.state;
+
+    let data = this.props.data;
+    data[editInputIndex] = values;
+
+    this.setState({
+      editInputIndex: -1,
+    });
+
+    this.props.changeList(data, "workHistory");
   };
 
   render() {
@@ -50,73 +72,84 @@ export class CareerManager extends Component {
                     style={{ width: "auto", marginTop: 16 }}
                     hoverable={true}
                   >
-                    <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                      <Input.Group compact>
-                        <Input
-                          style={{ width: 230, textAlign: "center" }}
-                          placeholder="Job Title"
-                        />{" "}
-                        <Input
-                          className="site-input-split"
-                          style={{
-                            width: 40,
-                            borderLeft: 0,
-                            borderRight: 0,
-                            pointerEvents: "none",
-                          }}
-                          placeholder="@"
-                          disabled
-                        />
-                        <Input
-                          className="site-input-right"
-                          style={{
-                            width: 230,
-                            textAlign: "center",
-                          }}
-                          placeholder="Company"
-                        />
-                      </Input.Group>
-                    </Row>
-                    <Row className="my-1">
-                      <Input.TextArea
-                        showCount
-                        maxLength={100}
-                        // save when enter on the last field
-                        onPressEnter={() =>
-                          this.handleEditCard("workHistory", [
-                            "role",
-                            "workplace",
-                            "from",
-                          ])
-                        }
-                      />
-                    </Row>
-                    <Row justify="space-around">
-                      <Col>
-                        <Button
-                          size="large"
-                          type="link"
-                          icon={<SaveOutlined />}
-                          onClick={() =>
-                            this.handleEditCard("workHistory", [
-                              "role",
-                              "workplace",
-                              "from",
-                            ])
-                          }
-                        />
-                      </Col>
-                      <Col>
-                        <Button
-                          size="large"
-                          type="link"
-                          icon={<DeleteOutlined />}
-                          onClick={() =>
-                            this.handleCloseCard("workHistory", item, "role")
-                          }
-                        />
-                      </Col>
-                    </Row>
+                    <Form
+                      name="add_career"
+                      onValuesChange={this.trackEdit}
+                      onFinish={this.editCareerCard}
+                      initialValues={item}
+                    >
+                      <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
+                        <Input.Group compact>
+                          <Form.Item
+                            name="role"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Role is required",
+                              },
+                            ]}
+                          >
+                            <Input
+                              style={{ width: 230, textAlign: "center" }}
+                              placeholder="Job Title"
+                            />
+                          </Form.Item>
+
+                          <Input
+                            className="site-input-split"
+                            style={{
+                              width: 40,
+                              borderLeft: 0,
+                              borderRight: 0,
+                              pointerEvents: "none",
+                            }}
+                            placeholder="@"
+                            disabled
+                          />
+                          <Form.Item name="workplace">
+                            <Input
+                              className="site-input-right"
+                              style={{
+                                width: 230,
+                                textAlign: "center",
+                              }}
+                              placeholder="Company"
+                            />
+                          </Form.Item>
+                        </Input.Group>
+                      </Row>
+                      <Row className="my-1">
+                        <Form.Item name="description" style={{ width: "100%" }}>
+                          <Input.TextArea
+                            showCount
+                            maxLength={100}
+                            placeholder="Add a description"
+                          />
+                        </Form.Item>
+                      </Row>
+                      <Row justify="space-around">
+                        <Col>
+                          <Form.Item>
+                            <Button
+                              htmlType="submit"
+                              size="large"
+                              type="link"
+                              icon={<SaveOutlined />}
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col>
+                          <Button
+                            size="large"
+                            type="link"
+                            icon={<DeleteOutlined />}
+                            onClick={() =>
+                              this.handleCloseCard("workHistory", item, "role")
+                            }
+                          />
+                        </Col>
+                      </Row>
+                    </Form>
                   </Card>
                 );
               }
@@ -181,7 +214,7 @@ export class CareerManager extends Component {
               );
             })}
 
-          {inputVisible && (
+          {inputVisible ? (
             // inputVisible: add new career card
             <Card
               style={{ width: "auto", minWidth: 500, marginTop: 16 }}
@@ -190,16 +223,23 @@ export class CareerManager extends Component {
               <Form
                 name="add_career"
                 onValuesChange={this.trackEdit}
-                onFinish={this.handleInputConfirm("workHistory")}
+                onFinish={this.addCareerCard}
               >
                 <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
                   <Input.Group compact>
-                    <Item name="role">
+                    <Form.Item
+                      name="role"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
                       <Input
                         style={{ width: 230, textAlign: "center" }}
                         placeholder="Job Title"
-                      />{" "}
-                    </Item>
+                      />
+                    </Form.Item>
 
                     <Input
                       className="site-input-split"
@@ -212,7 +252,7 @@ export class CareerManager extends Component {
                       placeholder="@"
                       disabled
                     />
-                    <Item name="workplace">
+                    <Form.Item name="workplace">
                       <Input
                         className="site-input-right"
                         style={{
@@ -221,47 +261,41 @@ export class CareerManager extends Component {
                         }}
                         placeholder="Company"
                       />
-                    </Item>
+                    </Form.Item>
                   </Input.Group>
                 </Row>
                 <Row className="my-1">
-                  <Item name="description">
+                  <Form.Item name="description" style={{ width: "100%" }}>
                     <Input.TextArea
                       showCount
                       maxLength={100}
                       placeholder="Add a description"
                     />
-                  </Item>
+                  </Form.Item>
                 </Row>
                 <Row justify="space-around">
                   <Col>
-                    <Item>
+                    <Form.Item>
                       <Button
                         htmlType="submit"
                         size="large"
                         type="link"
                         icon={<SaveOutlined />}
-                        onClick={() =>
-                          this.handleAddCard("workHistory", [
-                            "role",
-                            "workplace",
-                            "from",
-                          ])
-                        }
                       />
-                    </Item>
+                    </Form.Item>
                   </Col>
                   <Col>
                     <Button
                       size="large"
                       type="link"
                       icon={<DeleteOutlined />}
+                      onClick={() => this.setState({ inputVisible: false })}
                     />
                   </Col>
                 </Row>
               </Form>
             </Card>
-          )}
+          ) : null}
 
           {!inputVisible && this.props.isMyProfile && this.props.canEdit ? (
             // add experience button
