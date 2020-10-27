@@ -32,6 +32,8 @@ class Profile5 extends Component {
     editInputIndex: -1,
     editInputValue: "",
     mobileView: false,
+    primaryColor: "coral",
+    secondaryColor: "white",
   };
 
   constructor() {
@@ -90,6 +92,11 @@ class Profile5 extends Component {
       ));
     }
   }
+  handlePrimColor = (color, str) => {
+    str === "Prim"
+      ? this.setState({ primaryColor: color.hex })
+      : this.setState({ secondaryColor: color.hex });
+  };
 
   displayProfileSeg = () => {
     if (this.state.tabdisp === "about") {
@@ -113,17 +120,17 @@ class Profile5 extends Component {
           </div>
           <Title className="h1size">Work Time Zone</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
           <Title className="h1size">Achievements</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
         </div>
       );
@@ -132,45 +139,44 @@ class Profile5 extends Component {
         <div>
           <Title className="h1size">Key Skills</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
           <Title className="h1size">Speciality</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
           <Title className="h1size">Projects</Title>
           <div>
             {this.state.isMyProfile && this.state.canEdit ? (
-                <DragUpload token={this.props.token} />
+              <DragUpload token={this.props.token} />
             ) : null}
             {console.log(this.state.isMyProfile)}
           </div>
           {this.getFiles(this.state.profile.filesAndDocs)}
         </div>
-
       );
     } else if (this.state.tabdisp === "experience") {
       return (
         <div>
           <Title className="h1size">Education</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
           <Title className="h1size">Work Experience</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
         </div>
       );
@@ -179,10 +185,10 @@ class Profile5 extends Component {
         <div>
           <Title className="h1size">Social Media</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
         </div>
       );
@@ -192,10 +198,16 @@ class Profile5 extends Component {
   render() {
     const { current } = this.state.tabdisp;
     return (
-      <div className="container-fluid ml-n3 mb-3">
+      <div
+        className="container-fluid ml-n3 mb-3"
+        style={{ backgroundColor: this.state.secondaryColor }}
+      >
         <Row className="prof5height">
           <Col flex={1}>
-            <div className="prof5">
+            <div
+              className="prof5"
+              style={{ backgroundColor: this.state.primaryColor }}
+            >
               <div className="container-fluid prof5-img">
                 <ProfilePicture
                   image={this.state.profile.image}
@@ -228,7 +240,7 @@ class Profile5 extends Component {
                   selectedKeys={[current]}
                   mode="vertical"
                   style={{
-                    backgroundColor: "coral",
+                    backgroundColor: this.state.primaryColor,
                     border: "transparent",
                   }}
                   className="text-center"
@@ -283,6 +295,8 @@ class Profile5 extends Component {
                     layout={this.state.layout}
                     visible={this.state.visible}
                     loading={this.state.loading}
+                    handlePrimColor={this.handlePrimColor}
+                    // handleSecColor={this.}
                   />
                 ) : null} */}
               </Col>

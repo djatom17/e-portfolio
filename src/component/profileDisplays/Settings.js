@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Modal, Button, Row, Col, Avatar, Tabs } from "antd";
+import { SketchPicker } from "react-color";
 import "antd/dist/antd.css";
 
 const { TabPane } = Tabs;
@@ -7,10 +8,15 @@ const { TabPane } = Tabs;
 export class Settings extends Component {
   state = {
     layout: "0",
+    color: "#fff",
   };
 
   componentDidMount = () => {
     this.setState({ layout: this.props.layout });
+  };
+  handleChangeComplete = (color, str) => {
+    this.setState({ color: color.hex });
+    this.props.handlePrimColor(color, str);
   };
 
   render() {
@@ -149,7 +155,20 @@ export class Settings extends Component {
                   </Col>
                 </Row>
               </TabPane>
-              <TabPane tab="Themes" key="2"></TabPane>
+              <TabPane tab="Themes-Primary" key="2">
+                <SketchPicker
+                  disableAlpha
+                  color={this.state.color}
+                  onChangeComplete={(e) => this.handleChangeComplete(e, "Prim")}
+                />
+              </TabPane>
+              <TabPane tab="Themes-Secondary" key="3">
+                <SketchPicker
+                  disableAlpha
+                  color={this.state.color}
+                  onChangeComplete={(e) => this.handleChangeComplete(e, "Sec")}
+                />
+              </TabPane>
             </Tabs>
           </div>
         </Modal>
