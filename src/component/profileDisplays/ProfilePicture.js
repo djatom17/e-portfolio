@@ -6,24 +6,31 @@ import { UserOutlined } from "@ant-design/icons";
 
 export class ProfilePicture extends Component {
   state = {
-    pfpVisible: true,
+    showPFPChangeButton: false,
+    pfpEdit: false,
     fileList: [],
   };
 
   // pfp hovering methods
   onEnterPFP = () => {
-    this.setState({ pfpVisible: false });
+    this.setState({ showPFPChangeButton: true });
   };
 
   onLeavePFP = () => {
-    this.setState({ pfpVisible: true });
+    this.setState({ showPFPChangeButton: false });
+  };
+
+  handleCrop = () => {
+    this.setState({ pfpEdit: true });
+    return true;
   };
 
   render() {
-    const { pfpVisible, fileList } = this.state;
+    const { showPFPChangeButton, fileList, pfpEdit } = this.state;
 
     const uploadProps = {
       beforeUpload: (file) => {
+        this.setState({ pfpEdit: false });
         file.preview = window.URL.createObjectURL(file);
         this.props.onPFPChange(file);
         return false;
@@ -38,7 +45,7 @@ export class ProfilePicture extends Component {
 
     // upload button that appears while hovering in edit mode
     const uploadButton = (
-      <ImgCrop modalOk="Confirm" rotate={true}>
+      <ImgCrop modalOk="Confirm" rotate={true} beforeCrop={this.handleCrop}>
         <Upload className="pfp-button" {...uploadProps}>
           {!this.props.mobileView ? (
             <Button type="primary"> Change </Button>
@@ -52,11 +59,14 @@ export class ProfilePicture extends Component {
     return (
       <Col
         flex="200px"
-        onMouseEnter={() => this.onEnterPFP()}
-        onMouseLeave={() => this.onLeavePFP()}
+        onMouseEnter={this.onEnterPFP}
+        onMouseLeave={this.onLeavePFP}
       >
         {pfp}
-        {this.props.isMyProfile && this.props.canEdit && !pfpVisible
+        {(this.props.isMyProfile &&
+          this.props.canEdit &&
+          showPFPChangeButton) ||
+        pfpEdit
           ? uploadButton
           : null}
       </Col>
