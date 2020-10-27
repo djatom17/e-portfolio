@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 //import MediaQuery from "react-responsive";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
-// import CareerManager from "../profileDisplays/CareerManager";
+import CareerManager from "../profileDisplays/CareerManager";
 import SkillManager from "../profileDisplays/SkillManager";
 // import Settings from "../profileDisplays/Settings";
 // import SettingsButton from "../profileDisplays/SettingsButton";
@@ -316,12 +316,12 @@ class Profile3 extends Component {
                 </TabPane>
                 <TabPane tab="Career" key="3" className="mb-3">
                   <Title className="h1size">Experience</Title>
-                  {/*<CareerManager*/}
-                  {/*  isMyProfile={this.state.isMyProfile}*/}
-                  {/*  canEdit={this.state.canEdit}*/}
-                  {/*  data={this.state.profile.workHistory}*/}
-                  {/*  changeList={this.changeList}*/}
-                  {/*/>*/}
+                  <CareerManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.workHistory}
+                    changeList={this.changeList}
+                  />
                 </TabPane>
                 <TabPane tab="Certificates" key="4">
                   <Typography.Title>Certificates</Typography.Title>

@@ -36,7 +36,6 @@ import {
 
 const { Title, Paragraph } = Typography;
 const { Link } = Anchor;
-
 class Profile2 extends Component {
   state = {
     profile: {},
@@ -76,13 +75,11 @@ class Profile2 extends Component {
   };
 
   render() {
-
     const { Panel } = Collapse;
 
-
-    // function callback(key) {
-    //   console.log(key);
-    // }
+    function callback(key) {
+      console.log(key);
+    }
 
     return (
       <Col>

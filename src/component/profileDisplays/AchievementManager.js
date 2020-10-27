@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { Row, Col, Typography, Input, Tag } from "antd";
+import React, { Component, Fragment } from "react";
+import { Button, Row, Col, Typography, Input, Tag } from "antd";
 import "antd/dist/antd.css";
-import { PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import * as ProfileData from "../../api/ProfileData";
 
 const { Title, Paragraph } = Typography;
@@ -36,7 +36,6 @@ export class AchievementManager extends Component {
     } = this.state;
     return (
       <div>
-
         <Paragraph className="psize">
           {" "}
           {this.props.data &&
@@ -57,7 +56,7 @@ export class AchievementManager extends Component {
                 );
               }
               const achievement = (
-                <Row>
+                <Row key={item}>
                   <Col flex="auto">
                     <Paragraph key={item}>
                       <span
