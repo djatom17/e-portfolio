@@ -8,7 +8,7 @@ import GoogleButton from "./GoogleButton";
 import { Row, Form, Input, Button, Checkbox, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 class Login extends Component {
   state = {
@@ -77,7 +77,9 @@ class Login extends Component {
           <div className={"row"}>
             <div className="col-mid-8 m-auto">
               <h1 className="display-4 text-center mt-5">Login</h1>
-              <p className={"lead text-center"}>Log in and Start Flexing</p>
+              <Paragraph className={"lead text-center"}>
+                Log in and Start Flexing
+              </Paragraph>
 
               <Form
                 name="normal_login"
@@ -99,7 +101,7 @@ class Login extends Component {
                 >
                   <Input
                     prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Email"
+                    placeholder=" Email"
                     onChange={this.handleChange("email")}
                   />
                 </Form.Item>
@@ -112,31 +114,25 @@ class Login extends Component {
                     },
                   ]}
                 >
-                  <Input
+                  <Input.Password
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
-                    placeholder="Password"
+                    placeholder=" Password"
                   />
-                </Form.Item>
-                <Form.Item>
-                  <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>Remember me</Checkbox>
-                  </Form.Item>
-
-                  <a className="login-form-forgot" href="">
-                    Forgot password
-                  </a>
                 </Form.Item>
 
                 <Form.Item>
                   <Button
+                    block
                     type="primary"
                     htmlType="submit"
                     className="login-form-button"
                   >
                     Log in
                   </Button>
-                  Or <a href="">register now!</a>
+                </Form.Item>
+                <Form.Item>
+                  <GoogleButton className="google-button" />
                 </Form.Item>
               </Form>
 
@@ -163,9 +159,7 @@ class Login extends Component {
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form> */}
-              <Row justify="center" className="mt-4">
-                <GoogleButton />
-              </Row>
+              <Row justify="center" className="mt-4"></Row>
             </div>
           </div>
         </div>
