@@ -26,7 +26,7 @@ class GoogleButton extends Component {
     return (
       <GoogleLogin
         clientId={CLIENT_ID}
-        buttonText="Sign in with Google"
+        buttonText="     Sign in with Google     "
         onSuccess={this.handleLoginSuccess}
         onFailure={this.handleLoginFailure}
         cookiePolicy={"single_host_origin"}

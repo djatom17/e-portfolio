@@ -128,12 +128,12 @@ class Login extends Component {
                     htmlType="submit"
                     className="login-form-button"
                   >
-                    Log in
+                    Sign in
                   </Button>
                 </Form.Item>
-                <Form.Item>
-                  <GoogleButton className="google-button" />
-                </Form.Item>
+                <Row justify="center" className="mt-2">
+                  <GoogleButton />
+                </Row>
               </Form>
 
               {/* <form onSubmit={this.handleSubmit}>
@@ -159,7 +159,6 @@ class Login extends Component {
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form> */}
-              <Row justify="center" className="mt-4"></Row>
             </div>
           </div>
         </div>
