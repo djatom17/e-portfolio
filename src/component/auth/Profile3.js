@@ -290,7 +290,6 @@ class Profile3 extends Component {
             style={{ backgroundColor: "#ffffff", height: "auto" }}
           >
             {!mobileView ? desktopHeader : mobileHeader}
-
             <Divider />
             <Row className=" my-4 ml-5">
               <Tabs onChange={callback} type="card">
@@ -314,6 +313,7 @@ class Profile3 extends Component {
                     changeList={this.changeList}
                   />
                 </TabPane>
+
                 <TabPane tab="Career" key="3" className="mb-3">
                   <Title className="h1size">Experience</Title>
                   <CareerManager
@@ -323,13 +323,16 @@ class Profile3 extends Component {
                     changeList={this.changeList}
                   />
                 </TabPane>
-                <TabPane tab="Certificates" key="4">
-                  <Typography.Title>Certificates</Typography.Title>
-                </TabPane>
 
+                <TabPane tab="Certificates" key="4">
+                  <Typography.Title>Education</Typography.Title>
+                  {ProfileData.getElements(this.state.profile.education)}
+                </TabPane>
                 <TabPane tab="Contact Details" key="5">
+                  <Typography.Title>Time zone</Typography.Title>
+                  {this.state.profile.timezone}
                   <Typography.Title>Contact Details</Typography.Title>
-                  Content of Tab Pane 5
+                  {ProfileData.getElements(this.state.profile.social)}
                 </TabPane>
               </Tabs>
             </Row>

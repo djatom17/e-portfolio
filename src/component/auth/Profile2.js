@@ -159,15 +159,12 @@ class Profile2 extends Component {
                 </Row>
               </Row>
               <Row className="mt-3 mx-4">
-                <Divider id="Education" className="h9size" orientation="left">
-                  Education
+                <Divider id="Key Skills" className="h9size" orientation="left">
+                  Areas of Speciality
                 </Divider>
-                <Row className="mt-3 mx-4">
-                  <Col>
-                    <AchievementManager />
-                  </Col>
-                </Row>
+                    {this.state.profile.specialty}
               </Row>
+
               <Row className="mt-3 mx-4">
                 <Divider id="Key Skills" className="h9size" orientation="left">
                   Key Skills
@@ -182,19 +179,22 @@ class Profile2 extends Component {
                 </Row>
               </Row>
               <Row className="mt-3 mx-4">
-                <Divider id="Key Skills" className="h9size" orientation="left">
-                  Areas of Speciality
+                <Divider id="Education" className="h9size" orientation="left">
+                  Education
                 </Divider>
-                <Row className="my-3 mx-4"></Row>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    {ProfileData.getElements(this.state.profile.education)}
+                  </Col>
+                </Row>
               </Row>
-
               <Row className="mt-3 mx-4">
                 <Divider
                   id="JobExperience"
                   className="h9size"
                   orientation="left"
                 >
-                  Job Experience
+                  Work History
                 </Divider>
                 <Row className="mt-3 mx-4">
                   <Col>
@@ -218,6 +218,20 @@ class Profile2 extends Component {
                       data={this.state.profile.achievements}
                       changeList={this.changeList}
                     />
+                  </Col>
+                </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider
+                    id="Achievements"
+                    className="h9size"
+                    orientation="left"
+                >
+                  Contacts
+                </Divider>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    {ProfileData.getElements(this.state.profile.social)}
                   </Col>
                 </Row>
               </Row>

@@ -112,12 +112,7 @@ class Profile5 extends Component {
             </Paragraph>
           </div>
           <Title className="h1size">Work Time Zone</Title>
-          <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
-          />
+            {this.state.profile.timezone}
           <Title className="h1size">Achievements</Title>
           <AchievementManager
               isMyProfile={this.state.isMyProfile}
@@ -131,19 +126,14 @@ class Profile5 extends Component {
       return (
         <div>
           <Title className="h1size">Key Skills</Title>
-          <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
-          />
+            <SkillManager
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+                data={this.state.profile.keySkills}
+                changeList={this.changeList}
+            />
           <Title className="h1size">Speciality</Title>
-          <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
-          />
+            {this.state.profile.specialty}
           <Title className="h1size">Projects</Title>
           <div>
             {this.state.isMyProfile && this.state.canEdit ? (
@@ -159,12 +149,7 @@ class Profile5 extends Component {
       return (
         <div>
           <Title className="h1size">Education</Title>
-          <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
-          />
+            {ProfileData.getElements(this.state.profile.education)}
           <Title className="h1size">Work Experience</Title>
           <AchievementManager
               isMyProfile={this.state.isMyProfile}
@@ -178,12 +163,7 @@ class Profile5 extends Component {
       return (
         <div>
           <Title className="h1size">Social Media</Title>
-          <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
-          />
+            {ProfileData.getElements(this.state.profile.social)}
         </div>
       );
     }

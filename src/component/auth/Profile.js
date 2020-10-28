@@ -16,6 +16,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
+
 const { Title, Paragraph } = Typography;
 const { Link } = Anchor;
 class Profile extends Component {
@@ -137,29 +138,35 @@ class Profile extends Component {
                       </div>
                     </Carousel>
                     <Descriptions title="About me" bordered>
-                      <div className="google-map-code">
-                      </div>
+                      <Paragraph
+                          ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+                          editable={
+                            this.state.canEdit
+                                ? {
+                                  onChange: (fieldName) =>
+                                      this.setEditablefieldName("about", fieldName),
+                                  autoSize: { minRows: 1, maxRows: 5 },
+                                }
+                                : false
+                          }
+                      >
+                        {this.state.profile.about}
+                      </Paragraph>
                     </Descriptions>
                     <Descriptions title="User Info Card" bordered>
                       <Descriptions.Item label="Name" span={2}>
                         {ProfileData.getName(this.state.profile)}
                       </Descriptions.Item>
-                      <Descriptions.Item label="Gender" span={2}>
-                        Male
+                      <Descriptions.Item label="Occupation Status">Get Curr job thing</Descriptions.Item>
+                      <Descriptions.Item label="Time Zone">
+                        {this.state.profile.timezone}
                       </Descriptions.Item>
-                      <Descriptions.Item label="Occupation Status">Crewmate</Descriptions.Item>
-                      <Descriptions.Item label="Work hour" span={2}>
-                        Korean Standard Time (GMT +9)
+                      <Descriptions.Item label="Specialty">
+                        {ProfileData.getElements(this.state.profile.keySkills)}
                       </Descriptions.Item>
-                      <Descriptions.Item label="Skills">C, C++, Python, React</Descriptions.Item>
-                      <Descriptions.Item label="Speciality">Front end development</Descriptions.Item>
+                      <Descriptions.Item label="Speciality">{this.state.profile.specialty}</Descriptions.Item>
                       <Descriptions.Item label="Education">
-                        University of Melbourne/ Computing/ under grad/ 2010~2013
-                        <br />
-                        RMIT/ Computing Graphics/ masters/ 2016~2018
-                        <br />
-                        University of Melbourne/ Law/ masters/ 2020~2024
-                        <br />
+                        {ProfileData.getElements(this.state.profile.education)}
                       </Descriptions.Item>
                       <Descriptions.Item label="Job Experience">
                         MicroSoft/ Senior developer/ 3years/ 2003~2006
@@ -174,6 +181,7 @@ class Profile extends Component {
                       </Descriptions.Item>
                     </Descriptions>
                     <Descriptions title="Social Media" bordered>
+                      <h1>{ProfileData.getElements(this.state.profile.social)}</h1>
                     </Descriptions>
                   </Content>
                 </Typography>
