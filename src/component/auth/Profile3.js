@@ -5,8 +5,7 @@ import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import CareerManager from "../profileDisplays/CareerManager";
 import SkillManager from "../profileDisplays/SkillManager";
-// import Settings from "../profileDisplays/Settings";
-// import SettingsButton from "../profileDisplays/SettingsButton";
+import SocialManager from "../profileDisplays/SocialManager";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
 import {
@@ -183,22 +182,8 @@ class Profile3 extends Component {
             >
               {this.state.profile.about}
             </Paragraph>
-          </Col>
-          <Col>
-            <Row>
-              <Button
-                type="link"
-                icon={<LinkedinOutlined />}
-                className="mt-3"
-              />
-            </Row>
-            <Row>
-              {" "}
-              <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
-            </Row>
-            <Row>
-              <Button type="link" icon={<GithubOutlined />} className="mt-3" />
-            </Row>
+
+            <SocialManager />
           </Col>
         </Row>
       </div>
