@@ -77,46 +77,43 @@ export class EducationManager extends Component {
                       onValuesChange={this.trackEdit}
                       onFinish={this.editEducationCard}
                       initialValues={item}
+                      labelCol={{ span: 6 }}
+                      labelAlign="left"
                     >
-                      <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                        <Form.Item
-                          name="name"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Course name is required",
-                            },
-                          ]}
-                        >
-                          <Input
-                            style={{ width: 500, textAlign: "center" }}
-                            placeholder="Course Name"
-                          />
-                        </Form.Item>
-                      </Row>
-                      <Row>
-                        <Form.Item name="institution" label="Institution">
-                          <Input
-                            style={{
-                              width: 230,
-                              textAlign: "center",
-                            }}
-                            placeholder="Institution"
-                          />
-                        </Form.Item>
-                      </Row>
-                      <Row>
-                        <Form.Item name="level" label="Level">
-                          <Input
-                            style={{
-                              width: 230,
-                              textAlign: "center",
-                            }}
-                            placeholder="Level"
-                          />
-                        </Form.Item>
-                      </Row>
+                      <Form.Item
+                        name="name"
+                        label="Qualification"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Course name is required",
+                          },
+                        ]}
+                      >
+                        <Input
+                          style={{ width: 230, textAlign: "center" }}
+                          placeholder="Course Name"
+                        />
+                      </Form.Item>
 
+                      <Form.Item name="institution" label="Institution">
+                        <Input
+                          style={{
+                            width: 230,
+                            textAlign: "center",
+                          }}
+                          placeholder="Institution"
+                        />
+                      </Form.Item>
+                      <Form.Item name="level" label="Level">
+                        <Input
+                          style={{
+                            width: 230,
+                            textAlign: "center",
+                          }}
+                          placeholder="Level"
+                        />
+                      </Form.Item>
                       <Row justify="space-around">
                         <Col>
                           <Form.Item>
@@ -211,52 +208,71 @@ export class EducationManager extends Component {
                 name="add_degree"
                 onValuesChange={this.trackEdit}
                 onFinish={this.addEducationCard}
-                initialValues={item}
+                labelCol={{ span: 6 }}
+                labelAlign="left"
               >
-                <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                  <Form.Item
-                    name="name"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Course name is required",
-                      },
-                    ]}
-                  >
-                    <Input
-                      style={{ width: 500, textAlign: "center" }}
-                      placeholder="Course Name"
+                <Form.Item
+                  name="name"
+                  label="Qualification"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Course name is required",
+                    },
+                  ]}
+                >
+                  <Input
+                    style={{ width: 230, textAlign: "center" }}
+                    placeholder="Course Name"
+                  />
+                </Form.Item>
+
+                <Form.Item name="institution" label="Institution">
+                  <Input
+                    style={{
+                      width: 230,
+                      textAlign: "center",
+                    }}
+                    placeholder="Institution"
+                  />
+                </Form.Item>
+
+                <Form.Item name="level" label="Level">
+                  <Input
+                    style={{
+                      width: 230,
+                      textAlign: "center",
+                    }}
+                    placeholder="Level"
+                  />
+                </Form.Item>
+                <Divider />
+                <Row justify="space-around">
+                  <Col>
+                    <Form.Item>
+                      <Button
+                        htmlType="submit"
+                        size="large"
+                        type="link"
+                        icon={<SaveOutlined />}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col>
+                    <Button
+                      size="large"
+                      type="link"
+                      icon={<DeleteOutlined />}
+                      onClick={() => this.setState({ inputVisible: false })}
                     />
-                  </Form.Item>
-                </Row>
-                <Row>
-                  <Form.Item name="institution" label="Institution">
-                    <Input
-                      style={{
-                        width: 230,
-                        textAlign: "center",
-                      }}
-                      placeholder="Institution"
-                    />
-                  </Form.Item>
-                </Row>
-                <Row>
-                  <Form.Item name="level" label="Level">
-                    <Input
-                      style={{
-                        width: 230,
-                        textAlign: "center",
-                      }}
-                      placeholder="Level"
-                    />
-                  </Form.Item>
+                  </Col>
                 </Row>
               </Form>
             </Card>
           ) : null}
 
           {!inputVisible && this.props.isMyProfile && this.props.canEdit ? (
-            // add experience button
+            // add qualification button
             <Card
               style={{ width: 500, marginTop: 16 }}
               hoverable={true}
@@ -271,7 +287,7 @@ export class EducationManager extends Component {
                     style={{ fontSize: "28px", color: "#1890ff" }}
                     type="secondary"
                   >
-                    Add Experience
+                    Add Qualification
                   </Typography.Text>
                 </Col>
               </Row>
