@@ -26,7 +26,7 @@ const ReferenceSchema = require("./Reference");
  * @param {SchoolSchema[]} education Array of user academic experiences.
  * @param {String} image filepath to user's profile picture on S3.
  * @param {String} linkToProfile unique url to user profile page.
- * @param {SocialSchema[]} social Array of links to user-given social media.
+ * @param {SocialSchema} social A SocialSchema Object.
  * @param {ReferenceSchema[]} reference Array of Reference as user's referrals.
  * @param {FileSchema[]} filesAndDocs Array of File of uploaded user documents.
  * @param {String} primaryColour Colour representation for primary color of theme.
@@ -61,7 +61,7 @@ const ProfileSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  social: [SocialSchema],
+  social: SocialSchema,
   reference : [ReferenceSchema],
   primaryColour: {
     type: String,
