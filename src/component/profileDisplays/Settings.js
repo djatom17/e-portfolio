@@ -11,24 +11,37 @@ const { Option } = Select;
 class Settings extends Component {
   state = {
     layout: "0",
-    color: "#fff",
     theme: "0",
+    primaryColour: "",
+    secondaryColour: "",
   };
 
   componentDidMount = () => {
-    this.setState({ layout: this.props.layout });
+    this.setState({
+      layout: this.props.layout,
+      primaryColour: this.props.primaryColour,
+      secondaryColour: this.props.secondaryColour,
+    });
   };
 
   handleOk = () => {
-    const { layout } = this.state;
+    const { layout, primaryColour, secondaryColour } = this.state;
+    var addChange = {};
     this.props.hideSettings();
     if (layout) {
-      ProfileData.updateProfile(
-        this.props.pid,
-        { layout: layout },
-        this.props.token
-      );
-      window.location.reload();
+      addChange["layout"] = layout;
+    }
+    if (primaryColour) {
+      addChange["primaryColour"] = primaryColour;
+    }
+    if (secondaryColour) {
+      addChange["secondaryColour"] = secondaryColour;
+    }
+
+    if (addChange !== {}) {
+      console.log(addChange);
+      ProfileData.updateProfile(this.props.pid, addChange, this.props.token);
+      // window.location.reload();
     }
   };
 
@@ -171,20 +184,11 @@ class Settings extends Component {
                 </Row>
               </TabPane>
               <TabPane tab="Colour-Themes" key="2">
-                <Row>
-                  <Col>
-                    {/* <SketchPicker
-                      disableAlpha
-                      color={this.state.color}
-                      onChangeComplete={(e) =>
-                        this.handleChangeComplete(e, this.state.colorSection)
-                      }
-                    /> */}
-                  </Col>
+                <Row justify="space-between">
                   <Col>
                     <Select
                       defaultValue="0"
-                      onSelect={(key) => this.props.themeCustom(key)}
+                      onSelect={ProfileData.themeCustom.bind(this)}
                     >
                       <Option value="0">Default</Option>
                       <Option value="1">Theme-1</Option>
@@ -192,6 +196,36 @@ class Settings extends Component {
                       <Option value="3"> Theme-3</Option>
                       <Option value="4"> Theme-4</Option>
                     </Select>
+                  </Col>
+                  <Col>
+                    <Row>
+                      <Col pull={1}>
+                        <p>Primary Colour- </p>
+                      </Col>
+                      <Col
+                        style={{
+                          background: this.state.primaryColour,
+                          borderStyle: "solid",
+                          textAlign: "center",
+                          height: 20,
+                          width: 20,
+                        }}
+                      ></Col>
+                    </Row>
+                    <Row>
+                      <Col pull={1}>
+                        <p>Secondary Colour- </p>
+                      </Col>
+                      <Col
+                        style={{
+                          background: this.state.secondaryColour,
+                          borderStyle: "solid",
+                          textAlign: "center",
+                          height: 20,
+                          width: 20,
+                        }}
+                      ></Col>
+                    </Row>
                   </Col>
                 </Row>
               </TabPane>

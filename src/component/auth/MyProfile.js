@@ -74,7 +74,8 @@ class MyProfile extends Component {
               layout={this.state.profile.layout}
               visible={this.props.settingsOnLoad}
               pid={this.state.profile._id}
-              themeCustom={ProfileData.themeCustom.bind(this)}
+              primaryColour={this.state.profile.primaryColour}
+              secondaryColour={this.state.profile.secondaryColour}
             />
           </div>
         );
