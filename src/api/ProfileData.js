@@ -1,10 +1,12 @@
 /**
+ * Aggregrates backend APIs into core frontend function calls.
+ * 
  * @file Functions for front-end to route API calls
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
  * of the University of Melbourne.
- * @requires react,axios
- * @exports getProfile,getElements,getName,updateProfile
+ * @requires react,axios,antd
+ * @exports getProfile,getElements,getName,updateProfile,changePassword
  */
 import React from "react";
 import axios from "axios";
@@ -100,6 +102,15 @@ export function getName(profile) {
   }
 }
 
+/**
+ * Pushes user profile changes onto the database.
+ * 
+ * Will not perform updates if profileChanges is empty.
+ * 
+ * @param {String} pid Profile ID of affected profile.
+ * @param {Object} profileChanges Profile JSON schema of attribute changes.
+ * @param {String} token Auth token of user.
+ */
 export function updateProfile(pid, profileChanges, token) {
   if (
     Object.keys(profileChanges).length !== 0 &&
@@ -114,6 +125,33 @@ export function updateProfile(pid, profileChanges, token) {
         else {
           console.log("Edit successful, profile saved.");
         }
+      });
+  }
+}
+
+/**
+ * Changes user password on the users database.
+ * 
+ * Does not refresh user session nor log users out.
+ * Will only perform update operations if newPassword is not empty.
+ * newPassword should follow password attribute of User schema.
+ * 
+ * @function [changePassword]
+ * @see userAuth.js
+ * @param {Object} newPassword Password to be changed to.
+ * @param {String} token Auth token of user.
+ */
+export function changePassword(newPassword, token) {
+  if (
+    Object.keys(newPassword).length !== 0 &&
+    newPassword.constructor === Object
+  ) {
+    axios
+      .post("/api/auth/change-password", newPassword, {
+        headers: { "x-auth-token": token, "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        console.log(res);
       });
   }
 }
