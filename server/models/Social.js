@@ -35,12 +35,14 @@ const PlatformSchema = new Schema({
  * @param {PlatformSchema} github 
  * @param {PlatformSchema} facebook
  * @param {PlatformSchema} linkedin
+ * @param {PlatformSchema} twitter
  * @param {PlatformSchema[]} others Array of other social media platforms if any.
  */
 const SocialSchema = new Schema({
   github: PlatformSchema,
   facebook: PlatformSchema,
   linkedin: PlatformSchema,
+  twitter: PlatformSchema,
   others: [PlatformSchema],
 });
 
