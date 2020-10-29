@@ -71,23 +71,6 @@ class Profile5 extends Component {
     this.setState({ tabdisp: e.key });
   };
 
-  getFiles(lst) {
-    if (lst) {
-      return lst.map((item, index) => (
-        <div>
-          <Button
-            onClick={() => {
-              ProfileData.getFileDownload(item.name, item.url);
-            }}
-          >
-            <PaperClipOutlined />
-            {item.name}
-          </Button>
-        </div>
-      ));
-    }
-  }
-
   displayProfileSeg = () => {
     if (this.state.tabdisp === "about") {
       return (
@@ -141,7 +124,7 @@ class Profile5 extends Component {
             ) : null}
             {console.log(this.state.isMyProfile)}
           </div>
-          {this.getFiles(this.state.profile.filesAndDocs)}
+          {ProfileData.getFiles(this.state.profile.filesAndDocs)}
         </div>
       );
     }
