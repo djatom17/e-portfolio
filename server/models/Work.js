@@ -16,6 +16,7 @@ const Schema = mongoose.Schema;
  * 
  * @param {String} role User's job title.
  * @param {String} workplace User's place of work.
+ * @param {String} description User description of work.
  * @param {Date} from Starting date of work.
  * @param {Date} to Ending date of work, if any.
  */
@@ -27,6 +28,9 @@ const WorkSchema = new Schema({
   workplace: {
       type: String,
       required: true,
+  },
+  description: {
+    type: String,
   },
   from: {
       type: Date,
