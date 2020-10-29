@@ -5,7 +5,7 @@ import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
-// import Settings from "../profileDisplays/Settings";
+import Settings from "../profileDisplays/Settings";
 import DragUpload from "../profileDisplays/DragUpload";
 import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
@@ -23,10 +23,11 @@ class Profile5 extends Component {
     tabdisp: "about",
     canEdit: false,
     isMyProfile: false,
-    // loading: false,
-    // visible: false,
-    // layout: "0",
-    // settingsVisible: false,
+    loading: false,
+    settingsLoading: false,
+    visible: false,
+    layout: "0",
+    settingsVisible: false,
     inputVisible: false,
     inputValue: "",
     editInputIndex: -1,
@@ -42,8 +43,8 @@ class Profile5 extends Component {
     this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
     this.getElementsNew = ProfileData.getElementsNew.bind(this);
     this.showModal = ProfileData.showModal.bind(this);
-    this.handleOk = ProfileData.handleOk.bind(this);
-    this.handleCancel = ProfileData.handleCancel.bind(this);
+    // this.handleOk = ProfileData.settingsOk.bind(this);
+    // this.handleCancel = ProfileData.settingsCancel.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
     this.resize = ProfileData.resize.bind(this);
@@ -62,6 +63,7 @@ class Profile5 extends Component {
     // });
     this.setState({
       layout: this.props.profile.layout,
+      settingsVisible: this.props.settingsCancel,
       primaryColour: this.props.profile.primaryColour,
       secondaryColour: this.props.profile.secondaryColour,
     });
@@ -301,8 +303,8 @@ class Profile5 extends Component {
                     handleCancel={this.handleCancel}
                     showModal={this.showModal}
                     layout={this.state.layout}
-                    visible={this.state.visible}
-                    loading={this.state.loading}
+                    visible={this.state.settingsVisible}
+                    loading={this.state.settingsLoading}
                     themeCustom={this.themeCustom}
                   />
                 ) : null} */}

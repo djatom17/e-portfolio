@@ -172,29 +172,29 @@ export function showSettings() {
 }
 
 // delete ?
-export function handleOk(num, info) {
-  this.setState({ loading: true });
-  setTimeout(() => {
-    this.setState({ loading: false, visible: false });
-  }, 3000);
+// export function handleOk(num, info) {
+//   this.setState({ loading: true });
+//   setTimeout(() => {
+//     this.setState({ loading: false, visible: false });
+//   }, 3000);
 
-  updateProfile(this.state.profile._id, { layout: num }, this.props.token);
-  window.location.reload();
-}
+//   updateProfile(this.state.profile._id, { layout: num }, this.props.token);
+//   window.location.reload();
+// }
 
-export function settingsOk(num, pid, info) {
-  this.setState({ loading: true });
-  setTimeout(() => {
-    this.setState({ loading: false, visible: false });
-  }, 3000);
+// export function settingsOk(num, pid, info) {
+//   this.setState({ loading: true });
+//   setTimeout(() => {
+//     this.setState({ loading: false, visible: false });
+//   }, 3000);
 
-  updateProfile(pid, { layout: num }, this.props.token);
-  window.location.reload();
-}
+//   updateProfile(pid, { layout: num }, this.props.token);
+//   window.location.reload();
+// }
 // delete ?
-export function handleCancel() {
-  this.setState({ visible: false });
-}
+// export function handleCancel() {
+//   this.setState({ visible: false });
+// }
 
 export function settingsCancel() {
   this.setState({ settingsVisible: false });
@@ -203,6 +203,35 @@ export function settingsCancel() {
 export function changeLayout(str, info) {
   this.setState({ layout: str });
 }
+
+export function themeCustom(theme) {
+  var primCol;
+  var secCol;
+  switch (theme) {
+    case "1":
+      primCol = "red";
+      secCol = "blue";
+      break;
+    case "2":
+      primCol = "green";
+      secCol = "red";
+      break;
+    case "3":
+      primCol = "coral";
+      secCol = "white";
+      break;
+    case "4":
+      primCol = "white";
+      secCol = "red";
+      break;
+    default:
+      primCol = "white";
+      secCol = "#e5e5e5";
+      break;
+  }
+  this.setState({ primaryColour: primCol, secondaryColour: secCol });
+}
+
 // End of modal Functions
 
 // Editable Card List Functions: Add, Delete and Edit
@@ -453,33 +482,4 @@ export function deleteButt(fieldName, item) {
  */
 export function resize() {
   this.setState({ mobileView: window.innerWidth <= 760 });
-}
-
-export function themeCustom(theme) {
-  var primCol;
-  var secCol;
-  switch (theme) {
-    case "1":
-      primCol = "red";
-      secCol = "blue";
-      break;
-    case "2":
-      primCol = "green";
-      secCol = "red";
-      break;
-    case "3":
-      primCol = "coral";
-      secCol = "white";
-      break;
-    case "4":
-      primCol = "white";
-      secCol = "red";
-      break;
-    default:
-      primCol = "white";
-      secCol = "#e5e5e5";
-      break;
-  }
-  console.log({ primCol });
-  this.setState({ primaryColour: primCol, secondaryColour: secCol });
 }

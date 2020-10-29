@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from "react";
 import { Modal, Button, Row, Col, Avatar, Tabs, Select } from "antd";
-import { SketchPicker } from "react-color";
+import { connect } from "react-redux";
+import { showSettings, hideSettings } from "../../actions/profileActions";
+import * as ProfileData from "../../api/ProfileData";
 import "antd/dist/antd.css";
 
 const { TabPane } = Tabs;
 const { Option } = Select;
 
-export class Settings extends Component {
+class Settings extends Component {
   state = {
     layout: "0",
     color: "#fff",
@@ -16,30 +18,41 @@ export class Settings extends Component {
   componentDidMount = () => {
     this.setState({ layout: this.props.layout });
   };
-  // handleChangeComplete = (color, str) => {
-  //   this.setState({ color: color.hex });
-  //   this.props.handlePrimColour(color, str);
+
+  handleOk = () => {
+    const { layout } = this.state;
+    this.props.hideSettings();
+    if (layout) {
+      ProfileData.updateProfile(
+        this.props.pid,
+        { layout: layout },
+        this.props.token
+      );
+      window.location.reload();
+    }
+  };
+
+  // handleCancel = () => {
+  //   this.setState({ isVisible: false });
   // };
 
   render() {
+    const { isVisible } = this.props;
     return (
       <Fragment>
         <Modal
-          visible={this.props.visible}
+          visible={isVisible}
           title="Customisablity Settings"
-          onOk={this.props.handleOk}
-          onCancel={this.props.handleCancel}
+          onCancel={this.props.hideSettings}
           footer={[
-            <Button key="back" onClick={this.props.handleCancel}>
+            <Button key="back" onClick={this.props.hideSettings}>
               Cancel
             </Button>,
             <Button
               key="save"
               type="primary"
-              loading={this.props.loading}
-              onClick={(e) =>
-                this.props.handleOk(this.state.layout, this.props.pid, e)
-              }
+              // loading={this.props.loading}
+              onClick={this.handleOk}
             >
               Save
             </Button>,
@@ -173,7 +186,7 @@ export class Settings extends Component {
                       defaultValue="0"
                       onSelect={(key) => this.props.themeCustom(key)}
                     >
-                      <Option value="0">default</Option>
+                      <Option value="0">Default</Option>
                       <Option value="1">Theme-1</Option>
                       <Option value="2"> Theme-2</Option>
                       <Option value="3"> Theme-3</Option>
@@ -189,4 +202,13 @@ export class Settings extends Component {
     );
   }
 }
-export default Settings;
+
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+  isAuthenticated: state.auth.isAuthenticated,
+  isVisible: state.profile.showSettings,
+});
+
+export default connect(mapStateToProps, { showSettings, hideSettings })(
+  Settings
+);
