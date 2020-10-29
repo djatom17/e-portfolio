@@ -183,7 +183,6 @@ class Profile3 extends Component {
             <SocialManager
               isMyProfile={this.state.isMyProfile}
               canEdit={this.state.canEdit}
-              data={this.state.profile.keySkills}
             />
           </Col>
         </Row>

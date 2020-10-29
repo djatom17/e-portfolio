@@ -9,6 +9,7 @@ import "antd/dist/antd.css";
 import DragUpload from "../profileDisplays/DragUpload";
 import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
+import SocialManager from "../profileDisplays/SocialManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
@@ -113,17 +114,17 @@ class Profile5 extends Component {
           </div>
           <Title className="h1size">Work Time Zone</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
           <Title className="h1size">Achievements</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
         </div>
       );
@@ -132,45 +133,44 @@ class Profile5 extends Component {
         <div>
           <Title className="h1size">Key Skills</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
           <Title className="h1size">Speciality</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
           <Title className="h1size">Projects</Title>
           <div>
             {this.state.isMyProfile && this.state.canEdit ? (
-                <DragUpload token={this.props.token} />
+              <DragUpload token={this.props.token} />
             ) : null}
             {console.log(this.state.isMyProfile)}
           </div>
           {this.getFiles(this.state.profile.filesAndDocs)}
         </div>
-
       );
     } else if (this.state.tabdisp === "experience") {
       return (
         <div>
           <Title className="h1size">Education</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
           <Title className="h1size">Work Experience</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
         </div>
       );
@@ -179,10 +179,10 @@ class Profile5 extends Component {
         <div>
           <Title className="h1size">Social Media</Title>
           <AchievementManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-              data={this.state.profile.achievements}
-              changeList={this.changeList}
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.achievements}
+            changeList={this.changeList}
           />
         </div>
       );
@@ -222,6 +222,12 @@ class Profile5 extends Component {
                   {this.state.profile.subtitle}
                 </Paragraph>
               </div>
+              <Row justify="center">
+                <SocialManager
+                  isMyProfile={this.state.isMyProfile}
+                  canEdit={this.state.canEdit}
+                />
+              </Row>
               <div>
                 <Menu
                   onClick={this.handleTabClick}
