@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-//import MediaQuery from "react-responsive";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
@@ -8,16 +7,7 @@ import Settings from "../profileDisplays/Settings";
 import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
-import {
-  Row,
-  Col,
-  Typography,
-  Button,
-  Divider,
-  Tabs,
-  Upload,
-  message,
-} from "antd";
+import { Row, Col, Typography, Button, Divider, Tabs } from "antd";
 import {
   LinkedinOutlined,
   TwitterOutlined,
@@ -26,25 +16,6 @@ import {
 
 const { Paragraph } = Typography;
 const { TabPane } = Tabs;
-
-// functions for img upload
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-  return isJpgOrPng && isLt2M;
-}
 
 // function for tabs
 function callback(key) {
@@ -64,6 +35,7 @@ class Profile3 extends Component {
     canEdit: false,
     isMyProfile: false,
     mobileView: false,
+    originalImage: "",
   };
 
   constructor() {
@@ -79,7 +51,10 @@ class Profile3 extends Component {
   }
 
   componentDidMount() {
-    this.setState({ profile: this.props.profile });
+    this.setState({
+      profile: this.props.profile,
+      originalImage: this.props.profile.image,
+    });
     //Size check.
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
@@ -95,36 +70,6 @@ class Profile3 extends Component {
   componentWillUnmount() {
     window.removeEventListener("resize", this.resize.bind(this));
   }
-
-  handleButtonClick = () => {
-    // Make changes reflect on database
-    ProfileData.updateProfile(
-      this.state.profile._id,
-      this.state.profileChanges,
-      this.props.token
-    );
-    this.setState({
-      canEdit: !this.state.canEdit,
-      profileChanges: {},
-    });
-  };
-
-  // pfp image upload methods
-  handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl) =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        })
-      );
-    }
-  };
 
   render() {
     // whether the app is in mobile view
@@ -148,7 +93,6 @@ class Profile3 extends Component {
                   <EditButton
                     _id={this.state.profile._id}
                     profileChanges={this.state.profileChanges}
-                    token={this.props.token}
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
                     changeEdit={() =>
@@ -172,7 +116,7 @@ class Profile3 extends Component {
             image={this.state.profile.image}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
-            mobileView={false}
+            onPFPChange={ProfileData.handlePFPChange.bind(this)}
           />
           <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
@@ -232,7 +176,6 @@ class Profile3 extends Component {
                   <EditButton
                     _id={this.state.profile._id}
                     profileChanges={this.state.profileChanges}
-                    token={this.props.token}
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
                     changeEdit={() =>
@@ -264,7 +207,7 @@ class Profile3 extends Component {
             image={this.state.profile.image}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
-            mobileView={false}
+            onPFPChange={ProfileData.handlePFPChange.bind(this)}
           />
           <Col>
             <Row>
