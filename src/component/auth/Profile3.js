@@ -114,10 +114,9 @@ class Profile3 extends Component {
           {" "}
           <ProfilePicture
             image={this.state.profile.image}
-            onPFPChange={ProfileData.handlePFPChange.bind(this)}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
-            mobileView={false}
+            onPFPChange={ProfileData.handlePFPChange.bind(this)}
           />
           <Col xs={4} sm={6} md={10} lg={14} xl={16}>
             <h4>A little bit about me...</h4>
@@ -206,10 +205,9 @@ class Profile3 extends Component {
         <Row gutter={8} justify="center">
           <ProfilePicture
             image={this.state.profile.image}
-            onPFPChange={ProfileData.handlePFPChange.bind(this)}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
-            mobileView={false}
+            onPFPChange={ProfileData.handlePFPChange.bind(this)}
           />
           <Col>
             <Row>
