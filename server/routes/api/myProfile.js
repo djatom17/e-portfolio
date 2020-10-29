@@ -24,25 +24,11 @@ const fetchProfileByUID = require("./mongo").fetchProfileByUID;
 profilerouter.get("/", auth, (req, res, next) => {
   fetchProfileByUID(req.user.id, (err, profile) => {
     if (err || !profile) {
-      //res.status(400);
-      res.send(err);
+      return res.status(500).json({error:err});
     } else {
-      res.send(profile);
+      return res.status(200).send(profile);
     }
   });
-});
-
-/**
- * Handles POST request for /edit.
- *
- * Validates user auth token prior to update.
- * Finalise changes and uploads changes to MongoDB.
- */
-profilerouter.post("/edit", auth, (req, res, next) => {
-  //TODO Implement profile edit here or mongo.js?
-
-  //Redirects back to my-profile after changes are done.
-  res.redirect("/");
 });
 
 module.exports = profilerouter;

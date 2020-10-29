@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
@@ -10,31 +10,18 @@ import "antd/dist/antd.css";
 import {
   Row,
   Col,
-  Menu,
-  Upload,
-  message,
   Typography,
-  Avatar,
   Input,
   Button,
-  Modal,
   Tag,
   Tooltip,
   Anchor,
-  Collapse,
-  breadcrumb,
   Divider,
 } from "antd";
 
-import {
-  InboxOutlined,
-  UserOutlined,
-  DeleteOutlined,
-  PaperClipOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 const { Link } = Anchor;
 class Profile2 extends Component {
   state = {
@@ -77,9 +64,9 @@ class Profile2 extends Component {
   render() {
     const { Panel } = Collapse;
 
-    function callback(key) {
-      console.log(key);
-    }
+    // function callback(key) {
+    //   console.log(key);
+    // }
 
     return (
       <Col>

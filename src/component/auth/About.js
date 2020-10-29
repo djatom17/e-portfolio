@@ -1,39 +1,42 @@
-import React from 'react';
+import React from "react";
 
 const About = () => {
-
-    return (
-        <div className={"about"}>
-            <div className={"container"}>
-                <div className={"row"}>
-                    <div className="col-mid-8 m-auto">
-                        <h1 className="display-4 text-center">We want to show you off!</h1>
-                        <br/>
-                        <p className={"lead text-center about-page-text"}>
-                            Why blend in when you can have a dedicated e-portfolio just for you ?
-                        </p>
-                        <br/>
-                        <p className={"lead text-center about-page-text"}>
-                            A check-me-out e-portfolio is a stylish way for you to show off you accomplishments to employers and recruiters
-                        </p>
-                        <br/>
-                        <p className={"lead text-center about-page-text"}>
-                            Sign up with ctrl alt elite to get started!
-                        </p>
-                        <br/>
-                        <p className={"lead text-center about-page-text"}>
-                            Ctrl alt elite is group of 5 really hard working students and this is our project.
-                        </p>
-                        <br/>
-                        <p>
-                            Names, characters, businesses, places, events, locales, and incidents are either the products of the author’s imagination or used in a fictitious manner. Any resemblance to actual persons, living or dead, or actual events is purely coincidental.
-                            We do not own any of the images on this website.
-                        </p>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className={"about"}>
+      <div className={"container"}>
+        <div className={"row"}>
+          <div className="col-mid-8 m-auto">
+            <h1 className="display-4 text-center">We want to show you off!</h1>
+            <br />
+            <p className={"lead text-center about-page-text"}>
+              Why blend in when you can have a dedicated e-portfolio just for
+              you?
+            </p>
+            <br />
+            <p className={"lead text-center about-page-text"}>
+              An Elite Flex e-portfolio is a stylish way for you to show off
+              your accomplishments to employers and recruiters.
+            </p>
+            <br />
+            <p className={"lead text-center about-page-text"}>
+              Sign up with Elite Flex by Ctrl Alt Elite to get started!
+            </p>
+            <br />
+            <p className={"lead text-center about-page-text"}>
+              Ctrl Alt Elite is a group of 5 really hard-working students and
+              this is their project.
+            </p>
+            <br />
+            <p className={"text-center"}>
+              We don't charge you to use Elite Flex. We don't sell your personal
+              data to advertisers. Any and all information stored on the data
+              storage servers we use, is purely at your discretion.
+            </p>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default About;

@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from "react";
-import { Button, Row, Col, Typography, Input, Tag } from "antd";
+import React, { Component } from "react";
+import { Row, Col, Typography, Input, Tag } from "antd";
 import "antd/dist/antd.css";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import * as ProfileData from "../../api/ProfileData";
 
 const { Title, Paragraph } = Typography;
