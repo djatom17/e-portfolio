@@ -47,6 +47,8 @@ class Profile2 extends Component {
     editInputIndex: -1,
     editInputValue: "",
     mobileView: false,
+    primaryColour: "white",
+    secondaryColour: "#e5e5e5",
   };
 
   constructor() {
@@ -55,8 +57,6 @@ class Profile2 extends Component {
     this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
     this.getElementsNew = ProfileData.getElementsNew.bind(this);
     this.showModal = ProfileData.showModal.bind(this);
-    this.handleOk = ProfileData.handleOk.bind(this);
-    this.handleCancel = ProfileData.handleCancel.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
     this.resize = ProfileData.resize.bind(this);
@@ -82,7 +82,7 @@ class Profile2 extends Component {
     }
 
     return (
-      <Col>
+      <Col style={{ backgroundColor: this.state.secondaryColour }}>
         <Row justify="center">
           <img
             id="Top"
@@ -134,7 +134,10 @@ class Profile2 extends Component {
             </div>
             <Typography
               component="div"
-              style={{ backgroundColor: "#ffffff", height: "auto" }}
+              style={{
+                backgroundColor: this.state.primaryColour,
+                height: "auto",
+              }}
             >
               <Row className="mt-3 mx-4">
                 <Divider id="About" className="h9size" orientation="left">

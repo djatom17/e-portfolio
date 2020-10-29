@@ -74,8 +74,6 @@ class Profile3 extends Component {
     this.setEditablefieldName = ProfileData.setEditableStr.bind(this);
     this.setEditablefieldNameArr = ProfileData.setEditableStrArr.bind(this);
     this.showModal = ProfileData.showModal.bind(this);
-    this.handleOk = ProfileData.handleOk.bind(this);
-    this.handleCancel = ProfileData.handleCancel.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
     this.resize = ProfileData.resize.bind(this);
