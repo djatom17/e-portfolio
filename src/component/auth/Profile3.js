@@ -302,7 +302,7 @@ class Profile3 extends Component {
                 </TabPane>
                 <TabPane tab="Education" key="5">
                   <Title>Education</Title>
-                  <CareerManager
+                  <EducationManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
                     data={this.state.profile.education}

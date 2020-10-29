@@ -50,7 +50,7 @@ class NavBar extends Component {
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
-    // const { current } = this.state;
+    const { current } = this.state;
 
     const authLinks = (
       <Fragment>
