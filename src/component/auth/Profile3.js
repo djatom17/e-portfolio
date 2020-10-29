@@ -7,6 +7,7 @@ import SkillManager from "../profileDisplays/SkillManager";
 import Settings from "../profileDisplays/Settings";
 import SettingsButton from "../profileDisplays/SettingsButton";
 import EditButton from "../profileDisplays/EditButton";
+import DragUpload from "../profileDisplays/DragUpload";
 import * as ProfileData from "../../api/ProfileData";
 import {
   Row,
@@ -334,7 +335,13 @@ class Profile3 extends Component {
                 </TabPane>
                 <TabPane tab="Projects" key="3">
                   <Typography.Title>Projects</Typography.Title>
-                  Content of Tab Pane 3
+                  {this.state.isMyProfile && this.state.canEdit ? (
+                    <DragUpload
+                      token={this.props.token}
+                      onChange={ProfileData.onFileListChange.bind(this)}
+                    />
+                  ) : null}
+                  {ProfileData.getFiles(this.state.profile.filesAndDocs)}
                 </TabPane>
                 <TabPane tab="Certificates" key="4">
                   <Typography.Title>Certificates</Typography.Title>
