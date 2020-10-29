@@ -6,6 +6,7 @@ import AchievementManager from "../profileDisplays/AchievementManager";
 import CareerManager from "../profileDisplays/CareerManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import SocialManager from "../profileDisplays/SocialManager";
+import EducationManager from "../profileDisplays/EducationManager";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
 import {
@@ -299,6 +300,15 @@ class Profile3 extends Component {
                     changeList={this.changeList}
                   />
                 </TabPane>
+                <TabPane tab="Education" key="5">
+                  <Title>Education</Title>
+                  <CareerManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.education}
+                    changeList={this.changeList}
+                  />
+                </TabPane>
                 <TabPane tab="Career" key="3" className="mb-3">
                   <Title className="h1size">Experience</Title>
                   <CareerManager
@@ -310,11 +320,6 @@ class Profile3 extends Component {
                 </TabPane>
                 <TabPane tab="Certificates" key="4">
                   <Typography.Title>Certificates</Typography.Title>
-                </TabPane>
-
-                <TabPane tab="Contact Details" key="5">
-                  <Typography.Title>Contact Details</Typography.Title>
-                  Content of Tab Pane 5
                 </TabPane>
               </Tabs>
             </Row>

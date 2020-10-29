@@ -32,7 +32,7 @@ export class SkillManager extends Component {
       editInputValue,
     } = this.state;
     return (
-      <div>
+      <div className="mb-3">
         {this.props.data &&
           this.props.data.map((tag, index) => {
             if (editInputIndex === index) {

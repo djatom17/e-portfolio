@@ -12,7 +12,7 @@ import { Hidden } from "@material-ui/core";
 
 const { Paragraph } = Typography;
 
-export class CareerManager extends Component {
+export class EducationManager extends Component {
   state = {
     inputVisible: false,
     editInputIndex: -1,
@@ -30,8 +30,8 @@ export class CareerManager extends Component {
     this.setState({ inputValue: allFields });
   };
 
-  // add new career card
-  addCareerCard = (values) => {
+  // add new education card
+  addEducationCard = (values) => {
     let data = this.props.data;
     console.log(data);
     if (values && data) {
@@ -40,11 +40,11 @@ export class CareerManager extends Component {
     this.setState({
       inputVisible: false,
     });
-    this.props.changeList(data, "workHistory");
+    this.props.changeList(data, "education");
   };
 
-  // edit existing career card
-  editCareerCard = (values) => {
+  // edit existing education card
+  editEducationCard = (values) => {
     let { editInputIndex } = this.state;
 
     let data = this.props.data;
@@ -54,7 +54,7 @@ export class CareerManager extends Component {
       editInputIndex: -1,
     });
 
-    this.props.changeList(data, "workHistory");
+    this.props.changeList(data, "education");
   };
 
   render() {
@@ -67,66 +67,56 @@ export class CareerManager extends Component {
             this.props.data.map((item, index) => {
               if (editInputIndex === index) {
                 return (
-                  // edit mode version of career card
+                  // edit mode version of education card
                   <Card
                     style={{ width: "auto", marginTop: 16 }}
                     hoverable={true}
                   >
                     <Form
-                      name="add_career"
+                      name="add_degree"
                       onValuesChange={this.trackEdit}
-                      onFinish={this.editCareerCard}
+                      onFinish={this.editEducationCard}
                       initialValues={item}
                     >
                       <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                        <Input.Group compact>
-                          <Form.Item
-                            name="role"
-                            rules={[
-                              {
-                                required: true,
-                                message: "Job title is required",
-                              },
-                            ]}
-                          >
-                            <Input
-                              style={{ width: 230, textAlign: "center" }}
-                              placeholder="Job Title"
-                            />
-                          </Form.Item>
-
+                        <Form.Item
+                          name="name"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Course name is required",
+                            },
+                          ]}
+                        >
                           <Input
-                            className="site-input-split"
-                            style={{
-                              width: 40,
-                              borderLeft: 0,
-                              borderRight: 0,
-                              pointerEvents: "none",
-                            }}
-                            placeholder="@"
-                            disabled
-                          />
-                          <Form.Item name="workplace">
-                            <Input
-                              className="site-input-right"
-                              style={{
-                                width: 230,
-                                textAlign: "center",
-                              }}
-                              placeholder="Company"
-                            />
-                          </Form.Item>
-                        </Input.Group>
-                      </Row>
-                      <Row className="my-1">
-                        <Form.Item name="description" style={{ width: "100%" }}>
-                          <Input.TextArea
-                            showCount
-                            maxLength={100}
-                            placeholder="Add a description"
+                            style={{ width: 500, textAlign: "center" }}
+                            placeholder="Course Name"
                           />
                         </Form.Item>
                       </Row>
+                      <Row>
+                        <Form.Item name="institution" label="Institution">
+                          <Input
+                            style={{
+                              width: 230,
+                              textAlign: "center",
+                            }}
+                            placeholder="Institution"
+                          />
+                        </Form.Item>
+                      </Row>
+                      <Row>
+                        <Form.Item name="level" label="Level">
+                          <Input
+                            style={{
+                              width: 230,
+                              textAlign: "center",
+                            }}
+                            placeholder="Level"
+                          />
+                        </Form.Item>
+                      </Row>
+
                       <Row justify="space-around">
                         <Col>
                           <Form.Item>
@@ -144,7 +134,7 @@ export class CareerManager extends Component {
                             type="link"
                             icon={<DeleteOutlined />}
                             onClick={() =>
-                              this.handleCloseCard("workHistory", item, "role")
+                              this.handleCloseCard("education", item, "role")
                             }
                           />
                         </Col>
@@ -154,7 +144,7 @@ export class CareerManager extends Component {
                 );
               }
 
-              // normal version of career card
+              // normal version of education card
               return (
                 <Card
                   style={{ width: "auto", minWidth: 500, marginTop: 16 }}
@@ -163,17 +153,14 @@ export class CareerManager extends Component {
                   {" "}
                   <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
                     <Col>
-                      <h4>{item.role}</h4>
-                    </Col>
-                    <Col>
-                      <h4> @ </h4>
-                    </Col>
-                    <Col>
-                      <h4>{item.workplace}</h4>
+                      <h4>{item.name}</h4>
                     </Col>
                   </Row>
                   <Row>
-                    <Paragraph>This is a basic description</Paragraph>
+                    <Paragraph>Institution: {item.institution}</Paragraph>
+                  </Row>
+                  <Row>
+                    <Paragraph>Level: {item.level}</Paragraph>
                   </Row>
                   {this.props.isMyProfile && this.props.canEdit ? (
                     <Row justify="space-around">
@@ -204,7 +191,7 @@ export class CareerManager extends Component {
                           type="link"
                           icon={<DeleteOutlined />}
                           onClick={() =>
-                            this.handleCloseCard("workHistory", item, "role")
+                            this.handleCloseCard("education", item, "role")
                           }
                         />
                       </Col>
@@ -215,83 +202,54 @@ export class CareerManager extends Component {
             })}
 
           {inputVisible ? (
-            // inputVisible: add new career card
+            // inputVisible: add new education card
             <Card
               style={{ width: "auto", minWidth: 500, marginTop: 16 }}
               hoverable={true}
             >
               <Form
-                name="add_career"
+                name="add_degree"
                 onValuesChange={this.trackEdit}
-                onFinish={this.addCareerCard}
+                onFinish={this.addEducationCard}
+                initialValues={item}
               >
                 <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                  <Input.Group compact>
-                    <Form.Item
-                      name="role"
-                      rules={[
-                        {
-                          required: true,
-                        },
-                      ]}
-                    >
-                      <Input
-                        style={{ width: 230, textAlign: "center" }}
-                        placeholder="Job Title"
-                      />
-                    </Form.Item>
-
+                  <Form.Item
+                    name="name"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Course name is required",
+                      },
+                    ]}
+                  >
                     <Input
-                      className="site-input-split"
-                      style={{
-                        width: 40,
-                        borderLeft: 0,
-                        borderRight: 0,
-                        pointerEvents: "none",
-                      }}
-                      placeholder="@"
-                      disabled
-                    />
-                    <Form.Item name="workplace">
-                      <Input
-                        className="site-input-right"
-                        style={{
-                          width: 230,
-                          textAlign: "center",
-                        }}
-                        placeholder="Company"
-                      />
-                    </Form.Item>
-                  </Input.Group>
-                </Row>
-                <Row className="my-1">
-                  <Form.Item name="description" style={{ width: "100%" }}>
-                    <Input.TextArea
-                      showCount
-                      maxLength={100}
-                      placeholder="Add a description"
+                      style={{ width: 500, textAlign: "center" }}
+                      placeholder="Course Name"
                     />
                   </Form.Item>
                 </Row>
-                <Row justify="space-around">
-                  <Col>
-                    <Form.Item>
-                      <Button
-                        htmlType="submit"
-                        size="large"
-                        type="link"
-                        icon={<SaveOutlined />}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col>
-                    <Button
-                      size="large"
-                      type="link"
-                      icon={<DeleteOutlined />}
-                      onClick={() => this.setState({ inputVisible: false })}
+                <Row>
+                  <Form.Item name="institution" label="Institution">
+                    <Input
+                      style={{
+                        width: 230,
+                        textAlign: "center",
+                      }}
+                      placeholder="Institution"
                     />
-                  </Col>
+                  </Form.Item>
+                </Row>
+                <Row>
+                  <Form.Item name="level" label="Level">
+                    <Input
+                      style={{
+                        width: 230,
+                        textAlign: "center",
+                      }}
+                      placeholder="Level"
+                    />
+                  </Form.Item>
                 </Row>
               </Form>
             </Card>
@@ -338,4 +296,4 @@ export class CareerManager extends Component {
   }
 }
 
-export default CareerManager;
+export default EducationManager;
