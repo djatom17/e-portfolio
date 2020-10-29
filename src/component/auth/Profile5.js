@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
@@ -10,7 +9,7 @@ import DragUpload from "../profileDisplays/DragUpload";
 import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
-import { Row, Col, Menu, Typography, Avatar, Input, Button, Tag } from "antd";
+import { Row, Col, Menu, Typography, Button } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
 
@@ -92,10 +91,14 @@ class Profile5 extends Component {
     if (lst) {
       return lst.map((item, index) => (
         <div>
-          <Link to={item.url}>
+          <Button
+            onClick={() => {
+              ProfileData.getFileDownload(item.name, item.url);
+            }}
+          >
             <PaperClipOutlined />
             {item.name}
-          </Link>
+          </Button>
         </div>
       ));
     }
@@ -162,7 +165,10 @@ class Profile5 extends Component {
           <Title className="h1size">Projects</Title>
           <div>
             {this.state.isMyProfile && this.state.canEdit ? (
-              <DragUpload token={this.props.token} />
+              <DragUpload
+                token={this.props.token}
+                onChange={ProfileData.onFileListChange.bind(this)}
+              />
             ) : null}
             {console.log(this.state.isMyProfile)}
           </div>

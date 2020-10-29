@@ -24,8 +24,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
-const { Title, Paragraph } = Typography;
-const { Link } = Anchor;
+// const { Title, Paragraph } = Typography;
+// const { Link } = Anchor;
 class Profile extends Component {
   state = {
     profile: {},
@@ -112,7 +112,7 @@ class Profile extends Component {
       background: "#364d79",
     };
 
-    const { Header, Content, Footer } = Layout;
+    const { Content } = Layout;
 
     function onChange(a, b, c) {
       console.log(a, b, c);
