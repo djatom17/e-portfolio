@@ -27,6 +27,15 @@ export function getFiles(files) {
   }
 }
 
+// Profile picture changing
+// When the user selects a new image, preview it on the thumbnail
+export function handlePFPChange(file) {
+  this.setState({
+    profile: { ...this.state.profile, image: file.preview },
+    profileChanges: { ...this.state.profileChanges, image: file },
+  });
+}
+
 export function getFileDownload(filename, fileLocation) {
   axios.get(fileLocation, { responseType: "blob" }).then((response) => {
     const url = window.URL.createObjectURL(new Blob([response.data]));
