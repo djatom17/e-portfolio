@@ -49,20 +49,20 @@ class Browse extends Component {
     }
   };
 
-  displayQualifications = (qualifications) => {
-    if (!qualifications.length) return null;
-    if (qualifications) {
-      return (
-        <List
-          size="small"
-          dataSource={qualifications}
-          renderItem={(item) => (
-            <List.Item className="browse-education">{item}</List.Item>
-          )}
-        />
-      );
-    }
-  };
+  // displayQualifications = (qualifications) => {
+  //   if (!qualifications.length) return null;
+  //   if (qualifications) {
+  //     return (
+  //       <List
+  //         size="small"
+  //         dataSource={qualifications}
+  //         renderItem={(item) => (
+  //           <List.Item className="browse-education">{item}</List.Item>
+  //         )}
+  //       />
+  //     );
+  //   }
+  // };
 
   displayJob = (profile) => {
     if (!profile.workHistory.length) return null;
@@ -142,9 +142,9 @@ class Browse extends Component {
                 <Row>
                   <Col>{this.displayJob(profile)}</Col>
                 </Row>
-                <Row>
+                {/* <Row>
                   <Col> {this.displayQualifications(profile.education)}</Col>
-                </Row>
+                </Row> */}
               </Col>
             </Row>
           </span>
