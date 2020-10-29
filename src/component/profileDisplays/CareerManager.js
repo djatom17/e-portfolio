@@ -173,7 +173,7 @@ export class CareerManager extends Component {
                     </Col>
                   </Row>
                   <Row>
-                    <Paragraph>add descriptiooon</Paragraph>
+                    <Paragraph>This is a basic description</Paragraph>
                   </Row>
                   {this.props.isMyProfile && this.props.canEdit ? (
                     <Row justify="space-around">
