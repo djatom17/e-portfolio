@@ -38,7 +38,7 @@ mongorouter.get("/profiles", function (req, res, next) {
   })
     .lean()
     .exec((err, profiles) => {
-      if (err) return res.status(500).json({error:err});
+      if (err) return res.status(500).json({ error: err });
 
       console.log("[Mongoose] Fetched all profiles.");
       profiles.forEach((profile) => {
@@ -59,7 +59,7 @@ mongorouter.get("/p/:ID", function (req, res, next) {
   console.log("[Mongoose] Fetching " + req.params.ID + " from mongo.");
 
   var query = {};
-  
+
   //Select appropriate query to pass (custom user links or profile od links)
   if (isValidObjectId(req.params.ID)) {
     query = { _id: ObjectID(req.params.ID) };
@@ -72,13 +72,11 @@ mongorouter.get("/p/:ID", function (req, res, next) {
       console.log(
         "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
       );
-      res.status(500).json({error:err});
-    } 
-    else if (!profile) {
-      console.log("[Mongoose] No profile found.")
+      res.status(500).json({ error: err });
+    } else if (!profile) {
+      console.log("[Mongoose] No profile found.");
       res.status(204).send(null);
-    }
-    else {
+    } else {
       //Successful operation
       console.log("[Mongoose] Fetched " + req.params.ID);
       profile = appendProfilePaths(profile);
@@ -107,7 +105,9 @@ mongorouter.post("/p-update/:ID", [auth, checkLink], function (req, res, next) {
     { returnNewDocument: true, useFindAndModify: false }
   ).then((updated_profile) => {
     if (!updated_profile) {
-      return res.status(500).json({error:"[Mongoose] Profile update unsuccessful."});
+      return res
+        .status(500)
+        .json({ error: "[Mongoose] Profile update unsuccessful." });
     }
     //Successful Operation
     console.log("[Mongoose] Successfully posted updates to MongoDB.");
@@ -196,6 +196,10 @@ mongorouter.get("/search", function (req, res, next) {
 const fetchProfileByUID = (uid, callback) => {
   //Find mapping of UID to PID.
   mapUIDtoPID(uid, (err, userMap) => {
+    if (err) {
+      console.log("[Mongoose] User-profile mapping not found.");
+      return callback(err, null);
+    }
     console.log("[Mongoose] Found map entry.");
     //Fetches profile by pid mapped by given uid
     Profile.findById(userMap.pid, (err, profile) => {
@@ -295,7 +299,7 @@ const mapUIDtoPID = (uid, callback) => {
  * Creates a document entry in "files" table in MongoDB.
  *
  * Triggered after file upload to S3 is successful. Stores the filename,
- * key, file description and User ID into "files", for convenience of 
+ * key, file description and User ID into "files", for convenience of
  * file retrieval/access.
  *
  * @function [postUpload]
@@ -355,9 +359,9 @@ const getImageUrlOfUser = (uid) => {
 
 /**
  * Deletes File entry from Profile's filesAndDocs.
- * 
- * Usually called after removing a file from S3. 
- * 
+ *
+ * Usually called after removing a file from S3.
+ *
  * @function [postDelete]
  * @param {String} url Stored filepath in File entry.
  * @param {String} uid User ID of requester.
@@ -394,9 +398,9 @@ const postDelete = (url, uid) => {
 
 /**
  * Checks if str is ObjectId format.
- * 
+ *
  * Does str adhere to MongoDB ObjectId format?
- * 
+ *
  * @param {String} str String to test.
  * @returns {Boolean} String is valid ObjectId or not.
  */
