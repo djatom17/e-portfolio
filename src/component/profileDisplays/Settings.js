@@ -1,37 +1,71 @@
 import React, { Component, Fragment } from "react";
-import { Modal, Button, Row, Col, Avatar, Tabs } from "antd";
+import { Modal, Button, Row, Col, Avatar, Tabs, Select } from "antd";
+import { connect } from "react-redux";
+import { showSettings, hideSettings } from "../../actions/profileActions";
+import * as ProfileData from "../../api/ProfileData";
 import "antd/dist/antd.css";
 
 const { TabPane } = Tabs;
+const { Option } = Select;
 
-export class Settings extends Component {
+class Settings extends Component {
   state = {
     layout: "0",
+    theme: "0",
+    primaryColour: "",
+    secondaryColour: "",
   };
 
   componentDidMount = () => {
-    this.setState({ layout: this.props.layout });
+    this.setState({
+      layout: this.props.layout,
+      primaryColour: this.props.primaryColour,
+      secondaryColour: this.props.secondaryColour,
+    });
   };
 
+  handleOk = () => {
+    const { layout, primaryColour, secondaryColour } = this.state;
+    var addChange = {};
+    this.props.hideSettings();
+    if (layout) {
+      addChange["layout"] = layout;
+    }
+    if (primaryColour) {
+      addChange["primaryColour"] = primaryColour;
+    }
+    if (secondaryColour) {
+      addChange["secondaryColour"] = secondaryColour;
+    }
+
+    if (addChange !== {}) {
+      console.log(addChange);
+      ProfileData.updateProfile(this.props.pid, addChange, this.props.token);
+      window.location.reload();
+    }
+  };
+
+  // handleCancel = () => {
+  //   this.setState({ isVisible: false });
+  // };
+
   render() {
+    const { isVisible } = this.props;
     return (
       <Fragment>
         <Modal
-          visible={this.props.visible}
+          visible={isVisible}
           title="Customisablity Settings"
-          onOk={this.props.handleOk}
-          onCancel={this.props.handleCancel}
+          onCancel={this.props.hideSettings}
           footer={[
-            <Button key="back" onClick={this.props.handleCancel}>
+            <Button key="back" onClick={this.props.hideSettings}>
               Cancel
             </Button>,
             <Button
               key="save"
               type="primary"
-              loading={this.props.loading}
-              onClick={(e) =>
-                this.props.handleOk(this.state.layout, this.props.pid, e)
-              }
+              // loading={this.props.loading}
+              onClick={this.handleOk}
             >
               Save
             </Button>,
@@ -149,7 +183,52 @@ export class Settings extends Component {
                   </Col>
                 </Row>
               </TabPane>
-              <TabPane tab="Themes" key="2"></TabPane>
+              <TabPane tab="Colour-Themes" key="2">
+                <Row justify="space-between">
+                  <Col>
+                    <Select
+                      defaultValue="0"
+                      onSelect={ProfileData.themeCustom.bind(this)}
+                    >
+                      <Option value="0">Default</Option>
+                      <Option value="1">Theme-1</Option>
+                      <Option value="2"> Theme-2</Option>
+                      <Option value="3"> Theme-3</Option>
+                      <Option value="4"> Theme-4</Option>
+                    </Select>
+                  </Col>
+                  <Col>
+                    <Row>
+                      <Col pull={1}>
+                        <p>Primary Colour- </p>
+                      </Col>
+                      <Col
+                        style={{
+                          background: this.state.primaryColour,
+                          borderStyle: "solid",
+                          textAlign: "center",
+                          height: 20,
+                          width: 20,
+                        }}
+                      ></Col>
+                    </Row>
+                    <Row>
+                      <Col pull={1}>
+                        <p>Secondary Colour- </p>
+                      </Col>
+                      <Col
+                        style={{
+                          background: this.state.secondaryColour,
+                          borderStyle: "solid",
+                          textAlign: "center",
+                          height: 20,
+                          width: 20,
+                        }}
+                      ></Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </TabPane>
             </Tabs>
           </div>
         </Modal>
@@ -157,4 +236,13 @@ export class Settings extends Component {
     );
   }
 }
-export default Settings;
+
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+  isAuthenticated: state.auth.isAuthenticated,
+  isVisible: state.profile.showSettings,
+});
+
+export default connect(mapStateToProps, { showSettings, hideSettings })(
+  Settings
+);

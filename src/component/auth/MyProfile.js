@@ -2,10 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import PlaceholderProfile from "./PlaceholderProfile";
+import * as ProfileData from "../../api/ProfileData";
+import Settings from "../profileDisplays/Settings";
 import { Redirect } from "react-router-dom";
 
 class MyProfile extends Component {
-  state = { profile: {}, profileLoading: true, profileLoaded: false };
+  state = {
+    profile: {},
+    profileLoading: true,
+    profileLoaded: false,
+    layout: "",
+    pid: "",
+    primaryColour: "",
+    secondaryColour: "",
+  };
 
   componentDidMount() {
     // GET user profile
@@ -29,6 +39,19 @@ class MyProfile extends Component {
       });
   }
 
+  // componentDidUpdate() {
+  //   if (
+  //     this.props.location.state &&
+  //     this.props.location.state.showSettings &&
+  //     this.state.showSettingsOnLoad !== this.props.location.state.showSettings
+  //   ) {
+  //     console.log("in here");
+  //     this.setState({
+  //       showSettingsOnLoad: this.props.location.state.showSettings,
+  //     });
+  //   }
+  // }
+
   render() {
     let component;
     if (
@@ -40,8 +63,22 @@ class MyProfile extends Component {
       component = null;
     } else {
       if (this.state.profile) {
-        console.log("here else ", this.state.profile);
-        component = <PlaceholderProfile profile={this.state.profile} />;
+        component = (
+          <div>
+            <PlaceholderProfile
+              profile={this.state.profile}
+              primaryColour={this.state.primaryColour}
+              secondaryColour={this.state.secondaryColour}
+            />
+            <Settings
+              layout={this.state.profile.layout}
+              visible={this.props.settingsOnLoad}
+              pid={this.state.profile._id}
+              primaryColour={this.state.profile.primaryColour}
+              secondaryColour={this.state.profile.secondaryColour}
+            />
+          </div>
+        );
       }
     }
 
@@ -52,6 +89,7 @@ class MyProfile extends Component {
 const mapStateToProps = (state) => ({
   token: state.auth.token,
   isAuthenticated: state.auth.isAuthenticated,
+  settingsOnLoad: state.profile.showSettings,
 });
 
 export default connect(mapStateToProps, {})(MyProfile);

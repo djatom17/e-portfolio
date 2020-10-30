@@ -3,9 +3,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as ProfileData from "../../api/ProfileData";
 import "react-web-tabs/dist/react-web-tabs.css";
-import { Row, Col, Descriptions, Badge, Button, Avatar, Carousel } from "antd";
-import { DeleteOutlined, UserOutlined } from "@ant-design/icons";
-import { Layout, Breadcrumb } from "antd";
+import {
+  Row,
+  Col,
+  Descriptions,
+  Badge,
+  Input,
+  Button,
+  Tag,
+  Avatar,
+  Tooltip,
+  Anchor,
+  Carousel,
+} from "antd";
+import { DeleteOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
+import { Layout, Menu, Breadcrumb } from "antd";
 import "antd/dist/antd.css";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -105,7 +117,7 @@ class Profile extends Component {
     }
 
     return (
-      <div className="App">
+      <Row style={{ backgroundColor: this.state.profile.secondaryColour }}>
         <React.Fragment>
           <CssBaseline />
           <React.Fragment>
@@ -115,7 +127,10 @@ class Profile extends Component {
               <Container fixed>
                 <Typography
                   component="div"
-                  style={{ backgroundColor: "#ffffff", height: "auto" }}
+                  style={{
+                    backgroundColor: this.state.profile.primaryColour,
+                    height: "auto",
+                  }}
                 >
                   <Content style={{ padding: "0 50px" }}>
                     <Breadcrumb style={{ margin: "16px 0" }}>
@@ -189,7 +204,7 @@ class Profile extends Component {
             </React.Fragment>
           </React.Fragment>
         </React.Fragment>
-      </div>
+      </Row>
     );
   }
 }

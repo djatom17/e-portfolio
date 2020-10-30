@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import * as ProfileData from "../../api/ProfileData";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
-// import Settings from "../profileDisplays/Settings";
+import Settings from "../profileDisplays/Settings";
 import DragUpload from "../profileDisplays/DragUpload";
 import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
@@ -25,10 +25,11 @@ class Profile5 extends Component {
     tabdisp: "about",
     canEdit: false,
     isMyProfile: false,
-    // loading: false,
-    // visible: false,
-    // layout: "0",
-    // settingsVisible: false,
+    loading: false,
+    settingsLoading: false,
+    visible: false,
+    layout: "0",
+    settingsVisible: false,
     inputVisible: false,
     inputValue: "",
     editInputIndex: -1,
@@ -42,11 +43,10 @@ class Profile5 extends Component {
     this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
     this.getElementsNew = ProfileData.getElementsNew.bind(this);
     this.showModal = ProfileData.showModal.bind(this);
-    this.handleOk = ProfileData.handleOk.bind(this);
-    this.handleCancel = ProfileData.handleCancel.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
     this.resize = ProfileData.resize.bind(this);
+    this.themeCustom = ProfileData.themeCustom.bind(this);
   }
 
   componentDidMount = () => {
@@ -59,6 +59,10 @@ class Profile5 extends Component {
     //   layout: this.props.profile.layout,
     //   visible: this.props.settingsVisible,
     // });
+    this.setState({
+      layout: this.props.profile.layout,
+      settingsVisible: this.props.settingsCancel,
+    });
     this.props.isAuthenticated &&
     this.props.profile.userid &&
     this.props.user._id &&
@@ -200,10 +204,18 @@ class Profile5 extends Component {
   render() {
     const { current } = this.state.tabdisp;
     return (
-      <div className="container-fluid ml-n3 mb-3">
-        <Row className="prof5height">
+      <div
+        className="container-fluid"
+        style={{
+          backgroundColor: this.state.profile.secondaryColour,
+        }}
+      >
+        <Row className="prof5height ml-n3">
           <Col flex={1}>
-            <div className="prof5">
+            <div
+              className="prof5"
+              style={{ backgroundColor: this.state.profile.primaryColour }}
+            >
               <div className="container-fluid prof5-img">
                 <ProfilePicture
                   image={this.state.profile.image}
@@ -242,7 +254,7 @@ class Profile5 extends Component {
                   selectedKeys={[current]}
                   mode="vertical"
                   style={{
-                    backgroundColor: "coral",
+                    backgroundColor: this.state.profile.primaryColour,
                     border: "transparent",
                   }}
                   className="text-center"
@@ -295,8 +307,9 @@ class Profile5 extends Component {
                     handleCancel={this.handleCancel}
                     showModal={this.showModal}
                     layout={this.state.layout}
-                    visible={this.state.visible}
-                    loading={this.state.loading}
+                    visible={this.state.settingsVisible}
+                    loading={this.state.settingsLoading}
+                    themeCustom={this.themeCustom}
                   />
                 ) : null} */}
               </Col>

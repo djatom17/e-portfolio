@@ -106,13 +106,16 @@ class Browse extends Component {
     if (!qualifications.length) return null;
     if (qualifications) {
       return (
-        <List
-          size="small"
-          dataSource={qualifications}
-          renderItem={(item) => (
-            <List.Item className="browse-education">{item}</List.Item>
+        <List size="small" className="browse-education">
+          <List.Item>
+            {qualifications[0].name} @ {qualifications[0].institution}
+          </List.Item>
+          {qualifications[1] && (
+            <List.Item>
+              {qualifications[1].name} @ {qualifications[1].institution}
+            </List.Item>
           )}
-        />
+        </List>
       );
     }
   };
@@ -195,9 +198,9 @@ class Browse extends Component {
                 <Row>
                   <Col>{this.displayJob(profile)}</Col>
                 </Row>
-                <Row>
+                {/* <Row>
                   <Col> {this.displayQualifications(profile.education)}</Col>
-                </Row>
+                </Row> */}
               </Col>
             </Row>
           </span>
