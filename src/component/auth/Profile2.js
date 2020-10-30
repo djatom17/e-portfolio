@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import EducationManager from "../profileDisplays/EducationManager";
+import SocialManager from "../profileDisplays/SocialManager";
 import CareerManager from "../profileDisplays/CareerManager";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
@@ -98,7 +99,7 @@ class Profile2 extends Component {
             ) : null}
           </div>
         </Anchor>
-        <Row justify="center">
+        <Row>
           <img
             id="Top"
             src={this.state.profile.image}
@@ -108,6 +109,7 @@ class Profile2 extends Component {
               height: this.state.mobileView ? "40%" : "70%",
               width: this.state.mobileView ? "40%" : "70%",
               marginTop: this.state.mobileView ? "5%" : "0%",
+              marginInlineStart: this.state.mobileView ? "30%" : "15%",
             }}
           />
         </Row>
@@ -120,9 +122,16 @@ class Profile2 extends Component {
               <Title className=" h1size ">
                 {ProfileData.getName(this.state.profile)}
               </Title>
-              <Paragraph className="psize mt-n2">
+              <Paragraph className="psize mt-n3">
                 {this.state.profile.subtitle}
               </Paragraph>
+              <Row justify="center" className="mt-n4">
+                <SocialManager
+                  isMyProfile={this.state.isMyProfile}
+                  canEdit={this.state.canEdit}
+                  textColour="black"
+                />
+              </Row>
             </div>
             <Typography
               component="div"

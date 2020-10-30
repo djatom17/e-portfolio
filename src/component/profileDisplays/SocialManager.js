@@ -22,7 +22,7 @@ export class SocialManager extends Component {
 
   componentDidMount() {
     console.log(this.props.textColour);
-    if (this.props.textColour && this.props.textColour === "white") {
+    if (this.props.textColour) {
       this.setState({ textColour: this.props.textColour });
     }
   }
