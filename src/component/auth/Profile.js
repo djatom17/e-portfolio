@@ -34,8 +34,6 @@ class Profile extends Component {
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
-    // primaryColour: "white",
-    // secondaryColour: "#e5e5e5",
   };
 
   componentDidMount = () => {

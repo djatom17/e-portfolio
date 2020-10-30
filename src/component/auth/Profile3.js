@@ -65,8 +65,6 @@ class Profile3 extends Component {
     canEdit: false,
     isMyProfile: false,
     mobileView: false,
-    primaryColour: "",
-    secondaryColour: "",
   };
 
   constructor() {
@@ -83,8 +81,6 @@ class Profile3 extends Component {
   componentDidMount() {
     this.setState({
       profile: this.props.profile,
-      primaryColour: this.props.profile.primaryColour,
-      secondaryColour: this.props.profile.secondaryColour,
     });
     //Size check.
     window.addEventListener("resize", this.resize.bind(this));

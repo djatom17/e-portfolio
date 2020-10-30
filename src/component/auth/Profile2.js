@@ -34,8 +34,6 @@ class Profile2 extends Component {
     editInputIndex: -1,
     editInputValue: "",
     mobileView: false,
-    primaryColour: "",
-    secondaryColour: "",
   };
 
   constructor() {
