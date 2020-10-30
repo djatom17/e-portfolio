@@ -20,7 +20,11 @@ export class EditButton extends Component {
     return (
       <Fragment>
         <Button
-          style={{ fontWeight: "bold", fontSize: 16 }}
+          style={{
+            fontWeight: "bold",
+            fontSize: 16,
+            color: this.props.color ? this.props.color : "#40A9FF",
+          }}
           type="link"
           data-toggle="collapse"
           data-target="#mobile-nav"

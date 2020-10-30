@@ -89,6 +89,7 @@ class Profile2 extends Component {
                 token={this.props.token}
                 isMyProfile={this.state.isMyProfile}
                 canEdit={this.state.canEdit}
+                color="black"
                 changeEdit={() =>
                   this.setState({
                     canEdit: !this.state.canEdit,
@@ -113,9 +114,7 @@ class Profile2 extends Component {
             }}
           />
         </Row>
-        <Row className="mx-4">
-          <div></div>
-        </Row>
+
         <Row justify="center">
           <Col span={19}>
             <div className="text-center">
