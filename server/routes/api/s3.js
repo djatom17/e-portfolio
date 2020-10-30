@@ -98,7 +98,7 @@ s3router.post("/upload", auth, function (req, res, next) {
             });
         } else {
           mongo
-            .postUpload(file.name, hashName, req.user.id)
+            .postUpload(file.name, hashName, req.files.description, req.user.id)
             .then((success) => {
               return res.status(success.statusCode).json({ fileUrl: hashName });
             })
@@ -135,9 +135,8 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
       s3.deleteObject(params, (err, res) => {
         if (err) {
           console.log("[S3] File deletion failed.");
-          return res.status(500).json({error:err});
-        }
-        else {
+          return res.status(500).json({ error: err });
+        } else {
           console.log("[S3] File deletion successful.");
           mongo
             .postDelete(req.params.file, req.user.id)
