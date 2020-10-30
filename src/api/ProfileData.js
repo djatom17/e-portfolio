@@ -1,6 +1,6 @@
 /**
  * Aggregrates backend APIs into core frontend function calls.
- * 
+ *
  * @file Functions for front-end to route API calls
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
@@ -95,9 +95,9 @@ export function getName(profile) {
 
 /**
  * Pushes user profile changes onto the database.
- * 
+ *
  * Will not perform updates if profileChanges is empty.
- * 
+ *
  * @param {String} pid Profile ID of affected profile.
  * @param {Object} profileChanges Profile JSON schema of attribute changes.
  * @param {String} token Auth token of user.
@@ -122,11 +122,11 @@ export function updateProfile(pid, profileChanges, token) {
 
 /**
  * Changes user password on the users database.
- * 
+ *
  * Does not refresh user session nor log users out.
  * Will only perform update operations if newPassword is not empty.
  * newPassword should follow password attribute of User schema.
- * 
+ *
  * @function [changePassword]
  * @see userAuth.js
  * @param {Object} newPassword Password to be changed to.
@@ -249,20 +249,20 @@ export function themeCustom(theme) {
   var secCol;
   switch (theme) {
     case "1":
-      primCol = "red";
-      secCol = "blue";
+      primCol = "#e9e9e9";
+      secCol = "#4273cf";
       break;
     case "2":
-      primCol = "green";
-      secCol = "red";
+      primCol = "#f0fffd";
+      secCol = "#6b2240";
       break;
     case "3":
-      primCol = "coral";
-      secCol = "white";
+      primCol = "#e3ffea";
+      secCol = "#178534";
       break;
     case "4":
-      primCol = "white";
-      secCol = "red";
+      primCol = "#ffe8e8";
+      secCol = "#d44e4e";
       break;
     default:
       primCol = "white";

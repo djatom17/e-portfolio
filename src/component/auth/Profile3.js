@@ -318,6 +318,7 @@ class Profile3 extends Component {
                     canEdit={this.state.canEdit}
                     data={this.state.profile.education}
                     changeList={this.changeList}
+                    themeCol={this.props.profile.primaryColour}
                   />
                 </TabPane>
                 <TabPane tab="Career" key="3" className="mb-3">
@@ -327,6 +328,7 @@ class Profile3 extends Component {
                     canEdit={this.state.canEdit}
                     data={this.state.profile.workHistory}
                     changeList={this.changeList}
+                    themeCol={this.props.profile.primaryColour}
                   />
                 </TabPane>
                 <TabPane tab="Certificates" key="4">

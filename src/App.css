@@ -261,3 +261,9 @@ nav and footer styles  */
 .body-size {
   min-height: 90vh;
 }
+.tabsStyl .ant-tabs-bar .ant-tabs-tab {
+  border-color: transparent;
+  background: transparent;
+  color: #28a9e1;
+  padding: 12 50px;
+}
