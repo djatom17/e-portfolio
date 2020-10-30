@@ -21,7 +21,7 @@ import {
 
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
-const { Paragraph } = Typography;
+const { Paragraph, Title } = Typography;
 const { Link } = Anchor;
 class Profile2 extends Component {
   state = {
@@ -62,7 +62,7 @@ class Profile2 extends Component {
   };
 
   render() {
-    const { Panel } = Collapse;
+    // const { Panel } = Collapse;
 
     // function callback(key) {
     //   console.log(key);
