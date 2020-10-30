@@ -41,7 +41,7 @@ class Settings extends Component {
     if (addChange !== {}) {
       console.log(addChange);
       ProfileData.updateProfile(this.props.pid, addChange, this.props.token);
-      // window.location.reload();
+      window.location.reload();
     }
   };
 

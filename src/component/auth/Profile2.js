@@ -34,8 +34,8 @@ class Profile2 extends Component {
     editInputIndex: -1,
     editInputValue: "",
     mobileView: false,
-    primaryColour: "white",
-    secondaryColour: "#e5e5e5",
+    primaryColour: "",
+    secondaryColour: "",
   };
 
   constructor() {
@@ -68,7 +68,7 @@ class Profile2 extends Component {
     // }
 
     return (
-      <Col style={{ backgroundColor: this.state.secondaryColour }}>
+      <Col style={{ backgroundColor: this.state.profile.secondaryColour }}>
         <Row justify="center">
           <img
             id="Top"
@@ -121,7 +121,7 @@ class Profile2 extends Component {
             <Typography
               component="div"
               style={{
-                backgroundColor: this.state.primaryColour,
+                backgroundColor: this.state.profile.primaryColour,
                 height: "auto",
               }}
             >

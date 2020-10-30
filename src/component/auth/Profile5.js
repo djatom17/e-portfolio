@@ -32,8 +32,6 @@ class Profile5 extends Component {
     editInputIndex: -1,
     editInputValue: "",
     mobileView: false,
-    primaryColour: "",
-    secondaryColour: "",
   };
 
   constructor() {
@@ -42,8 +40,6 @@ class Profile5 extends Component {
     this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
     this.getElementsNew = ProfileData.getElementsNew.bind(this);
     this.showModal = ProfileData.showModal.bind(this);
-    // this.handleOk = ProfileData.settingsOk.bind(this);
-    // this.handleCancel = ProfileData.settingsCancel.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
     this.resize = ProfileData.resize.bind(this);
@@ -63,8 +59,6 @@ class Profile5 extends Component {
     this.setState({
       layout: this.props.profile.layout,
       settingsVisible: this.props.settingsCancel,
-      primaryColour: this.props.profile.primaryColour,
-      secondaryColour: this.props.profile.secondaryColour,
     });
     this.props.isAuthenticated &&
     this.props.profile.userid &&
@@ -103,11 +97,6 @@ class Profile5 extends Component {
       ));
     }
   }
-  // handlePrimColour = (color, str) => {
-  //   str === "Prim"
-  //     ? this.setState({ primaryColour: color.hex })
-  //     : this.setState({ secondaryColour: color.hex });
-  // };
 
   displayProfileSeg = () => {
     if (this.state.tabdisp === "about") {
@@ -215,14 +204,14 @@ class Profile5 extends Component {
       <div
         className="container-fluid"
         style={{
-          backgroundColor: this.state.secondaryColour,
+          backgroundColor: this.state.profile.secondaryColour,
         }}
       >
         <Row className="prof5height ml-n3">
           <Col flex={1}>
             <div
               className="prof5"
-              style={{ backgroundColor: this.state.primaryColour }}
+              style={{ backgroundColor: this.state.profile.primaryColour }}
             >
               <div className="container-fluid prof5-img">
                 <ProfilePicture
@@ -256,7 +245,7 @@ class Profile5 extends Component {
                   selectedKeys={[current]}
                   mode="vertical"
                   style={{
-                    backgroundColor: this.state.primaryColor,
+                    backgroundColor: this.state.profile.primaryColour,
                     border: "transparent",
                   }}
                   className="text-center"

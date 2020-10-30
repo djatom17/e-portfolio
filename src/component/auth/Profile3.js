@@ -290,14 +290,17 @@ class Profile3 extends Component {
     return (
       <Row
         style={{
-          background: this.state.secondaryColour,
+          background: this.state.profile.secondaryColour,
           minHeight: "90vh",
         }}
       >
         <Col span={20} push={2}>
           <Typography
             component="div"
-            style={{ backgroundColor: "#ffffff", height: "auto" }}
+            style={{
+              backgroundColor: this.state.profile.primaryColour,
+              height: "auto",
+            }}
           >
             {!mobileView ? desktopHeader : mobileHeader}
 

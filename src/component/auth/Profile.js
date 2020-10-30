@@ -34,8 +34,8 @@ class Profile extends Component {
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
-    primaryColour: "white",
-    secondaryColour: "#e5e5e5",
+    // primaryColour: "white",
+    // secondaryColour: "#e5e5e5",
   };
 
   componentDidMount = () => {
@@ -119,7 +119,7 @@ class Profile extends Component {
     }
 
     return (
-      <Row style={{ backgroundColor: this.state.secondaryColour }}>
+      <Row style={{ backgroundColor: this.state.profile.secondaryColour }}>
         <React.Fragment>
           <CssBaseline />
           <React.Fragment>
@@ -128,7 +128,7 @@ class Profile extends Component {
               <Typography
                 component="div"
                 style={{
-                  backgroundColor: this.state.primaryColour,
+                  backgroundColor: this.state.profile.primaryColour,
                   height: "auto",
                 }}
               >
