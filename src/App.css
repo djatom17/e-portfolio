@@ -238,11 +238,6 @@ nav and footer styles  */
   z-index: 10;
 }
 
-.prof2-img {
-  height: 70%;
-  width: 70%;
-}
-
 .prof2-text-overlay {
   right: 200px;
   top: 200px;

@@ -71,45 +71,48 @@ class Profile2 extends Component {
 
     return (
       <Col style={{ backgroundColor: this.state.profile.secondaryColour }}>
+        <Anchor
+          className="prof2-anchor-overlay"
+          style={{ background: "transparent" }}
+        >
+          <Link href="#Top" title="Profile" />
+          <Link href="#About" title="About Me" />
+          <Link href="#Skills" title="Key Skills" />
+          <Link href="#Education" title="Education" />
+          <Link href="#WorkExperience" title="Experience" />
+          <div>
+            {this.state.isMyProfile ? (
+              <EditButton
+                _id={this.state.profile._id}
+                profileChanges={this.state.profileChanges}
+                token={this.props.token}
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+                changeEdit={() =>
+                  this.setState({
+                    canEdit: !this.state.canEdit,
+                    profileChanges: {},
+                  })
+                }
+              />
+            ) : null}
+          </div>
+        </Anchor>
         <Row justify="center">
           <img
             id="Top"
             src={this.state.profile.image}
             aria-hidden
             alt="description of image"
-            className="prof2-img"
+            style={{
+              height: this.state.mobileView ? "40%" : "70%",
+              width: this.state.mobileView ? "40%" : "70%",
+              marginTop: this.state.mobileView ? "5%" : "0%",
+            }}
           />
         </Row>
         <Row className="mx-4">
-          <div>
-            <Anchor
-              className="prof2-anchor-overlay"
-              style={{ background: "transparent" }}
-            >
-              <Link href="#Top" title="Profile" />
-              <Link href="#About" title="About Me" />
-              <Link href="#Skills" title="Key Skills" />
-              <Link href="#Education" title="Education" />
-              <Link href="#WorkExperience" title="Experience" />
-              <div>
-                {this.state.isMyProfile ? (
-                  <EditButton
-                    _id={this.state.profile._id}
-                    profileChanges={this.state.profileChanges}
-                    token={this.props.token}
-                    isMyProfile={this.state.isMyProfile}
-                    canEdit={this.state.canEdit}
-                    changeEdit={() =>
-                      this.setState({
-                        canEdit: !this.state.canEdit,
-                        profileChanges: {},
-                      })
-                    }
-                  />
-                ) : null}
-              </div>
-            </Anchor>
-          </div>
+          <div></div>
         </Row>
         <Row justify="center">
           <Col span={19}>
@@ -125,6 +128,7 @@ class Profile2 extends Component {
               component="div"
               style={{
                 backgroundColor: this.state.profile.primaryColour,
+                marginInlineStart: this.state.mobileView ? "20%" : "0%",
                 height: "auto",
               }}
             >
