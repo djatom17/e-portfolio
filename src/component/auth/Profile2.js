@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
-import Settings from "../profileDisplays/Settings";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
-// import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
+
 import "antd/dist/antd.css";
 import {
   Row,
@@ -17,11 +16,12 @@ import {
   Tooltip,
   Anchor,
   Divider,
+  Collapse,
 } from "antd";
 
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
-const { Paragraph } = Typography;
+const { Paragraph, Title } = Typography;
 const { Link } = Anchor;
 class Profile2 extends Component {
   state = {
