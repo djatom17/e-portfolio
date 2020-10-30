@@ -12,6 +12,8 @@
 const mongoose = require("mongoose");
 const FileSchema = require('./File');
 const WorkSchema = require("./Work");
+const SchoolSchema = require("./School");
+const SocialSchema = require("./Social");
 const ReferenceSchema = require("./Reference");
 
 /**
@@ -21,10 +23,10 @@ const ReferenceSchema = require("./Reference");
  * @param {String} lastName Last name of the user.
  * @param {String[]} keySkills Array of key user skills. 
  * @param {WorkSchema[]} workHistory Array of Work Object by User.
- * @param {String[]} education Array of user academic experiences.
+ * @param {SchoolSchema[]} education Array of user academic experiences.
  * @param {String} image filepath to user's profile picture on S3.
  * @param {String} linkToProfile unique url to user profile page.
- * @param {String[]} social Array of links to user-given social media.
+ * @param {SocialSchema} social A SocialSchema Object.
  * @param {ReferenceSchema[]} reference Array of Reference as user's referrals.
  * @param {FileSchema[]} filesAndDocs Array of File of uploaded user documents.
  * @param {String} primaryColour Colour representation for primary color of theme.
@@ -39,10 +41,6 @@ const ReferenceSchema = require("./Reference");
  *  has not set up profile information.
  */
 const ProfileSchema = new mongoose.Schema({
-  //POSSIBLE TODO
-  // Add DOB
-  // Change education to be like Work object
-  // Add contactEmail or similar field
   firstName: {
     type: String,
     required: true,
@@ -56,20 +54,14 @@ const ProfileSchema = new mongoose.Schema({
     of: String,
   },
   workHistory: [WorkSchema],
-  education: {
-    type: Array,
-    default: {"0": "New User @ Check-Me-Out"}
-  },
+  education: [SchoolSchema],
   image: String,
   linkToProfile: {
     type: String,
     unique: true,
     required: true,
   },
-  social: {
-    type: Array,
-    of: String,
-  },
+  social: SocialSchema,
   reference : [ReferenceSchema],
   primaryColour: {
     type: String,
