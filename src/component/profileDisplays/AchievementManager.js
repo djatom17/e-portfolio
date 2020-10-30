@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Typography, Input, Tag } from "antd";
+import { Row, Col, Typography, Input, Button } from "antd";
 import "antd/dist/antd.css";
 import { PlusOutlined } from "@ant-design/icons";
 import * as ProfileData from "../../api/ProfileData";
@@ -102,8 +102,9 @@ export class AchievementManager extends Component {
             />
           )}
           {!inputVisible && this.props.isMyProfile && this.props.canEdit && (
-            <Tag
-              className="site-tag-plus"
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
               onClick={
                 this.props.isMyProfile &&
                 this.props.canEdit &&
@@ -115,8 +116,8 @@ export class AchievementManager extends Component {
                 })
               }
             >
-              <PlusOutlined /> New Achievement
-            </Tag>
+              New Achievement
+            </Button>
           )}
         </Paragraph>
       </div>

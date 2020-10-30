@@ -104,7 +104,7 @@ export class SkillManager extends Component {
         )}
         {!inputVisible && this.props.isMyProfile && this.props.canEdit && (
           <Tag
-            className="site-tag-plus"
+            className="skills-tag"
             onClick={(e) => {
               this.setState({ inputVisible: true }, () => {
                 this.input.focus();
@@ -112,7 +112,7 @@ export class SkillManager extends Component {
               e.preventDefault();
             }}
           >
-            <PlusOutlined /> New Tag
+            <PlusOutlined />
           </Tag>
         )}
       </div>

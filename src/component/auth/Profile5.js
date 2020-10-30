@@ -142,17 +142,17 @@ class Profile5 extends Component {
           />
         </div>
       );
-    } else if (this.state.tabdisp === "profession") {
+    } else if (this.state.tabdisp === "skills") {
       return (
         <div>
           <Title className="h1size">Key Skills</Title>
-          <AchievementManager
+          <SkillManager
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
-            data={this.state.profile.achievements}
+            data={this.state.profile.keySkills}
             changeList={this.changeList}
           />
-          <Title className="h1size">Speciality</Title>
+          <Title className="h1size">Achievements</Title>
           <AchievementManager
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
@@ -280,8 +280,8 @@ class Profile5 extends Component {
                   <Menu.Item key="about" className="modified-item">
                     Personal Info
                   </Menu.Item>
-                  <Menu.Item key="profession" className="modified-item">
-                    Profession
+                  <Menu.Item key="skills" className="modified-item">
+                    Skills
                   </Menu.Item>
                   <Menu.Item key="experience" className="modified-item">
                     Experience
