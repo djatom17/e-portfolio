@@ -35,6 +35,7 @@ class Profile5 extends Component {
     editInputIndex: -1,
     editInputValue: "",
     mobileView: false,
+    textColour: "black",
   };
 
   constructor() {
@@ -51,6 +52,10 @@ class Profile5 extends Component {
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
+    this.setState({
+      textColour:
+        this.props.profile.secondaryColour === "#e5e5e5" ? "black" : "white",
+    });
     //Size check.
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
@@ -137,17 +142,17 @@ class Profile5 extends Component {
           />
         </div>
       );
-    } else if (this.state.tabdisp === "profession") {
+    } else if (this.state.tabdisp === "skills") {
       return (
         <div>
           <Title className="h1size">Key Skills</Title>
-          <AchievementManager
+          <SkillManager
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
-            data={this.state.profile.achievements}
+            data={this.state.profile.keySkills}
             changeList={this.changeList}
           />
-          <Title className="h1size">Speciality</Title>
+          <Title className="h1size">Achievements</Title>
           <AchievementManager
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
@@ -176,6 +181,7 @@ class Profile5 extends Component {
             canEdit={this.state.canEdit}
             data={this.state.profile.education}
             changeList={this.changeList}
+            themeCol={this.props.profile.primaryColour}
           />
           <Title className="h1size">Work Experience</Title>
           <CareerManager
@@ -183,6 +189,7 @@ class Profile5 extends Component {
             canEdit={this.state.canEdit}
             data={this.state.profile.workHistory}
             changeList={this.changeList}
+            themeCol={this.props.profile.primaryColour}
           />
         </div>
       );
@@ -207,14 +214,14 @@ class Profile5 extends Component {
       <div
         className="container-fluid"
         style={{
-          backgroundColor: this.state.profile.secondaryColour,
+          backgroundColor: this.state.profile.primaryColour,
         }}
       >
         <Row className="prof5height ml-n3">
           <Col flex={1}>
             <div
               className="prof5"
-              style={{ backgroundColor: this.state.profile.primaryColour }}
+              style={{ backgroundColor: this.state.profile.secondaryColour }}
             >
               <div className="container-fluid prof5-img">
                 <ProfilePicture
@@ -225,12 +232,16 @@ class Profile5 extends Component {
                 />
               </div>
               <div className="prof5-img">
-                <Title className=" text-center h1size">
+                <Title
+                  className=" text-center h1size"
+                  style={{ color: this.state.textColour }}
+                >
                   {" "}
                   {ProfileData.getName(this.state.profile)}
                 </Title>
                 <Paragraph
                   className={"text-center"}
+                  style={{ color: this.state.textColour }}
                   editable={
                     this.state.isMyProfile && this.state.canEdit
                       ? {
@@ -241,29 +252,36 @@ class Profile5 extends Component {
                 >
                   {this.state.profile.subtitle}
                 </Paragraph>
+                {/* If layout messed up, its this mt */}
+                <Row justify="center" className="mt-n3">
+                  <SocialManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    textColour={
+                      this.props.profile.secondaryColour === "#e5e5e5"
+                        ? "black"
+                        : "white"
+                    }
+                  />
+                </Row>
               </div>
-              <Row justify="center">
-                <SocialManager
-                  isMyProfile={this.state.isMyProfile}
-                  canEdit={this.state.canEdit}
-                />
-              </Row>
               <div>
                 <Menu
                   onClick={this.handleTabClick}
                   selectedKeys={[current]}
                   mode="vertical"
                   style={{
-                    backgroundColor: this.state.profile.primaryColour,
+                    backgroundColor: this.state.profile.secondaryColour,
                     border: "transparent",
+                    color: this.state.textColour,
                   }}
                   className="text-center"
                 >
                   <Menu.Item key="about" className="modified-item">
                     Personal Info
                   </Menu.Item>
-                  <Menu.Item key="profession" className="modified-item">
-                    Profession
+                  <Menu.Item key="skills" className="modified-item">
+                    Skills
                   </Menu.Item>
                   <Menu.Item key="experience" className="modified-item">
                     Experience

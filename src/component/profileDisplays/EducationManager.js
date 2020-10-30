@@ -73,8 +73,13 @@ export class EducationManager extends Component {
                 return (
                   // edit mode version of education card
                   <Card
-                    style={{ width: "500px", marginTop: 16 }}
+                    style={{
+                      width: this.props.mobileView ? "200px" : "500px",
+                      marginTop: 16,
+                      background: this.props.themeCol,
+                    }}
                     hoverable={true}
+                    bordered={false}
                   >
                     <Form
                       name="add_degree"
@@ -95,7 +100,11 @@ export class EducationManager extends Component {
                         ]}
                       >
                         <Input
-                          style={{ width: 230, textAlign: "center" }}
+                          style={{
+                            width: this.props.mobileView ? "90px" : "auto",
+                            textAlign: "center",
+                            maxWidth: "150px",
+                          }}
                           placeholder="Course Name"
                         />
                       </Form.Item>
@@ -103,7 +112,7 @@ export class EducationManager extends Component {
                       <Form.Item name="institution" label="Institution">
                         <Input
                           style={{
-                            width: 230,
+                            width: this.props.mobileView ? "90px" : "auto",
                             textAlign: "center",
                           }}
                           placeholder="Institution"
@@ -112,7 +121,7 @@ export class EducationManager extends Component {
                       <Form.Item name="level" label="Level">
                         <Input
                           style={{
-                            width: 230,
+                            width: this.props.mobileView ? "90px" : "auto",
                             textAlign: "center",
                           }}
                           placeholder="Level"
@@ -148,8 +157,13 @@ export class EducationManager extends Component {
               // normal version of education card
               return (
                 <Card
-                  style={{ width: "auto", minWidth: 500, marginTop: 16 }}
+                  style={{
+                    width: this.props.mobileView ? "200px" : "500px",
+                    marginTop: 16,
+                    background: this.props.themeCol,
+                  }}
                   hoverable={true}
+                  bordered={false}
                 >
                   {" "}
                   <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
@@ -205,8 +219,14 @@ export class EducationManager extends Component {
           {inputVisible ? (
             // inputVisible: add new education card
             <Card
-              style={{ width: "auto", minWidth: 500, marginTop: 16 }}
+              style={{
+                width: this.props.mobileView ? "200px" : "500px",
+
+                marginTop: 16,
+                background: this.props.themeCol,
+              }}
               hoverable={true}
+              bordered={false}
             >
               <Form
                 name="add_degree"
@@ -226,7 +246,10 @@ export class EducationManager extends Component {
                   ]}
                 >
                   <Input
-                    style={{ width: 230, textAlign: "center" }}
+                    style={{
+                      width: this.props.mobileView ? "90px" : "auto",
+                      textAlign: "center",
+                    }}
                     placeholder="Course Name"
                   />
                 </Form.Item>
@@ -234,7 +257,7 @@ export class EducationManager extends Component {
                 <Form.Item name="institution" label="Institution">
                   <Input
                     style={{
-                      width: 230,
+                      width: this.props.mobileView ? "90px" : "auto",
                       textAlign: "center",
                     }}
                     placeholder="Institution"
@@ -244,7 +267,7 @@ export class EducationManager extends Component {
                 <Form.Item name="level" label="Level">
                   <Input
                     style={{
-                      width: 230,
+                      width: this.props.mobileView ? "90px" : "auto",
                       textAlign: "center",
                     }}
                     placeholder="Level"
@@ -278,17 +301,26 @@ export class EducationManager extends Component {
           {!inputVisible && this.props.isMyProfile && this.props.canEdit ? (
             // add qualification button
             <Card
-              style={{ width: 500, marginTop: 16 }}
+              style={{
+                width: this.props.mobileView ? "200px" : "500px",
+                marginTop: 16,
+                background: this.props.themeCol,
+              }}
               hoverable={true}
               onClick={(e) => {
                 this.setState({ inputVisible: true });
                 e.preventDefault();
               }}
+              bordered={false}
             >
               <Row justify="center" class="mt-5">
                 <Col>
                   <Typography.Text
-                    style={{ fontSize: "28px", color: "#1890ff" }}
+                    style={{
+                      fontSize: "24px",
+                      color: "#1890ff",
+                      textAlign: "center",
+                    }}
                     type="secondary"
                   >
                     Add Qualification

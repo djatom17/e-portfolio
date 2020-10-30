@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
+import EducationManager from "../profileDisplays/EducationManager";
+import SocialManager from "../profileDisplays/SocialManager";
+import CareerManager from "../profileDisplays/CareerManager";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
 
@@ -49,8 +52,10 @@ class Profile2 extends Component {
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
+    // size check
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
+
     this.props.isAuthenticated &&
     this.props.profile.userid &&
     this.props.user._id &&
@@ -67,59 +72,71 @@ class Profile2 extends Component {
 
     return (
       <Col style={{ backgroundColor: this.state.profile.secondaryColour }}>
-        <Row justify="center">
+        <Anchor
+          className="prof2-anchor-overlay"
+          style={{ background: "transparent" }}
+        >
+          <Link href="#Top" title="Profile" />
+          <Link href="#About" title="About Me" />
+          <Link href="#Skills" title="Key Skills" />
+          <Link href="#Education" title="Education" />
+          <Link href="#WorkExperience" title="Experience" />
+          <div>
+            {this.state.isMyProfile ? (
+              <EditButton
+                _id={this.state.profile._id}
+                profileChanges={this.state.profileChanges}
+                token={this.props.token}
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+                color="black"
+                changeEdit={() =>
+                  this.setState({
+                    canEdit: !this.state.canEdit,
+                    profileChanges: {},
+                  })
+                }
+              />
+            ) : null}
+          </div>
+        </Anchor>
+        <Row>
           <img
             id="Top"
             src={this.state.profile.image}
             aria-hidden
             alt="description of image"
-            className="prof2-img"
+            style={{
+              height: this.state.mobileView ? "40%" : "70%",
+              width: this.state.mobileView ? "40%" : "70%",
+              marginTop: this.state.mobileView ? "5%" : "0%",
+              marginInlineStart: this.state.mobileView ? "30%" : "15%",
+            }}
           />
         </Row>
-        <Row className="mx-4">
-          <div>
-            <Anchor
-              className="prof2-anchor-overlay"
-              style={{ background: "transparent" }}
-            >
-              <Link href="#Top" title="Profile" />
-              <Link href="#About" title="About Me" />
-              <Link href="#Skills" title="Key Skills" />
-              <Link href="#Achievements" title="Achievements" />
-              <div>
-                {this.state.isMyProfile ? (
-                  <EditButton
-                    _id={this.state.profile._id}
-                    profileChanges={this.state.profileChanges}
-                    token={this.props.token}
-                    isMyProfile={this.state.isMyProfile}
-                    canEdit={this.state.canEdit}
-                    changeEdit={() =>
-                      this.setState({
-                        canEdit: !this.state.canEdit,
-                        profileChanges: {},
-                      })
-                    }
-                  />
-                ) : null}
-              </div>
-            </Anchor>
-          </div>
-        </Row>
+
         <Row justify="center">
           <Col span={19}>
             <div className="text-center">
               <Title className=" h1size ">
                 {ProfileData.getName(this.state.profile)}
               </Title>
-              <Paragraph className="psize mt-n2">
+              <Paragraph className="psize mt-n3">
                 {this.state.profile.subtitle}
               </Paragraph>
+              <Row justify="center" className="mt-n4">
+                <SocialManager
+                  isMyProfile={this.state.isMyProfile}
+                  canEdit={this.state.canEdit}
+                  textColour="black"
+                />
+              </Row>
             </div>
             <Typography
               component="div"
               style={{
                 backgroundColor: this.state.profile.primaryColour,
+                marginInlineStart: this.state.mobileView ? "20%" : "0%",
                 height: "auto",
               }}
             >
@@ -138,25 +155,16 @@ class Profile2 extends Component {
                             }
                           : false
                       }
-                      ellipsis={{ rows: 1, expandable: true, symbol: "more" }}
+                      ellipsis={{ rows: 3, expandable: true, symbol: "more" }}
                     >
                       {this.state.profile.about}
                     </Paragraph>
                   </Col>
                 </Row>
               </Row>
+
               <Row className="mt-3 mx-4">
-                <Divider id="Education" className="h9size" orientation="left">
-                  Education
-                </Divider>
-                <Row className="mt-3 mx-4">
-                  <Col>
-                    <AchievementManager />
-                  </Col>
-                </Row>
-              </Row>
-              <Row className="mt-3 mx-4">
-                <Divider id="Key Skills" className="h9size" orientation="left">
+                <Divider id="Skills" className="h9size" orientation="left">
                   Key Skills
                 </Divider>
                 <Row className="my-3 mx-4">
@@ -169,23 +177,41 @@ class Profile2 extends Component {
                 </Row>
               </Row>
               <Row className="mt-3 mx-4">
-                <Divider id="Key Skills" className="h9size" orientation="left">
-                  Areas of Speciality
+                <Divider id="Education" className="h9size" orientation="left">
+                  Education
                 </Divider>
-                <Row className="my-3 mx-4"></Row>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    <EducationManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.education}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                      mobileView={this.state.mobileView}
+                    />
+                  </Col>
+                </Row>
               </Row>
 
               <Row className="mt-3 mx-4">
                 <Divider
-                  id="JobExperience"
+                  id="WorkExperience"
                   className="h9size"
                   orientation="left"
                 >
-                  Job Experience
+                  Work Experience
                 </Divider>
                 <Row className="mt-3 mx-4">
                   <Col>
-                    <AchievementManager />
+                    <CareerManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.workHistory}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                      mobileView={this.state.mobileView}
+                    />
                   </Col>
                 </Row>
               </Row>

@@ -17,7 +17,15 @@ export class SocialManager extends Component {
     twitterEnabled: true,
     githubEnabled: true,
     editing: "none",
+    textColour: "#40A9FF",
   };
+
+  componentDidMount() {
+    console.log(this.props.textColour);
+    if (this.props.textColour) {
+      this.setState({ textColour: this.props.textColour });
+    }
+  }
 
   // check/uncheck linkedin
   checkLinkedin = (e) => {
@@ -65,6 +73,7 @@ export class SocialManager extends Component {
             ) : (
               <Button
                 type="link"
+                style={{ color: this.state.textColour }}
                 icon={<LinkedinOutlined />}
                 onClick={() => this.setState({ editing: "linkedin" })}
               />
@@ -92,6 +101,7 @@ export class SocialManager extends Component {
             ) : (
               <Button
                 type="link"
+                style={{ color: this.state.textColour }}
                 icon={<TwitterOutlined />}
                 onClick={() => this.setState({ editing: "twitter" })}
               />
@@ -117,6 +127,7 @@ export class SocialManager extends Component {
             ) : (
               <Button
                 type="link"
+                style={{ color: this.state.textColour }}
                 icon={<GithubOutlined />}
                 onClick={() => this.setState({ editing: "github" })}
               />
@@ -129,13 +140,28 @@ export class SocialManager extends Component {
       <div>
         <Row>
           {this.state.linkedinEnabled ? (
-            <Button type="link" icon={<LinkedinOutlined />} className="mt-3" />
+            <Button
+              type="link"
+              style={{ color: this.state.textColour }}
+              icon={<LinkedinOutlined />}
+              className="mt-3"
+            />
           ) : null}
           {this.state.twitterEnabled ? (
-            <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
+            <Button
+              type="link"
+              style={{ color: this.state.textColour }}
+              icon={<TwitterOutlined />}
+              className="mt-3"
+            />
           ) : null}
           {this.state.githubEnabled ? (
-            <Button type="link" icon={<GithubOutlined />} className="mt-3" />
+            <Button
+              type="link"
+              style={{ color: this.state.textColour }}
+              icon={<GithubOutlined />}
+              className="mt-3"
+            />
           ) : null}{" "}
         </Row>
       </div>
