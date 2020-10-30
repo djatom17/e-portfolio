@@ -10,6 +10,8 @@ import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SocialManager from "../profileDisplays/SocialManager";
 import SkillManager from "../profileDisplays/SkillManager";
+import EducationManager from "../profileDisplays/EducationManager";
+import CareerManager from "../profileDisplays/CareerManager";
 import { Row, Col, Menu, Typography, Button } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
@@ -163,19 +165,19 @@ class Profile5 extends Component {
       );
     } else if (this.state.tabdisp === "experience") {
       return (
-        <div>
+        <div className="mb-3">
           <Title className="h1size">Education</Title>
-          <AchievementManager
+          <EducationManager
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
-            data={this.state.profile.achievements}
+            data={this.state.profile.education}
             changeList={this.changeList}
           />
           <Title className="h1size">Work Experience</Title>
-          <AchievementManager
+          <CareerManager
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
-            data={this.state.profile.achievements}
+            data={this.state.profile.workHistory}
             changeList={this.changeList}
           />
         </div>
