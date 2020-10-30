@@ -117,10 +117,7 @@ class Profile5 extends Component {
           <Title className="h1size">Projects</Title>
           <div>
             {this.state.isMyProfile && this.state.canEdit ? (
-              <DragUpload
-                token={this.props.token}
-                onChange={ProfileData.onFileListChange.bind(this)}
-              />
+              <DragUpload onChange={ProfileData.onFileListChange.bind(this)} />
             ) : null}
             {console.log(this.state.isMyProfile)}
           </div>

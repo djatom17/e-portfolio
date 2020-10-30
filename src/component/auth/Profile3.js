@@ -280,7 +280,6 @@ class Profile3 extends Component {
                   <Typography.Title>Projects</Typography.Title>
                   {this.state.isMyProfile && this.state.canEdit ? (
                     <DragUpload
-                      token={this.props.token}
                       onChange={ProfileData.onFileListChange.bind(this)}
                     />
                   ) : null}
