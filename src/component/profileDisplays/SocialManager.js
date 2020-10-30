@@ -85,6 +85,7 @@ export class SocialManager extends Component {
                 placeholder="Twitter"
                 prefix={<TwitterOutlined />}
                 style={{ position: "relative", top: "8px" }}
+                // focus on render
                 ref={(input) => input && input.focus()}
                 onBlur={() => this.setState({ editing: "none" })}
               />
@@ -127,9 +128,15 @@ export class SocialManager extends Component {
     return (
       <div>
         <Row>
-          <Button type="link" icon={<LinkedinOutlined />} className="mt-3" />{" "}
-          <Button type="link" icon={<TwitterOutlined />} className="mt-3" />{" "}
-          <Button type="link" icon={<GithubOutlined />} className="mt-3" />{" "}
+          {this.state.linkedinEnabled ? (
+            <Button type="link" icon={<LinkedinOutlined />} className="mt-3" />
+          ) : null}
+          {this.state.twitterEnabled ? (
+            <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
+          ) : null}
+          {this.state.githubEnabled ? (
+            <Button type="link" icon={<GithubOutlined />} className="mt-3" />
+          ) : null}{" "}
         </Row>
       </div>
     );

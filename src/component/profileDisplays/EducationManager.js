@@ -69,7 +69,7 @@ export class EducationManager extends Component {
                 return (
                   // edit mode version of education card
                   <Card
-                    style={{ width: "auto", marginTop: 16 }}
+                    style={{ width: "500px", marginTop: 16 }}
                     hoverable={true}
                   >
                     <Form
