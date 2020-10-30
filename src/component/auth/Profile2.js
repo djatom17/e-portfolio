@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
+import EducationManager from "../profileDisplays/EducationManager";
+import CareerManager from "../profileDisplays/CareerManager";
 import EditButton from "../profileDisplays/EditButton";
 import * as ProfileData from "../../api/ProfileData";
 
@@ -85,7 +87,8 @@ class Profile2 extends Component {
               <Link href="#Top" title="Profile" />
               <Link href="#About" title="About Me" />
               <Link href="#Skills" title="Key Skills" />
-              <Link href="#Achievements" title="Achievements" />
+              <Link href="Education" title="Education" />
+              <Link href="WorkExperience" title="Experience" />
               <div>
                 {this.state.isMyProfile ? (
                   <EditButton
@@ -138,25 +141,16 @@ class Profile2 extends Component {
                             }
                           : false
                       }
-                      ellipsis={{ rows: 1, expandable: true, symbol: "more" }}
+                      ellipsis={{ rows: 3, expandable: true, symbol: "more" }}
                     >
                       {this.state.profile.about}
                     </Paragraph>
                   </Col>
                 </Row>
               </Row>
+
               <Row className="mt-3 mx-4">
-                <Divider id="Education" className="h9size" orientation="left">
-                  Education
-                </Divider>
-                <Row className="mt-3 mx-4">
-                  <Col>
-                    <AchievementManager />
-                  </Col>
-                </Row>
-              </Row>
-              <Row className="mt-3 mx-4">
-                <Divider id="Key Skills" className="h9size" orientation="left">
+                <Divider id="Skills" className="h9size" orientation="left">
                   Key Skills
                 </Divider>
                 <Row className="my-3 mx-4">
@@ -169,23 +163,39 @@ class Profile2 extends Component {
                 </Row>
               </Row>
               <Row className="mt-3 mx-4">
-                <Divider id="Key Skills" className="h9size" orientation="left">
-                  Areas of Speciality
+                <Divider id="Education" className="h9size" orientation="left">
+                  Education
                 </Divider>
-                <Row className="my-3 mx-4"></Row>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    <EducationManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.education}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                    />
+                  </Col>
+                </Row>
               </Row>
 
               <Row className="mt-3 mx-4">
                 <Divider
-                  id="JobExperience"
+                  id="WorkExperience"
                   className="h9size"
                   orientation="left"
                 >
-                  Job Experience
+                  Work Experience
                 </Divider>
                 <Row className="mt-3 mx-4">
                   <Col>
-                    <AchievementManager />
+                    <CareerManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.workHistory}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                    />
                   </Col>
                 </Row>
               </Row>
