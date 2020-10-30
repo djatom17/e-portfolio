@@ -65,7 +65,11 @@ export class EducationManager extends Component {
         <Row>
           {this.props.data &&
             this.props.data.map((item, index) => {
-              if (editInputIndex === index) {
+              if (
+                this.props.isMyProfile &&
+                this.props.canEdit &&
+                editInputIndex === index
+              ) {
                 return (
                   // edit mode version of education card
                   <Card
