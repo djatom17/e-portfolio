@@ -198,9 +198,9 @@ class Browse extends Component {
                 <Row>
                   <Col>{this.displayJob(profile)}</Col>
                 </Row>
-                <Row>
+                {/* <Row>
                   <Col> {this.displayQualifications(profile.education)}</Col>
-                </Row>
+                </Row> */}
               </Col>
             </Row>
           </span>

@@ -12,28 +12,38 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 /**
+ * Stores a social media platform's link of user.
+ * 
+ * @param {String} link URL link to given platform.
+ * @param {Boolean} isEnabled True to allow link to be shown to public.
+ */
+const PlatformSchema = new Schema({
+    link: {
+        type: String,
+        required: true,
+    },
+    isEnabled: {
+        type: Boolean,
+        required: true,
+        default: true,
+    }
+});
+
+/**
  * MongoDB Schema to store an instance of social media information of a user.
  * 
- * @param {String} platform The social media platform of the entry.
- * @param {String} link The URL link to the social media.
- * @param {Boolean} isEnabled True to allow link to be displayed on profile.
+ * @param {PlatformSchema} github 
+ * @param {PlatformSchema} facebook
+ * @param {PlatformSchema} linkedin
+ * @param {PlatformSchema} twitter
+ * @param {PlatformSchema[]} others Array of other social media platforms if any.
  */
 const SocialSchema = new Schema({
-  platform: {
-    type: String,
-    enum: ["Facebook", "LinkedIn", "Github"],
-    required: true,
-    default: "LinkedIn",
-  },
-  link: {
-      type: String,
-      required: true,
-  },
-  isEnabled: {
-    type: Boolean,
-    required: true,
-    default: true,
-  },
+  github: PlatformSchema,
+  facebook: PlatformSchema,
+  linkedin: PlatformSchema,
+  twitter: PlatformSchema,
+  others: [PlatformSchema],
 });
 
 module.exports = SocialSchema;

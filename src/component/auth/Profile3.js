@@ -74,10 +74,13 @@ class Profile3 extends Component {
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
     this.resize = ProfileData.resize.bind(this);
+    this.themeCustom = ProfileData.themeCustom.bind(this);
   }
 
   componentDidMount() {
-    this.setState({ profile: this.props.profile });
+    this.setState({
+      profile: this.props.profile,
+    });
     //Size check.
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
@@ -269,11 +272,19 @@ class Profile3 extends Component {
     );
 
     return (
-      <Row className="mb-4">
+      <Row
+        style={{
+          background: this.state.profile.secondaryColour,
+          minHeight: "90vh",
+        }}
+      >
         <Col span={20} push={2}>
           <Typography
             component="div"
-            style={{ backgroundColor: "#ffffff", height: "auto" }}
+            style={{
+              backgroundColor: this.state.profile.primaryColour,
+              height: "auto",
+            }}
           >
             {!mobileView ? desktopHeader : mobileHeader}
 

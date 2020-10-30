@@ -13,6 +13,7 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { showSettings } from "../../actions/profileActions";
 
 const { SubMenu } = Menu;
 
@@ -44,7 +45,6 @@ class NavBar extends Component {
   };
 
   handleClick = (e) => {
-    console.log("click ", e);
     this.setState({ current: e.key });
   };
 
@@ -58,12 +58,10 @@ class NavBar extends Component {
           <Menu.Item key="logout" icon={<LogoutOutlined />}>
             <Logout />
           </Menu.Item>
-          <Menu.Item
-            key="settings"
-            icon={<SettingOutlined />}
-            onClick={() => this.props.showSettings()}
-          >
-            <Link to="/my-profile"> Settings</Link>
+          <Menu.Item key="settings" icon={<SettingOutlined />}>
+            <Link to="/my-profile" onClick={this.props.showSettings}>
+              Settings
+            </Link>
           </Menu.Item>
         </SubMenu>
       </Fragment>
@@ -90,6 +88,7 @@ class NavBar extends Component {
           width: "100%",
           display: "flex",
           justifyContent: !this.mobileView ? "flex-end" : "normal",
+          minHeight: "6vh",
         }}
       >
         <Menu.Item key="home" style={{ marginRight: "auto" }}>
@@ -118,4 +117,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, null)(NavBar);
+export default connect(mapStateToProps, { showSettings })(NavBar);

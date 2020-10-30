@@ -48,7 +48,7 @@ nav and footer styles  */
   background-position: center;
   height: 90vh !important;
   /* margin-top: -24px; */
-  margin-bottom: -16px;
+  /* margin-bottom: -16px; */
 }
 
 .landing-inner {
@@ -215,7 +215,7 @@ nav and footer styles  */
 /* profile styles */
 
 .prof5 {
-  background-color: coral;
+  /* background-color: coral; */
   /* min-height: 85vh; */
   height: 100%;
   width: 25vw;
@@ -224,7 +224,7 @@ nav and footer styles  */
 .prof5height {
   min-height: 90vh;
   height: 100%;
-  margin-bottom: -16px;
+  /* margin-bottom: -16px; */
 }
 
 .prof5-about {
@@ -259,5 +259,5 @@ nav and footer styles  */
 }
 
 .body-size {
-  min-height: 87.6vh;
+  min-height: 90vh;
 }
