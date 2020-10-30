@@ -228,30 +228,21 @@ class Profile3 extends Component {
             </h2>
           </Col>
         </Row>
-        <Row gutter={8} justify="center">
+        <Row justify="center">
           <ProfilePicture
             image={this.state.profile.image}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
             mobileView={false}
           />
-          <Col>
-            <Row>
-              <Button
-                type="link"
-                icon={<LinkedinOutlined />}
-                className="mt-3"
-              />
-            </Row>
-            <Row>
-              {" "}
-              <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
-            </Row>
-            <Row>
-              <Button type="link" icon={<GithubOutlined />} className="mt-3" />
-            </Row>
-          </Col>
         </Row>
+        <Row justify="center">
+          <SocialManager
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+          />
+        </Row>
+
         <Row className="mx-3 mt-2">
           <Paragraph
             ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
