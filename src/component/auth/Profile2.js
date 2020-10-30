@@ -51,8 +51,10 @@ class Profile2 extends Component {
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
+    // size check
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
+
     this.props.isAuthenticated &&
     this.props.profile.userid &&
     this.props.user._id &&
@@ -87,8 +89,8 @@ class Profile2 extends Component {
               <Link href="#Top" title="Profile" />
               <Link href="#About" title="About Me" />
               <Link href="#Skills" title="Key Skills" />
-              <Link href="Education" title="Education" />
-              <Link href="WorkExperience" title="Experience" />
+              <Link href="#Education" title="Education" />
+              <Link href="#WorkExperience" title="Experience" />
               <div>
                 {this.state.isMyProfile ? (
                   <EditButton
@@ -174,6 +176,7 @@ class Profile2 extends Component {
                       data={this.state.profile.education}
                       changeList={this.changeList}
                       themeCol={this.props.profile.primaryColour}
+                      mobileView={this.state.mobileView}
                     />
                   </Col>
                 </Row>
@@ -195,6 +198,7 @@ class Profile2 extends Component {
                       data={this.state.profile.workHistory}
                       changeList={this.changeList}
                       themeCol={this.props.profile.primaryColour}
+                      mobileView={this.state.mobileView}
                     />
                   </Col>
                 </Row>

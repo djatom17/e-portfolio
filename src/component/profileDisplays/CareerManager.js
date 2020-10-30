@@ -70,7 +70,7 @@ export class CareerManager extends Component {
                   // edit mode version of career card
                   <Card
                     style={{
-                      width: "auto",
+                      width: this.props.mobileView ? "200px" : "500px",
                       marginTop: 16,
                       background: this.props.themeCol,
                     }}
@@ -84,47 +84,42 @@ export class CareerManager extends Component {
                       initialValues={item}
                     >
                       <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                        <Input.Group compact>
-                          <Form.Item
-                            name="role"
-                            rules={[
-                              {
-                                required: true,
-                                message: "Job title is required",
-                              },
-                            ]}
-                          >
-                            <Input
-                              style={{ width: 230, textAlign: "center" }}
-                              placeholder="Job Title"
-                            />
-                          </Form.Item>
-
+                        <Form.Item
+                          name="role"
+                          label="Job title"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Job title is required",
+                            },
+                          ]}
+                        >
                           <Input
-                            className="site-input-split"
                             style={{
-                              width: 40,
-                              borderLeft: 0,
-                              borderRight: 0,
-                              pointerEvents: "none",
+                              width: this.props.mobileView ? "90px" : "auto",
+                              textAlign: "center",
                             }}
-                            placeholder="@"
-                            disabled
+                            placeholder="Job Title"
                           />
-                          <Form.Item name="workplace">
-                            <Input
-                              className="site-input-right"
-                              style={{
-                                width: 230,
-                                textAlign: "center",
-                              }}
-                              placeholder="Company"
-                            />
-                          </Form.Item>
-                        </Input.Group>
+                        </Form.Item>
+
+                        <Form.Item name="workplace" label="Workplace">
+                          <Input
+                            className="site-input-right"
+                            style={{
+                              width: this.props.mobileView ? "90px" : "auto",
+                              textAlign: "center",
+                            }}
+                            placeholder="Company"
+                          />
+                        </Form.Item>
                       </Row>
                       <Row className="my-1">
-                        <Form.Item name="description" style={{ width: "100%" }}>
+                        <Form.Item
+                          name="description"
+                          style={{ width: "100%" }}
+                          label="Description"
+                        >
                           <Input.TextArea
                             showCount
                             maxLength={100}
@@ -163,8 +158,8 @@ export class CareerManager extends Component {
               return (
                 <Card
                   style={{
-                    width: "auto",
-                    minWidth: 500,
+                    width: this.props.mobileView ? "200px" : "500px",
+
                     marginTop: 16,
                     background: this.props.themeCol,
                   }}
@@ -229,8 +224,7 @@ export class CareerManager extends Component {
             // inputVisible: add new career card
             <Card
               style={{
-                width: "auto",
-                minWidth: 500,
+                width: this.props.mobileView ? "200px" : "500px",
                 marginTop: 16,
                 background: this.props.themeCol,
               }}
@@ -243,46 +237,41 @@ export class CareerManager extends Component {
                 onFinish={this.addCareerCard}
               >
                 <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                  <Input.Group compact>
-                    <Form.Item
-                      name="role"
-                      rules={[
-                        {
-                          required: true,
-                        },
-                      ]}
-                    >
-                      <Input
-                        style={{ width: 230, textAlign: "center" }}
-                        placeholder="Job Title"
-                      />
-                    </Form.Item>
-
+                  <Form.Item
+                    name="role"
+                    label="Job Title"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
                     <Input
-                      className="site-input-split"
                       style={{
-                        width: 40,
-                        borderLeft: 0,
-                        borderRight: 0,
-                        pointerEvents: "none",
+                        width: this.props.mobileView ? "90px" : "auto",
+                        textAlign: "center",
                       }}
-                      placeholder="@"
-                      disabled
+                      placeholder="Job Title"
                     />
-                    <Form.Item name="workplace">
-                      <Input
-                        className="site-input-right"
-                        style={{
-                          width: 230,
-                          textAlign: "center",
-                        }}
-                        placeholder="Company"
-                      />
-                    </Form.Item>
-                  </Input.Group>
+                  </Form.Item>
+
+                  <Form.Item name="workplace" label="Workplace">
+                    <Input
+                      className="site-input-right"
+                      style={{
+                        width: this.props.mobileView ? "90px" : "auto",
+                        textAlign: "center",
+                      }}
+                      placeholder="Company"
+                    />
+                  </Form.Item>
                 </Row>
                 <Row className="my-1">
-                  <Form.Item name="description" style={{ width: "100%" }}>
+                  <Form.Item
+                    name="description"
+                    style={{ width: "100%" }}
+                    label="Description"
+                  >
                     <Input.TextArea
                       showCount
                       maxLength={100}
@@ -318,7 +307,7 @@ export class CareerManager extends Component {
             // add experience button
             <Card
               style={{
-                width: 500,
+                width: this.props.mobileView ? "200px" : "500px",
                 marginTop: 16,
                 background: this.props.themeCol,
               }}
@@ -332,7 +321,11 @@ export class CareerManager extends Component {
               <Row justify="center" class="mt-5">
                 <Col>
                   <Typography.Text
-                    style={{ fontSize: "28px", color: "#1890ff" }}
+                    style={{
+                      fontSize: "24px",
+                      color: "#1890ff",
+                      textAlign: "center",
+                    }}
                     type="secondary"
                   >
                     Add Experience
