@@ -16,6 +16,7 @@ import CareerManager from "../profileDisplays/CareerManager";
 import { Row, Col, Menu, Typography, Button } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
+import ProjectManager from "../profileDisplays/ProjectManager";
 
 const { Title, Paragraph } = Typography;
 
@@ -96,7 +97,7 @@ class Profile5 extends Component {
         <div>
           <Link to={item.url}>
             <PaperClipOutlined />
-            {item.name}
+            {item.description}
           </Link>
         </div>
       ));
@@ -151,9 +152,15 @@ class Profile5 extends Component {
             {this.state.isMyProfile && this.state.canEdit ? (
               <DragUpload token={this.props.token} />
             ) : null}
-            {console.log(this.state.isMyProfile)}
           </div>
-          {this.getFiles(this.state.profile.filesAndDocs)}
+          <ProjectManager
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.filesAndDocs}
+            changeList={this.changeList}
+            themeCol={this.props.profile.primaryColour}
+          />
+          {/* {this.getFiles(this.state.profile.filesAndDocs)} */}
         </div>
       );
     } else if (this.state.tabdisp === "experience") {
