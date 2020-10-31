@@ -233,7 +233,6 @@ class Profile3 extends Component {
             }}
           >
             {!mobileView ? desktopHeader : mobileHeader}
-
             <Divider />
             <Row className=" my-4 ml-5">
               <Tabs onChange={callback} type="card">
@@ -287,7 +286,14 @@ class Profile3 extends Component {
                   {ProfileData.getFiles(this.state.profile.filesAndDocs)}
                 </TabPane>
                 <TabPane tab="Certificates" key="4">
-                  <Typography.Title>Certificates</Typography.Title>
+                  <Typography.Title>Education</Typography.Title>
+                  {ProfileData.getElements(this.state.profile.education)}
+                </TabPane>
+                <TabPane tab="Contact Details" key="5">
+                  <Typography.Title>Time zone</Typography.Title>
+                  {this.state.profile.timezone}
+                  <Typography.Title>Contact Details</Typography.Title>
+                  {ProfileData.getElements(this.state.profile.social)}
                 </TabPane>
               </Tabs>
             </Row>
