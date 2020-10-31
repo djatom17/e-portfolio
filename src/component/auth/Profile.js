@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import * as ProfileData from "../../api/ProfileData";
+import ProfilePicture from "../profileDisplays/ProfilePicture";
 import "react-web-tabs/dist/react-web-tabs.css";
 import {
   Row,
@@ -117,7 +118,7 @@ class Profile extends Component {
     }
 
     return (
-      <div className="App">
+      <Row style={{ backgroundColor: this.state.profile.secondaryColour }}>
         <React.Fragment>
           <CssBaseline />
           <React.Fragment>
@@ -143,15 +144,20 @@ class Profile extends Component {
                       <h1>{ProfileData.getName(this.state.profile)}</h1>
                     </Col>
                     <Col span={6} pull={17}>
-                      <Avatar size={128} icon={<UserOutlined />} />
+                      <ProfilePicture
+                        image={this.state.profile.image}
+                        isMyProfile={this.state.isMyProfile}
+                        canEdit={this.state.canEdit}
+                        onPFPChange={ProfileData.handlePFPChange.bind(this)}
+                      />
                     </Col>
                   </Row>
                   <h2></h2>
-                  <Carousel afterChange={onChange}>
+                  {/* <Carousel afterChange={onChange}>
                     <div>
                       <h3 style={contentStyle}></h3>
                     </div>
-                  </Carousel>
+                  </Carousel> */}
                   <Descriptions title="About me" bordered>
                     <Paragraph
                       ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
@@ -185,7 +191,7 @@ class Profile extends Component {
                       {this.state.profile.specialty}
                     </Descriptions.Item>
                     <Descriptions.Item label="Education">
-                      {ProfileData.getElements(this.state.profile.education)}
+                      {/* {ProfileData.getElements(this.state.profile.education)} */}
                     </Descriptions.Item>
                     <Descriptions.Item label="Job Experience">
                       MicroSoft/ Senior developer/ 3years/ 2003~2006
@@ -200,16 +206,16 @@ class Profile extends Component {
                     </Descriptions.Item>
                   </Descriptions>
                   <Descriptions title="Social Media" bordered>
-                    <h1>
+                    {/* <h1>
                       {ProfileData.getElements(this.state.profile.social)}
-                    </h1>
+                    </h1> */}
                   </Descriptions>
                 </Content>
               </Typography>
             </Container>
           </React.Fragment>
         </React.Fragment>
-      </div>
+      </Row>
     );
   }
 }

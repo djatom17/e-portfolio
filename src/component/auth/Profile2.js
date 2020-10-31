@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import EducationManager from "../profileDisplays/EducationManager";
@@ -113,18 +114,21 @@ class Profile2 extends Component {
           </div>
         </Anchor>
         <Row>
-          <img
-            id="Top"
-            src={this.state.profile.image}
-            aria-hidden
-            alt="description of image"
+          <div
             style={{
               height: this.state.mobileView ? "40%" : "70%",
               width: this.state.mobileView ? "40%" : "70%",
               marginTop: this.state.mobileView ? "5%" : "0%",
               marginInlineStart: this.state.mobileView ? "30%" : "15%",
             }}
-          />
+          >
+            <ProfilePicture
+              image={this.state.profile.image}
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              onPFPChange={ProfileData.handlePFPChange.bind(this)}
+            />
+          </div>
         </Row>
 
         <Row justify="center">
@@ -137,6 +141,7 @@ class Profile2 extends Component {
                 {this.state.profile.subtitle}
               </Paragraph>
               <Row justify="center" className="mt-n4">
+                {console.log(this.state.profile)}
                 {console.log(this.state.profile.social)}
                 <SocialManager
                   isMyProfile={this.state.isMyProfile}
@@ -262,11 +267,11 @@ class Profile2 extends Component {
                 >
                   Contacts
                 </Divider>
-                <Row className="mt-3 mx-4">
-                  {/* <Col>
+                {/* <Row className="mt-3 mx-4">
+                  <Col>
                     {ProfileData.getElements(this.state.profile.social)}
-                  </Col> */}
-                </Row>
+                  </Col>
+                </Row> */}
               </Row>
             </Typography>
           </Col>
