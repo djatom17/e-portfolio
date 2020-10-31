@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Row, Col, Button } from "antd";
+import "antd/dist/antd.css";
 
 const Landing = () => {
   return (
@@ -12,15 +14,24 @@ const Landing = () => {
               <p className="lead">
                 {" "}
                 Create a developer profile/portfolio, share your achievements
-                and flex
+                and flex!
               </p>
               <hr />
-              <Link to="/register" className={"btn btn-lg btn-info mr-2"}>
-                Start Flexing
-              </Link>
-              <Link to={"/login"} className={"btn btn-lg btn-light"}>
-                Login
-              </Link>
+              <Row justify="center" gutter={10}>
+                <Col>
+                  <Button
+                    type="primary"
+                    style={{ fontSize: "24px", height: "auto" }}
+                  >
+                    <Link to="/my-profile">Start Flexing</Link>
+                  </Button>
+                </Col>
+                <Col>
+                  <Button style={{ fontSize: "24px", height: "auto" }}>
+                    <Link to="/browse">Browse</Link>
+                  </Button>
+                </Col>
+              </Row>
             </div>
           </div>
         </div>

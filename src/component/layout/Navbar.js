@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "antd/dist/antd.css";
 import * as ProfileData from "../../api/ProfileData";
-import { Menu, Col, Space } from "antd";
+import { Menu } from "antd";
 import {
   MailOutlined,
   AppstoreOutlined,
