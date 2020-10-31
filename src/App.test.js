@@ -81,20 +81,30 @@ describe("Front-end tests", () => {
   // testing EditButton
   describe("<Edit Button /> component", () => {
     it("should render as Done", () => {
-      const editButt = mount(<EditButton isMyProfile={true} canEdit={true} />);
+      const editButt = mount(
+        <Provider store={store}>
+          <EditButton isMyProfile={true} canEdit={true} />
+        </Provider>
+      );
       const value = editButt.find("Button").text();
       expect(editButt.find("Button").exists()).toBeTruthy() &&
         expect(value).toEqual("Done");
     });
     it("should render as Edit", () => {
-      const editButt = mount(<EditButton isMyProfile={true} canEdit={false} />);
+      const editButt = mount(
+        <Provider store={store}>
+          <EditButton isMyProfile={true} canEdit={false} />
+        </Provider>
+      );
       const value = editButt.find("Button").text();
       expect(editButt.find("Button").exists()).toBeTruthy() &&
         expect(value).toEqual("Edit");
     });
     it("should not render if there isnt auth", () => {
       const editButt = mount(
-        <EditButton isMyProfile={false} canEdit={false} />
+        <Provider store={store}>
+          <EditButton isMyProfile={false} canEdit={false} />
+        </Provider>
       );
       expect(editButt.find("Button").exists()).toBeFalsy();
     });

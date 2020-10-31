@@ -74,16 +74,39 @@ s3router.post("/upload", auth, function (req, res, next) {
         return res.status(err.statusCode).send({ error: err });
       } else {
         console.log("[S3] Upload success");
-        //Create new File entry in user's Profile.
-        mongo
-          .postUpload(file.name, hashName, req.files.description, req.user.id)
-          .then((success) => {
-            return res.status(success.statusCode).json({ fileUrl: hashName });
-          })
-          .catch((err) => {
-            // If there is an error creating the entry, the file must be deleted from the bucket.
-            return res.status(err.statusCode).json({ error: err });
-          });
+        //Create new File entry in user's Profile, if it's not a profile picture.
+        if (req.header("x-pfp-upload") === "true") {
+          mongo
+            .getImageUrlOfUser(req.user.id)
+            .then((success) => {
+              s3.deleteObject(
+                { Bucket: AWSBucket, Key: success.pfpUrl },
+                (e, response) => {
+                  if (e) {
+                    console.log(
+                      "[S3] Unable to delete previous profile picture."
+                    );
+                    return res.status(500).json({ error: e });
+                  }
+                  console.log("[S3] Deleted previous profile picture.");
+                  return res.status(200).json({ fileUrl: hashName });
+                }
+              );
+            })
+            .catch((e) => {
+              return res.status(e.statusCode).json({ error: e });
+            });
+        } else {
+          mongo
+            .postUpload(file.name, hashName, req.user.id)
+            .then((success) => {
+              return res.status(success.statusCode).json({ fileUrl: hashName });
+            })
+            .catch((err) => {
+              // If there is an error creating the entry, the file must be deleted from the bucket.
+              return res.status(err.statusCode).json({ error: err });
+            });
+        }
       }
     });
   });
