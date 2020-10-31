@@ -228,7 +228,6 @@ class Profile5 extends Component {
                   image={this.state.profile.image}
                   isMyProfile={this.state.isMyProfile}
                   canEdit={this.state.canEdit}
-                  mobileView={this.state.mobileView}
                   onPFPChange={ProfileData.handlePFPChange.bind(this)}
                 />
               </div>

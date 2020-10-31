@@ -104,7 +104,7 @@ class NavBar extends Component {
         </Menu.Item>
 
         <Menu.Item key="profile">
-          <Link to="/my-profile"> My Profile</Link>
+          <Link to="/my-profile">My Profile</Link>
         </Menu.Item>
 
         {isAuthenticated ? authLinks : guestLinks}
