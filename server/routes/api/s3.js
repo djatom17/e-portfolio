@@ -54,11 +54,17 @@ s3router.get("/dl/*", function (req, res, next) {
  *
  * @requires ./auth
  */
-s3router.post("/upload", auth, function (req, res, next) {
+s3router.post("/upload/:type", auth, function (req, res, next) {
   console.log("[S3] Trying to upload file ");
 
   var busboy = new Busboy({ headers: req.headers });
   var hashName = "";
+  var isCert = false;
+  //Determine upload certificate or projects
+  if (req.params.type === "certificate") {
+    isCert = true;
+  }
+  
   busboy.on("finish", function () {
     var file = req.files.file;
 
@@ -76,7 +82,7 @@ s3router.post("/upload", auth, function (req, res, next) {
         console.log("[S3] Upload success");
         //Create new File entry in user's Profile.
         mongo
-          .postUpload(file.name, hashName, req.files.description, req.user.id)
+          .postUpload(file.name, hashName, req.files.description, req.user.id, isCert)
           .then((success) => {
             return res.status(success.statusCode).json({ fileUrl: hashName });
           })
@@ -101,10 +107,15 @@ s3router.post("/upload", auth, function (req, res, next) {
  *
  * @requires ./auth
  */
-s3router.post("/remove/:file", auth, function (req, res, next) {
+s3router.post("/remove/:type/:file", auth, function (req, res, next) {
   console.log(
     "[S3] Trying to remove file " + req.params.file + " owned by " + req.user.id
   );
+  var isCert = false;
+
+  if (req.params.type === "certificate") {
+    isCert = true;
+  }
 
   validateFileOwner(req.user.id, req.params.file)
     .then((s) => {
@@ -117,7 +128,7 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
         else {
           console.log("[S3] File deletion successful.");
           mongo
-            .postDelete(req.params.file, req.user.id)
+            .postDelete(req.params.file, req.user.id, isCert)
             .then((success) => {
               return res.status(success.statusCode);
             })
