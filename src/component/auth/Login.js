@@ -5,8 +5,9 @@ import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import { Redirect } from "react-router-dom";
 import GoogleButton from "./GoogleButton";
-import { Row, Form, Input, Button, Checkbox, Typography } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Row, Form, Input, Button, Typography } from "antd";
+import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import "antd/dist/antd.css";
 
 const { Title, Paragraph } = Typography;
 
@@ -100,7 +101,7 @@ class Login extends Component {
                   ]}
                 >
                   <Input
-                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    prefix={<MailOutlined className="site-form-item-icon" />}
                     placeholder=" Email"
                     onChange={this.handleChange("email")}
                   />
@@ -120,20 +121,21 @@ class Login extends Component {
                     placeholder=" Password"
                   />
                 </Form.Item>
-
-                <Form.Item>
-                  <Button
-                    block
-                    type="primary"
-                    htmlType="submit"
-                    className="login-form-button"
-                  >
-                    Sign in
-                  </Button>
-                </Form.Item>
-                <Row justify="center" className="mt-2">
-                  <GoogleButton />
-                </Row>
+                <div className="mt-5">
+                  <Form.Item>
+                    <Button
+                      block
+                      type="primary"
+                      htmlType="submit"
+                      className="login-form-button"
+                    >
+                      Sign in
+                    </Button>
+                  </Form.Item>
+                  <Row justify="center">
+                    <GoogleButton />
+                  </Row>
+                </div>
               </Form>
 
               {/* <form onSubmit={this.handleSubmit}>
