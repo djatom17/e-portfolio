@@ -13,9 +13,12 @@ import * as ProfileData from "../../api/ProfileData";
 export class SocialManager extends Component {
   state = {
     editInputValue: "",
-    linkedinEnabled: true,
-    twitterEnabled: true,
-    githubEnabled: true,
+    linkedinEnabled: false,
+    twitterEnabled: false,
+    githubEnabled: false,
+    linkedinLink: "",
+    twitterLink: "",
+    githubLink: "",
     editing: "none",
     textColour: "#40A9FF",
   };
@@ -24,6 +27,27 @@ export class SocialManager extends Component {
     console.log(this.props.textColour);
     if (this.props.textColour) {
       this.setState({ textColour: this.props.textColour });
+    }
+
+    if (this.props.data) {
+      if (this.props.data.github) {
+        this.setState({
+          githubEnabled: this.props.data.github.isEnabled,
+          githubLink: this.props.data.github.link,
+        });
+      }
+      if (this.props.data.twitter) {
+        this.setState({
+          twitterEnabled: this.props.data.twitter.isEnabled,
+          twitterLink: this.props.data.twitter.link,
+        });
+      }
+      if (this.props.data.linkedin) {
+        this.setState({
+          linkedinEnabled: this.props.data.linkedin.isEnabled,
+          linkedinLink: this.props.data.linkedin.link,
+        });
+      }
     }
   }
 

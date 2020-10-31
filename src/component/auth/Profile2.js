@@ -137,10 +137,12 @@ class Profile2 extends Component {
                 {this.state.profile.subtitle}
               </Paragraph>
               <Row justify="center" className="mt-n4">
+                {console.log(this.state.profile.social)}
                 <SocialManager
                   isMyProfile={this.state.isMyProfile}
                   canEdit={this.state.canEdit}
                   textColour="black"
+                  data={this.state.profile.social}
                 />
               </Row>
             </div>
@@ -261,9 +263,9 @@ class Profile2 extends Component {
                   Contacts
                 </Divider>
                 <Row className="mt-3 mx-4">
-                  <Col>
+                  {/* <Col>
                     {ProfileData.getElements(this.state.profile.social)}
-                  </Col>
+                  </Col> */}
                 </Row>
               </Row>
             </Typography>
