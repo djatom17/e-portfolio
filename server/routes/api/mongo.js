@@ -115,11 +115,9 @@ mongorouter.post("/p-update/:ID", [auth, checkLink], function (req, res, next) {
   });
 });
 
-// Insert a profile's first-time login information.
-// User exists, but profile itself does not, yet.
-mongorouter.post("/p-insert", auth, function (req, res, next) {
-  // TODO: change this to preferably the user's brand-new profile page.
-  res.redirect("/");
+//Inserting new profiles for admin
+mongorouter.post("/p-profile", function (req, res, next) {
+  
 });
 
 /**
