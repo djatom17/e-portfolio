@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SocialManager from "../profileDisplays/SocialManager";
 import axios from "axios";
 import "antd/dist/antd.css";
 import {
@@ -132,40 +133,6 @@ class Browse extends Component {
     }
   };
 
-  displayIcon = (str) => {
-    if (str === "in") {
-      return (
-        <Col>
-          <a href="https://www.youtube.com/watch?v=3LEwQn8OnEU">
-            <LinkedinOutlined />
-          </a>
-        </Col>
-      );
-    }
-    if (str === "tw") {
-      return (
-        <Col>
-          <TwitterOutlined />
-        </Col>
-      );
-    }
-    if (str === "gh") {
-      return (
-        <Col>
-          <GithubOutlined />
-        </Col>
-      );
-    }
-    return null;
-  };
-
-  displayIcons = (lst) => {
-    if (!lst.length) return null;
-    if (lst) {
-      return lst.map((item, index) => this.displayIcon(item));
-    }
-  };
-
   displayProfile = (profiles) => {
     if (!profiles.length) return null;
     return profiles.map((profile, index) => (
@@ -207,7 +174,9 @@ class Browse extends Component {
           {/* Row contains: social media icons, email  */}
           <Row justify="space-between" className="browse-social ml-4">
             <Col>
-              <Row gutter={8}>{this.displayIcons(defaultIcons)}</Row>
+              <Row>
+                <SocialManager isMyProfile={false} canEdit={false} />
+              </Row>
             </Col>
             <Col className="browse-mail mt-2 mr-2">
               <Paragraph
