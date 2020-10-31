@@ -11,8 +11,21 @@
 import React from "react";
 import axios from "axios";
 import { Typography, Button } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PaperClipOutlined } from "@ant-design/icons";
 const { Paragraph } = Typography;
+
+export function getFiles(files) {
+  if (files) {
+    return files.map((file) => (
+      <div>
+        <Button onClick={() => getFileDownload(file.name, file.url)}>
+          <PaperClipOutlined />
+          {file.name}
+        </Button>
+      </div>
+    ));
+  }
+}
 
 // Profile picture changing
 // When the user selects a new image, preview it on the thumbnail

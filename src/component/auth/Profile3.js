@@ -7,6 +7,7 @@ import SkillManager from "../profileDisplays/SkillManager";
 import SocialManager from "../profileDisplays/SocialManager";
 import EducationManager from "../profileDisplays/EducationManager";
 import EditButton from "../profileDisplays/EditButton";
+import DragUpload from "../profileDisplays/DragUpload";
 import * as ProfileData from "../../api/ProfileData";
 import { Row, Col, Typography, Button, Divider, Tabs } from "antd";
 import {
@@ -275,6 +276,15 @@ class Profile3 extends Component {
                     changeList={this.changeList}
                     themeCol={this.props.profile.primaryColour}
                   />
+                </TabPane>
+                <TabPane tab="Projects" key="3">
+                  <Typography.Title>Projects</Typography.Title>
+                  {this.state.isMyProfile && this.state.canEdit ? (
+                    <DragUpload
+                      onChange={ProfileData.onFileListChange.bind(this)}
+                    />
+                  ) : null}
+                  {ProfileData.getFiles(this.state.profile.filesAndDocs)}
                 </TabPane>
                 <TabPane tab="Certificates" key="4">
                   <Typography.Title>Certificates</Typography.Title>
