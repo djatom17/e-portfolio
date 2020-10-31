@@ -189,9 +189,10 @@ mongorouter.get("/search", function (req, res, next) {
  *
  * @callback Requester~requestCallback
  * @param {string} uid  User ID of requestee in MongoDB.
+ * @param {Boolean} isRaw Flag to signal profile returned has full path appended or not.
  * @param {Requester~requestCallback} callback - The callback that handles the response.
  */
-const fetchProfileByUID = (uid, callback) => {
+const fetchProfileByUID = (uid, isRaw, callback) => {
   //Find mapping of UID to PID.
   mapUIDtoPID(uid, (err, userMap) => {
     console.log("[Mongoose] Found map entry.");
@@ -202,7 +203,10 @@ const fetchProfileByUID = (uid, callback) => {
         return callback(err, null);
       }
       console.log("[Mongoose] Successfully fetched user profile.");
-      profile = appendProfilePaths(profile);
+      if (!isRaw) {
+        profile = appendProfilePaths(profile);
+      }
+      
       profile.userid = uid;
       //Successful operation
       return callback(null, profile);
@@ -311,7 +315,7 @@ const postUpload = (name, url, desc, uid, isCert) => {
   console.log("[Mongoose] Creating file entry");
   return new Promise((resolve, reject) => {
     // Find the profile corresponding to the user and retrieve it.
-    fetchProfileByUID(uid, (e, profile) => {
+    fetchProfileByUID(uid, true, (e, profile) => {
       if (!e && profile) {
         // Hydrate object received as it is lean.
         profile = Profile.hydrate(profile);
@@ -354,7 +358,7 @@ const postUpload = (name, url, desc, uid, isCert) => {
 const postDelete = (url, uid, isCert) => {
   console.log("[Mongoose] Deleting file entry from user.");
   return new Promise((resolve, reject) => {
-    fetchProfileByUID(uid, (e, profile) => {
+    fetchProfileByUID(uid, true, (e, profile) => {
       if (!e && profile) {
         profile = Profile.hydrate(profile);
         //Determine correct file is removed.

@@ -64,7 +64,7 @@ s3router.post("/upload/:type", auth, function (req, res, next) {
   if (req.params.type === "certificate") {
     isCert = true;
   }
-  
+
   busboy.on("finish", function () {
     var file = req.files.file;
 
@@ -117,10 +117,10 @@ s3router.post("/remove/:type/:file", auth, function (req, res, next) {
     isCert = true;
   }
 
-  validateFileOwner(req.user.id, req.params.file)
+  validateFileOwner(req.user.id, req.params.file, isCert)
     .then((s) => {
       var params = { Bucket: AWSBucket, Key: req.params.file };
-      s3.deleteObject(params, (err, res) => {
+      s3.deleteObject(params, (err, reply) => {
         if (err) {
           console.log("[S3] File deletion failed.");
           return res.status(500).json({error:err});
@@ -155,18 +155,24 @@ s3router.post("/remove/:type/:file", auth, function (req, res, next) {
  * @function [validateFileOwner]
  * @param {String} userID uid of User.
  * @param {String} userFile hashname of file to validate permission of.
+ * @param {Boolean} isCert True if certificate, false for projects.
  *
  * @returns {Promise} Promise object represents user permission of file.
  */
-const validateFileOwner = (userID, userFile) => {
+const validateFileOwner = (userID, userFile, isCert) => {
   console.log("[S3] Validating file ownership.");
   return new Promise((resolve, reject) => {
-    mongo.fetchProfileByUID(userID, (err, profile) => {
+    mongo.fetchProfileByUID(userID, true, (err, profile) => {
       if (err || !profile) {
         console.log("[S3] Permission to modify file denied.");
         reject({ statusCode: 500 });
-      } else if (
+      } else if (!isCert &&
         profile.filesAndDocs.filter((file) => file.url === userFile).length > 0
+      ) {
+        console.log("[S3] Permission granted.");
+        resolve({ statusCode: 202 });
+      } else if (isCert &&
+        profile.certificates.filter((file) => file.url === userFile).length > 0
       ) {
         console.log("[S3] Permission granted.");
         resolve({ statusCode: 202 });
