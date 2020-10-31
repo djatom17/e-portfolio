@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import * as ProfileData from "../../api/ProfileData";
 import "react-web-tabs/dist/react-web-tabs.css";
 import "antd/dist/antd.css";
@@ -93,14 +94,10 @@ class Profile5 extends Component {
     if (lst) {
       return lst.map((item, index) => (
         <div>
-          <Button
-            onClick={() => {
-              ProfileData.getFileDownload(item.name, item.url);
-            }}
-          >
+          <Link to={item.url}>
             <PaperClipOutlined />
             {item.name}
-          </Button>
+          </Link>
         </div>
       ));
     }
@@ -127,12 +124,7 @@ class Profile5 extends Component {
             </Paragraph>
           </div>
           <Title className="h1size">Work Time Zone</Title>
-          <AchievementManager
-            isMyProfile={this.state.isMyProfile}
-            canEdit={this.state.canEdit}
-            data={this.state.profile.achievements}
-            changeList={this.changeList}
-          />
+          {this.state.profile.timezone}
           <Title className="h1size">Achievements</Title>
           <AchievementManager
             isMyProfile={this.state.isMyProfile}
@@ -152,20 +144,12 @@ class Profile5 extends Component {
             data={this.state.profile.keySkills}
             changeList={this.changeList}
           />
-          <Title className="h1size">Achievements</Title>
-          <AchievementManager
-            isMyProfile={this.state.isMyProfile}
-            canEdit={this.state.canEdit}
-            data={this.state.profile.achievements}
-            changeList={this.changeList}
-          />
+          <Title className="h1size">Speciality</Title>
+          {this.state.profile.specialty}
           <Title className="h1size">Projects</Title>
           <div>
             {this.state.isMyProfile && this.state.canEdit ? (
-              <DragUpload
-                token={this.props.token}
-                onChange={ProfileData.onFileListChange.bind(this)}
-              />
+              <DragUpload token={this.props.token} />
             ) : null}
             {console.log(this.state.isMyProfile)}
           </div>

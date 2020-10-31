@@ -24,8 +24,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
-// const { Title, Paragraph } = Typography;
-// const { Link } = Anchor;
+const { Title, Paragraph } = Typography;
+const { Link } = Anchor;
 class Profile extends Component {
   state = {
     profile: {},
@@ -110,101 +110,106 @@ class Profile extends Component {
       background: "#364d79",
     };
 
-    const { Content } = Layout;
+    const { Header, Content, Footer } = Layout;
 
     function onChange(a, b, c) {
       console.log(a, b, c);
     }
 
     return (
-      <Row style={{ backgroundColor: this.state.profile.secondaryColour }}>
+      <div className="App">
         <React.Fragment>
           <CssBaseline />
           <React.Fragment>
             <CssBaseline />
-            <React.Fragment>
-              <CssBaseline />
-              <Container fixed>
-                <Typography
-                  component="div"
-                  style={{
-                    backgroundColor: this.state.profile.primaryColour,
-                    height: "auto",
-                  }}
-                >
-                  <Content style={{ padding: "0 50px" }}>
-                    <Breadcrumb style={{ margin: "16px 0" }}>
-                      <Breadcrumb.Item>Browse</Breadcrumb.Item>
-                      <Breadcrumb.Item>Profile</Breadcrumb.Item>
-                      <Breadcrumb.Item>
-                        {ProfileData.getName(this.state.profile)}
-                      </Breadcrumb.Item>
-                    </Breadcrumb>
-                    <Row>
-                      <Col span={18} push={5}>
-                        <h1>{ProfileData.getName(this.state.profile)}</h1>
-                      </Col>
-                      <Col span={6} pull={17}>
-                        <Avatar size={128} icon={<UserOutlined />} />
-                      </Col>
-                    </Row>
-                    <h2></h2>
-                    <Carousel afterChange={onChange}>
-                      <div>
-                        <h3 style={contentStyle}></h3>
-                      </div>
-                    </Carousel>
-                    <Descriptions title="About me" bordered>
-                      <div className="google-map-code"></div>
-                    </Descriptions>
-                    <Descriptions title="User Info Card" bordered>
-                      <Descriptions.Item label="Name" span={2}>
-                        {ProfileData.getName(this.state.profile)}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Gender" span={2}>
-                        Male
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Occupation Status">
-                        Crewmate
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Work hour" span={2}>
-                        Korean Standard Time (GMT +9)
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Skills">
-                        C, C++, Python, React
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Speciality">
-                        Front end development
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Education">
-                        University of Melbourne/ Computing/ under grad/
-                        2010~2013
-                        <br />
-                        RMIT/ Computing Graphics/ masters/ 2016~2018
-                        <br />
-                        University of Melbourne/ Law/ masters/ 2020~2024
-                        <br />
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Job Experience">
-                        MicroSoft/ Senior developer/ 3years/ 2003~2006
-                        <br />
-                        Naver/ Senior developer/ 3years/ 2003~2006
-                        <br />
-                        Nintendo/ Senior developer/ 3years/ 2003~2006
-                        <br />
-                        Bethsesda/ Senior developer/ 3years/ 2003~2006
-                        <br />
-                        Samsong/ Junior developer/ 3years/ 2003~2006
-                      </Descriptions.Item>
-                    </Descriptions>
-                    <Descriptions title="Social Media" bordered></Descriptions>
-                  </Content>
-                </Typography>
-              </Container>
-            </React.Fragment>
+            <Container fixed>
+              <Typography
+                component="div"
+                style={{
+                  backgroundColor: this.state.profile.primaryColour,
+                  height: "auto",
+                }}
+              >
+                <Content style={{ padding: "0 50px" }}>
+                  <Breadcrumb style={{ margin: "16px 0" }}>
+                    <Breadcrumb.Item>Browse</Breadcrumb.Item>
+                    <Breadcrumb.Item>Profile</Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                      {ProfileData.getName(this.state.profile)}
+                    </Breadcrumb.Item>
+                  </Breadcrumb>
+                  <Row>
+                    <Col span={18} push={5}>
+                      <h1>{ProfileData.getName(this.state.profile)}</h1>
+                    </Col>
+                    <Col span={6} pull={17}>
+                      <Avatar size={128} icon={<UserOutlined />} />
+                    </Col>
+                  </Row>
+                  <h2></h2>
+                  <Carousel afterChange={onChange}>
+                    <div>
+                      <h3 style={contentStyle}></h3>
+                    </div>
+                  </Carousel>
+                  <Descriptions title="About me" bordered>
+                    <Paragraph
+                      ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+                      editable={
+                        this.state.canEdit
+                          ? {
+                              onChange: (fieldName) =>
+                                this.setEditablefieldName("about", fieldName),
+                              autoSize: { minRows: 1, maxRows: 5 },
+                            }
+                          : false
+                      }
+                    >
+                      {this.state.profile.about}
+                    </Paragraph>
+                  </Descriptions>
+                  <Descriptions title="User Info Card" bordered>
+                    <Descriptions.Item label="Name" span={2}>
+                      {ProfileData.getName(this.state.profile)}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Occupation Status">
+                      Get Curr job thing
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Time Zone">
+                      {this.state.profile.timezone}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Specialty">
+                      {ProfileData.getElements(this.state.profile.keySkills)}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Speciality">
+                      {this.state.profile.specialty}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Education">
+                      {ProfileData.getElements(this.state.profile.education)}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Job Experience">
+                      MicroSoft/ Senior developer/ 3years/ 2003~2006
+                      <br />
+                      Naver/ Senior developer/ 3years/ 2003~2006
+                      <br />
+                      Nintendo/ Senior developer/ 3years/ 2003~2006
+                      <br />
+                      Bethsesda/ Senior developer/ 3years/ 2003~2006
+                      <br />
+                      Samsong/ Junior developer/ 3years/ 2003~2006
+                    </Descriptions.Item>
+                  </Descriptions>
+                  <Descriptions title="Social Media" bordered>
+                    <h1>
+                      {ProfileData.getElements(this.state.profile.social)}
+                    </h1>
+                  </Descriptions>
+                </Content>
+              </Typography>
+            </Container>
           </React.Fragment>
         </React.Fragment>
-      </Row>
+      </div>
     );
   }
 }

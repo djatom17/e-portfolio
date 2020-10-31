@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SkillManager from "../profileDisplays/SkillManager";
@@ -12,17 +12,29 @@ import "antd/dist/antd.css";
 import {
   Row,
   Col,
+  Menu,
+  Upload,
+  message,
   Typography,
+  Avatar,
   Input,
   Button,
+  Modal,
   Tag,
   Tooltip,
   Anchor,
-  Divider,
   Collapse,
+  breadcrumb,
+  Divider,
 } from "antd";
 
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  InboxOutlined,
+  UserOutlined,
+  DeleteOutlined,
+  PaperClipOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 
 const { Paragraph, Title } = Typography;
 const { Link } = Anchor;
@@ -164,7 +176,14 @@ class Profile2 extends Component {
               </Row>
 
               <Row className="mt-3 mx-4">
-                <Divider id="Skills" className="h9size" orientation="left">
+                <Divider id="Key Skills" className="h9size" orientation="left">
+                  Areas of Speciality
+                </Divider>
+                {this.state.profile.specialty}
+              </Row>
+
+              <Row className="mt-3 mx-4">
+                <Divider id="Key Skills" className="h9size" orientation="left">
                   Key Skills
                 </Divider>
                 <Row className="my-3 mx-4">
@@ -193,7 +212,6 @@ class Profile2 extends Component {
                   </Col>
                 </Row>
               </Row>
-
               <Row className="mt-3 mx-4">
                 <Divider
                   id="WorkExperience"
@@ -231,6 +249,20 @@ class Profile2 extends Component {
                       data={this.state.profile.achievements}
                       changeList={this.changeList}
                     />
+                  </Col>
+                </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider
+                  id="Achievements"
+                  className="h9size"
+                  orientation="left"
+                >
+                  Contacts
+                </Divider>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    {ProfileData.getElements(this.state.profile.social)}
                   </Col>
                 </Row>
               </Row>
