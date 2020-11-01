@@ -118,19 +118,15 @@ export class SocialManager extends Component {
               <Input
                 size="small"
                 placeholder="Linkedin"
-                prefix={<LinkedinOutlined />}
+                prefix={
+                  <div>
+                    <LinkedinOutlined /> http://linkedin.com/in/
+                  </div>
+                }
                 style={{ position: "relative", top: "8px" }}
                 value={this.state.editInputValue}
                 ref={(input) => input && input.focus()}
                 onChange={this.handleEditInputChange}
-                onBlur={() => {
-                  this.setState({
-                    editing: "none",
-                    linkedinLink: this.state.editInputValue,
-                    editInputValue: "",
-                  });
-                  this.saveChanges();
-                }}
                 onPressEnter={() => {
                   this.setState({
                     editing: "none",
@@ -167,20 +163,16 @@ export class SocialManager extends Component {
               <Input
                 size="small"
                 placeholder="Twitter"
-                prefix={<TwitterOutlined />}
+                prefix={
+                  <div>
+                    <TwitterOutlined /> https://twitter.com/
+                  </div>
+                }
                 style={{ position: "relative", top: "8px" }}
                 value={this.state.editInputValue}
                 // focus on render
                 ref={(input) => input && input.focus()}
                 onChange={this.handleEditInputChange}
-                onBlur={() => {
-                  this.setState({
-                    editing: "none",
-                    twitterLink: this.state.editInputValue,
-                    editInputValue: "",
-                  });
-                  this.saveChanges();
-                }}
                 onPressEnter={() => {
                   this.setState({
                     editing: "none",
@@ -216,19 +208,15 @@ export class SocialManager extends Component {
               <Input
                 size="small"
                 placeholder="GitHub"
-                prefix={<GithubOutlined />}
+                prefix={
+                  <div>
+                    <GithubOutlined /> https://github.com/
+                  </div>
+                }
                 style={{ position: "relative", top: "8px" }}
                 value={this.state.editInputValue}
                 ref={(input) => input && input.focus()}
                 onChange={this.handleEditInputChange}
-                onBlur={() => {
-                  this.setState({
-                    editing: "none",
-                    githubLink: this.state.editInputValue,
-                    editInputValue: "",
-                  });
-                  this.saveChanges();
-                }}
                 onPressEnter={() => {
                   this.setState({
                     editing: "none",
@@ -259,31 +247,43 @@ export class SocialManager extends Component {
       <div>
         <Row>
           {this.state.linkedinEnabled ? (
-            <Button
-              type="link"
-              style={{ color: this.state.textColour }}
-              icon={<LinkedinOutlined />}
-              className="mt-3"
-              href={this.state.linkedinLink}
-            />
+            <a
+              target="_blank"
+              href={"http://linkedin.com/in/" + this.state.linkedinLink}
+            >
+              <Button
+                type="link"
+                style={{ color: this.state.textColour }}
+                icon={<LinkedinOutlined />}
+                className="mt-3"
+              />
+            </a>
           ) : null}
           {this.state.twitterEnabled ? (
-            <Button
-              type="link"
-              style={{ color: this.state.textColour }}
-              icon={<TwitterOutlined />}
-              className="mt-3"
-              href={this.state.twitterLink}
-            />
+            <a
+              target="_blank"
+              href={"https://twitter.com/" + this.state.twitterLink}
+            >
+              <Button
+                type="link"
+                style={{ color: this.state.textColour }}
+                icon={<TwitterOutlined />}
+                className="mt-3"
+              />
+            </a>
           ) : null}
           {this.state.githubEnabled ? (
-            <Button
-              type="link"
-              style={{ color: this.state.textColour }}
-              icon={<GithubOutlined />}
-              className="mt-3"
-              href={this.state.githubLink}
-            />
+            <a
+              target="_blank"
+              href={"https://github.com/" + this.state.githubLink}
+            >
+              <Button
+                type="link"
+                style={{ color: this.state.textColour }}
+                icon={<GithubOutlined />}
+                className="mt-3"
+              ></Button>
+            </a>
           ) : null}{" "}
         </Row>
       </div>
