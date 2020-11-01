@@ -80,6 +80,7 @@ export class EducationManager extends Component {
                     }}
                     hoverable={true}
                     bordered={false}
+                    key={index}
                   >
                     <Form
                       name="add_degree"
@@ -164,6 +165,7 @@ export class EducationManager extends Component {
                   }}
                   hoverable={true}
                   bordered={false}
+                  key={index}
                 >
                   {" "}
                   <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
@@ -313,7 +315,7 @@ export class EducationManager extends Component {
               }}
               bordered={false}
             >
-              <Row justify="center" class="mt-5">
+              <Row justify="center" className="mt-5">
                 <Col>
                   <Typography.Text
                     style={{

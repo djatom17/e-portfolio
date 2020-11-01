@@ -276,7 +276,7 @@ class Profile3 extends Component {
                     themeCol={this.props.profile.primaryColour}
                   />
                 </TabPane>
-                <TabPane tab="Projects" key="3">
+                <TabPane tab="Projects" key="4">
                   <Typography.Title>Projects</Typography.Title>
                   {this.state.isMyProfile && this.state.canEdit ? (
                     <DragUpload
@@ -285,15 +285,15 @@ class Profile3 extends Component {
                   ) : null}
                   {ProfileData.getFiles(this.state.profile.filesAndDocs)}
                 </TabPane>
-                <TabPane tab="Certificates" key="4">
-                  <Typography.Title>Education</Typography.Title>
-                  {ProfileData.getElements(this.state.profile.education)}
+                <TabPane tab="Certificates" key="5">
+                  {/* <Typography.Title>Education</Typography.Title>
+                  {ProfileData.getElements(this.state.profile.education)} */}
                 </TabPane>
-                <TabPane tab="Contact Details" key="5">
+                <TabPane tab="Contact Details" key="6">
                   <Typography.Title>Time zone</Typography.Title>
                   {this.state.profile.timezone}
-                  <Typography.Title>Contact Details</Typography.Title>
-                  {ProfileData.getElements(this.state.profile.social)}
+                  {/* <Typography.Title>Contact Details</Typography.Title>
+                  {ProfileData.getElements(this.state.profile.social)} */}
                 </TabPane>
               </Tabs>
             </Row>

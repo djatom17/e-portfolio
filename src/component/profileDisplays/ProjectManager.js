@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, BrowserRouter, Route } from "react-router-dom";
 import { Row, Col, Card, Typography, Input, Divider, Button, Form } from "antd";
 import "antd/dist/antd.css";
 import {
@@ -84,6 +84,7 @@ export class ProjectManager extends Component {
                     }}
                     hoverable={true}
                     bordered={false}
+                    key={index}
                   >
                     <Form
                       name="add_project"
@@ -161,6 +162,7 @@ export class ProjectManager extends Component {
                   }}
                   hoverable={true}
                   bordered={false}
+                  key={index}
                 >
                   {" "}
                   <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
@@ -171,14 +173,24 @@ export class ProjectManager extends Component {
                   <Row>
                     <Paragraph className="psize">{item.description}</Paragraph>
                   </Row>
-                  <Link to={item.url}>
-                    <Row>
-                      <Col className="mt-n1">
-                        <PaperClipOutlined />
-                      </Col>
-                      <Col>{item.name}</Col>
-                    </Row>
-                  </Link>
+                  <Row>
+                    {/* <BrowserRouter>
+                      <Route exact path={item.url}>
+                        <Row>
+                          <Link>
+                            <Col className="mt-n1">
+                              <PaperClipOutlined />
+                            </Col>
+                            <Col>{item.name}</Col>
+                          </Link>
+                        </Row>
+                      </Route>
+                    </BrowserRouter> */}
+                    <a href={item.url} download={item.name}>
+                      <PaperClipOutlined />
+                      {item.name}
+                    </a>
+                  </Row>
                   {this.props.isMyProfile && this.props.canEdit ? (
                     <Row justify="space-around">
                       <Divider />

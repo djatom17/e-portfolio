@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import { Row, Col, Card, Typography, Input, Divider, Button, Form } from "antd";
 import "antd/dist/antd.css";
@@ -81,6 +80,7 @@ export class CareerManager extends Component {
                     }}
                     hoverable={true}
                     bordered={false}
+                    key={index}
                   >
                     <Form
                       name="add_career"
@@ -170,6 +170,7 @@ export class CareerManager extends Component {
                   }}
                   hoverable={true}
                   bordered={false}
+                  key={index}
                 >
                   {" "}
                   <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
@@ -323,7 +324,7 @@ export class CareerManager extends Component {
               }}
               bordered={false}
             >
-              <Row justify="center" class="mt-5">
+              <Row justify="center" className="mt-5">
                 <Col>
                   <Typography.Text
                     style={{

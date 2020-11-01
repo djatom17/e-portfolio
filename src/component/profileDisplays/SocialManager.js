@@ -85,7 +85,7 @@ export class SocialManager extends Component {
             />{" "}
           </Col>
           <Col>
-            {editing == "linkedin" ? (
+            {editing === "linkedin" ? (
               <Input
                 size="small"
                 placeholder="Linkedin"
@@ -112,7 +112,7 @@ export class SocialManager extends Component {
             />{" "}
           </Col>
           <Col>
-            {editing == "twitter" ? (
+            {editing === "twitter" ? (
               <Input
                 size="small"
                 placeholder="Twitter"
@@ -139,7 +139,7 @@ export class SocialManager extends Component {
             />{" "}
           </Col>
           <Col>
-            {editing == "github" ? (
+            {editing === "github" ? (
               <Input
                 size="small"
                 placeholder="GitHub"
