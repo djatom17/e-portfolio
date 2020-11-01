@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Row, Col, Card, Typography, Input, Divider, Button, Form } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Typography,
+  Input,
+  Divider,
+  Button,
+  Form,
+  DatePicker,
+} from "antd";
 import "antd/dist/antd.css";
 import {
   DeleteOutlined,
@@ -24,10 +34,17 @@ export class CareerManager extends Component {
     this.handleCloseCard = ProfileData.handleCloseCard.bind(this);
     this.saveInputRef = ProfileData.saveInputRef.bind(this);
     this.saveEditInputRef = ProfileData.saveEditInputRef.bind(this);
+    this.formatDate = ProfileData.formatDate.bind(this);
   }
 
+  // track edit values of whole card
   trackEdit = (changedFields, allFields) => {
     this.setState({ inputValue: allFields });
+  };
+
+  // track dateChange
+  onChangeDate = (date, dateString) => {
+    console.log(date, dateString);
   };
 
   // add new career card
@@ -58,6 +75,40 @@ export class CareerManager extends Component {
   };
 
   render() {
+    // moment
+    var moment = require("moment");
+
+    // form layouts
+    const formItemLayout = {
+      labelCol: {
+        xs: {
+          span: 24,
+        },
+        sm: {
+          span: 8,
+        },
+      },
+      wrapperCol: {
+        xs: {
+          span: 24,
+        },
+        sm: {
+          span: 16,
+        },
+      },
+    };
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 16,
+          offset: 8,
+        },
+      },
+    };
     const { inputVisible, inputValue, editInputIndex, editValue } = this.state;
 
     return (
@@ -84,54 +135,55 @@ export class CareerManager extends Component {
                   >
                     <Form
                       name="add_career"
+                      {...formItemLayout}
                       onValuesChange={this.trackEdit}
                       onFinish={this.editCareerCard}
-                      initialValues={item}
+                      initialValues={this.formatDate(item, "from", "from")}
                     >
-                      <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                        <Form.Item
-                          name="role"
-                          label="Job title"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Job title is required",
-                            },
-                          ]}
-                        >
-                          <Input
-                            style={{
-                              width: this.props.mobileView ? "90px" : "auto",
-                              textAlign: "center",
-                            }}
-                            placeholder="Job Title"
-                          />
-                        </Form.Item>
+                      <Form.Item
+                        name="role"
+                        label="Job title"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Job title is required",
+                          },
+                        ]}
+                      >
+                        <Input
+                          style={{
+                            width: this.props.mobileView ? "90px" : "auto",
+                            textAlign: "center",
+                          }}
+                          placeholder="Job Title"
+                        />
+                      </Form.Item>
 
-                        <Form.Item name="workplace" label="Workplace">
-                          <Input
-                            className="site-input-right"
-                            style={{
-                              width: this.props.mobileView ? "90px" : "auto",
-                              textAlign: "center",
-                            }}
-                            placeholder="Company"
-                          />
-                        </Form.Item>
-                      </Row>
-                      <Row className="my-1">
-                        <Form.Item
-                          name="description"
-                          style={{ width: "100%" }}
-                          label="Description"
-                        >
-                          <Input.TextArea
-                            showCount
-                            maxLength={100}
-                            placeholder="Add a description"
-                          />
-                        </Form.Item>
-                      </Row>
+                      <Form.Item name="workplace" label="Workplace">
+                        <Input
+                          className="site-input-right"
+                          style={{
+                            width: this.props.mobileView ? "90px" : "auto",
+                            textAlign: "center",
+                          }}
+                          placeholder="Company"
+                        />
+                      </Form.Item>
+
+                      <Form.Item name="from" label="From">
+                        <DatePicker
+                          onChange={this.onChangeDate}
+                          picker="month"
+                        />
+                      </Form.Item>
+
+                      <Form.Item name="description" label="Description">
+                        <Input.TextArea
+                          showCount
+                          maxLength={100}
+                          placeholder="Add a description"
+                        />
+                      </Form.Item>
                       <Row justify="space-around">
                         <Col>
                           <Form.Item>
@@ -185,7 +237,12 @@ export class CareerManager extends Component {
                     </Col>
                   </Row>
                   <Row>
-                    <Paragraph>This is a basic description</Paragraph>
+                    <Col>
+                      <h6>{moment(item.from).format("M-YYYY")}</h6>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Paragraph>{item.description}</Paragraph>
                   </Row>
                   {this.props.isMyProfile && this.props.canEdit ? (
                     <Row justify="space-around">
@@ -238,53 +295,53 @@ export class CareerManager extends Component {
               bordered={false}
             >
               <Form
+                {...formItemLayout}
                 name="add_career"
                 onValuesChange={this.trackEdit}
                 onFinish={this.addCareerCard}
               >
-                <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
-                  <Form.Item
-                    name="role"
-                    label="Job Title"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input
-                      style={{
-                        width: this.props.mobileView ? "90px" : "auto",
-                        textAlign: "center",
-                      }}
-                      placeholder="Job Title"
-                    />
-                  </Form.Item>
+                <Form.Item
+                  name="role"
+                  label="Job Title"
+                  rules={[
+                    {
+                      required: true,
+                    },
+                  ]}
+                >
+                  <Input
+                    style={{
+                      width: this.props.mobileView ? "90px" : "auto",
+                      textAlign: "center",
+                    }}
+                    placeholder="Job Title"
+                  />
+                </Form.Item>
 
-                  <Form.Item name="workplace" label="Workplace">
-                    <Input
-                      className="site-input-right"
-                      style={{
-                        width: this.props.mobileView ? "90px" : "auto",
-                        textAlign: "center",
-                      }}
-                      placeholder="Company"
-                    />
-                  </Form.Item>
-                </Row>
-                <Row className="my-1">
-                  <Form.Item
-                    name="description"
-                    style={{ width: "100%" }}
-                    label="Description"
-                  >
-                    <Input.TextArea
-                      showCount
-                      maxLength={100}
-                      placeholder="Add a description"
-                    />
-                  </Form.Item>
-                </Row>
+                <Form.Item name="workplace" label="Workplace">
+                  <Input
+                    className="site-input-right"
+                    style={{
+                      width: this.props.mobileView ? "90px" : "auto",
+                      textAlign: "center",
+                    }}
+                    placeholder="Company"
+                  />
+                </Form.Item>
+                <Form.Item name="from" label="From">
+                  <DatePicker onChange={this.onChangeDate} picker="month" />
+                </Form.Item>
+                <Form.Item
+                  name="description"
+                  style={{ width: "100%" }}
+                  label="Description"
+                >
+                  <Input.TextArea
+                    showCount
+                    maxLength={100}
+                    placeholder="Add a description"
+                  />
+                </Form.Item>
                 <Row justify="space-around">
                   <Col>
                     <Form.Item>

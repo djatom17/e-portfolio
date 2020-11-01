@@ -413,6 +413,24 @@ export function saveEditInputRef(input) {
 
 /**
  *
+ * Returns a formatted version of given object where specified date is converted to moment
+ *
+ *
+ * @function [formatDate]
+ * @param {object} obj the object where the date is to modified
+ * @param {String} inFieldName - String name of input date field
+ * @param {String} outFieldName - String name of output date field (to be added to the object)
+ *
+ */
+export function formatDate(obj, inFieldName, outFieldName) {
+  var moment = require("moment");
+  var moment_date = moment(obj[inFieldName]);
+  obj[outFieldName] = moment_date;
+  return obj;
+}
+
+/**
+ *
  * Returns a functional delete button for any item in a list
  *
  * Intended to be only used when a profile is in edit mode
