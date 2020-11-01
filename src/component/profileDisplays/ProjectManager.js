@@ -197,7 +197,10 @@ export class ProjectManager extends Component {
                     <Button
                       type="link"
                       onClick={() =>
-                        ProfileData.getFileDownload(item.name, item.url)
+                        ProfileData.getFileDownload(
+                          item.name,
+                          ProfileData.getFileLink(item.url)
+                        )
                       }
                     >
                       <PaperClipOutlined />

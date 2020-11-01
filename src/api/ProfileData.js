@@ -14,6 +14,10 @@ import { Typography, Button } from "antd";
 import { DeleteOutlined, PaperClipOutlined } from "@ant-design/icons";
 const { Paragraph } = Typography;
 
+export function getFileLink(url) {
+  return "/api/file/dl/" + url;
+}
+
 export function getFiles(files) {
   if (files) {
     return files.map((file) => (

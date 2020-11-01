@@ -110,9 +110,9 @@ s3router.post("/upload", auth, function (req, res, next) {
           console.log("Checked headers");
           mongo
             .postUpload(
-              file.name,
+              req.body.name,
               hashName,
-              req.files.description,
+              req.body.description,
               req.user.id,
               isCert
             )

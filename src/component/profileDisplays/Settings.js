@@ -1,5 +1,15 @@
 import React, { Component, Fragment } from "react";
-import { Modal, Button, Row, Col, Avatar, Tabs, Select } from "antd";
+import {
+  Modal,
+  Button,
+  Row,
+  Col,
+  Avatar,
+  Input,
+  Tabs,
+  Select,
+  Form,
+} from "antd";
 import { connect } from "react-redux";
 import { showSettings, hideSettings } from "../../actions/profileActions";
 import * as ProfileData from "../../api/ProfileData";
@@ -22,6 +32,15 @@ class Settings extends Component {
       primaryColour: this.props.primaryColour,
       secondaryColour: this.props.secondaryColour,
     });
+  };
+
+  trackEdit = (changedFields, allFields) => {
+    this.setState({ inputValue: allFields });
+  };
+
+  // track dateChange
+  onChangeDate = (date, dateString) => {
+    console.log(date, dateString);
   };
 
   handleOk = () => {
@@ -50,7 +69,36 @@ class Settings extends Component {
   // };
 
   render() {
+    const formItemLayout = {
+      labelCol: {
+        xs: {
+          span: 24,
+        },
+        sm: {
+          span: 10,
+        },
+      },
+      wrapperCol: {
+        xs: {
+          span: 24,
+        },
+        sm: {
+          span: 14,
+        },
+      },
+    };
     const { isVisible } = this.props;
+    const onFinish = (values) => {
+      const { email, password } = values;
+
+      const user = {
+        email,
+        password,
+      };
+      console.log("Received values of form: ", user);
+
+      // Change details and check for empty
+    };
     return (
       <Fragment>
         <Modal
@@ -229,6 +277,80 @@ class Settings extends Component {
                   </Col>
                 </Row>
               </TabPane>
+              <TabPane tab="User Settings" key="3">
+                <Row justify="space-between">
+                  <Col>
+                    <Form
+                      {...formItemLayout}
+                      id="User"
+                      name="AccountSettings"
+                      initialValues={{ email: this.props.user.email }}
+                      onFinish={onFinish}
+                    >
+                      <Form.Item
+                        name="email"
+                        label="E-mail"
+                        rules={[
+                          {
+                            type: "email",
+                            message: "The input is not valid E-mail!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item label="New Password" name="password">
+                        <Input />
+                      </Form.Item>
+                      <Form.Item
+                        label="Confirm Password"
+                        name="confirm"
+                        dependencies={["password"]}
+                        hasFeedback
+                        rules={[
+                          ({ getFieldValue }) => ({
+                            validator(rule, value) {
+                              if (getFieldValue("password") === value) {
+                                return Promise.resolve();
+                              }
+
+                              return Promise.reject(
+                                "The two passwords that you entered do not match!"
+                              );
+                            },
+                          }),
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="login-form-button"
+                      >
+                        Save Changes
+                      </Button>
+                    </Form>
+                  </Col>
+                </Row>
+              </TabPane>
+              <TabPane tab="Profile Settings" key="4">
+                <Row justify="space-between">
+                  <Col>
+                    <Form
+                      {...formItemLayout}
+                      id="Profile"
+                      name="ProfileSettings"
+                      initialValues={{ email: this.props.user.email }}
+                      onFinish={onFinish}
+                    >
+                      <Form.Item>
+                        <Input />
+                      </Form.Item>
+                    </Form>
+                  </Col>
+                </Row>
+              </TabPane>
             </Tabs>
           </div>
         </Modal>
@@ -241,6 +363,7 @@ const mapStateToProps = (state) => ({
   token: state.auth.token,
   isAuthenticated: state.auth.isAuthenticated,
   isVisible: state.profile.showSettings,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, { showSettings, hideSettings })(

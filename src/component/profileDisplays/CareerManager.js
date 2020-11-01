@@ -97,18 +97,6 @@ export class CareerManager extends Component {
         },
       },
     };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
     const { inputVisible, inputValue, editInputIndex, editValue } = this.state;
 
     return (
