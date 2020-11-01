@@ -445,7 +445,6 @@ const appendProfilePaths = (profile) => {
   profile.linkToProfile =
     FILEPATH_PROFILE +
     (profile.linkToProfile ? profile.linkToProfile : profile._id);
-  profile.filesAndDocs.map((item) => (item.url = FILEPATH_S3 + item.url));
   return profile;
 };
 
