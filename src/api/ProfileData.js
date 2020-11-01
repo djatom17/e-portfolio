@@ -227,37 +227,6 @@ export function showModal() {
   });
 }
 
-export function showSettings() {
-  this.setState({
-    settingsVisible: true,
-  });
-}
-
-// delete ?
-// export function handleOk(num, info) {
-//   this.setState({ loading: true });
-//   setTimeout(() => {
-//     this.setState({ loading: false, visible: false });
-//   }, 3000);
-
-//   updateProfile(this.state.profile._id, { layout: num }, this.props.token);
-//   window.location.reload();
-// }
-
-// export function settingsOk(num, pid, info) {
-//   this.setState({ loading: true });
-//   setTimeout(() => {
-//     this.setState({ loading: false, visible: false });
-//   }, 3000);
-
-//   updateProfile(pid, { layout: num }, this.props.token);
-//   window.location.reload();
-// }
-// delete ?
-// export function handleCancel() {
-//   this.setState({ visible: false });
-// }
-
 export function settingsCancel() {
   this.setState({ settingsVisible: false });
 }
