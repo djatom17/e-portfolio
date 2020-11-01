@@ -140,10 +140,14 @@ class Profile3 extends Component {
               {this.state.profile.about}
             </Paragraph>
 
-            <SocialManager
-              isMyProfile={this.state.isMyProfile}
-              canEdit={this.state.canEdit}
-            />
+            {this.state.profile && this.state.profile.social && (
+              <SocialManager
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+                data={this.state.profile.social}
+                changeObj={this.setEditablefieldName}
+              />
+            )}
           </Col>
         </Row>
       </div>
@@ -192,10 +196,14 @@ class Profile3 extends Component {
           />
         </Row>
         <Row justify="center">
-          <SocialManager
-            isMyProfile={this.state.isMyProfile}
-            canEdit={this.state.canEdit}
-          />
+          {this.state.profile && this.state.profile.social && (
+            <SocialManager
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              data={this.state.profile.social}
+              changeObj={this.setEditablefieldName}
+            />
+          )}
         </Row>
 
         <Row className="mx-3 mt-2">
@@ -292,8 +300,8 @@ class Profile3 extends Component {
                 <TabPane tab="Contact Details" key="6">
                   <Typography.Title>Time zone</Typography.Title>
                   {this.state.profile.timezone}
-                  {/* <Typography.Title>Contact Details</Typography.Title>
-                  {ProfileData.getElements(this.state.profile.social)} */}
+                  <Typography.Title>Contact Details</Typography.Title>
+                  {/* {ProfileData.getElements(this.state.profile.social)} */}
                 </TabPane>
               </Tabs>
             </Row>

@@ -141,14 +141,14 @@ class Profile2 extends Component {
                 {this.state.profile.subtitle}
               </Paragraph>
               <Row justify="center" className="mt-n4">
-                {console.log(this.state.profile)}
-                {console.log(this.state.profile.social)}
-                <SocialManager
-                  isMyProfile={this.state.isMyProfile}
-                  canEdit={this.state.canEdit}
-                  textColour="black"
-                  data={this.state.profile.social}
-                />
+                {this.state.profile && this.state.profile.social && (
+                  <SocialManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    textColour="black"
+                    data={this.state.profile.social}
+                  />
+                )}
               </Row>
             </div>
             <Typography
