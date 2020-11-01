@@ -299,7 +299,20 @@ class Profile3 extends Component {
                 </TabPane>
                 <TabPane tab="Contact Details" key="6">
                   <Typography.Title>Time zone</Typography.Title>
-                  {this.state.profile.timezone}
+                  <Paragraph
+                      ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+                      editable={
+                        this.state.canEdit
+                            ? {
+                              onChange: (fieldName) =>
+                                  this.setEditablefieldName("timezone", fieldName),
+                              autoSize: { minRows: 1, maxRows: 5 },
+                            }
+                            : false
+                      }
+                  >
+                    {this.state.profile.timezone}
+                  </Paragraph>
                   <Typography.Title>Contact Details</Typography.Title>
                   {/* {ProfileData.getElements(this.state.profile.social)} */}
                 </TabPane>

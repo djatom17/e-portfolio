@@ -125,7 +125,20 @@ class Profile5 extends Component {
             </Paragraph>
           </div>
           <Title className="h1size">Work Time Zone</Title>
-          {this.state.profile.timezone}
+            <Paragraph
+                ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+                editable={
+                    this.state.canEdit
+                        ? {
+                            onChange: (fieldName) =>
+                                this.setEditablefieldName("timezone", fieldName),
+                            autoSize: { minRows: 1, maxRows: 5 },
+                        }
+                        : false
+                }
+            >
+                {this.state.profile.timezone}
+            </Paragraph>
           <Title className="h1size">Achievements</Title>
           <AchievementManager
             isMyProfile={this.state.isMyProfile}
