@@ -66,7 +66,7 @@ class Login extends Component {
         email,
         password,
       };
-      console.log("Received values of form: ", user);
+      // console.log("Received values of form: ", user);
 
       // Attempt to login
       this.props.login(user);
