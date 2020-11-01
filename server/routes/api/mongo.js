@@ -202,6 +202,10 @@ mongorouter.get("/search", function (req, res, next) {
 const fetchProfileByUID = (uid, callback) => {
   //Find mapping of UID to PID.
   mapUIDtoPID(uid, (err, userMap) => {
+    if (err) {
+      console.log("[Mongoose] User-profile mapping not found.");
+      return callback(err, null);
+    }
     console.log("[Mongoose] Found map entry.");
     //Fetches profile by pid mapped by given uid
     Profile.findById(userMap.pid, (err, profile) => {
@@ -292,7 +296,7 @@ const mapUIDtoPID = (uid, callback) => {
       }
     })
     .catch((err) => {
-      console.log("[Mongoose] Error fetchign a profile");
+      console.log("[Mongoose] Error fetching a profile");
       return callback(err, null);
     });
 };
@@ -336,6 +340,23 @@ const postUpload = (name, url, desc, uid) => {
         console.log(
           "[Mongoose] File entry creation unsuccessful - user not found."
         );
+        reject({ statusCode: 401 });
+      }
+    });
+  });
+};
+
+const getImageUrlOfUser = (uid) => {
+  console.log("[Mongoose] Obtaining profile picture URL of user.");
+  return new Promise((resolve, reject) => {
+    fetchProfileByUID(uid, (err, profile) => {
+      if (!err && profile) {
+        // Removing paths used by API ** REMOVE IF IMPLEMENTED BOOLEAN **
+        const url = profile.image.substr(profile.image.lastIndexOf("/") + 1);
+        console.log("[Mongoose] Profile picture URL found", url);
+        resolve({ statusCode: 200, pfpUrl: url });
+      } else {
+        console.log("[Mongoose] User not found.");
         reject({ statusCode: 401 });
       }
     });
@@ -417,4 +438,6 @@ module.exports = {
   postUpload: postUpload,
   postDelete: postDelete,
   fetchProfileByUID: fetchProfileByUID,
+  mapUIDtoPID: mapUIDtoPID,
+  getImageUrlOfUser: getImageUrlOfUser,
 };

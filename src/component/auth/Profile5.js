@@ -71,23 +71,6 @@ class Profile5 extends Component {
     this.setState({ tabdisp: e.key });
   };
 
-  getFiles(lst) {
-    if (lst) {
-      return lst.map((item, index) => (
-        <div>
-          <Button
-            onClick={() => {
-              ProfileData.getFileDownload(item.name, item.url);
-            }}
-          >
-            <PaperClipOutlined />
-            {item.name}
-          </Button>
-        </div>
-      ));
-    }
-  }
-
   displayProfileSeg = () => {
     if (this.state.tabdisp === "about") {
       return (
@@ -134,14 +117,11 @@ class Profile5 extends Component {
           <Title className="h1size">Projects</Title>
           <div>
             {this.state.isMyProfile && this.state.canEdit ? (
-              <DragUpload
-                token={this.props.token}
-                onChange={ProfileData.onFileListChange.bind(this)}
-              />
+              <DragUpload onChange={ProfileData.onFileListChange.bind(this)} />
             ) : null}
             {console.log(this.state.isMyProfile)}
           </div>
-          {this.getFiles(this.state.profile.filesAndDocs)}
+          {ProfileData.getFiles(this.state.profile.filesAndDocs)}
         </div>
       );
     }
@@ -160,6 +140,7 @@ class Profile5 extends Component {
                   isMyProfile={this.state.isMyProfile}
                   canEdit={this.state.canEdit}
                   mobileView={this.state.mobileView}
+                  onPFPChange={ProfileData.handlePFPChange.bind(this)}
                 />
               </div>
               <div className="prof5-img">

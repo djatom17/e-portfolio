@@ -13,6 +13,7 @@ const jwtSecret =
   process.env.NODE_ENV === "development"
     ? require("config").get("jwtSecret")
     : process.env.JWT_SECRET;
+
 const jwt = require("jsonwebtoken");
 
 /**
@@ -31,10 +32,11 @@ function auth(req, res, next) {
   const token = req.header("x-auth-token");
 
   // Check for token
-  if (!token)
+  if (!token) {
     return res.status(401).json({
       error: "No token, authorisation denied",
     });
+  }
 
   try {
     // Verify token

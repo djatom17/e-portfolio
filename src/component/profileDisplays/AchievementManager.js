@@ -62,10 +62,8 @@ export class AchievementManager extends Component {
                     <Col flex="auto">
                       <Paragraph key={item}>
                         <span
-                          onDoubleClick={
-                            this.props.isMyProfile &&
-                            this.props.canEdit &&
-                            ((e) => {
+                          onDoubleClick={(e) => {
+                            if (this.props.isMyProfile && this.props.canEdit) {
                               this.setState(
                                 {
                                   editInputIndex: index,
@@ -75,9 +73,9 @@ export class AchievementManager extends Component {
                                   this.editInput.focus();
                                 }
                               );
-                              e.preventDefault();
-                            })
-                          }
+                            }
+                            e.preventDefault();
+                          }}
                         >
                           {item}
                         </span>
