@@ -317,23 +317,19 @@ const postUpload = (name, url, desc, uid, isCert) => {
   console.log("[Mongoose] Creating file entry");
   return new Promise((resolve, reject) => {
     // Find the profile corresponding to the user and retrieve it.
-    console.log(name, desc);
     fetchProfileByUID(uid, true, (e, profile) => {
       if (!e && profile) {
         // Hydrate object received as it is lean.
         profile = Profile.hydrate(profile);
+        const newFileEntry = {
+          name: name,
+          description: desc,
+          url: url,
+        };
         if (isCert) {
-          profile.certificates.push({
-            name: name,
-            description: desc,
-            url: url,
-          });
+          profile.certificates.push(newFileEntry);
         } else {
-          profile.filesAndDocs.push({
-            name: name,
-            description: desc,
-            url: url,
-          });
+          profile.filesAndDocs.push(newFileEntry);
         }
         profile.save((err) => {
           if (err) {

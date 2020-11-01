@@ -1,7 +1,7 @@
 /**
  * This file provides a schema generator for storing File related information during
  * upload/download. Mainly used in ProfileSchema as an array.
- * 
+ *
  * @file Schema for FileSchema
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
@@ -14,9 +14,9 @@ const Schema = mongoose.Schema;
 
 /**
  * Constructs a new FileSchema when called.
- * 
+ *
  * Creates a new JSON Schema by providing name, (optional) date and url.
- * 
+ *
  * @function FileSchema
  * @see ProfileSchema in Profile.js
  * @param {String} name user-defined file name.
@@ -33,7 +33,7 @@ const FileSchema = new Schema({
   },
   url: {
     type: String,
-    required: true,
+    // required: true,
   },
   date: {
     type: Date,
