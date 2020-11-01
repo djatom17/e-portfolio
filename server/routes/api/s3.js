@@ -47,6 +47,10 @@ s3router.get("/dl/*", function (req, res, next) {
 /**
  * Handles POST request for uploading file onto S3 and logging.
  *
+ * Must be included in headers:
+ * x-pfp-upload {String} "true" or "false"
+ * x-cert {String} "true" of "false"
+ * 
  * req.files should have {file, description}.
  * 1. Creates a hashname from file contents and use it as key in S3.
  * 2. upload file onto S3 bucket.
@@ -54,16 +58,12 @@ s3router.get("/dl/*", function (req, res, next) {
  *
  * @requires ./auth
  */
-s3router.post("/upload/:type", auth, function (req, res, next) {
+s3router.post("/upload", auth, function (req, res, next) {
   console.log("[S3] Trying to upload file ");
 
   var busboy = new Busboy({ headers: req.headers });
   var hashName = "";
   var isCert = false;
-  //Determine upload certificate or projects
-  if (req.params.type === "certificate") {
-    isCert = true;
-  }
 
   busboy.on("finish", function () {
     var file = req.files.file;
@@ -103,8 +103,13 @@ s3router.post("/upload/:type", auth, function (req, res, next) {
               return res.status(e.statusCode).json({ error: e });
             });
         } else {
+          //Determine upload certificate or projects
+          if (req.header("x-cert") === "true") {
+            isCert = true;
+          }
+          console.log("Checked headers");
           mongo
-            .postUpload(file.name, hashName, req.files.description, req.user.id)
+            .postUpload(file.name, hashName, req.files.description, req.user.id, isCert)
             .then((success) => {
               return res.status(success.statusCode).json({ fileUrl: hashName });
             })
@@ -123,6 +128,9 @@ s3router.post("/upload/:type", auth, function (req, res, next) {
 /**
  * Handles POST request for removing a file on S3 and its record on user Profile.
  *
+ * Must include in headers:
+ * x-cert {String} "true" or "false"
+ * 
  * 1. Validates the owner of the file is the requesting user.
  * 2. If validated, removes the file from S3 bucket and the File entry from
  *  user's Profile.
@@ -130,20 +138,20 @@ s3router.post("/upload/:type", auth, function (req, res, next) {
  *
  * @requires ./auth
  */
-s3router.post("/remove/:type/:file", auth, function (req, res, next) {
+s3router.post("/remove/:file", auth, function (req, res, next) {
   console.log(
     "[S3] Trying to remove file " + req.params.file + " owned by " + req.user.id
   );
   var isCert = false;
 
-  if (req.params.type === "certificate") {
+  if (req.header("x-cert") === "true") {
     isCert = true;
   }
 
   validateFileOwner(req.user.id, req.params.file, isCert)
     .then((s) => {
       var params = { Bucket: AWSBucket, Key: req.params.file };
-      s3.deleteObject(params, (err, reply) => {
+      s3.deleteObject(params, (err, data) => {
         if (err) {
           console.log("[S3] File deletion failed.");
           return res.status(500).json({ error: err });
