@@ -25,6 +25,10 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import EditButton from "../profileDisplays/EditButton";
+import EducationManager from "../profileDisplays/EducationManager";
+import CareerManager from "../profileDisplays/CareerManager";
+import CareerManagerSmall from "../profileDisplays/CareerManagerSmall";
+import EducationManagerSmall from "../profileDisplays/EducationManagerSmall";
 
 const { Title, Paragraph } = Typography;
 const { Link } = Anchor;
@@ -188,14 +192,27 @@ class Profile extends Component {
                     >
                       {this.state.profile.about}
                     </Paragraph>
+                    <Typography.Title>Time zone</Typography.Title>
+                    <Paragraph
+                        ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+                        editable={
+                          this.state.canEdit
+                              ? {
+                                onChange: (fieldName) =>
+                                    this.setEditablefieldName("timezone", fieldName),
+                                autoSize: { minRows: 1, maxRows: 5 },
+                              }
+                              : false
+                        }
+                    >
+                      {this.state.profile.timezone}
+                    </Paragraph>
                   </Descriptions>
+
                   <h2></h2>
                   <Descriptions title="User Info Card" bordered>
-                    <Descriptions.Item label="Name" span={2}>
+                    <Descriptions.Item label="Name">
                       {ProfileData.getName(this.state.profile)}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Occupation Status">
-                      Get Curr job thing
                     </Descriptions.Item>
                     <Descriptions.Item label="Time Zone">
                       {this.state.profile.timezone}
@@ -206,19 +223,28 @@ class Profile extends Component {
                     <Descriptions.Item label="Speciality">
                       {this.state.profile.specialty}
                     </Descriptions.Item>
-                    <Descriptions.Item label="Education">
-                      {/* {ProfileData.getElements(this.state.profile.education)} */}
+                  </Descriptions>
+                  <h2></h2>
+                  <Descriptions title="Career" bordered>
+                    <Descriptions.Item label="Education" span={1}>
+                      <EducationManagerSmall
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          data={this.state.profile.education}
+                          changeList={this.changeList}
+                          themeCol={this.props.profile.primaryColour}
+                          mobileView={this.state.mobileView}
+                      />
                     </Descriptions.Item>
-                    <Descriptions.Item label="Job Experience">
-                      MicroSoft/ Senior developer/ 3years/ 2003~2006
-                      <br />
-                      Naver/ Senior developer/ 3years/ 2003~2006
-                      <br />
-                      Nintendo/ Senior developer/ 3years/ 2003~2006
-                      <br />
-                      Bethsesda/ Senior developer/ 3years/ 2003~2006
-                      <br />
-                      Samsong/ Junior developer/ 3years/ 2003~2006
+                    <Descriptions.Item label="Job Experience" span={1}>
+                      <CareerManagerSmall
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          data={this.state.profile.workHistory}
+                          changeList={this.changeList}
+                          themeCol={this.props.profile.primaryColour}
+                          mobileView={this.state.mobileView}
+                      />
                     </Descriptions.Item>
                   </Descriptions>
                   <h2></h2>

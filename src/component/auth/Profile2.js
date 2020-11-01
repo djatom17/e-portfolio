@@ -181,13 +181,12 @@ class Profile2 extends Component {
                   </Col>
                 </Row>
               </Row>
-              <Title className="h1size">Work Time Zone</Title>
               <Row className="mt-3 mx-4">
                 <Divider id="Time zone" className="h9size" orientation="left">
                   Work Time Zone
                 </Divider>
                   <Row className="my-3 mx-4">
-                    <Paragraph
+                    <Paragraph className="psize"
                         ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
                         editable={
                           this.state.canEdit
