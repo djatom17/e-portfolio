@@ -211,9 +211,6 @@ class Profile extends Component {
 
                   <h2></h2>
                   <Descriptions title="User Info Card" bordered>
-                    <Descriptions.Item label="Name">
-                      {ProfileData.getName(this.state.profile)}
-                    </Descriptions.Item>
                     <Descriptions.Item label="Time Zone">
                       {this.state.profile.timezone}
                     </Descriptions.Item>
