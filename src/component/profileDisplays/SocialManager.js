@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
 import { Button, Row, Col, Checkbox, Input } from "antd";
 import "antd/dist/antd.css";
 import {
@@ -265,9 +264,8 @@ export class SocialManager extends Component {
               style={{ color: this.state.textColour }}
               icon={<LinkedinOutlined />}
               className="mt-3"
-            >
-              <Link to={this.state.linkedinLink} />
-            </Button>
+              href={this.state.linkedinLink}
+            />
           ) : null}
           {this.state.twitterEnabled ? (
             <Button
@@ -275,9 +273,8 @@ export class SocialManager extends Component {
               style={{ color: this.state.textColour }}
               icon={<TwitterOutlined />}
               className="mt-3"
-            >
-              <Link to={this.state.twitterLink} />
-            </Button>
+              href={this.state.twitterLink}
+            />
           ) : null}
           {this.state.githubEnabled ? (
             <Button
@@ -285,9 +282,8 @@ export class SocialManager extends Component {
               style={{ color: this.state.textColour }}
               icon={<GithubOutlined />}
               className="mt-3"
-            >
-              <Link to={this.state.githubLink} />
-            </Button>
+              href={this.state.githubLink}
+            />
           ) : null}{" "}
         </Row>
       </div>
