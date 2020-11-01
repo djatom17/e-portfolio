@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
 import { Button, Row, Col, Checkbox, Input } from "antd";
 import "antd/dist/antd.css";
 import {
@@ -12,7 +13,6 @@ import * as ProfileData from "../../api/ProfileData";
 
 export class SocialManager extends Component {
   state = {
-    editInputValue: "",
     linkedinEnabled: false,
     twitterEnabled: false,
     githubEnabled: false,
@@ -20,11 +20,14 @@ export class SocialManager extends Component {
     twitterLink: "",
     githubLink: "",
     editing: "none",
+    editInputValue: "",
     textColour: "#40A9FF",
   };
 
   componentDidMount() {
-    console.log(this.props.textColour);
+    this.saveEditInputRef = ProfileData.saveEditInputRef.bind(this);
+    this.handleEditInputChange = ProfileData.handleEditInputChange.bind(this);
+
     if (this.props.textColour) {
       this.setState({ textColour: this.props.textColour });
     }
@@ -43,6 +46,7 @@ export class SocialManager extends Component {
         });
       }
       if (this.props.data.linkedin) {
+        console.log(this.props.data.linkedin.link);
         this.setState({
           linkedinEnabled: this.props.data.linkedin.isEnabled,
           linkedinLink: this.props.data.linkedin.link,
@@ -50,6 +54,32 @@ export class SocialManager extends Component {
       }
     }
   }
+
+  // save all changes before unmounting
+  saveChanges = () => {
+    // set inner objects
+    var newLinkedin = {
+      link: this.state.linkedinLink,
+      isEnabled: this.state.linkedinEnabled,
+    };
+    var newTwitter = {
+      link: this.state.twitterLink,
+      isEnabled: this.state.twitterEnabled,
+    };
+    var newGithub = {
+      link: this.state.githubLink,
+      isEnabled: this.state.githubEnabled,
+    };
+
+    // set outer object
+    var newSocial = {
+      linkedin: newLinkedin,
+      twitter: newTwitter,
+      github: newGithub,
+    };
+
+    this.props.changeObj("social", newSocial);
+  };
 
   // check/uncheck linkedin
   checkLinkedin = (e) => {
@@ -91,15 +121,37 @@ export class SocialManager extends Component {
                 placeholder="Linkedin"
                 prefix={<LinkedinOutlined />}
                 style={{ position: "relative", top: "8px" }}
+                value={this.state.editInputValue}
                 ref={(input) => input && input.focus()}
-                onBlur={() => this.setState({ editing: "none" })}
+                onChange={this.handleEditInputChange}
+                onBlur={() => {
+                  this.setState({
+                    editing: "none",
+                    linkedinLink: this.state.editInputValue,
+                    editInputValue: "",
+                  });
+                  this.saveChanges();
+                }}
+                onPressEnter={() => {
+                  this.setState({
+                    editing: "none",
+                    linkedinLink: this.state.editInputValue,
+                    editInputValue: "",
+                  });
+                  this.saveChanges();
+                }}
               />
             ) : (
               <Button
                 type="link"
                 style={{ color: this.state.textColour }}
                 icon={<LinkedinOutlined />}
-                onClick={() => this.setState({ editing: "linkedin" })}
+                onClick={() =>
+                  this.setState({
+                    editing: "linkedin",
+                    editInputValue: this.state.linkedinLink,
+                  })
+                }
               />
             )}
           </Col>
@@ -118,16 +170,38 @@ export class SocialManager extends Component {
                 placeholder="Twitter"
                 prefix={<TwitterOutlined />}
                 style={{ position: "relative", top: "8px" }}
+                value={this.state.editInputValue}
                 // focus on render
                 ref={(input) => input && input.focus()}
-                onBlur={() => this.setState({ editing: "none" })}
+                onChange={this.handleEditInputChange}
+                onBlur={() => {
+                  this.setState({
+                    editing: "none",
+                    twitterLink: this.state.editInputValue,
+                    editInputValue: "",
+                  });
+                  this.saveChanges();
+                }}
+                onPressEnter={() => {
+                  this.setState({
+                    editing: "none",
+                    twitterLink: this.state.editInputValue,
+                    editInputValue: "",
+                  });
+                  this.saveChanges();
+                }}
               />
             ) : (
               <Button
                 type="link"
                 style={{ color: this.state.textColour }}
                 icon={<TwitterOutlined />}
-                onClick={() => this.setState({ editing: "twitter" })}
+                onClick={() =>
+                  this.setState({
+                    editing: "twitter",
+                    editInputValue: this.state.twitterLink,
+                  })
+                }
               />
             )}
           </Col>
@@ -145,15 +219,37 @@ export class SocialManager extends Component {
                 placeholder="GitHub"
                 prefix={<GithubOutlined />}
                 style={{ position: "relative", top: "8px" }}
+                value={this.state.editInputValue}
                 ref={(input) => input && input.focus()}
-                onBlur={() => this.setState({ editing: "none" })}
+                onChange={this.handleEditInputChange}
+                onBlur={() => {
+                  this.setState({
+                    editing: "none",
+                    githubLink: this.state.editInputValue,
+                    editInputValue: "",
+                  });
+                  this.saveChanges();
+                }}
+                onPressEnter={() => {
+                  this.setState({
+                    editing: "none",
+                    githubLink: this.state.editInputValue,
+                    editInputValue: "",
+                  });
+                  this.saveChanges();
+                }}
               />
             ) : (
               <Button
                 type="link"
                 style={{ color: this.state.textColour }}
                 icon={<GithubOutlined />}
-                onClick={() => this.setState({ editing: "github" })}
+                onClick={() =>
+                  this.setState({
+                    editing: "github",
+                    editInputValue: this.state.githubLink,
+                  })
+                }
               />
             )}
           </Col>
@@ -169,7 +265,9 @@ export class SocialManager extends Component {
               style={{ color: this.state.textColour }}
               icon={<LinkedinOutlined />}
               className="mt-3"
-            />
+            >
+              <Link to={this.state.linkedinLink} />
+            </Button>
           ) : null}
           {this.state.twitterEnabled ? (
             <Button
@@ -177,7 +275,9 @@ export class SocialManager extends Component {
               style={{ color: this.state.textColour }}
               icon={<TwitterOutlined />}
               className="mt-3"
-            />
+            >
+              <Link to={this.state.twitterLink} />
+            </Button>
           ) : null}
           {this.state.githubEnabled ? (
             <Button
@@ -185,7 +285,9 @@ export class SocialManager extends Component {
               style={{ color: this.state.textColour }}
               icon={<GithubOutlined />}
               className="mt-3"
-            />
+            >
+              <Link to={this.state.githubLink} />
+            </Button>
           ) : null}{" "}
         </Row>
       </div>
