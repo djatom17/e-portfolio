@@ -6,6 +6,7 @@ import CareerManager from "../profileDisplays/CareerManager";
 import SkillManager from "../profileDisplays/SkillManager";
 import SocialManager from "../profileDisplays/SocialManager";
 import EducationManager from "../profileDisplays/EducationManager";
+import ContactDetails from "../profileDisplays/ContactDetails";
 import EditButton from "../profileDisplays/EditButton";
 import DragUpload from "../profileDisplays/DragUpload";
 import ProjectManager from "../profileDisplays/ProjectManager";
@@ -281,7 +282,7 @@ class Profile3 extends Component {
                   />
                 </TabPane>
                 <TabPane tab="Education" key="3">
-                  <Title>Education</Title>
+                  <Title className="h1size">Education</Title>
                   <EducationManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
@@ -301,7 +302,7 @@ class Profile3 extends Component {
                   />
                 </TabPane>
                 <TabPane tab="Projects" key="5">
-                  <Typography.Title>Projects</Typography.Title>
+                  <Title className="h1size">Projects</Title>
                   <div>
                     {this.state.isMyProfile && this.state.canEdit ? (
                       <DragUpload
@@ -341,7 +342,16 @@ class Profile3 extends Component {
                   </div>
                 </TabPane>
                 <TabPane tab="Contact Details" key="7">
-                  <Typography.Title>Time zone</Typography.Title>
+                  <Title className="h1size">Contact Details</Title>
+                  {console.log(this.state.profile.contact)}
+                  {this.state.profile && this.state.profile.contact && (
+                    <ContactDetails
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.contact}
+                      changeObj={this.setEditablefieldName}
+                    />
+                  )}
+                  <Title className="h1size">Time zone</Title>
                   <Paragraph
                     className="psize"
                     editable={
@@ -354,8 +364,6 @@ class Profile3 extends Component {
                   >
                     {this.state.profile.timezone}
                   </Paragraph>
-                  <Typography.Title>Contact Details</Typography.Title>
-                  {/* {ProfileData.getElements(this.state.profile.social)} */}
                 </TabPane>
               </Tabs>
             </Row>
