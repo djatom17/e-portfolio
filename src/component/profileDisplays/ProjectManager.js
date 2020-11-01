@@ -44,7 +44,7 @@ export class ProjectManager extends Component {
     this.setState({
       inputVisible: false,
     });
-    this.props.changeList(data, "filesAndDocs");
+    this.props.changeList(data, this.props.type);
   };
 
   // edit existing Project card
@@ -58,7 +58,7 @@ export class ProjectManager extends Component {
       editInputIndex: -1,
     });
 
-    this.props.changeList(data, "filesAndDocs");
+    this.props.changeList(data, this.props.type);
   };
 
   render() {
@@ -141,7 +141,11 @@ export class ProjectManager extends Component {
                             type="link"
                             icon={<DeleteOutlined />}
                             onClick={() =>
-                              this.handleCloseCard("filesAndDocs", item, "role")
+                              this.handleCloseCard(
+                                this.props.type,
+                                item,
+                                "role"
+                              )
                             }
                           />
                         </Col>
@@ -186,10 +190,19 @@ export class ProjectManager extends Component {
                         </Row>
                       </Route>
                     </BrowserRouter> */}
-                    <a href={item.url} download={item.name}>
+                    {/* <a href={item.url} download={item.name}>
                       <PaperClipOutlined />
                       {item.name}
-                    </a>
+                    </a> */}
+                    <Button
+                      type="link"
+                      onClick={() =>
+                        ProfileData.getFileDownload(item.name, item.url)
+                      }
+                    >
+                      <PaperClipOutlined />
+                      {item.name}
+                    </Button>
                   </Row>
                   {this.props.isMyProfile && this.props.canEdit ? (
                     <Row justify="space-around">
@@ -220,7 +233,7 @@ export class ProjectManager extends Component {
                           type="link"
                           icon={<DeleteOutlined />}
                           onClick={() =>
-                            this.handleCloseCard("filesAndDocs", item, "name")
+                            this.handleCloseCard(this.props.type, item, "name")
                           }
                         />
                       </Col>
