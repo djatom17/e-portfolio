@@ -99,6 +99,7 @@ class Profile2 extends Component {
           <Link href="#WorkExperience" title="Experience" />
           <Link href="#Achievements" title="Achievements" />
           <Link href="#Projects" title="Projects" />
+          <Link href="#Certificates" title="Certificates" />
           <Link href="#Contact" title="Contact" />
           <div>
             {this.state.isMyProfile ? (
@@ -300,6 +301,7 @@ class Profile2 extends Component {
                       {this.state.isMyProfile && this.state.canEdit ? (
                         <DragUpload
                           onChange={ProfileData.onFileListChange.bind(this)}
+                          isCert={false}
                         />
                       ) : null}
                     </div>
@@ -310,6 +312,35 @@ class Profile2 extends Component {
                       changeList={this.changeList}
                       themeCol={this.props.profile.primaryColour}
                       type="filesAndDocs"
+                    />
+                  </Col>
+                </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider
+                  id="Certificates"
+                  className="h9size"
+                  orientation="left"
+                >
+                  Certificates
+                </Divider>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    <div>
+                      {this.state.isMyProfile && this.state.canEdit ? (
+                        <DragUpload
+                          onChange={ProfileData.onFileListChange.bind(this)}
+                          isCert={true}
+                        />
+                      ) : null}
+                    </div>
+                    <ProjectManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.certificates}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                      type="certificates"
                     />
                   </Col>
                 </Row>

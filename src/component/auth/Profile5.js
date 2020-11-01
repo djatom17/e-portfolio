@@ -110,19 +110,40 @@ class Profile5 extends Component {
               {this.state.profile.about}
             </Paragraph>
           </div>
-          <Title className="h1size">Work Time Zone</Title>
-          <Paragraph
-            className="psize"
-            editable={
-              this.state.isMyProfile && this.state.canEdit
-                ? {
-                    onChange: (e) => this.setEditableStr("timezone", e),
-                  }
-                : false
-            }
-          >
-            {this.state.profile.timezone}
-          </Paragraph>
+          <div>
+            <Title className="h1size">Work Time Zone</Title>
+            <Paragraph
+              className="psize"
+              editable={
+                this.state.isMyProfile && this.state.canEdit
+                  ? {
+                      onChange: (e) => this.setEditableStr("timezone", e),
+                    }
+                  : false
+              }
+            >
+              {this.state.profile.timezone}
+            </Paragraph>
+          </div>
+          <Title className="h1size">Certificates</Title>
+          <div>
+            {this.state.isMyProfile && this.state.canEdit ? (
+              <DragUpload
+                onChange={ProfileData.onFileListChange.bind(this)}
+                isCert={true}
+              />
+            ) : null}
+          </div>
+          <div>
+            <ProjectManager
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              data={this.state.profile.certificates}
+              changeList={this.changeList}
+              themeCol={this.props.profile.primaryColour}
+              type="certificates"
+            />
+          </div>
         </div>
       );
     } else if (this.state.tabdisp === "skills") {
@@ -179,7 +200,10 @@ class Profile5 extends Component {
           <Title className="h1size">Projects</Title>
           <div>
             {this.state.isMyProfile && this.state.canEdit ? (
-              <DragUpload onChange={ProfileData.onFileListChange.bind(this)} />
+              <DragUpload
+                onChange={ProfileData.onFileListChange.bind(this)}
+                isCert={false}
+              />
             ) : null}
           </div>
           <ProjectManager

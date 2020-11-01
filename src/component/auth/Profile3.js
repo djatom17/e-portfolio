@@ -280,7 +280,7 @@ class Profile3 extends Component {
                     changeList={this.changeList}
                   />
                 </TabPane>
-                <TabPane tab="Education" key="5">
+                <TabPane tab="Education" key="3">
                   <Title>Education</Title>
                   <EducationManager
                     isMyProfile={this.state.isMyProfile}
@@ -290,7 +290,7 @@ class Profile3 extends Component {
                     themeCol={this.props.profile.primaryColour}
                   />
                 </TabPane>
-                <TabPane tab="Career" key="3" className="mb-3">
+                <TabPane tab="Career" key="4" className="mb-3">
                   <Title className="h1size">Experience</Title>
                   <CareerManager
                     isMyProfile={this.state.isMyProfile}
@@ -300,12 +300,13 @@ class Profile3 extends Component {
                     themeCol={this.props.profile.primaryColour}
                   />
                 </TabPane>
-                <TabPane tab="Projects" key="4">
+                <TabPane tab="Projects" key="5">
                   <Typography.Title>Projects</Typography.Title>
                   <div>
                     {this.state.isMyProfile && this.state.canEdit ? (
                       <DragUpload
                         onChange={ProfileData.onFileListChange.bind(this)}
+                        isCert={false}
                       />
                     ) : null}
                   </div>
@@ -318,11 +319,28 @@ class Profile3 extends Component {
                     type="filesAndDocs"
                   />
                 </TabPane>
-                <TabPane tab="Certificates" key="5">
-                  {/* <Typography.Title>Education</Typography.Title>
-                  {ProfileData.getElements(this.state.profile.education)} */}
+                <TabPane tab="Certificates" key="6">
+                  <Title className="h1size">Certificates</Title>
+                  <div>
+                    {this.state.isMyProfile && this.state.canEdit ? (
+                      <DragUpload
+                        onChange={ProfileData.onFileListChange.bind(this)}
+                        isCert={true}
+                      />
+                    ) : null}
+                  </div>
+                  <div>
+                    <ProjectManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.certificates}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                      type="certificates"
+                    />
+                  </div>
                 </TabPane>
-                <TabPane tab="Contact Details" key="6">
+                <TabPane tab="Contact Details" key="7">
                   <Typography.Title>Time zone</Typography.Title>
                   <Paragraph
                     className="psize"
