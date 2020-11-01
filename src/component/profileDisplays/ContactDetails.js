@@ -11,10 +11,13 @@ export class ContactDetails extends Component {
     email: "",
     phone: "",
     address: "",
+    editing: "",
+    editInputValue: "",
   };
 
   constructor() {
     super();
+    this.handleEditInputChange = ProfileData.handleEditInputChange.bind(this);
   }
 
   componentDidMount() {
@@ -33,94 +36,118 @@ export class ContactDetails extends Component {
     }
   }
 
-  // setEmail
-  setEmail = (str) => {
-    this.setState({ email: str });
-    console.log(this.state.email);
-  };
-
-  // setPhone
-  setPhone = (str) => {
-    this.setState({ phone: str });
-  };
-
-  // setAddress
-  setAddress = (str) => {
-    this.setState({ address: str });
-  };
-
-  // save changes to database
+  // save changes to db
   saveChanges = () => {
-    // set outer objects
+    if (this.state.editing == "email") {
+      this.setState({ email: this.state.editInputValue });
+    }
+    if (this.state.editing == "phone") {
+      this.setState({ phone: this.state.editInputValue });
+    }
+    if (this.state.editing == "address") {
+      this.setState({ address: this.state.editInputValue });
+    }
     var newContact = {
       email: this.state.email,
       phone: this.state.phone,
       address: this.state.address,
     };
 
+    this.setState({ editing: "", editInputValue: "" });
     this.props.changeObj("contact", newContact);
   };
 
   render() {
+    const { editing } = this.state;
+    if (this.props.canEdit) {
+      return (
+        <div>
+          <Typography style={{ fontSize: "24px" }}>
+            <Row gutter={16}>
+              <Col>Email: </Col>
+              <Col>
+                {editing == "email" ? (
+                  <Input
+                    value={this.state.editInputValue}
+                    ref={(input) => input && input.focus()}
+                    onChange={this.handleEditInputChange}
+                    onPressEnter={() => this.saveChanges()}
+                  />
+                ) : (
+                  <Paragraph>
+                    <span
+                      onDoubleClick={() =>
+                        this.setState({
+                          editing: "email",
+                          editInputValue: this.state.email,
+                        })
+                      }
+                    >
+                      {this.state.email}
+                    </span>
+                  </Paragraph>
+                )}
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              {" "}
+              <Col>Phone: </Col>{" "}
+              <Col>
+                {editing == "phone" ? (
+                  <Input />
+                ) : (
+                  <Paragraph>
+                    <span
+                      onDoubleClick={() => this.setState({ editing: "phone" })}
+                    >
+                      {this.state.phone}
+                    </span>
+                  </Paragraph>
+                )}
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col>Address: </Col>
+              <Col>
+                {editing == "address" ? (
+                  <Input />
+                ) : (
+                  <Paragraph>
+                    <span
+                      onDoubleClick={() =>
+                        this.setState({ editing: "address" })
+                      }
+                    >
+                      {this.state.address}
+                    </span>
+                  </Paragraph>
+                )}
+              </Col>
+            </Row>
+          </Typography>
+        </div>
+      );
+    }
     return (
       <div>
         <Typography style={{ fontSize: "24px" }}>
           <Row gutter={16}>
             <Col>Email: </Col>
             <Col>
-              <Paragraph
-                editable={
-                  this.props.canEdit
-                    ? {
-                        onChange: (str) => {
-                          this.setEmail(str);
-                          this.saveChanges();
-                        },
-                      }
-                    : false
-                }
-              >
-                {this.state.email}
-              </Paragraph>
+              <Paragraph>{this.state.email}</Paragraph>
             </Col>
           </Row>
           <Row gutter={16}>
             {" "}
             <Col>Phone: </Col>{" "}
             <Col>
-              <Paragraph
-                editable={
-                  this.props.canEdit
-                    ? {
-                        onChange: (str) => {
-                          this.setPhone(str);
-                          this.saveChanges();
-                        },
-                      }
-                    : false
-                }
-              >
-                {this.state.phone}
-              </Paragraph>
+              <Paragraph>{this.state.phone}</Paragraph>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col>Address: </Col>
             <Col>
-              <Paragraph
-                editable={
-                  this.props.canEdit
-                    ? {
-                        onChange: (str) => {
-                          this.setAddress(str);
-                          this.saveChanges();
-                        },
-                      }
-                    : false
-                }
-              >
-                {this.state.address}
-              </Paragraph>
+              <Paragraph>{this.state.address}</Paragraph>
             </Col>
           </Row>
         </Typography>

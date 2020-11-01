@@ -54,7 +54,7 @@ export class SocialManager extends Component {
     }
   }
 
-  // save all changes before unmounting
+  // save
   saveChanges = () => {
     // set inner objects
     var newLinkedin = {

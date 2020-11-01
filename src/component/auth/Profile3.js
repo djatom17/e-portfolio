@@ -343,7 +343,7 @@ class Profile3 extends Component {
                 </TabPane>
                 <TabPane tab="Contact Details" key="7">
                   <Title className="h1size">Contact Details</Title>
-                  {console.log(this.state.profile.contact)}
+
                   {this.state.profile && this.state.profile.contact && (
                     <ContactDetails
                       canEdit={this.state.canEdit}
