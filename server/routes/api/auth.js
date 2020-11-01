@@ -1,6 +1,6 @@
 /**
  * Contains middleware related to autherisations and token validation.
- * 
+ *
  * @file Middleware for authenticating user tokens.
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
@@ -13,11 +13,11 @@ const jwt = require("jsonwebtoken");
 
 /**
  * Middleware for validating auth token for core functions.
- * 
+ *
  * Intended to be the first middleware to execute in an API call.
- * Checks user token in request body params and validates it /check 
+ * Checks user token in request body params and validates it /check
  * expiry. Passes to next route after validation successful.
- * 
+ *
  * @function [auth]
  * @param {Object} req Request body in JSON.
  * @param {Object} res Response body in JSON.
@@ -27,10 +27,11 @@ function auth(req, res, next) {
   const token = req.header("x-auth-token");
 
   // Check for token
-  if (!token)
+  if (!token) {
     return res.status(401).json({
       error: "No token, authorisation denied",
     });
+  }
 
   try {
     // Verify token

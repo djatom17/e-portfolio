@@ -1,6 +1,6 @@
 /**
  * Aggregrates backend APIs into core frontend function calls.
- * 
+ *
  * @file Functions for front-end to route API calls
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
@@ -11,8 +11,30 @@
 import React from "react";
 import axios from "axios";
 import { Typography, Button } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PaperClipOutlined } from "@ant-design/icons";
 const { Paragraph } = Typography;
+
+export function getFiles(files) {
+  if (files) {
+    return files.map((file) => (
+      <div>
+        <Button onClick={() => getFileDownload(file.name, file.url)}>
+          <PaperClipOutlined />
+          {file.name}
+        </Button>
+      </div>
+    ));
+  }
+}
+
+// Profile picture changing
+// When the user selects a new image, preview it on the thumbnail
+export function handlePFPChange(file) {
+  this.setState({
+    profile: { ...this.state.profile, image: file.preview },
+    profileChanges: { ...this.state.profileChanges, image: file },
+  });
+}
 
 export function getFileDownload(filename, fileLocation) {
   axios.get(fileLocation, { responseType: "blob" }).then((response) => {
@@ -95,9 +117,9 @@ export function getName(profile) {
 
 /**
  * Pushes user profile changes onto the database.
- * 
+ *
  * Will not perform updates if profileChanges is empty.
- * 
+ *
  * @param {String} pid Profile ID of affected profile.
  * @param {Object} profileChanges Profile JSON schema of attribute changes.
  * @param {String} token Auth token of user.
@@ -122,11 +144,11 @@ export function updateProfile(pid, profileChanges, token) {
 
 /**
  * Changes user password on the users database.
- * 
+ *
  * Does not refresh user session nor log users out.
  * Will only perform update operations if newPassword is not empty.
  * newPassword should follow password attribute of User schema.
- * 
+ *
  * @function [changePassword]
  * @see userAuth.js
  * @param {Object} newPassword Password to be changed to.

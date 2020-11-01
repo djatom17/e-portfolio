@@ -11,9 +11,9 @@ exports[`Front-end tests Profile Layout 5  when the user does not have authentic
               <div style={{...}} className=\\"ant-col\\">
                 <div className=\\"prof5\\">
                   <div className=\\"container-fluid prof5-img\\">
-                    <ProfilePicture image={[undefined]} isMyProfile={false} canEdit={false} mobileView={false}>
-                      <Col flex=\\"200px\\" onMouseEnter={[Function: onMouseEnter]} onMouseLeave={[Function: onMouseLeave]}>
-                        <div onMouseEnter={[Function: onMouseEnter]} onMouseLeave={[Function: onMouseLeave]} style={{...}} className=\\"ant-col\\">
+                    <ProfilePicture image={[undefined]} isMyProfile={false} canEdit={false} mobileView={false} onPFPChange={[Function: bound handlePFPChange]}>
+                      <Col flex=\\"200px\\" onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]}>
+                        <div onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} style={{...}} className=\\"ant-col\\">
                           <Avatar alt=\\"pfp\\" className=\\"pfp\\" src={[undefined]} shape=\\"square\\" size=\\"default\\">
                             <span style={{...}} className=\\"ant-avatar ant-avatar-square pfp\\">
                               <ResizeObserver onResize={[Function: setScaleParam]}>
