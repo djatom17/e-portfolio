@@ -6,7 +6,9 @@ import SkillManager from "../profileDisplays/SkillManager";
 import EducationManager from "../profileDisplays/EducationManager";
 import SocialManager from "../profileDisplays/SocialManager";
 import CareerManager from "../profileDisplays/CareerManager";
+import ProjectManager from "../profileDisplays/ProjectManager";
 import EditButton from "../profileDisplays/EditButton";
+import DragUpload from "../profileDisplays/DragUpload";
 import * as ProfileData from "../../api/ProfileData";
 
 import "antd/dist/antd.css";
@@ -91,9 +93,13 @@ class Profile2 extends Component {
         >
           <Link href="#Top" title="Profile" />
           <Link href="#About" title="About Me" />
+          <Link href="#Specialty" title="Specialty" />
           <Link href="#Skills" title="Key Skills" />
           <Link href="#Education" title="Education" />
           <Link href="#WorkExperience" title="Experience" />
+          <Link href="#Achievements" title="Achievements" />
+          <Link href="#Projects" title="Projects" />
+          <Link href="#Contact" title="Contact" />
           <div>
             {this.state.isMyProfile ? (
               <EditButton
@@ -137,9 +143,23 @@ class Profile2 extends Component {
               <Title className=" h1size ">
                 {ProfileData.getName(this.state.profile)}
               </Title>
-              <Paragraph className="psize mt-n3">
+              {/* <Paragraph className="psize mt-n3">
+                {this.state.profile.subtitle}
+              </Paragraph> */}
+              <Paragraph
+                className="psize mt-n3"
+                style={{ color: this.state.textColour }}
+                editable={
+                  this.state.isMyProfile && this.state.canEdit
+                    ? {
+                        onChange: (e) => this.setEditableStr("subtitle", e),
+                      }
+                    : false
+                }
+              >
                 {this.state.profile.subtitle}
               </Paragraph>
+
               <Row justify="center" className="mt-n4">
                 {this.state.profile && this.state.profile.social && (
                   <SocialManager
@@ -183,14 +203,25 @@ class Profile2 extends Component {
               </Row>
 
               <Row className="mt-3 mx-4">
-                <Divider id="Key Skills" className="h9size" orientation="left">
+                <Divider id="Specialty" className="h9size" orientation="left">
                   Areas of Speciality
                 </Divider>
-                {this.state.profile.specialty}
+                <Paragraph
+                  className="psize"
+                  editable={
+                    this.state.isMyProfile && this.state.canEdit
+                      ? {
+                          onChange: (e) => this.setEditableStr("specialty", e),
+                        }
+                      : false
+                  }
+                >
+                  {this.state.profile.specialty}
+                </Paragraph>
               </Row>
 
               <Row className="mt-3 mx-4">
-                <Divider id="Key Skills" className="h9size" orientation="left">
+                <Divider id="Skills" className="h9size" orientation="left">
                   Key Skills
                 </Divider>
                 <Row className="my-3 mx-4">
@@ -260,18 +291,55 @@ class Profile2 extends Component {
                 </Row>
               </Row>
               <Row className="mt-3 mx-4">
-                <Divider
-                  id="Achievements"
-                  className="h9size"
-                  orientation="left"
-                >
-                  Contacts
+                <Divider id="Projects" className="h9size" orientation="left">
+                  Projects
+                </Divider>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    <div>
+                      {this.state.isMyProfile && this.state.canEdit ? (
+                        <DragUpload
+                          onChange={ProfileData.onFileListChange.bind(this)}
+                        />
+                      ) : null}
+                    </div>
+                    <ProjectManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.filesAndDocs}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                      type="filesAndDocs"
+                    />
+                  </Col>
+                </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider id="Contact" className="h9size" orientation="left">
+                  Contact Information
                 </Divider>
                 {/* <Row className="mt-3 mx-4">
                   <Col>
                     {ProfileData.getElements(this.state.profile.social)}
                   </Col>
                 </Row> */}
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider id="TimeZone" className="h9size" orientation="left">
+                  Time Zone
+                </Divider>
+                <Paragraph
+                  className="psize"
+                  editable={
+                    this.state.isMyProfile && this.state.canEdit
+                      ? {
+                          onChange: (e) => this.setEditableStr("timezone", e),
+                        }
+                      : false
+                  }
+                >
+                  {this.state.profile.timezone}
+                </Paragraph>
               </Row>
             </Typography>
           </Col>

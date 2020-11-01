@@ -8,6 +8,7 @@ import SocialManager from "../profileDisplays/SocialManager";
 import EducationManager from "../profileDisplays/EducationManager";
 import EditButton from "../profileDisplays/EditButton";
 import DragUpload from "../profileDisplays/DragUpload";
+import ProjectManager from "../profileDisplays/ProjectManager";
 import * as ProfileData from "../../api/ProfileData";
 import { Row, Col, Typography, Button, Divider, Tabs } from "antd";
 import {
@@ -138,6 +139,21 @@ class Profile3 extends Component {
               }
             >
               {this.state.profile.about}
+            </Paragraph>
+            <h4>My specialty-</h4>
+            <Paragraph
+              ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+              editable={
+                this.state.canEdit
+                  ? {
+                      onChange: (fieldName) =>
+                        this.setEditablefieldName("specialty", fieldName),
+                      autoSize: { minRows: 1, maxRows: 5 },
+                    }
+                  : false
+              }
+            >
+              {this.state.profile.specialty}
             </Paragraph>
 
             {this.state.profile && this.state.profile.social && (
@@ -286,12 +302,21 @@ class Profile3 extends Component {
                 </TabPane>
                 <TabPane tab="Projects" key="4">
                   <Typography.Title>Projects</Typography.Title>
-                  {this.state.isMyProfile && this.state.canEdit ? (
-                    <DragUpload
-                      onChange={ProfileData.onFileListChange.bind(this)}
-                    />
-                  ) : null}
-                  {ProfileData.getFiles(this.state.profile.filesAndDocs)}
+                  <div>
+                    {this.state.isMyProfile && this.state.canEdit ? (
+                      <DragUpload
+                        onChange={ProfileData.onFileListChange.bind(this)}
+                      />
+                    ) : null}
+                  </div>
+                  <ProjectManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.filesAndDocs}
+                    changeList={this.changeList}
+                    themeCol={this.props.profile.primaryColour}
+                    type="filesAndDocs"
+                  />
                 </TabPane>
                 <TabPane tab="Certificates" key="5">
                   {/* <Typography.Title>Education</Typography.Title>
@@ -299,7 +324,18 @@ class Profile3 extends Component {
                 </TabPane>
                 <TabPane tab="Contact Details" key="6">
                   <Typography.Title>Time zone</Typography.Title>
-                  {this.state.profile.timezone}
+                  <Paragraph
+                    className="psize"
+                    editable={
+                      this.state.isMyProfile && this.state.canEdit
+                        ? {
+                            onChange: (e) => this.setEditableStr("timezone", e),
+                          }
+                        : false
+                    }
+                  >
+                    {this.state.profile.timezone}
+                  </Paragraph>
                   <Typography.Title>Contact Details</Typography.Title>
                   {/* {ProfileData.getElements(this.state.profile.social)} */}
                 </TabPane>

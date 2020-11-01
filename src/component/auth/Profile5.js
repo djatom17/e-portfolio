@@ -11,12 +11,12 @@ import EditButton from "../profileDisplays/EditButton";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import SocialManager from "../profileDisplays/SocialManager";
 import SkillManager from "../profileDisplays/SkillManager";
+import ProjectManager from "../profileDisplays/ProjectManager";
 import EducationManager from "../profileDisplays/EducationManager";
 import CareerManager from "../profileDisplays/CareerManager";
 import { Row, Col, Menu, Typography, Button } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
-import ProjectManager from "../profileDisplays/ProjectManager";
 
 const { Title, Paragraph } = Typography;
 
@@ -87,22 +87,8 @@ class Profile5 extends Component {
 
   // Tab click event handler
   handleTabClick = (e) => {
-    console.log("click ", e);
     this.setState({ tabdisp: e.key });
   };
-
-  getFiles(lst) {
-    if (lst) {
-      return lst.map((item, index) => (
-        <div>
-          <Link to={item.url}>
-            <PaperClipOutlined />
-            {item.description}
-          </Link>
-        </div>
-      ));
-    }
-  }
 
   displayProfileSeg = () => {
     if (this.state.tabdisp === "about") {
@@ -125,14 +111,18 @@ class Profile5 extends Component {
             </Paragraph>
           </div>
           <Title className="h1size">Work Time Zone</Title>
-          {this.state.profile.timezone}
-          <Title className="h1size">Achievements</Title>
-          <AchievementManager
-            isMyProfile={this.state.isMyProfile}
-            canEdit={this.state.canEdit}
-            data={this.state.profile.achievements}
-            changeList={this.changeList}
-          />
+          <Paragraph
+            className="psize"
+            editable={
+              this.state.isMyProfile && this.state.canEdit
+                ? {
+                    onChange: (e) => this.setEditableStr("timezone", e),
+                  }
+                : false
+            }
+          >
+            {this.state.profile.timezone}
+          </Paragraph>
         </div>
       );
     } else if (this.state.tabdisp === "skills") {
@@ -146,21 +136,25 @@ class Profile5 extends Component {
             changeList={this.changeList}
           />
           <Title className="h1size">Speciality</Title>
-          {this.state.profile.specialty}
-          <Title className="h1size">Projects</Title>
-          <div>
-            {this.state.isMyProfile && this.state.canEdit ? (
-              <DragUpload token={this.props.token} />
-            ) : null}
-          </div>
-          <ProjectManager
+          <Paragraph
+            className="psize"
+            editable={
+              this.state.isMyProfile && this.state.canEdit
+                ? {
+                    onChange: (e) => this.setEditableStr("specialty", e),
+                  }
+                : false
+            }
+          >
+            {this.state.profile.specialty}
+          </Paragraph>
+          <Title className="h1size">Achievements</Title>
+          <AchievementManager
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
-            data={this.state.profile.filesAndDocs}
+            data={this.state.profile.achievements}
             changeList={this.changeList}
-            themeCol={this.props.profile.primaryColour}
           />
-          {/* {this.getFiles(this.state.profile.filesAndDocs)} */}
         </div>
       );
     } else if (this.state.tabdisp === "experience") {
@@ -181,6 +175,20 @@ class Profile5 extends Component {
             data={this.state.profile.workHistory}
             changeList={this.changeList}
             themeCol={this.props.profile.primaryColour}
+          />
+          <Title className="h1size">Projects</Title>
+          <div>
+            {this.state.isMyProfile && this.state.canEdit ? (
+              <DragUpload onChange={ProfileData.onFileListChange.bind(this)} />
+            ) : null}
+          </div>
+          <ProjectManager
+            isMyProfile={this.state.isMyProfile}
+            canEdit={this.state.canEdit}
+            data={this.state.profile.filesAndDocs}
+            changeList={this.changeList}
+            themeCol={this.props.profile.primaryColour}
+            type="filesAndDocs"
           />
         </div>
       );
@@ -277,9 +285,9 @@ class Profile5 extends Component {
                   <Menu.Item key="experience" className="modified-item">
                     Experience
                   </Menu.Item>
-                  <Menu.Item key="projects" className="modified-item">
+                  {/* <Menu.Item key="projects" className="modified-item">
                     Contacts
-                  </Menu.Item>
+                  </Menu.Item> */}
                 </Menu>
               </div>
             </div>
