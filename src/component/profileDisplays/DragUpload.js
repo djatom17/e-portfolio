@@ -57,14 +57,18 @@ class DragUpload extends Component {
     formData.append("name", values.name);
     formData.append("description", values.description);
 
+    const headers = {
+      "x-auth-token": this.props.token,
+      "Content-Type": "multipart/form-data",
+    };
+
+    headers["x-cert"] = this.props.isCert ? "true" : "false";
+
     this.setState({ uploading: true });
 
     axios
       .post("/api/file/upload", formData, {
-        headers: {
-          "x-auth-token": this.props.token,
-          "Content-Type": "multipart/form-data",
-        },
+        headers: headers,
       })
       .then((response) => {
         if (response.data.error) {
