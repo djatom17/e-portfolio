@@ -24,6 +24,7 @@ import "antd/dist/antd.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import EditButton from "../profileDisplays/EditButton";
 
 const { Title, Paragraph } = Typography;
 const { Link } = Anchor;
@@ -141,7 +142,7 @@ class Profile extends Component {
                   </Breadcrumb>
                   <Row>
                     <Col span={18} push={5}>
-                      <h1>{ProfileData.getName(this.state.profile)}</h1>
+                      <h1></h1>
                     </Col>
                     <Col span={6} pull={17}>
                       <ProfilePicture
@@ -150,14 +151,28 @@ class Profile extends Component {
                         canEdit={this.state.canEdit}
                         onPFPChange={ProfileData.handlePFPChange.bind(this)}
                       />
+                      <h1>{ProfileData.getName(this.state.profile)}</h1>
+                      <div>
+                        {this.state.isMyProfile ? (
+                            <EditButton
+                                _id={this.state.profile._id}
+                                profileChanges={this.state.profileChanges}
+                                token={this.props.token}
+                                isMyProfile={this.state.isMyProfile}
+                                canEdit={this.state.canEdit}
+                                color="black"
+                                changeEdit={() =>
+                                    this.setState({
+                                      canEdit: !this.state.canEdit,
+                                      profileChanges: {},
+                                    })
+                                }
+                            />
+                        ) : null}
+                      </div>
                     </Col>
                   </Row>
                   <h2></h2>
-                  {/* <Carousel afterChange={onChange}>
-                    <div>
-                      <h3 style={contentStyle}></h3>
-                    </div>
-                  </Carousel> */}
                   <Descriptions title="About me" bordered>
                     <Paragraph
                       ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
@@ -174,6 +189,7 @@ class Profile extends Component {
                       {this.state.profile.about}
                     </Paragraph>
                   </Descriptions>
+                  <h2></h2>
                   <Descriptions title="User Info Card" bordered>
                     <Descriptions.Item label="Name" span={2}>
                       {ProfileData.getName(this.state.profile)}
@@ -205,6 +221,7 @@ class Profile extends Component {
                       Samsong/ Junior developer/ 3years/ 2003~2006
                     </Descriptions.Item>
                   </Descriptions>
+                  <h2></h2>
                   <Descriptions title="Social Media" bordered>
                     {/* <h1>
                       {ProfileData.getElements(this.state.profile.social)}
