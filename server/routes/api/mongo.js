@@ -116,9 +116,7 @@ mongorouter.post("/p-update/:ID", [auth, checkLink], function (req, res, next) {
 });
 
 //Inserting new profiles for admin
-mongorouter.post("/p-profile", function (req, res, next) {
-  
-});
+mongorouter.post("/p-profile", function (req, res, next) {});
 
 /**
  * Filters/searches profiles based on the key skills that are stored.
@@ -210,7 +208,7 @@ const fetchProfileByUID = (uid, isRaw, callback) => {
       if (!isRaw) {
         profile = appendProfilePaths(profile);
       }
-      
+
       profile.userid = uid;
       //Successful operation
       return callback(null, profile);
@@ -319,14 +317,23 @@ const postUpload = (name, url, desc, uid, isCert) => {
   console.log("[Mongoose] Creating file entry");
   return new Promise((resolve, reject) => {
     // Find the profile corresponding to the user and retrieve it.
+    console.log(name, desc);
     fetchProfileByUID(uid, true, (e, profile) => {
       if (!e && profile) {
         // Hydrate object received as it is lean.
         profile = Profile.hydrate(profile);
         if (isCert) {
-          profile.certificates.push({ name, desc, url });
+          profile.certificates.push({
+            name: name,
+            description: desc,
+            url: url,
+          });
         } else {
-          profile.filesAndDocs.push({ name, desc, url });
+          profile.filesAndDocs.push({
+            name: name,
+            description: desc,
+            url: url,
+          });
         }
         profile.save((err) => {
           if (err) {
