@@ -50,7 +50,7 @@ s3router.get("/dl/*", function (req, res, next) {
  * Must be included in headers:
  * x-pfp-upload {String} "true" or "false"
  * x-cert {String} "true" of "false"
- * 
+ *
  * req.files should have {file, description}.
  * 1. Creates a hashname from file contents and use it as key in S3.
  * 2. upload file onto S3 bucket.
@@ -109,7 +109,13 @@ s3router.post("/upload", auth, function (req, res, next) {
           }
           console.log("Checked headers");
           mongo
-            .postUpload(file.name, hashName, req.files.description, req.user.id, isCert)
+            .postUpload(
+              file.name,
+              hashName,
+              req.files.description,
+              req.user.id,
+              isCert
+            )
             .then((success) => {
               return res.status(success.statusCode).json({ fileUrl: hashName });
             })
@@ -130,7 +136,7 @@ s3router.post("/upload", auth, function (req, res, next) {
  *
  * Must include in headers:
  * x-cert {String} "true" or "false"
- * 
+ *
  * 1. Validates the owner of the file is the requesting user.
  * 2. If validated, removes the file from S3 bucket and the File entry from
  *  user's Profile.
@@ -160,7 +166,7 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
           mongo
             .postDelete(req.params.file, req.user.id, isCert)
             .then((success) => {
-              return res.status(success.statusCode);
+              return res.status(success.statusCode).send();
             })
             .catch((err) => {
               return res.status(err.statusCode).json({ error: err });
@@ -196,12 +202,14 @@ const validateFileOwner = (userID, userFile, isCert) => {
       if (err || !profile) {
         console.log("[S3] Permission to modify file denied.");
         reject({ statusCode: 500 });
-      } else if (!isCert &&
+      } else if (
+        !isCert &&
         profile.filesAndDocs.filter((file) => file.url === userFile).length > 0
       ) {
         console.log("[S3] Permission granted.");
         resolve({ statusCode: 202 });
-      } else if (isCert &&
+      } else if (
+        isCert &&
         profile.certificates.filter((file) => file.url === userFile).length > 0
       ) {
         console.log("[S3] Permission granted.");
