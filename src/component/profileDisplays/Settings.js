@@ -89,7 +89,8 @@ class Settings extends Component {
     };
     const { isVisible } = this.props;
     const onFinish = (values) => {
-      var addChange = {};
+      var addChangePass = {};
+      var addChangeEmail = {};
       const { email, password } = values;
       const user = {
         email,
@@ -97,9 +98,13 @@ class Settings extends Component {
       };
       console.log("Received values of form: ", user);
       // Change details and check for empty
+      if (email) {
+        addChangeEmail["email"] = email;
+        ProfileData.changeEmail(addChangeEmail, this.props.token);
+      }
       if (password) {
-        addChange["password"] = password;
-        ProfileData.changePassword(addChange, this.props.token);
+        addChangePass["password"] = password;
+        ProfileData.changePassword(addChangePass, this.props.token);
       }
     };
     return (
@@ -344,7 +349,7 @@ class Settings extends Component {
                       {...formItemLayout}
                       id="Profile"
                       name="ProfileSettings"
-                      initialValues={{ email: this.props.user.email }}
+                      initialValues={{}}
                       onFinish={onFinish}
                     >
                       <Form.Item>
