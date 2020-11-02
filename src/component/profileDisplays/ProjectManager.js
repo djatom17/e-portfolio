@@ -34,19 +34,6 @@ export class ProjectManager extends Component {
     this.setState({ inputValue: allFields });
   };
 
-  // add new Project card
-  addProjectCard = (values) => {
-    let data = this.props.data;
-
-    if (values && data) {
-      data = [...data, values];
-    }
-    this.setState({
-      inputVisible: false,
-    });
-    this.props.changeList(data, this.props.type);
-  };
-
   // edit existing Project card
   editProjectCard = (values) => {
     let { editInputIndex } = this.state;

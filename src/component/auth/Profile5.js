@@ -42,6 +42,8 @@ class Profile5 extends Component {
 
   constructor() {
     super();
+    this.setEditablefieldName = ProfileData.setEditableStr.bind(this);
+    this.setEditablefieldNameArr = ProfileData.setEditableStrArr.bind(this);
     this.setEditableStr = ProfileData.setEditableStr.bind(this);
     this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
     this.getElementsNew = ProfileData.getElementsNew.bind(this);
@@ -216,18 +218,6 @@ class Profile5 extends Component {
           />
         </div>
       );
-    } else if (this.state.tabdisp === "projects") {
-      return (
-        <div>
-          <Title className="h1size">Social Media</Title>
-          <AchievementManager
-            isMyProfile={this.state.isMyProfile}
-            canEdit={this.state.canEdit}
-            data={this.state.profile.achievements}
-            changeObj={this.setEditableStr}
-          />
-        </div>
-      );
     }
   };
 
@@ -285,6 +275,8 @@ class Profile5 extends Component {
                         ? "black"
                         : "white"
                     }
+                    changeObj={ProfileData.setEditableStr}
+                    data={this.state.profile.social}
                   />
                 </Row>
               </div>
@@ -309,9 +301,6 @@ class Profile5 extends Component {
                   <Menu.Item key="experience" className="modified-item">
                     Experience
                   </Menu.Item>
-                  {/* <Menu.Item key="projects" className="modified-item">
-                    Contacts
-                  </Menu.Item> */}
                 </Menu>
               </div>
             </div>
@@ -339,21 +328,7 @@ class Profile5 extends Component {
               ) : null}
             </div>
             <Row className="mt-3">
-              <Col>
-                {" "}
-                {this.displayProfileSeg()}
-                {/* {this.state.isMyProfile ? (
-                  <Settings
-                    handleOk={this.handleOk}
-                    handleCancel={this.handleCancel}
-                    showModal={this.showModal}
-                    layout={this.state.layout}
-                    visible={this.state.settingsVisible}
-                    loading={this.state.settingsLoading}
-                    themeCustom={this.themeCustom}
-                  />
-                ) : null} */}
-              </Col>
+              <Col> {this.displayProfileSeg()}</Col>
             </Row>
           </Col>
         </Row>

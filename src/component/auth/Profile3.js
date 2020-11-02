@@ -46,6 +46,8 @@ class Profile3 extends Component {
     super();
     this.setEditablefieldName = ProfileData.setEditableStr.bind(this);
     this.setEditablefieldNameArr = ProfileData.setEditableStrArr.bind(this);
+    this.setEditableStr = ProfileData.setEditableStr.bind(this);
+    this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
     this.resize = ProfileData.resize.bind(this);
@@ -306,7 +308,7 @@ class Profile3 extends Component {
                   <div>
                     {this.state.isMyProfile && this.state.canEdit ? (
                       <DragUpload
-                        onChange={ProfileData.onCertificatesChange.bind(this)}
+                        onChange={ProfileData.onProjectsChange.bind(this)}
                         isCert={false}
                       />
                     ) : null}
@@ -325,7 +327,7 @@ class Profile3 extends Component {
                   <div>
                     {this.state.isMyProfile && this.state.canEdit ? (
                       <DragUpload
-                        onChange={ProfileData.onProjectsChange.bind(this)}
+                        onChange={ProfileData.onCertificatesChange.bind(this)}
                         isCert={true}
                       />
                     ) : null}

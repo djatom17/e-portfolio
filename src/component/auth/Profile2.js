@@ -56,6 +56,8 @@ class Profile2 extends Component {
 
   constructor() {
     super();
+    this.setEditablefieldName = ProfileData.setEditableStr.bind(this);
+    this.setEditablefieldNameArr = ProfileData.setEditableStrArr.bind(this);
     this.setEditableStr = ProfileData.setEditableStr.bind(this);
     this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
     this.getElementsNew = ProfileData.getElementsNew.bind(this);
@@ -207,24 +209,19 @@ class Profile2 extends Component {
                 <Divider id="Specialty" className="h9size" orientation="left">
                   Areas of Speciality
                 </Divider>
-                <Row>
-                  <Col>
-                    <Paragraph
-                      className="psize"
-                      editable={
-                        this.state.isMyProfile && this.state.canEdit
-                          ? {
-                              onChange: (e) =>
-                                this.setEditableStr("specialty", e),
-                              autoSize: { minRows: 1, maxRows: 5 },
-                            }
-                          : false
-                      }
-                    >
-                      {this.state.profile.specialty}
-                    </Paragraph>
-                  </Col>
-                </Row>
+                <Paragraph
+                  className="psize"
+                  editable={
+                    this.state.isMyProfile && this.state.canEdit
+                      ? {
+                          onChange: (e) =>
+                            this.setEditablefieldName("specialty", e),
+                        }
+                      : false
+                  }
+                >
+                  {this.state.profile.specialty}
+                </Paragraph>
               </Row>
               <Row className="mt-3 mx-4">
                 <Divider id="Time zone" className="h9size" orientation="left">

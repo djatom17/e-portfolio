@@ -38,13 +38,13 @@ export class ContactDetails extends Component {
 
   // save changes to db
   saveChanges = () => {
-    if (this.state.editing == "email") {
+    if (this.state.editing === "email") {
       this.setState({ email: this.state.editInputValue });
     }
-    if (this.state.editing == "phone") {
+    if (this.state.editing === "phone") {
       this.setState({ phone: this.state.editInputValue });
     }
-    if (this.state.editing == "address") {
+    if (this.state.editing === "address") {
       this.setState({ address: this.state.editInputValue });
     }
     var newContact = {
