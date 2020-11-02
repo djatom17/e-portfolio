@@ -52,7 +52,7 @@ export class ProjectManager extends Component {
     let { editInputIndex } = this.state;
 
     let data = this.props.data;
-    data[editInputIndex] = values;
+    data[editInputIndex] = { ...data[editInputIndex], ...values };
 
     this.setState({
       editInputIndex: -1,
@@ -69,6 +69,7 @@ export class ProjectManager extends Component {
         <Row>
           {this.props.data &&
             this.props.data.map((item, index) => {
+              console.log(this.props.data);
               if (
                 this.props.isMyProfile &&
                 this.props.canEdit &&
@@ -178,33 +179,17 @@ export class ProjectManager extends Component {
                     <Paragraph className="psize">{item.description}</Paragraph>
                   </Row>
                   <Row>
-                    {/* <BrowserRouter>
-                      <Route exact path={item.url}>
-                        <Row>
-                          <Link>
-                            <Col className="mt-n1">
-                              <PaperClipOutlined />
-                            </Col>
-                            <Col>{item.name}</Col>
-                          </Link>
-                        </Row>
-                      </Route>
-                    </BrowserRouter> */}
-                    {/* <a href={item.url} download={item.name}>
-                      <PaperClipOutlined />
-                      {item.name}
-                    </a> */}
                     {item.url && (
                       <Button
                         type="link"
                         onClick={() =>
                           ProfileData.getFileDownload(
-                            item.name,
+                            item.filename,
                             ProfileData.getFileLink(item.url)
                           )
                         }
                       >
-                        {console.log(item.url)}
+                        {console.log(item.filename)}
                         <PaperClipOutlined />
                         {item.name}
                       </Button>
@@ -249,10 +234,16 @@ export class ProjectManager extends Component {
               );
             })}
 
-          {inputVisible ? (
+          {/* {inputVisible ? (
             // inputVisible: add new Upload card
-            <DragUpload />
-          ) : null}
+            <DragUpload
+              onChange={
+                this.props.type === "filesAndDocs"
+                  ? ProfileData.onProjectsChange.bind(this)
+                  : ProfileData.onCertificatesChange.bind(this)
+              }
+            />
+          ) : null} */}
         </Row>
       </div>
     );

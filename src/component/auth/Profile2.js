@@ -300,7 +300,7 @@ class Profile2 extends Component {
                     <div>
                       {this.state.isMyProfile && this.state.canEdit ? (
                         <DragUpload
-                          onChange={ProfileData.onFileListChange.bind(this)}
+                          onChange={ProfileData.onProjectsChange.bind(this)}
                           isCert={false}
                         />
                       ) : null}
@@ -329,7 +329,7 @@ class Profile2 extends Component {
                     <div>
                       {this.state.isMyProfile && this.state.canEdit ? (
                         <DragUpload
-                          onChange={ProfileData.onFileListChange.bind(this)}
+                          onChange={ProfileData.onCertificatesChange.bind(this)}
                           isCert={true}
                         />
                       ) : null}
