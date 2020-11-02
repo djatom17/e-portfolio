@@ -31,6 +31,7 @@ import CareerManagerSmall from "../profileDisplays/CareerManagerSmall";
 import EducationManagerSmall from "../profileDisplays/EducationManagerSmall";
 import SkillManager from "../profileDisplays/SkillManager";
 import AchievementManager from "../profileDisplays/AchievementManager";
+import ContactDetails from "../profileDisplays/ContactDetails";
 
 const { Title, Paragraph } = Typography;
 const { Link } = Anchor;
@@ -272,12 +273,27 @@ class Profile extends Component {
                     </Descriptions.Item>
                   </Descriptions>
                   <h2></h2>
-
-
-
-
+                  <Descriptions title="Life time Achievements"  classname="h1size" bordered>
+                    <Descriptions.Item>
+                      <AchievementManager
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          data={this.state.profile.achievements}
+                          changeList={this.changeList}
+                      />
+                    </Descriptions.Item>
+                  </Descriptions>
+                  <Descriptions title="Projects" bordered></Descriptions>
                   <h2></h2>
-                  <Descriptions title="Contacts" bordered></Descriptions>
+                  <Descriptions title="Contacts" bordered>
+                    {this.state.profile && this.state.profile.contact && (
+                        <ContactDetails
+                            canEdit={this.state.canEdit}
+                            data={this.state.profile.contact}
+                            changeObj={this.setEditablefieldName}
+                        />
+                    )}
+                  </Descriptions>
                 </Content>
               </Typography>
             </Container>
