@@ -78,16 +78,18 @@ export class ContactDetails extends Component {
                 )}
               </Col>
               <Col>
-                <Button
-                  type="link"
-                  icon={<EditOutlined />}
-                  onClick={() =>
-                    this.setState({
-                      editing: "email",
-                      editInputValue: this.state.email,
-                    })
-                  }
-                />
+                {editing == "email" ? null : (
+                  <Button
+                    type="link"
+                    icon={<EditOutlined />}
+                    onClick={() =>
+                      this.setState({
+                        editing: "email",
+                        editInputValue: this.state.email,
+                      })
+                    }
+                  />
+                )}
               </Col>
             </Row>
             <Row gutter={16}>
@@ -106,16 +108,18 @@ export class ContactDetails extends Component {
                 )}
               </Col>
               <Col>
-                <Button
-                  type="link"
-                  icon={<EditOutlined />}
-                  onClick={() =>
-                    this.setState({
-                      editing: "phone",
-                      editInputValue: this.state.phone,
-                    })
-                  }
-                />
+                {editing == "phone" ? null : (
+                  <Button
+                    type="link"
+                    icon={<EditOutlined />}
+                    onClick={() =>
+                      this.setState({
+                        editing: "phone",
+                        editInputValue: this.state.phone,
+                      })
+                    }
+                  />
+                )}
               </Col>
             </Row>
             <Row gutter={16}>
@@ -133,16 +137,18 @@ export class ContactDetails extends Component {
                 )}
               </Col>
               <Col>
-                <Button
-                  type="link"
-                  icon={<EditOutlined />}
-                  onClick={() =>
-                    this.setState({
-                      editing: "address",
-                      editInputValue: this.state.address,
-                    })
-                  }
-                />
+                {editing == "address" ? null : (
+                  <Button
+                    type="link"
+                    icon={<EditOutlined />}
+                    onClick={() =>
+                      this.setState({
+                        editing: "address",
+                        editInputValue: this.state.address,
+                      })
+                    }
+                  />
+                )}
               </Col>
             </Row>
           </Typography>
