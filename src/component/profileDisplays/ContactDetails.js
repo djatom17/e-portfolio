@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Button, Row, Col, Typography, Input, Tag, Tooltip } from "antd";
 import "antd/dist/antd.css";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import * as ProfileData from "../../api/ProfileData";
 
 const { Title, Paragraph } = Typography;
@@ -74,19 +74,20 @@ export class ContactDetails extends Component {
                     onPressEnter={() => this.saveChanges()}
                   />
                 ) : (
-                  <Paragraph>
-                    <span
-                      onDoubleClick={() =>
-                        this.setState({
-                          editing: "email",
-                          editInputValue: this.state.email,
-                        })
-                      }
-                    >
-                      {this.state.email}
-                    </span>
-                  </Paragraph>
+                  <Paragraph>{this.state.email}</Paragraph>
                 )}
+              </Col>
+              <Col>
+                <Button
+                  type="link"
+                  icon={<EditOutlined />}
+                  onClick={() =>
+                    this.setState({
+                      editing: "email",
+                      editInputValue: this.state.email,
+                    })
+                  }
+                />
               </Col>
             </Row>
             <Row gutter={16}>
@@ -94,34 +95,54 @@ export class ContactDetails extends Component {
               <Col>Phone: </Col>{" "}
               <Col>
                 {editing == "phone" ? (
-                  <Input />
+                  <Input
+                    value={this.state.editInputValue}
+                    ref={(input) => input && input.focus()}
+                    onChange={this.handleEditInputChange}
+                    onPressEnter={() => this.saveChanges()}
+                  />
                 ) : (
-                  <Paragraph>
-                    <span
-                      onDoubleClick={() => this.setState({ editing: "phone" })}
-                    >
-                      {this.state.phone}
-                    </span>
-                  </Paragraph>
+                  <Paragraph>{this.state.phone}</Paragraph>
                 )}
+              </Col>
+              <Col>
+                <Button
+                  type="link"
+                  icon={<EditOutlined />}
+                  onClick={() =>
+                    this.setState({
+                      editing: "phone",
+                      editInputValue: this.state.phone,
+                    })
+                  }
+                />
               </Col>
             </Row>
             <Row gutter={16}>
               <Col>Address: </Col>
               <Col>
                 {editing == "address" ? (
-                  <Input />
+                  <Input
+                    value={this.state.editInputValue}
+                    ref={(input) => input && input.focus()}
+                    onChange={this.handleEditInputChange}
+                    onPressEnter={() => this.saveChanges()}
+                  />
                 ) : (
-                  <Paragraph>
-                    <span
-                      onDoubleClick={() =>
-                        this.setState({ editing: "address" })
-                      }
-                    >
-                      {this.state.address}
-                    </span>
-                  </Paragraph>
+                  <Paragraph>{this.state.address}</Paragraph>
                 )}
+              </Col>
+              <Col>
+                <Button
+                  type="link"
+                  icon={<EditOutlined />}
+                  onClick={() =>
+                    this.setState({
+                      editing: "address",
+                      editInputValue: this.state.address,
+                    })
+                  }
+                />
               </Col>
             </Row>
           </Typography>
