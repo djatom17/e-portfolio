@@ -91,16 +91,22 @@ class Settings extends Component {
     const profileOnFinish = (values) => {
       var addChange = {};
       const { linkToProfile, firstName, lastName } = values;
-      if (linkToProfile) {
+      if (
+        linkToProfile &&
+        linkToProfile !==
+          this.props.linkToProfile.slice(
+            this.props.linkToProfile.lastIndexOf("/") + 1
+          )
+      ) {
         addChange["linkToProfile"] = linkToProfile;
       }
-      if (firstName) {
+      if (firstName && firstName !== this.props.firstName) {
         addChange["firstName"] = firstName;
       }
-      if (lastName) {
+      if (lastName && lastName !== this.props.lastName) {
         addChange["lastName"] = lastName;
       }
-      if (addChange !== {}) {
+      if (addChange) {
         console.log(addChange);
         ProfileData.updateProfile(this.props.pid, addChange, this.props.token);
       }
