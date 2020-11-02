@@ -134,7 +134,7 @@ export class EducationManager extends Component {
                     key={index}
                   >
                     <Form
-                      name="add_degree"
+                      name="edit_degree"
                       onValuesChange={this.trackEdit}
                       onFinish={this.editEducationCard}
                       initialValues={this.formatDate(item, "to", "to")}
@@ -294,7 +294,6 @@ export class EducationManager extends Component {
             >
               <Form
                 name="add_degree"
-                onValuesChange={this.trackEdit}
                 onFinish={this.addEducationCard}
                 labelCol={{ span: 6 }}
                 labelAlign="left"
@@ -309,9 +308,6 @@ export class EducationManager extends Component {
                     },
                   ]}
                 >
-                  <Form.Item name="to" label="Completed">
-                    <DatePicker onChange={this.onChangeDate} picker="month" />
-                  </Form.Item>
                   <Input
                     style={{
                       width: this.props.mobileView ? "90px" : "auto",
@@ -319,6 +315,10 @@ export class EducationManager extends Component {
                     }}
                     placeholder="Course Name"
                   />
+                </Form.Item>
+
+                <Form.Item name="to" label="Completed">
+                  <DatePicker onChange={this.onChangeDate} picker="month" />
                 </Form.Item>
 
                 <Form.Item name="institution" label="Institution">
