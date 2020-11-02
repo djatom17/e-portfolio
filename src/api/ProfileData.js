@@ -183,6 +183,29 @@ export function changePassword(newPassword, token) {
       });
   }
 }
+/**
+ * Changes user email on the users database.
+ *
+ * Does not refresh user session nor log users out.
+ * Will only perform update operations if newEmail is not empty.
+ * newEmail should follow email attribute of User schema.
+ *
+ * @function [changeEmail]
+ * @see userAuth.js
+ * @param {Object} newEmail Email to be changed to.
+ * @param {String} token Auth token of user.
+ */
+export function changeEmail(newEmail, token) {
+  if (Object.keys(newEmail).length !== 0 && newEmail.constructor === Object) {
+    axios
+      .post("/api/auth/change-email", newEmail, {
+        headers: { "x-auth-token": token, "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  }
+}
 
 // Text Editor
 export function setEditableStr(property, str) {
