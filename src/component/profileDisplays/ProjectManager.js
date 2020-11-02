@@ -126,7 +126,7 @@ export class ProjectManager extends Component {
                       </Row>
                       <Row justify="space-around">
                         <Col>
-                          <Form.Item>
+                          <Form.Item name="url">
                             <Button
                               htmlType="submit"
                               size="large"
@@ -194,18 +194,21 @@ export class ProjectManager extends Component {
                       <PaperClipOutlined />
                       {item.name}
                     </a> */}
-                    <Button
-                      type="link"
-                      onClick={() =>
-                        ProfileData.getFileDownload(
-                          item.name,
-                          ProfileData.getFileLink(item.url)
-                        )
-                      }
-                    >
-                      <PaperClipOutlined />
-                      {item.name}
-                    </Button>
+                    {item.url && (
+                      <Button
+                        type="link"
+                        onClick={() =>
+                          ProfileData.getFileDownload(
+                            item.name,
+                            ProfileData.getFileLink(item.url)
+                          )
+                        }
+                      >
+                        {console.log(item.url)}
+                        <PaperClipOutlined />
+                        {item.name}
+                      </Button>
+                    )}
                   </Row>
                   {this.props.isMyProfile && this.props.canEdit ? (
                     <Row justify="space-around">
