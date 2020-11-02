@@ -43,6 +43,17 @@ class Profile extends Component {
     editInputIndex: -1,
     editInputValue: "",
   };
+  constructor() {
+    super();
+    this.setEditableStr = ProfileData.setEditableStr.bind(this);
+    this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
+    this.getElementsNew = ProfileData.getElementsNew.bind(this);
+    this.showModal = ProfileData.showModal.bind(this);
+    this.changeLayout = ProfileData.changeLayout.bind(this);
+    this.changeList = ProfileData.changeList.bind(this);
+    this.resize = ProfileData.resize.bind(this);
+    this.themeCustom = ProfileData.themeCustom.bind(this);
+  }
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
@@ -161,20 +172,20 @@ class Profile extends Component {
                       <h1>{ProfileData.getName(this.state.profile)}</h1>
                       <div>
                         {this.state.isMyProfile ? (
-                            <EditButton
-                                _id={this.state.profile._id}
-                                profileChanges={this.state.profileChanges}
-                                token={this.props.token}
-                                isMyProfile={this.state.isMyProfile}
-                                canEdit={this.state.canEdit}
-                                color="black"
-                                changeEdit={() =>
-                                    this.setState({
-                                      canEdit: !this.state.canEdit,
-                                      profileChanges: {},
-                                    })
-                                }
-                            />
+                          <EditButton
+                            _id={this.state.profile._id}
+                            profileChanges={this.state.profileChanges}
+                            token={this.props.token}
+                            isMyProfile={this.state.isMyProfile}
+                            canEdit={this.state.canEdit}
+                            color="black"
+                            changeEdit={() =>
+                              this.setState({
+                                canEdit: !this.state.canEdit,
+                                profileChanges: {},
+                              })
+                            }
+                          />
                         ) : null}
                       </div>
                     </Col>
@@ -197,50 +208,48 @@ class Profile extends Component {
                     </Paragraph>
                   </Descriptions>
 
-
                   <h2></h2>
                   <Descriptions title="User Info Card" bordered>
                     <Descriptions.Item label="Achievements" span={2}>
                       <AchievementManager
-                          isMyProfile={this.state.isMyProfile}
-                          canEdit={this.state.canEdit}
-                          changeList={this.changeList}
-                          data={this.state.profile.achievements}
+                        isMyProfile={this.state.isMyProfile}
+                        canEdit={this.state.canEdit}
+                        changeList={this.changeList}
+                        data={this.state.profile.achievements}
                       />
                     </Descriptions.Item>
                     <Descriptions.Item label="Skills" span={2}>
                       {/*{ProfileData.getElements(this.state.profile.keySkills)}*/}
                       <SkillManager
-                          isMyProfile={this.state.isMyProfile}
-                          canEdit={this.state.canEdit}
-                          data={this.state.profile.keySkills}
-                          changeList={this.changeList}
+                        isMyProfile={this.state.isMyProfile}
+                        canEdit={this.state.canEdit}
+                        data={this.state.profile.keySkills}
+                        changeList={this.changeList}
                       />
                     </Descriptions.Item>
                     <Descriptions.Item label="Education" span={2}>
                       <EducationManagerSmall
-                          isMyProfile={this.state.isMyProfile}
-                          canEdit={this.state.canEdit}
-                          data={this.state.profile.education}
-                          changeList={this.changeList}
-                          themeCol={this.props.profile.primaryColour}
-                          mobileView={this.state.mobileView}
+                        isMyProfile={this.state.isMyProfile}
+                        canEdit={this.state.canEdit}
+                        data={this.state.profile.education}
+                        changeList={this.changeList}
+                        themeCol={this.props.profile.primaryColour}
+                        mobileView={this.state.mobileView}
                       />
                     </Descriptions.Item>
                     <Descriptions.Item label="Job Experience" span={1}>
                       <CareerManagerSmall
-                          isMyProfile={this.state.isMyProfile}
-                          canEdit={this.state.canEdit}
-                          data={this.state.profile.workHistory}
-                          changeList={this.changeList}
-                          themeCol={this.props.profile.primaryColour}
-                          mobileView={this.state.mobileView}
+                        isMyProfile={this.state.isMyProfile}
+                        canEdit={this.state.canEdit}
+                        data={this.state.profile.workHistory}
+                        changeList={this.changeList}
+                        themeCol={this.props.profile.primaryColour}
+                        mobileView={this.state.mobileView}
                       />
                     </Descriptions.Item>
                   </Descriptions>
                   <h2></h2>
-                  <Descriptions title="Contacts" bordered>
-                  </Descriptions>
+                  <Descriptions title="Contacts" bordered></Descriptions>
                 </Content>
               </Typography>
             </Container>

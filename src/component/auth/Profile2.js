@@ -168,6 +168,7 @@ class Profile2 extends Component {
                     canEdit={this.state.canEdit}
                     textColour="black"
                     data={this.state.profile.social}
+                    changeObj={this.setEditableStr}
                   />
                 )}
               </Row>

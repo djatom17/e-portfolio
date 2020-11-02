@@ -224,7 +224,7 @@ class Profile5 extends Component {
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
             data={this.state.profile.achievements}
-            changeList={this.changeList}
+            changeObj={this.setEditableStr}
           />
         </div>
       );
