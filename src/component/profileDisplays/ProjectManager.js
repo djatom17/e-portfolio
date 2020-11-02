@@ -37,7 +37,7 @@ export class ProjectManager extends Component {
   // add new Project card
   addProjectCard = (values) => {
     let data = this.props.data;
-    console.log(data);
+
     if (values && data) {
       data = [...data, values];
     }
@@ -69,7 +69,6 @@ export class ProjectManager extends Component {
         <Row>
           {this.props.data &&
             this.props.data.map((item, index) => {
-              console.log(this.props.data);
               if (
                 this.props.isMyProfile &&
                 this.props.canEdit &&
@@ -189,7 +188,6 @@ export class ProjectManager extends Component {
                           )
                         }
                       >
-                        {console.log(item.filename)}
                         <PaperClipOutlined />
                         {item.name}
                       </Button>
