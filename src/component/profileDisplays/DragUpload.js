@@ -84,6 +84,7 @@ class DragUpload extends Component {
           // Update parent list
           this.props.onChange(
             values.name,
+            fileList[0].name,
             response.data.fileUrl,
             values.description
           );

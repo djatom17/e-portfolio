@@ -52,13 +52,13 @@ export function getFileDownload(filename, fileLocation) {
 }
 
 // Handles the change of the file list when something new is uploaded.
-export function onFileListChange(name, url, description) {
+export function onFileListChange(name, filename, url, description) {
   this.setState({
     profile: {
       ...this.state.profile,
       filesAndDocs: [
         ...this.state.profile.filesAndDocs,
-        { name, url, description },
+        { name, filename, url, description },
       ],
     },
   });
