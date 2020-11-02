@@ -52,7 +52,7 @@ export function getFileDownload(filename, fileLocation) {
 }
 
 // Handles the change of the file list when something new is uploaded.
-export function onFileListChange(name, filename, url, description) {
+export function onProjectsChange(name, filename, url, description) {
   this.setState({
     profile: {
       ...this.state.profile,
@@ -62,7 +62,18 @@ export function onFileListChange(name, filename, url, description) {
       ],
     },
   });
-  console.log(name, url, description);
+}
+
+export function onCertificatesChange(name, filename, url, description) {
+  this.setState({
+    profile: {
+      ...this.state.profile,
+      certificates: [
+        ...this.state.profile.certificates,
+        { name, filename, url, description },
+      ],
+    },
+  });
 }
 
 /**
