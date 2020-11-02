@@ -74,7 +74,7 @@ export class EducationManager extends Component {
                   // edit mode version of education card
                   <Card
                     style={{
-                      width: this.props.mobileView ? "200px" : "500px",
+                      width: this.props.mobileView ? "200px" : "350px",
                       marginTop: 16,
                       background: this.props.themeCol,
                     }}

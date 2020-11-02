@@ -29,6 +29,8 @@ import EducationManager from "../profileDisplays/EducationManager";
 import CareerManager from "../profileDisplays/CareerManager";
 import CareerManagerSmall from "../profileDisplays/CareerManagerSmall";
 import EducationManagerSmall from "../profileDisplays/EducationManagerSmall";
+import SkillManager from "../profileDisplays/SkillManager";
+import AchievementManager from "../profileDisplays/AchievementManager";
 
 const { Title, Paragraph } = Typography;
 const { Link } = Anchor;
@@ -137,6 +139,7 @@ class Profile extends Component {
                 }}
               >
                 <Content style={{ padding: "0 50px" }}>
+                  <h2></h2>
                   <Breadcrumb style={{ margin: "16px 0" }}>
                     <Breadcrumb.Item>Browse</Breadcrumb.Item>
                     <Breadcrumb.Item>Profile</Breadcrumb.Item>
@@ -192,38 +195,29 @@ class Profile extends Component {
                     >
                       {this.state.profile.about}
                     </Paragraph>
-                    <Typography.Title>Time zone</Typography.Title>
-                    <Paragraph
-                        ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
-                        editable={
-                          this.state.canEdit
-                              ? {
-                                onChange: (fieldName) =>
-                                    this.setEditablefieldName("timezone", fieldName),
-                                autoSize: { minRows: 1, maxRows: 5 },
-                              }
-                              : false
-                        }
-                    >
-                      {this.state.profile.timezone}
-                    </Paragraph>
                   </Descriptions>
+
 
                   <h2></h2>
                   <Descriptions title="User Info Card" bordered>
-                    <Descriptions.Item label="Time Zone">
-                      {this.state.profile.timezone}
+                    <Descriptions.Item label="Achievements" span={2}>
+                      <AchievementManager
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          changeList={this.changeList}
+                          data={this.state.profile.achievements}
+                      />
                     </Descriptions.Item>
-                    <Descriptions.Item label="Specialty">
-                      {ProfileData.getElements(this.state.profile.keySkills)}
+                    <Descriptions.Item label="Skills" span={2}>
+                      {/*{ProfileData.getElements(this.state.profile.keySkills)}*/}
+                      <SkillManager
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          data={this.state.profile.keySkills}
+                          changeList={this.changeList}
+                      />
                     </Descriptions.Item>
-                    <Descriptions.Item label="Speciality">
-                      {this.state.profile.specialty}
-                    </Descriptions.Item>
-                  </Descriptions>
-                  <h2></h2>
-                  <Descriptions title="Career" bordered>
-                    <Descriptions.Item label="Education" span={1}>
+                    <Descriptions.Item label="Education" span={2}>
                       <EducationManagerSmall
                           isMyProfile={this.state.isMyProfile}
                           canEdit={this.state.canEdit}
@@ -245,10 +239,7 @@ class Profile extends Component {
                     </Descriptions.Item>
                   </Descriptions>
                   <h2></h2>
-                  <Descriptions title="Social Media" bordered>
-                    {/* <h1>
-                      {ProfileData.getElements(this.state.profile.social)}
-                    </h1> */}
+                  <Descriptions title="Contacts" bordered>
                   </Descriptions>
                 </Content>
               </Typography>
