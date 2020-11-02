@@ -177,6 +177,7 @@ export function changePassword(newPassword, token) {
 export function setEditableStr(property, str) {
   var addChange = {};
   addChange[property] = str;
+  console.log(str);
   this.setState({
     profileChanges: { ...this.state.profileChanges, ...addChange },
     profile: { ...this.state.profile, ...addChange },
