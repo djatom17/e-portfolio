@@ -72,6 +72,9 @@ class MyProfile extends Component {
             />
             <Settings
               layout={this.state.profile.layout}
+              linkToProfile={this.state.profile.linkToProfile}
+              firstName={this.state.profile.firstName}
+              lastName={this.state.profile.lastName}
               visible={this.props.settingsOnLoad}
               pid={this.state.profile._id}
               primaryColour={this.state.profile.primaryColour}
