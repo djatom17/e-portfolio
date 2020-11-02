@@ -1,15 +1,5 @@
 import React, { Component } from "react";
-import {
-  Row,
-  Col,
-  Card,
-  Typography,
-  Input,
-  Divider,
-  Button,
-  Form,
-  DatePicker,
-} from "antd";
+import { Row, Col, Card, Typography, Input, Divider, Button, Form } from "antd";
 import "antd/dist/antd.css";
 import {
   DeleteOutlined,
@@ -22,7 +12,7 @@ import { Hidden } from "@material-ui/core";
 
 const { Paragraph } = Typography;
 
-export class EducationManager extends Component {
+export class EducationManagerSmall extends Component {
   state = {
     inputVisible: false,
     editInputIndex: -1,
@@ -34,16 +24,10 @@ export class EducationManager extends Component {
     this.handleCloseCard = ProfileData.handleCloseCard.bind(this);
     this.saveInputRef = ProfileData.saveInputRef.bind(this);
     this.saveEditInputRef = ProfileData.saveEditInputRef.bind(this);
-    this.formatDate = ProfileData.formatDate.bind(this);
   }
 
   trackEdit = (changedFields, allFields) => {
     this.setState({ inputValue: allFields });
-  };
-
-  // track dateChange
-  onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
   };
 
   // add new education card
@@ -74,41 +58,6 @@ export class EducationManager extends Component {
   };
 
   render() {
-    // moment
-    var moment = require("moment");
-
-    // form layouts
-    const formItemLayout = {
-      labelCol: {
-        xs: {
-          span: 24,
-        },
-        sm: {
-          span: 8,
-        },
-      },
-      wrapperCol: {
-        xs: {
-          span: 24,
-        },
-        sm: {
-          span: 16,
-        },
-      },
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-
     const { inputVisible, inputValue, editInputIndex, editValue } = this.state;
 
     return (
@@ -125,7 +74,7 @@ export class EducationManager extends Component {
                   // edit mode version of education card
                   <Card
                     style={{
-                      width: this.props.mobileView ? "200px" : "350px",
+                      width: this.props.mobileView ? "200px" : "200px",
                       marginTop: 16,
                       background: this.props.themeCol,
                     }}
@@ -137,7 +86,7 @@ export class EducationManager extends Component {
                       name="add_degree"
                       onValuesChange={this.trackEdit}
                       onFinish={this.editEducationCard}
-                      initialValues={this.formatDate(item, "to", "to")}
+                      initialValues={item}
                       labelCol={{ span: 6 }}
                       labelAlign="left"
                     >
@@ -158,12 +107,6 @@ export class EducationManager extends Component {
                             maxWidth: "150px",
                           }}
                           placeholder="Course Name"
-                        />
-                      </Form.Item>
-                      <Form.Item name="to" label="Completed">
-                        <DatePicker
-                          onChange={this.onChangeDate}
-                          picker="month"
                         />
                       </Form.Item>
 
@@ -216,7 +159,7 @@ export class EducationManager extends Component {
               return (
                 <Card
                   style={{
-                    width: this.props.mobileView ? "200px" : "500px",
+                    width: this.props.mobileView ? "200px" : "350px",
                     marginTop: 16,
                     background: this.props.themeCol,
                   }}
@@ -228,11 +171,6 @@ export class EducationManager extends Component {
                   <Row style={{ overflow: Hidden, whiteSpace: "nowrap" }}>
                     <Col>
                       <h4>{item.name}</h4>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <h6>{moment(item.to).format("M-YYYY")}</h6>
                     </Col>
                   </Row>
                   <Row>
@@ -309,9 +247,6 @@ export class EducationManager extends Component {
                     },
                   ]}
                 >
-                  <Form.Item name="to" label="Completed">
-                    <DatePicker onChange={this.onChangeDate} picker="month" />
-                  </Form.Item>
                   <Input
                     style={{
                       width: this.props.mobileView ? "90px" : "auto",
@@ -415,4 +350,4 @@ export class EducationManager extends Component {
   }
 }
 
-export default EducationManager;
+export default EducationManagerSmall;

@@ -202,7 +202,6 @@ class Profile2 extends Component {
                   </Col>
                 </Row>
               </Row>
-
               <Row className="mt-3 mx-4">
                 <Divider id="Specialty" className="h9size" orientation="left">
                   Areas of Speciality
@@ -219,6 +218,28 @@ class Profile2 extends Component {
                 >
                   {this.state.profile.specialty}
                 </Paragraph>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider id="Time zone" className="h9size" orientation="left">
+                  Work Time Zone
+                </Divider>
+                <Row className="my-3 mx-4">
+                  <Paragraph
+                    className="psize"
+                    ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+                    editable={
+                      this.state.canEdit
+                        ? {
+                            onChange: (fieldName) =>
+                              this.setEditablefieldName("timezone", fieldName),
+                            autoSize: { minRows: 1, maxRows: 5 },
+                          }
+                        : false
+                    }
+                  >
+                    {this.state.profile.timezone}
+                  </Paragraph>
+                </Row>
               </Row>
 
               <Row className="mt-3 mx-4">

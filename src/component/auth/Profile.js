@@ -24,6 +24,13 @@ import "antd/dist/antd.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import EditButton from "../profileDisplays/EditButton";
+import EducationManager from "../profileDisplays/EducationManager";
+import CareerManager from "../profileDisplays/CareerManager";
+import CareerManagerSmall from "../profileDisplays/CareerManagerSmall";
+import EducationManagerSmall from "../profileDisplays/EducationManagerSmall";
+import SkillManager from "../profileDisplays/SkillManager";
+import AchievementManager from "../profileDisplays/AchievementManager";
 
 const { Title, Paragraph } = Typography;
 const { Link } = Anchor;
@@ -132,6 +139,7 @@ class Profile extends Component {
                 }}
               >
                 <Content style={{ padding: "0 50px" }}>
+                  <h2></h2>
                   <Breadcrumb style={{ margin: "16px 0" }}>
                     <Breadcrumb.Item>Browse</Breadcrumb.Item>
                     <Breadcrumb.Item>Profile</Breadcrumb.Item>
@@ -141,7 +149,7 @@ class Profile extends Component {
                   </Breadcrumb>
                   <Row>
                     <Col span={18} push={5}>
-                      <h1>{ProfileData.getName(this.state.profile)}</h1>
+                      <h1></h1>
                     </Col>
                     <Col span={6} pull={17}>
                       <ProfilePicture
@@ -150,14 +158,28 @@ class Profile extends Component {
                         canEdit={this.state.canEdit}
                         onPFPChange={ProfileData.handlePFPChange.bind(this)}
                       />
+                      <h1>{ProfileData.getName(this.state.profile)}</h1>
+                      <div>
+                        {this.state.isMyProfile ? (
+                            <EditButton
+                                _id={this.state.profile._id}
+                                profileChanges={this.state.profileChanges}
+                                token={this.props.token}
+                                isMyProfile={this.state.isMyProfile}
+                                canEdit={this.state.canEdit}
+                                color="black"
+                                changeEdit={() =>
+                                    this.setState({
+                                      canEdit: !this.state.canEdit,
+                                      profileChanges: {},
+                                    })
+                                }
+                            />
+                        ) : null}
+                      </div>
                     </Col>
                   </Row>
                   <h2></h2>
-                  {/* <Carousel afterChange={onChange}>
-                    <div>
-                      <h3 style={contentStyle}></h3>
-                    </div>
-                  </Carousel> */}
                   <Descriptions title="About me" bordered>
                     <Paragraph
                       ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
@@ -174,41 +196,50 @@ class Profile extends Component {
                       {this.state.profile.about}
                     </Paragraph>
                   </Descriptions>
+
+
+                  <h2></h2>
                   <Descriptions title="User Info Card" bordered>
-                    <Descriptions.Item label="Name" span={2}>
-                      {ProfileData.getName(this.state.profile)}
+                    <Descriptions.Item label="Achievements" span={2}>
+                      <AchievementManager
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          changeList={this.changeList}
+                          data={this.state.profile.achievements}
+                      />
                     </Descriptions.Item>
-                    <Descriptions.Item label="Occupation Status">
-                      Get Curr job thing
+                    <Descriptions.Item label="Skills" span={2}>
+                      {/*{ProfileData.getElements(this.state.profile.keySkills)}*/}
+                      <SkillManager
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          data={this.state.profile.keySkills}
+                          changeList={this.changeList}
+                      />
                     </Descriptions.Item>
-                    <Descriptions.Item label="Time Zone">
-                      {this.state.profile.timezone}
+                    <Descriptions.Item label="Education" span={2}>
+                      <EducationManagerSmall
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          data={this.state.profile.education}
+                          changeList={this.changeList}
+                          themeCol={this.props.profile.primaryColour}
+                          mobileView={this.state.mobileView}
+                      />
                     </Descriptions.Item>
-                    <Descriptions.Item label="Specialty">
-                      {ProfileData.getElements(this.state.profile.keySkills)}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Speciality">
-                      {this.state.profile.specialty}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Education">
-                      {/* {ProfileData.getElements(this.state.profile.education)} */}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Job Experience">
-                      MicroSoft/ Senior developer/ 3years/ 2003~2006
-                      <br />
-                      Naver/ Senior developer/ 3years/ 2003~2006
-                      <br />
-                      Nintendo/ Senior developer/ 3years/ 2003~2006
-                      <br />
-                      Bethsesda/ Senior developer/ 3years/ 2003~2006
-                      <br />
-                      Samsong/ Junior developer/ 3years/ 2003~2006
+                    <Descriptions.Item label="Job Experience" span={1}>
+                      <CareerManagerSmall
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          data={this.state.profile.workHistory}
+                          changeList={this.changeList}
+                          themeCol={this.props.profile.primaryColour}
+                          mobileView={this.state.mobileView}
+                      />
                     </Descriptions.Item>
                   </Descriptions>
-                  <Descriptions title="Social Media" bordered>
-                    {/* <h1>
-                      {ProfileData.getElements(this.state.profile.social)}
-                    </h1> */}
+                  <h2></h2>
+                  <Descriptions title="Contacts" bordered>
                   </Descriptions>
                 </Content>
               </Typography>
