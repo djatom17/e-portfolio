@@ -313,7 +313,7 @@ const mapUIDtoPID = (uid, callback) => {
  * @returns {Promise} Promise object representing successful creation of file
  *  entry in Profile.
  */
-const postUpload = (name, url, desc, uid, isCert) => {
+const postUpload = (name, filename, url, desc, uid, isCert) => {
   console.log("[Mongoose] Creating file entry");
   return new Promise((resolve, reject) => {
     // Find the profile corresponding to the user and retrieve it.
@@ -323,6 +323,7 @@ const postUpload = (name, url, desc, uid, isCert) => {
         profile = Profile.hydrate(profile);
         const newFileEntry = {
           name: name,
+          filename: filename,
           description: desc,
           url: url,
         };

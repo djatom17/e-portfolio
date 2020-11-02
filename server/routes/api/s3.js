@@ -111,6 +111,7 @@ s3router.post("/upload", auth, function (req, res, next) {
           mongo
             .postUpload(
               req.body.name,
+              file.name,
               hashName,
               req.body.description,
               req.user.id,
