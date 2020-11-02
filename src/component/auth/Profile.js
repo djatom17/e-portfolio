@@ -3,11 +3,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as ProfileData from "../../api/ProfileData";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
-import "react-web-tabs/dist/react-web-tabs.css";
+// import "react-web-tabs/dist/react-web-tabs.css";
 import {
   Row,
   Col,
   Descriptions,
+  Typography,
   Badge,
   Input,
   Button,
@@ -22,9 +23,11 @@ import { Layout, Menu, Breadcrumb } from "antd";
 import "antd/dist/antd.css";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import EditButton from "../profileDisplays/EditButton";
+import DragUpload from "../profileDisplays/DragUpload";
+import ProjectManager from "../profileDisplays/ProjectManager";
 import EducationManager from "../profileDisplays/EducationManager";
 import CareerManager from "../profileDisplays/CareerManager";
 import CareerManagerSmall from "../profileDisplays/CareerManagerSmall";
@@ -43,9 +46,13 @@ class Profile extends Component {
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
+    canEdit: false,
+    isMyProfile: false,
   };
   constructor() {
     super();
+    this.setEditablefieldName = ProfileData.setEditableStr.bind(this);
+    this.setEditablefieldNameArr = ProfileData.setEditableStrArr.bind(this);
     this.setEditableStr = ProfileData.setEditableStr.bind(this);
     this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
     this.getElementsNew = ProfileData.getElementsNew.bind(this);
@@ -165,33 +172,36 @@ class Profile extends Component {
                     </Col>
                     <div>
                       <div
-                          style={{
-                            height: this.state.mobileView ? "30%" : "40%",
-                            width: this.state.mobileView ? "20%" : "40%",
-                            marginTop: this.state.mobileView ? "5%" : "0%",
-                            marginInlineStart: this.state.mobileView ? "30%" : "15%",
-                          }}
+                        style={{
+                          height: this.state.mobileView ? "30%" : "40%",
+                          width: this.state.mobileView ? "20%" : "40%",
+                          marginTop: this.state.mobileView ? "5%" : "0%",
+                          marginInlineStart: this.state.mobileView
+                            ? "30%"
+                            : "15%",
+                        }}
                       >
                         <ProfilePicture
-                            image={this.state.profile.image}
-                            isMyProfile={this.state.isMyProfile}
-                            canEdit={this.state.canEdit}
-                            onPFPChange={ProfileData.handlePFPChange.bind(this)}
+                          image={this.state.profile.image}
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          onPFPChange={ProfileData.handlePFPChange.bind(this)}
                         />
                       </div>
                     </div>
                     <Col>
                       <h1>{ProfileData.getName(this.state.profile)}</h1>
                       <row
-                          className="psize mt-n3"
-                          style={{ color: this.state.textColour }}
-                          editable={
-                            this.state.isMyProfile && this.state.canEdit
-                                ? {
-                                  onChange: (e) => this.setEditableStr("subtitle", e),
-                                }
-                                : false
-                          }
+                        className="psize mt-n3"
+                        style={{ color: this.state.textColour }}
+                        editable={
+                          this.state.isMyProfile && this.state.canEdit
+                            ? {
+                                onChange: (e) =>
+                                  this.setEditableStr("subtitle", e),
+                              }
+                            : false
+                        }
                       >
                         {this.state.profile.subtitle}
                       </row>
@@ -216,35 +226,40 @@ class Profile extends Component {
                     </Col>
                   </Row>
                   <h2></h2>
-                  <Descriptions title="About me" bordered>
-                    <Paragraph
-                      ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
-                      editable={
-                        this.state.canEdit
-                          ? {
-                              onChange: (fieldName) =>
-                                this.setEditablefieldName("about", fieldName),
-                              autoSize: { minRows: 1, maxRows: 5 },
-                            }
-                          : false
-                      }
-                    >
-                      {this.state.profile.about}
-                    </Paragraph>
-                  </Descriptions>
+                  <Row>
+                    {" "}
+                    <Col>
+                      <Descriptions title="About me" bordered></Descriptions>
+                      <Paragraph
+                        ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+                        editable={
+                          this.state.canEdit
+                            ? {
+                                onChange: (fieldName) =>
+                                  this.setEditablefieldName("about", fieldName),
+                                autoSize: { minRows: 1, maxRows: 5 },
+                              }
+                            : false
+                        }
+                      >
+                        {this.state.profile.about}
+                      </Paragraph>
+                    </Col>
+                  </Row>
 
                   <h2></h2>
                   <Descriptions title="Specialty and Skills" bordered>
                     <Descriptions.Item label="Specialty">
                       <row
-                          className="psize"
-                          editable={
-                            this.state.isMyProfile && this.state.canEdit
-                                ? {
-                                  onChange: (e) => this.setEditableStr("specialty", e),
-                                }
-                                : false
-                          }
+                        className="psize"
+                        editable={
+                          this.state.isMyProfile && this.state.canEdit
+                            ? {
+                                onChange: (e) =>
+                                  this.setEditableStr("specialty", e),
+                              }
+                            : false
+                        }
                       >
                         {this.state.profile.specialty}
                       </row>
@@ -253,10 +268,10 @@ class Profile extends Component {
                     <Descriptions.Item label="Skills" span={2}>
                       {/*{ProfileData.getElements(this.state.profile.keySkills)}*/}
                       <SkillManager
-                          isMyProfile={this.state.isMyProfile}
-                          canEdit={this.state.canEdit}
-                          data={this.state.profile.keySkills}
-                          changeList={this.changeList}
+                        isMyProfile={this.state.isMyProfile}
+                        canEdit={this.state.canEdit}
+                        data={this.state.profile.keySkills}
+                        changeList={this.changeList}
                       />
                     </Descriptions.Item>
                   </Descriptions>
@@ -284,13 +299,17 @@ class Profile extends Component {
                     </Descriptions.Item>
                   </Descriptions>
                   <h2></h2>
-                  <Descriptions title="Life time Achievements"  classname="h1size" bordered>
+                  <Descriptions
+                    title="Life time Achievements"
+                    classname="h1size"
+                    bordered
+                  >
                     <Descriptions.Item>
                       <AchievementManager
-                          isMyProfile={this.state.isMyProfile}
-                          canEdit={this.state.canEdit}
-                          data={this.state.profile.achievements}
-                          changeList={this.changeList}
+                        isMyProfile={this.state.isMyProfile}
+                        canEdit={this.state.canEdit}
+                        data={this.state.profile.achievements}
+                        changeList={this.changeList}
                       />
                     </Descriptions.Item>
                   </Descriptions>
@@ -298,11 +317,11 @@ class Profile extends Component {
                   <h2></h2>
                   <Descriptions title="Contacts" bordered>
                     {this.state.profile && this.state.profile.contact && (
-                        <ContactDetails
-                            canEdit={this.state.canEdit}
-                            data={this.state.profile.contact}
-                            changeObj={this.setEditablefieldName}
-                        />
+                      <ContactDetails
+                        canEdit={this.state.canEdit}
+                        data={this.state.profile.contact}
+                        changeObj={this.setEditablefieldName}
+                      />
                     )}
                   </Descriptions>
                 </Content>
