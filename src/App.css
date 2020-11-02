@@ -110,6 +110,10 @@ nav and footer styles  */
   border-radius: 0px !important;
 }
 
+.center4dan {
+  width: 100%;
+  text-align: center;
+}
 .browse-education {
   font-size: 20px;
 }

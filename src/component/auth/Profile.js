@@ -159,17 +159,28 @@ class Profile extends Component {
                       {ProfileData.getName(this.state.profile)}
                     </Breadcrumb.Item>
                   </Breadcrumb>
-                  <Row>
+                  <Row justify="center">
                     <Col span={18} push={5}>
                       <h1></h1>
                     </Col>
-                    <Col span={6} pull={17}>
-                      <ProfilePicture
-                        image={this.state.profile.image}
-                        isMyProfile={this.state.isMyProfile}
-                        canEdit={this.state.canEdit}
-                        onPFPChange={ProfileData.handlePFPChange.bind(this)}
-                      />
+                    <div>
+                      <div
+                          style={{
+                            height: this.state.mobileView ? "30%" : "40%",
+                            width: this.state.mobileView ? "20%" : "40%",
+                            marginTop: this.state.mobileView ? "5%" : "0%",
+                            marginInlineStart: this.state.mobileView ? "30%" : "15%",
+                          }}
+                      >
+                        <ProfilePicture
+                            image={this.state.profile.image}
+                            isMyProfile={this.state.isMyProfile}
+                            canEdit={this.state.canEdit}
+                            onPFPChange={ProfileData.handlePFPChange.bind(this)}
+                        />
+                      </div>
+                    </div>
+                    <Col>
                       <h1>{ProfileData.getName(this.state.profile)}</h1>
                       <row
                           className="psize mt-n3"
