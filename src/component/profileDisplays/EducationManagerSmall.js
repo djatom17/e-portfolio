@@ -83,7 +83,7 @@ export class EducationManagerSmall extends Component {
                     key={index}
                   >
                     <Form
-                      name="add_degree"
+                      name="edit_degree"
                       onValuesChange={this.trackEdit}
                       onFinish={this.editEducationCard}
                       initialValues={item}
@@ -108,6 +108,10 @@ export class EducationManagerSmall extends Component {
                           }}
                           placeholder="Course Name"
                         />
+                      </Form.Item>
+                      <Form.Item>
+                        DatePicker onChange={this.onChangeDate}
+                        picker="month" />
                       </Form.Item>
 
                       <Form.Item name="institution" label="Institution">
@@ -145,7 +149,7 @@ export class EducationManagerSmall extends Component {
                             type="link"
                             icon={<DeleteOutlined />}
                             onClick={() =>
-                              this.handleCloseCard("education", item, "role")
+                              this.handleCloseCard("education", item, "name")
                             }
                           />
                         </Col>
@@ -208,7 +212,7 @@ export class EducationManagerSmall extends Component {
                           type="link"
                           icon={<DeleteOutlined />}
                           onClick={() =>
-                            this.handleCloseCard("education", item, "role")
+                            this.handleCloseCard("education", item, "name")
                           }
                         />
                       </Col>
@@ -232,7 +236,6 @@ export class EducationManagerSmall extends Component {
             >
               <Form
                 name="add_degree"
-                onValuesChange={this.trackEdit}
                 onFinish={this.addEducationCard}
                 labelCol={{ span: 6 }}
                 labelAlign="left"
@@ -254,6 +257,10 @@ export class EducationManagerSmall extends Component {
                     }}
                     placeholder="Course Name"
                   />
+                </Form.Item>
+
+                <Form.Item name="to" label="Completed">
+                  <DatePicker onChange={this.onChangeDate} picker="month" />
                 </Form.Item>
 
                 <Form.Item name="institution" label="Institution">

@@ -202,7 +202,7 @@ export class EducationManager extends Component {
                             type="link"
                             icon={<DeleteOutlined />}
                             onClick={() =>
-                              this.handleCloseCard("education", item, "role")
+                              this.handleCloseCard("education", item, "name")
                             }
                           />
                         </Col>
@@ -270,7 +270,7 @@ export class EducationManager extends Component {
                           type="link"
                           icon={<DeleteOutlined />}
                           onClick={() =>
-                            this.handleCloseCard("education", item, "role")
+                            this.handleCloseCard("education", item, "name")
                           }
                         />
                       </Col>
