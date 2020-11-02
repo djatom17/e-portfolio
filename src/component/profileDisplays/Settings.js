@@ -58,7 +58,6 @@ class Settings extends Component {
     }
 
     if (addChange !== {}) {
-      console.log(addChange);
       ProfileData.updateProfile(this.props.pid, addChange, this.props.token);
       window.location.reload();
     }
@@ -88,15 +87,28 @@ class Settings extends Component {
       },
     };
     const { isVisible } = this.props;
-    const onFinish = (values) => {
+
+    const profileOnFinish = (values) => {
+      var addChange = {};
+      const { linkToProfile, firstName, lastName } = values;
+      if (linkToProfile) {
+        addChange["linkToProfile"] = linkToProfile;
+      }
+      if (firstName) {
+        addChange["firstName"] = firstName;
+      }
+      if (lastName) {
+        addChange["lastName"] = lastName;
+      }
+      if (addChange !== {}) {
+        console.log(addChange);
+        ProfileData.updateProfile(this.props.pid, addChange, this.props.token);
+      }
+    };
+    const accOnFinish = (values) => {
       var addChangePass = {};
       var addChangeEmail = {};
       const { email, password } = values;
-      const user = {
-        email,
-        password,
-      };
-      console.log("Received values of form: ", user);
       // Change details and check for empty
       if (email) {
         addChangeEmail["email"] = email;
@@ -293,7 +305,7 @@ class Settings extends Component {
                       id="User"
                       name="AccountSettings"
                       initialValues={{ email: this.props.user.email }}
-                      onFinish={onFinish}
+                      onFinish={accOnFinish}
                     >
                       <Form.Item
                         name="email"
@@ -349,12 +361,31 @@ class Settings extends Component {
                       {...formItemLayout}
                       id="Profile"
                       name="ProfileSettings"
-                      initialValues={{}}
-                      onFinish={onFinish}
+                      initialValues={{
+                        linkToProfile: this.props.linkToProfile.slice(
+                          this.props.linkToProfile.lastIndexOf("/") + 1
+                        ),
+                        firstName: this.props.firstName,
+                        lastName: this.props.lastName,
+                      }}
+                      onFinish={profileOnFinish}
                     >
-                      <Form.Item>
+                      <Form.Item name="firstName" label="First Name">
                         <Input />
                       </Form.Item>
+                      <Form.Item name="lastName" label="Last Name">
+                        <Input />
+                      </Form.Item>
+                      <Form.Item name="linkToProfile" label="Custom URL">
+                        <Input prefix="/" />
+                      </Form.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="login-form-button"
+                      >
+                        Save Changes
+                      </Button>
                     </Form>
                   </Col>
                 </Row>
