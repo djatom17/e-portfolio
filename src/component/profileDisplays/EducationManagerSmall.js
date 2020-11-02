@@ -222,7 +222,7 @@ export class EducationManagerSmall extends Component {
             // inputVisible: add new education card
             <Card
               style={{
-                width: this.props.mobileView ? "200px" : "500px",
+                width: this.props.mobileView ? "200px" : "350px",
 
                 marginTop: 16,
                 background: this.props.themeCol,
@@ -304,7 +304,7 @@ export class EducationManagerSmall extends Component {
             // add qualification button
             <Card
               style={{
-                width: this.props.mobileView ? "200px" : "500px",
+                width: this.props.mobileView ? "200px" : "350px",
                 marginTop: 16,
                 background: this.props.themeCol,
               }}

@@ -170,6 +170,19 @@ class Profile extends Component {
                         onPFPChange={ProfileData.handlePFPChange.bind(this)}
                       />
                       <h1>{ProfileData.getName(this.state.profile)}</h1>
+                      <row
+                          className="psize mt-n3"
+                          style={{ color: this.state.textColour }}
+                          editable={
+                            this.state.isMyProfile && this.state.canEdit
+                                ? {
+                                  onChange: (e) => this.setEditableStr("subtitle", e),
+                                }
+                                : false
+                          }
+                      >
+                        {this.state.profile.subtitle}
+                      </row>
                       <div>
                         {this.state.isMyProfile ? (
                           <EditButton
@@ -209,25 +222,35 @@ class Profile extends Component {
                   </Descriptions>
 
                   <h2></h2>
-                  <Descriptions title="User Info Card" bordered>
-                    <Descriptions.Item label="Achievements" span={2}>
-                      <AchievementManager
-                        isMyProfile={this.state.isMyProfile}
-                        canEdit={this.state.canEdit}
-                        changeList={this.changeList}
-                        data={this.state.profile.achievements}
-                      />
+                  <Descriptions title="Specialty and Skills" bordered>
+                    <Descriptions.Item label="Specialty">
+                      <row
+                          className="psize"
+                          editable={
+                            this.state.isMyProfile && this.state.canEdit
+                                ? {
+                                  onChange: (e) => this.setEditableStr("specialty", e),
+                                }
+                                : false
+                          }
+                      >
+                        {this.state.profile.specialty}
+                      </row>
                     </Descriptions.Item>
+
                     <Descriptions.Item label="Skills" span={2}>
                       {/*{ProfileData.getElements(this.state.profile.keySkills)}*/}
                       <SkillManager
-                        isMyProfile={this.state.isMyProfile}
-                        canEdit={this.state.canEdit}
-                        data={this.state.profile.keySkills}
-                        changeList={this.changeList}
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          data={this.state.profile.keySkills}
+                          changeList={this.changeList}
                       />
                     </Descriptions.Item>
-                    <Descriptions.Item label="Education" span={2}>
+                  </Descriptions>
+                  <h2></h2>
+                  <Descriptions title="Career Card" bordered>
+                    <Descriptions.Item label="Education">
                       <EducationManagerSmall
                         isMyProfile={this.state.isMyProfile}
                         canEdit={this.state.canEdit}
@@ -237,7 +260,7 @@ class Profile extends Component {
                         mobileView={this.state.mobileView}
                       />
                     </Descriptions.Item>
-                    <Descriptions.Item label="Job Experience" span={1}>
+                    <Descriptions.Item label="Job Experience">
                       <CareerManagerSmall
                         isMyProfile={this.state.isMyProfile}
                         canEdit={this.state.canEdit}
@@ -248,6 +271,11 @@ class Profile extends Component {
                       />
                     </Descriptions.Item>
                   </Descriptions>
+                  <h2></h2>
+
+
+
+
                   <h2></h2>
                   <Descriptions title="Contacts" bordered></Descriptions>
                 </Content>

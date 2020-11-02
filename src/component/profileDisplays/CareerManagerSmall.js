@@ -313,7 +313,7 @@ export class CareerManagerSmall extends Component {
             // add experience button
             <Card
               style={{
-                width: this.props.mobileView ? "200px" : "500px",
+                width: this.props.mobileView ? "200px" : "350px",
                 marginTop: 16,
                 background: this.props.themeCol,
               }}
