@@ -47,6 +47,7 @@ s3router.get("/dl/*", function (req, res, next) {
 /**
  * Handles POST request for uploading file onto S3 and logging.
  *
+ * req.files should have {file, description}.
  * 1. Creates a hashname from file contents and use it as key in S3.
  * 2. upload file onto S3 bucket.
  * 3. Create a new File entry in the user's profile for logging.
@@ -73,16 +74,39 @@ s3router.post("/upload", auth, function (req, res, next) {
         return res.status(err.statusCode).send({ error: err });
       } else {
         console.log("[S3] Upload success");
-        //Create new File entry in user's Profile.
-        mongo
-          .postUpload(file.name, hashName, req.user.id)
-          .then((success) => {
-            return res.status(success.statusCode).json({ fileUrl: hashName });
-          })
-          .catch((err) => {
-            // If there is an error creating the entry, the file must be deleted from the bucket.
-            return res.status(err.statusCode).json({ error: err });
-          });
+        //Create new File entry in user's Profile, if it's not a profile picture.
+        if (req.header("x-pfp-upload") === "true") {
+          mongo
+            .getImageUrlOfUser(req.user.id)
+            .then((success) => {
+              s3.deleteObject(
+                { Bucket: AWSBucket, Key: success.pfpUrl },
+                (e, response) => {
+                  if (e) {
+                    console.log(
+                      "[S3] Unable to delete previous profile picture."
+                    );
+                    return res.status(500).json({ error: e });
+                  }
+                  console.log("[S3] Deleted previous profile picture.");
+                  return res.status(200).json({ fileUrl: hashName });
+                }
+              );
+            })
+            .catch((e) => {
+              return res.status(e.statusCode).json({ error: e });
+            });
+        } else {
+          mongo
+            .postUpload(file.name, hashName, req.files.description, req.user.id)
+            .then((success) => {
+              return res.status(success.statusCode).json({ fileUrl: hashName });
+            })
+            .catch((err) => {
+              // If there is an error creating the entry, the file must be deleted from the bucket.
+              return res.status(err.statusCode).json({ error: err });
+            });
+        }
       }
     });
   });
@@ -109,8 +133,10 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
     .then((s) => {
       var params = { Bucket: AWSBucket, Key: req.params.file };
       s3.deleteObject(params, (err, res) => {
-        if (err) console.log("[S3] File deletion failed.");
-        else {
+        if (err) {
+          console.log("[S3] File deletion failed.");
+          return res.status(500).json({ error: err });
+        } else {
           console.log("[S3] File deletion successful.");
           mongo
             .postDelete(req.params.file, req.user.id)
@@ -141,7 +167,7 @@ s3router.post("/remove/:file", auth, function (req, res, next) {
  * @param {String} userID uid of User.
  * @param {String} userFile hashname of file to validate permission of.
  *
- * @returns {Boolean}
+ * @returns {Promise} Promise object represents user permission of file.
  */
 const validateFileOwner = (userID, userFile) => {
   console.log("[S3] Validating file ownership.");
@@ -149,15 +175,15 @@ const validateFileOwner = (userID, userFile) => {
     mongo.fetchProfileByUID(userID, (err, profile) => {
       if (err || !profile) {
         console.log("[S3] Permission to modify file denied.");
-        reject({ statusCode: 401 });
+        reject({ statusCode: 500 });
       } else if (
         profile.filesAndDocs.filter((file) => file.url === userFile).length > 0
       ) {
         console.log("[S3] Permission granted.");
-        resolve({ statusCode: 200 });
+        resolve({ statusCode: 202 });
       } else {
         console.log("[S3] File not found in user's records.");
-        reject({ statusCode: 404 });
+        reject({ statusCode: 403 });
       }
     });
   });

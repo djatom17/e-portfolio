@@ -3,6 +3,7 @@ import { Upload, message, Form, Modal, Input, Button } from "antd";
 import "antd/dist/antd.css";
 import axios from "axios";
 import { InboxOutlined } from "@ant-design/icons";
+import { connect } from "react-redux";
 const { Dragger } = Upload;
 
 class DragUpload extends Component {
@@ -168,4 +169,9 @@ class DragUpload extends Component {
     );
   }
 }
-export default DragUpload;
+
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+});
+
+export default connect(mapStateToProps, {})(DragUpload);

@@ -1,9 +1,21 @@
+/**
+ * Handles requests for sensitive account information and security.
+ * 
+ * @file API for account-related interactions.
+ * @author Team Ctrl-Alt-Elite
+ * @copyright This material is made available to you by or on behalf
+ * of the University of Melbourne.
+ * @requires express,bcryptjs,jsonwebtoken,./auth,config,mongodb,
+ *  google-auth-library,models.User,models.UserProfile.
+ * @exports userrouter
+ */
 const express = require("express");
 const userrouter = express.Router();
 const bcrypt = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const auth = require("./auth");
+const { ObjectID } = require("mongodb");
 const { OAuth2Client } = require("google-auth-library");
 const authClient = new OAuth2Client(
   "84279213789-nla6f8u88716cs7t53iikugg977laq92.apps.googleusercontent.com"
@@ -15,7 +27,11 @@ const User = require("../../models/User");
 // User to profile mapping Model
 const UserProfile = require("../../models/UserProfile");
 
-// Authenticate/login user
+/**
+ * Authenticates a user when logging in.
+ * 
+ * "email" and "password" should be valid attributes in req.body.
+ */
 userrouter.post("/login", (req, res, next) => {
   const { email, password } = req.body;
 
@@ -27,6 +43,7 @@ userrouter.post("/login", (req, res, next) => {
     });
   }
 
+  //Ensure email is linked to a user.
   User.findOne({
     email,
   }).then((user) => {
@@ -56,8 +73,8 @@ userrouter.post("/login", (req, res, next) => {
               expiresIn: 3600,
             },
             (err, token) => {
-              if (err) throw err;
-              res.json({
+              if (err) return res.status(500).json({error:err});
+              res.status(200).json({
                 token,
                 user: {
                   _id: user.id,
@@ -91,7 +108,7 @@ userrouter.post("/google-login", (req, res, next) => {
         User.findOne({ email })
           .then((user) => {
             if (!user)
-              return res.status(400).json({
+              return res.status(401).json({
                 error: "User does not exist.",
               });
 
@@ -108,7 +125,7 @@ userrouter.post("/google-login", (req, res, next) => {
                   },
                   (err, token) => {
                     if (err) throw err;
-                    res.json({
+                    res.status(200).json({
                       token,
                       user: {
                         _id: user.id,
@@ -129,6 +146,7 @@ userrouter.post("/google-login", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
+// (PROTOTYPE)
 // Registers new user and gives them a token.
 userrouter.post("/register", (req, res, next) => {
   const { name, email, password } = req.body;
@@ -146,7 +164,7 @@ userrouter.post("/register", (req, res, next) => {
     email,
   }).then((user) => {
     if (user)
-      return res.status(400).json({
+      return res.status(401).json({
         error: "User already exists.",
       });
 
@@ -173,7 +191,7 @@ userrouter.post("/register", (req, res, next) => {
             },
             (err, token) => {
               if (err) throw err;
-              res.json({
+              res.status(200).json({
                 token,
                 user: {
                   id: user.id,
@@ -189,7 +207,9 @@ userrouter.post("/register", (req, res, next) => {
   });
 });
 
-// Get user data, and attach their corresponding profile ID.
+/**
+ * Get user data, and attach their corresponding profile ID.
+ */ 
 userrouter.get("/user", auth, (req, res, next) => {
   User.findById(req.user.id)
     .select("-password")
@@ -198,9 +218,90 @@ userrouter.get("/user", auth, (req, res, next) => {
       UserProfile.findOne({ uid: req.user.id })
         .lean()
         .then((userMap) => {
-          res.json({ ...user, pid: userMap.pid });
+          res.status(200).json({ ...user, pid: userMap.pid });
         });
     });
 });
+
+/**
+ * Handles POST request for changing a user's account password.
+ * 
+ * Stores password changes as hash, if any.
+ * Pushes hash onto User database.
+ * 
+ * Successful operation:
+ * Status code 204
+ */
+userrouter.post("/change-password", auth, (req, res, next) => {
+  //Generate password hash to be stored.
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      res.status(500).json({error:err});
+    }
+    //Hash password with salt.
+    bcrypt.hash(req.body.password, salt, (err, hash) => {
+      if (err) {
+        res.status(500).json({error:err});
+      }
+      req.body.password = hash;
+      //Push changes to User database.
+      User.findOneAndUpdate(
+        { _id: ObjectID(req.user.id) } ,
+        { $set: req.body },
+        { returnNewDocument: true, useFindAndModify: false }
+      ).then((updated_user) => {
+        if (!updated_user) {
+          return res.status(500).json({error:"[Mongoose] User update unsuccessful."});
+        }
+        //Successful operation
+        else {
+          console.log("[Mongoose] Successfully posted updates to MongoDB.");
+          res.status(204).json('Password changed successfully.');
+        }
+      });
+    });
+  });
+});
+
+/**
+ * Checks if email change request exists for another user.
+ * 
+ * (PROTOTYPE)
+ * Intended as a middleware for checking distinct emails. 
+ * Checks if email exists in user database before calling next.
+ * Rejects the update if conflicting email found.
+ * 
+ * @function [checkEmail]
+ * @param {JSON} req Request body.
+ * @param {JSON} res Response body.
+ * @param {} next Method for next route. 
+ */
+function checkEmail(req, res, next) {
+  //If an email change is in the request body, performs check.
+  if ("email" in req.body) {
+    User.findOne({"email":req.body.email}, (err, user) => {
+      if (err) {
+        console.log(
+          "[Mongoose] Error in fetching user account."
+        );
+        return res.status(500).json({error:err});
+      } 
+      //Found conflicting email.
+      if (user) {
+        console.log("Conflicting email.");
+        delete req.body.email;
+        return res.status(409).send(req.body);
+      }
+      //Successful operation
+      else {
+        next();
+      }
+    });
+  }
+  //No email change requested.
+  else {
+    next();
+  }
+}
 
 module.exports = userrouter;
