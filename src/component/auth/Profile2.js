@@ -207,18 +207,24 @@ class Profile2 extends Component {
                 <Divider id="Specialty" className="h9size" orientation="left">
                   Areas of Speciality
                 </Divider>
-                <Paragraph
-                  className="psize"
-                  editable={
-                    this.state.isMyProfile && this.state.canEdit
-                      ? {
-                          onChange: (e) => this.setEditableStr("specialty", e),
-                        }
-                      : false
-                  }
-                >
-                  {this.state.profile.specialty}
-                </Paragraph>
+                <Row>
+                  <Col>
+                    <Paragraph
+                      className="psize"
+                      editable={
+                        this.state.isMyProfile && this.state.canEdit
+                          ? {
+                              onChange: (e) =>
+                                this.setEditableStr("specialty", e),
+                              autoSize: { minRows: 1, maxRows: 5 },
+                            }
+                          : false
+                      }
+                    >
+                      {this.state.profile.specialty}
+                    </Paragraph>
+                  </Col>
+                </Row>
               </Row>
               <Row className="mt-3 mx-4">
                 <Divider id="Time zone" className="h9size" orientation="left">
