@@ -89,15 +89,18 @@ class Settings extends Component {
     };
     const { isVisible } = this.props;
     const onFinish = (values) => {
+      var addChange = {};
       const { email, password } = values;
-
       const user = {
         email,
         password,
       };
       console.log("Received values of form: ", user);
-
       // Change details and check for empty
+      if (password) {
+        addChange["password"] = password;
+        ProfileData.changePassword(addChange, this.props.token);
+      }
     };
     return (
       <Fragment>
@@ -300,7 +303,7 @@ class Settings extends Component {
                         <Input />
                       </Form.Item>
                       <Form.Item label="New Password" name="password">
-                        <Input />
+                        <Input.Password />
                       </Form.Item>
                       <Form.Item
                         label="Confirm Password"
@@ -321,7 +324,7 @@ class Settings extends Component {
                           }),
                         ]}
                       >
-                        <Input />
+                        <Input.Password />
                       </Form.Item>
                       <Button
                         type="primary"
