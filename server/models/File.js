@@ -30,7 +30,6 @@ const FileSchema = new Schema({
   },
   filename: {
     type: String,
-    required: true,
   },
   description: {
     type: String,
