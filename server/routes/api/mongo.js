@@ -354,7 +354,7 @@ const postUpload = (name, filename, url, desc, uid, isCert) => {
 const getImageUrlOfUser = (uid) => {
   console.log("[Mongoose] Obtaining profile picture URL of user.");
   return new Promise((resolve, reject) => {
-    fetchProfileByUID(uid, (err, profile) => {
+    fetchProfileByUID(uid, true, (err, profile) => {
       if (!err && profile) {
         // Removing paths used by API ** REMOVE IF IMPLEMENTED BOOLEAN **
         const url = profile.image.substr(profile.image.lastIndexOf("/") + 1);
