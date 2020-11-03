@@ -1,6 +1,6 @@
 /**
  * Handles requests for sensitive account information and security.
- * 
+ *
  * @file API for account-related interactions.
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
@@ -29,7 +29,7 @@ const UserProfile = require("../../models/UserProfile");
 
 /**
  * Authenticates a user when logging in.
- * 
+ *
  * "email" and "password" should be valid attributes in req.body.
  */
 userrouter.post("/login", (req, res, next) => {
@@ -73,7 +73,7 @@ userrouter.post("/login", (req, res, next) => {
               expiresIn: 3600,
             },
             (err, token) => {
-              if (err) return res.status(500).json({error:err});
+              if (err) return res.status(500).json({ error: err });
               res.status(200).json({
                 token,
                 user: {
@@ -209,7 +209,7 @@ userrouter.post("/register", (req, res, next) => {
 
 /**
  * Get user data, and attach their corresponding profile ID.
- */ 
+ */
 userrouter.get("/user", auth, (req, res, next) => {
   User.findById(req.user.id)
     .select("-password")
@@ -225,10 +225,10 @@ userrouter.get("/user", auth, (req, res, next) => {
 
 /**
  * Handles POST request for changing a user's account password.
- * 
+ *
  * Stores password changes as hash, if any.
  * Pushes hash onto User database.
- * 
+ *
  * Successful operation:
  * Status code 204
  */
@@ -236,56 +236,73 @@ userrouter.post("/change-password", auth, (req, res, next) => {
   //Generate password hash to be stored.
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
-      res.status(500).json({error:err});
+      res.status(500).json({ error: err });
     }
     //Hash password with salt.
     bcrypt.hash(req.body.password, salt, (err, hash) => {
       if (err) {
-        res.status(500).json({error:err});
+        res.status(500).json({ error: err });
       }
       req.body.password = hash;
       //Push changes to User database.
       User.findOneAndUpdate(
-        { _id: ObjectID(req.user.id) } ,
+        { _id: ObjectID(req.user.id) },
         { $set: req.body },
         { returnNewDocument: true, useFindAndModify: false }
       ).then((updated_user) => {
         if (!updated_user) {
-          return res.status(500).json({error:"[Mongoose] User update unsuccessful."});
+          return res
+            .status(500)
+            .json({ error: "[Mongoose] User update unsuccessful." });
         }
         //Successful operation
         else {
           console.log("[Mongoose] Successfully posted updates to MongoDB.");
-          res.status(204).json('Password changed successfully.');
+          res.status(204).json("Password changed successfully.");
         }
       });
     });
   });
 });
 
+userrouter.post("/change-email", auth, (req, res, next) => {
+  User.findOneAndUpdate(
+    { _id: ObjectID(req.user.id) },
+    { $set: req.body },
+    { returnNewDocument: true, useFindAndModify: false }
+  ).then((updated_user) => {
+    if (!updated_user) {
+      return res
+        .status(500)
+        .json({ error: "[Mongoose] User update unsuccessful." });
+    } else {
+      console.log("[Mongoose] Successfully posted updates to MongoDB.");
+      res.status(204).json("Email changed successfully.");
+    }
+  });
+});
+
 /**
  * Checks if email change request exists for another user.
- * 
+ *
  * (PROTOTYPE)
- * Intended as a middleware for checking distinct emails. 
+ * Intended as a middleware for checking distinct emails.
  * Checks if email exists in user database before calling next.
  * Rejects the update if conflicting email found.
- * 
+ *
  * @function [checkEmail]
  * @param {JSON} req Request body.
  * @param {JSON} res Response body.
- * @param {} next Method for next route. 
+ * @param {} next Method for next route.
  */
 function checkEmail(req, res, next) {
   //If an email change is in the request body, performs check.
   if ("email" in req.body) {
-    User.findOne({"email":req.body.email}, (err, user) => {
+    User.findOne({ email: req.body.email }, (err, user) => {
       if (err) {
-        console.log(
-          "[Mongoose] Error in fetching user account."
-        );
-        return res.status(500).json({error:err});
-      } 
+        console.log("[Mongoose] Error in fetching user account.");
+        return res.status(500).json({ error: err });
+      }
       //Found conflicting email.
       if (user) {
         console.log("Conflicting email.");

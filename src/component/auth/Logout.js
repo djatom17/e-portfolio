@@ -11,7 +11,7 @@ export class Logout extends Component {
 
   render() {
     return (
-      <Link className="nav-link text-light" to="#" onClick={this.props.logout}>
+      <Link to="#" onClick={this.props.logout}>
         {" "}
         Logout
       </Link>

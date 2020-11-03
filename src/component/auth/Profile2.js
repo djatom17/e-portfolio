@@ -1,36 +1,79 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import ProfilePicture from "../profileDisplays/ProfilePicture";
+import AchievementManager from "../profileDisplays/AchievementManager";
+import SkillManager from "../profileDisplays/SkillManager";
+import EducationManager from "../profileDisplays/EducationManager";
+import SocialManager from "../profileDisplays/SocialManager";
+import CareerManager from "../profileDisplays/CareerManager";
+import ProjectManager from "../profileDisplays/ProjectManager";
+import ContactDetails from "../profileDisplays/ContactDetails";
+import EditButton from "../profileDisplays/EditButton";
+import DragUpload from "../profileDisplays/DragUpload";
 import * as ProfileData from "../../api/ProfileData";
-// import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
+
 import "antd/dist/antd.css";
 import {
   Row,
   Col,
+  Menu,
+  Upload,
+  message,
   Typography,
+  Avatar,
   Input,
   Button,
+  Modal,
   Tag,
   Tooltip,
   Anchor,
+  Collapse,
+  breadcrumb,
   Divider,
 } from "antd";
 
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  InboxOutlined,
+  UserOutlined,
+  DeleteOutlined,
+  PaperClipOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 
-const { Paragraph } = Typography;
+const { Paragraph, Title } = Typography;
 const { Link } = Anchor;
 class Profile2 extends Component {
   state = {
     profile: {},
     profileChanges: {},
+    canEdit: false,
+    isMyProfile: false,
     inputVisible: false,
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
+    mobileView: false,
   };
+
+  constructor() {
+    super();
+    this.setEditablefieldName = ProfileData.setEditableStr.bind(this);
+    this.setEditablefieldNameArr = ProfileData.setEditableStrArr.bind(this);
+    this.setEditableStr = ProfileData.setEditableStr.bind(this);
+    this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
+    this.getElementsNew = ProfileData.getElementsNew.bind(this);
+    this.showModal = ProfileData.showModal.bind(this);
+    this.changeLayout = ProfileData.changeLayout.bind(this);
+    this.changeList = ProfileData.changeList.bind(this);
+    this.resize = ProfileData.resize.bind(this);
+  }
 
   componentDidMount = () => {
     this.setState({ profile: this.props.profile });
+    // size check
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
+
     this.props.isAuthenticated &&
     this.props.profile.userid &&
     this.props.user._id &&
@@ -39,313 +82,326 @@ class Profile2 extends Component {
       : this.setState({ isMyProfile: false });
   };
 
-  handleCloseTag = (fieldName, removedTag) => {
-    const field = this.state.profile[fieldName].filter(
-      (tag) => tag !== removedTag
-    );
-    let { profile, profileChanges } = this.state;
-    profile[fieldName] = field;
-    profileChanges[fieldName] = field;
-    this.setState({
-      profile,
-      profileChanges,
-      editInputIndex: -1,
-      editInputValue: "",
-    });
-    // this.setState({ editInputIndex: -1, editInputValue: "" });
-  };
-
-  handleEditInputConfirm = (fieldName) => {
-    this.setState(({ profile, editInputIndex, editInputValue }) => {
-      var newTags = [...profile[fieldName]];
-      newTags[editInputIndex] = editInputValue;
-      var addChange = {};
-      addChange[fieldName] = newTags;
-
-      return {
-        profile: { ...this.state.profile, ...addChange },
-        profileChanges: { ...this.state.profileChanges, ...addChange },
-        editInputIndex: -1,
-        editInputValue: "",
-      };
-    });
-  };
-
-  handleEditInputChange = (e) => {
-    this.setState({ editInputValue: e.target.value });
-  };
-
-  saveInputRef = (input) => {
-    this.input = input;
-  };
-
-  saveEditInputRef = (input) => {
-    this.editInput = input;
-  };
-
-  deleteButt = (item) => {
-    return (
-      <Button
-        type="link"
-        onClick={() => this.handleCloseTag("achievements", item)}
-      >
-        <DeleteOutlined />
-      </Button>
-    );
-  };
-
   render() {
-    // for tags
-    const {
-      inputVisible,
-      inputValue,
-      editInputIndex,
-      editInputValue,
-    } = this.state;
-
     // const { Panel } = Collapse;
-
     // function callback(key) {
     //   console.log(key);
     // }
 
     return (
-      <Col>
-        <Row>
-          <img
-            id="Top"
-            src={this.state.profile.image}
-            aria-hidden
-            alt="description of image"
-            className="prof2-img"
-          />
-          <div className=" size prof2-text-overlay text-center">
-            <p className=" h1 "> {ProfileData.getName(this.state.profile)}</p>
-            <p className="psize ">{this.state.profile.subtitle}</p>
-            <p className="psize "> Work at home in my penthouse </p>
-          </div>
-        </Row>
-        <Row className="mx-4">
+      <Col style={{ backgroundColor: this.state.profile.secondaryColour }}>
+        <Anchor
+          className="prof2-anchor-overlay"
+          style={{ background: "transparent" }}
+        >
+          <Link href="#Top" title="Profile" />
+          <Link href="#About" title="About Me" />
+          <Link href="#Specialty" title="Specialty" />
+          <Link href="#Skills" title="Key Skills" />
+          <Link href="#Education" title="Education" />
+          <Link href="#WorkExperience" title="Experience" />
+          <Link href="#Achievements" title="Achievements" />
+          <Link href="#Projects" title="Projects" />
+          <Link href="#Certificates" title="Certificates" />
+          <Link href="#Contact" title="Contact" />
           <div>
-            <Anchor className="prof2-anchor-overlay">
-              <Link href="#Top" title="Profile" />
-              <Link href="#About" title="About Me" />
-              <Link href="#Skills" title="Key Skills" />
-              <Link href="#Achievements" title="Achievements" />
-            </Anchor>
+            {this.state.isMyProfile ? (
+              <EditButton
+                _id={this.state.profile._id}
+                profileChanges={this.state.profileChanges}
+                token={this.props.token}
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+                color="black"
+                changeEdit={() =>
+                  this.setState({
+                    canEdit: !this.state.canEdit,
+                    profileChanges: {},
+                  })
+                }
+              />
+            ) : null}
+          </div>
+        </Anchor>
+        <Row>
+          <div
+            style={{
+              height: this.state.mobileView ? "40%" : "70%",
+              width: this.state.mobileView ? "40%" : "70%",
+              marginTop: this.state.mobileView ? "5%" : "0%",
+              marginInlineStart: this.state.mobileView ? "30%" : "15%",
+            }}
+          >
+            <ProfilePicture
+              image={this.state.profile.image}
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              onPFPChange={ProfileData.handlePFPChange.bind(this)}
+            />
           </div>
         </Row>
 
-        <Row className="mt-3 mx-4">
-          <Row>
-            <Col span={20} push={2}>
-              <Typography
-                component="div"
-                style={{ backgroundColor: "#ffffff", height: "auto" }}
+        <Row justify="center">
+          <Col span={19}>
+            <div className="text-center">
+              <Title className=" h1size ">
+                {ProfileData.getName(this.state.profile)}
+              </Title>
+              {/* <Paragraph className="psize mt-n3">
+                {this.state.profile.subtitle}
+              </Paragraph> */}
+              <Paragraph
+                className="psize mt-n3"
+                style={{ color: this.state.textColour }}
+                editable={
+                  this.state.isMyProfile && this.state.canEdit
+                    ? {
+                        onChange: (e) => this.setEditableStr("subtitle", e),
+                      }
+                    : false
+                }
               >
-                <Row className="mt-3 mx-4">
-                  <Divider id="About" className="h1size" orientation="left">
-                    About Me
-                  </Divider>
+                {this.state.profile.subtitle}
+              </Paragraph>
+
+              <Row justify="center" className="mt-n4">
+                {this.state.profile && this.state.profile.social && (
+                  <SocialManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    textColour="black"
+                    data={this.state.profile.social}
+                    changeObj={ProfileData.setNestedEditableObject.bind(this)}
+                  />
+                )}
+              </Row>
+            </div>
+            <Typography
+              component="div"
+              style={{
+                backgroundColor: this.state.profile.primaryColour,
+                marginInlineStart: this.state.mobileView ? "20%" : "0%",
+                height: "auto",
+              }}
+            >
+              <Row className="mt-3 mx-4">
+                <Divider id="About" className="h9size" orientation="left">
+                  About Me
+                </Divider>
+                <Row>
+                  <Col>
+                    <Paragraph
+                      className="psize"
+                      editable={
+                        this.state.isMyProfile && this.state.canEdit
+                          ? {
+                              onChange: (e) => this.setEditableStr("about", e),
+                            }
+                          : false
+                      }
+                      ellipsis={{ rows: 3, expandable: true, symbol: "more" }}
+                    >
+                      {this.state.profile.about}
+                    </Paragraph>
+                  </Col>
+                </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider id="Specialty" className="h9size" orientation="left">
+                  Areas of Speciality
+                </Divider>
+                <Paragraph
+                  className="psize"
+                  editable={
+                    this.state.isMyProfile && this.state.canEdit
+                      ? {
+                          onChange: (e) =>
+                            this.setEditablefieldName("specialty", e),
+                        }
+                      : false
+                  }
+                >
+                  {this.state.profile.specialty}
+                </Paragraph>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider id="Time zone" className="h9size" orientation="left">
+                  Work Time Zone
+                </Divider>
+                <Row className="my-3 mx-4">
                   <Paragraph
                     className="psize"
+                    ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
                     editable={
-                      this.state.isMyProfile && this.state.canEdit
+                      this.state.canEdit
                         ? {
-                            onChange: (e) => this.setEditableStr("about", e),
+                            onChange: (fieldName) =>
+                              this.setEditablefieldName("timezone", fieldName),
+                            autoSize: { minRows: 1, maxRows: 5 },
                           }
                         : false
                     }
-                    ellipsis={{ rows: 1, expandable: true, symbol: "more" }}
                   >
-                    {this.state.profile.about}
+                    {this.state.profile.timezone}
                   </Paragraph>
                 </Row>
-                <Row className="mt-3 mx-4">
-                  <Divider id="About" className="h1size" orientation="left">
-                    Key Skills
-                  </Divider>
-                </Row>
+              </Row>
+
+              <Row className="mt-3 mx-4">
+                <Divider id="Skills" className="h9size" orientation="left">
+                  Key Skills
+                </Divider>
                 <Row className="my-3 mx-4">
-                  {this.state.profile.keySkills &&
-                    this.state.profile.keySkills.map((tag, index) => {
-                      if (editInputIndex === index) {
-                        return (
-                          <Input
-                            ref={this.saveEditInputRef}
-                            key={tag}
-                            size={40}
-                            className="tag-input"
-                            value={editInputValue}
-                            onChange={this.handleEditInputChange}
-                            onBlur={() =>
-                              this.handleEditInputConfirm("keySkills")
-                            }
-                            onPressEnter={() =>
-                              this.handleEditInputConfirm("keySkills")
-                            }
-                          />
-                        );
-                      }
-                      const isLongTag = tag.length > 40;
-                      const tagElem = (
-                        <Tag
-                          className="skills-tag"
-                          key={tag}
-                          closable={
-                            index !== 0 &&
-                            this.state.isMyProfile &&
-                            this.state.canEdit
-                          }
-                          onClose={() => this.handleCloseTag("keySkills", tag)}
-                        >
-                          <span
-                            className="skills-span"
-                            onDoubleClick={
-                              this.state.isMyProfile &&
-                              this.state.canEdit &&
-                              ((e) => {
-                                this.setState(
-                                  {
-                                    editInputIndex: index,
-                                    editInputValue: tag,
-                                  },
-                                  () => {
-                                    this.editInput.focus();
-                                  }
-                                );
-                                e.preventDefault();
-                              })
-                            }
-                          >
-                            {isLongTag ? `${tag.slice(0, 40)}...` : tag}
-                          </span>
-                        </Tag>
-                      );
-                      return isLongTag ? (
-                        <Tooltip title={tag} key={tag}>
-                          {tagElem}
-                        </Tooltip>
-                      ) : (
-                        tagElem
-                      );
-                    })}
-                  {inputVisible && (
-                    <Input
-                      ref={this.saveInputRef}
-                      type="text"
-                      size="small"
-                      className="tag-input"
-                      value={inputValue}
-                      onChange={this.handleInputChange}
-                      onBlur={() => this.handleInputConfirm("keySkills")}
-                      onPressEnter={() => this.handleInputConfirm("keySkills")}
-                    />
-                  )}
-                  {!inputVisible &&
-                    this.state.isMyProfile &&
-                    this.state.canEdit && (
-                      <Tag className="site-tag-plus" onClick={this.showInput}>
-                        <PlusOutlined /> New Tag
-                      </Tag>
-                    )}
+                  <SkillManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.keySkills}
+                    changeList={this.changeList}
+                  />
                 </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider id="Education" className="h9size" orientation="left">
+                  Education
+                </Divider>
                 <Row className="mt-3 mx-4">
-                  <Divider
-                    id="Achievements"
-                    className="h1size"
-                    orientation="left"
-                  >
-                    Achievements
-                  </Divider>
-                  <Row className="mt-3 mx-4">
-                    <Col>
-                      {this.state.profile.achievements &&
-                        this.state.profile.achievements.map((item, index) => {
-                          if (editInputIndex === index) {
-                            return (
-                              <Input.TextArea
-                                ref={this.saveEditInputRef}
-                                key={item}
-                                size="large"
-                                value={editInputValue}
-                                onChange={this.handleEditInputChange}
-                                onBlur={() =>
-                                  this.handleEditInputConfirm("achievements")
-                                }
-                                onPressEnter={() =>
-                                  this.handleEditInputConfirm("achievements")
-                                }
-                              />
-                            );
-                          }
-                          const achievement = (
-                            <Row>
-                              <Col flex="auto">
-                                <Paragraph
-                                  className="achievements-text"
-                                  key={item}
-                                >
-                                  <span
-                                    onDoubleClick={
-                                      this.state.isMyProfile &&
-                                      this.state.canEdit &&
-                                      ((e) => {
-                                        this.setState(
-                                          {
-                                            editInputIndex: index,
-                                            editInputValue: item,
-                                          },
-                                          () => {
-                                            this.editInput.focus();
-                                          }
-                                        );
-                                        e.preventDefault();
-                                      })
-                                    }
-                                  >
-                                    {item}
-                                  </span>
-                                </Paragraph>
-                              </Col>
-                              <Col flex="10px">
-                                {this.state.isMyProfile && this.state.canEdit
-                                  ? this.deleteButt(item)
-                                  : null}
-                              </Col>
-                            </Row>
-                          );
-                          return achievement;
-                        })}
-                      {inputVisible && (
-                        <Input
-                          ref={this.saveInputRef}
-                          type="text"
-                          size="small"
-                          value={inputValue}
-                          onChange={this.handleInputChange}
-                          onBlur={() => this.handleInputConfirm("achievements")}
-                          onPressEnter={() =>
-                            this.handleInputConfirm("achievements")
-                          }
-                        />
-                      )}
-                      {!inputVisible &&
-                        this.state.isMyProfile &&
-                        this.state.canEdit && (
-                          <Tag
-                            className="site-tag-plus"
-                            onClick={this.showInput}
-                          >
-                            <PlusOutlined /> New Achievement
-                          </Tag>
-                        )}
-                    </Col>
-                  </Row>
+                  <Col>
+                    <EducationManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.education}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                      mobileView={this.state.mobileView}
+                    />
+                  </Col>
                 </Row>
-              </Typography>
-            </Col>
-          </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider
+                  id="WorkExperience"
+                  className="h9size"
+                  orientation="left"
+                >
+                  Work Experience
+                </Divider>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    <CareerManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.workHistory}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                      mobileView={this.state.mobileView}
+                    />
+                  </Col>
+                </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider
+                  id="Achievements"
+                  className="h9size"
+                  orientation="left"
+                >
+                  Achievements
+                </Divider>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    <AchievementManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.achievements}
+                      changeList={this.changeList}
+                    />
+                  </Col>
+                </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider id="Projects" className="h9size" orientation="left">
+                  Projects
+                </Divider>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    <div>
+                      {this.state.isMyProfile && this.state.canEdit ? (
+                        <DragUpload
+                          onChange={ProfileData.onProjectsChange.bind(this)}
+                          isCert={false}
+                        />
+                      ) : null}
+                    </div>
+                    <ProjectManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.filesAndDocs}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                      type="filesAndDocs"
+                    />
+                  </Col>
+                </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider
+                  id="Certificates"
+                  className="h9size"
+                  orientation="left"
+                >
+                  Certificates
+                </Divider>
+                <Row className="mt-3 mx-4">
+                  <Col>
+                    <div>
+                      {this.state.isMyProfile && this.state.canEdit ? (
+                        <DragUpload
+                          onChange={ProfileData.onCertificatesChange.bind(this)}
+                          isCert={true}
+                        />
+                      ) : null}
+                    </div>
+                    <ProjectManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.certificates}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                      type="certificates"
+                    />
+                  </Col>
+                </Row>
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider id="Contact" className="h9size" orientation="left">
+                  Contact Information
+                </Divider>
+                {this.state.profile && this.state.profile.contact && (
+                  <ContactDetails
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.contact}
+                    changeObj={ProfileData.setEditableObject.bind(this)}
+                  />
+                )}
+              </Row>
+              <Row className="mt-3 mx-4">
+                <Divider id="TimeZone" className="h9size" orientation="left">
+                  Time Zone
+                </Divider>
+                <Paragraph
+                  className="psize"
+                  editable={
+                    this.state.isMyProfile && this.state.canEdit
+                      ? {
+                          onChange: (e) => this.setEditableStr("timezone", e),
+                        }
+                      : false
+                  }
+                >
+                  {this.state.profile.timezone}
+                </Paragraph>
+              </Row>
+            </Typography>
+          </Col>
         </Row>
       </Col>
     );
