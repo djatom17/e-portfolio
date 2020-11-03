@@ -17,6 +17,7 @@ import CareerManager from "../profileDisplays/CareerManager";
 import { Row, Col, Menu, Typography, Button } from "antd";
 import { PaperClipOutlined } from "@ant-design/icons";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
+import ContactDetails from "../profileDisplays/ContactDetails";
 
 const { Title, Paragraph } = Typography;
 
@@ -123,6 +124,17 @@ class Profile5 extends Component {
               {this.state.profile.timezone}
             </Paragraph>
           </div>
+            <Title className="h1size">Contact Details</Title>
+            <div>
+                {this.state.profile && this.state.profile.contact && (
+                    <ContactDetails
+                        canEdit={this.state.canEdit}
+                        data={this.state.profile.contact}
+                        changeObj={ProfileData.setEditableObject.bind(this)}
+                    />
+                )}
+            </div>
+
           <Title className="h1size">Certificates</Title>
           <div>
             {this.state.isMyProfile && this.state.canEdit ? (
