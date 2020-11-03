@@ -263,17 +263,19 @@ class Profile5 extends Component {
                 </Paragraph>
                 {/* If layout messed up, its this mt */}
                 <Row justify="center" className="mt-n3">
-                  <SocialManager
-                    isMyProfile={this.state.isMyProfile}
-                    canEdit={this.state.canEdit}
-                    textColour={
-                      this.props.profile.secondaryColour === "#e5e5e5"
-                        ? "black"
-                        : "white"
-                    }
-                    changeObj={ProfileData.setNestedEditableObject.bind(this)}
-                    data={this.state.profile.social}
-                  />
+                  {this.state.profile && this.state.profile.social && (
+                    <SocialManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      textColour={
+                        this.props.profile.secondaryColour === "#e5e5e5"
+                          ? "black"
+                          : "white"
+                      }
+                      data={this.state.profile.social}
+                      changeObj={ProfileData.setNestedEditableObject.bind(this)}
+                    />
+                  )}
                 </Row>
               </div>
               <div>
