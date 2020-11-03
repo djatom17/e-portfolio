@@ -275,7 +275,7 @@ class Profile5 extends Component {
                         ? "black"
                         : "white"
                     }
-                    changeObj={this.setEditableStr}
+                    changeObj={ProfileData.setNestedEditableObject.bind(this)}
                     data={this.state.profile.social}
                   />
                 </Row>
