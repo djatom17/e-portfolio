@@ -35,6 +35,7 @@ import EducationManagerSmall from "../profileDisplays/EducationManagerSmall";
 import SkillManager from "../profileDisplays/SkillManager";
 import AchievementManager from "../profileDisplays/AchievementManager";
 import ContactDetails from "../profileDisplays/ContactDetails";
+import SocialManager from "../profileDisplays/SocialManager";
 
 const { Title, Paragraph } = Typography;
 const { Link } = Anchor;
@@ -191,20 +192,27 @@ class Profile extends Component {
                     </div>
                     <Col>
                       <h1>{ProfileData.getName(this.state.profile)}</h1>
-                      <row
-                        className="psize mt-n3"
-                        style={{ color: this.state.textColour }}
-                        editable={
-                          this.state.isMyProfile && this.state.canEdit
-                            ? {
-                                onChange: (e) =>
-                                  this.setEditableStr("subtitle", e),
-                              }
-                            : false
-                        }
+                      <Paragraph
+                          className={"text-center"}
+                          style={{ color: this.state.textColour }}
+                          editable={
+                            this.state.isMyProfile && this.state.canEdit
+                                ? {
+                                  onChange: (e) => this.setEditableStr("subtitle", e),
+                                }
+                                : false
+                          }
                       >
                         {this.state.profile.subtitle}
-                      </row>
+                      </Paragraph>
+                      {this.state.profile && this.state.profile.social && (
+                          <SocialManager
+                              isMyProfile={this.state.isMyProfile}
+                              canEdit={this.state.canEdit}
+                              data={this.state.profile.social}
+                              changeObj={ProfileData.setNestedEditableObject.bind(this)}
+                          />
+                      )}
                       <div>
                         {this.state.isMyProfile ? (
                           <EditButton
@@ -250,19 +258,18 @@ class Profile extends Component {
                   <h2></h2>
                   <Descriptions title="Specialty and Skills" bordered>
                     <Descriptions.Item label="Specialty">
-                      <row
-                        className="psize"
-                        editable={
-                          this.state.isMyProfile && this.state.canEdit
-                            ? {
-                                onChange: (e) =>
-                                  this.setEditableStr("specialty", e),
-                              }
-                            : false
-                        }
+                      <Paragraph
+                          className="psize"
+                          editable={
+                            this.state.isMyProfile && this.state.canEdit
+                                ? {
+                                  onChange: (e) => this.setEditableStr("specialty", e),
+                                }
+                                : false
+                          }
                       >
                         {this.state.profile.specialty}
-                      </row>
+                      </Paragraph>
                     </Descriptions.Item>
 
                     <Descriptions.Item label="Skills" span={2}>
@@ -313,16 +320,58 @@ class Profile extends Component {
                       />
                     </Descriptions.Item>
                   </Descriptions>
-                  <Descriptions title="Projects" bordered></Descriptions>
+                  <Descriptions title="Projects" bordered>
+                    <div>
+                      {this.state.isMyProfile && this.state.canEdit ? (
+                          <DragUpload
+                              onChange={ProfileData.onProjectsChange.bind(this)}
+                              isCert={false}
+                          />
+                      ) : null}
+                    </div>
+                    <div>
+                      <ProjectManager
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          data={this.state.profile.filesAndDocs}
+                          changeList={this.changeList}
+                          themeCol={this.props.profile.primaryColour}
+                          type="filesAndDocs"
+                      />
+                    </div>
+                  </Descriptions>
+                  <h2></h2>
+                  <Descriptions title="Certificate" bordered>
+                    <div>
+                      {this.state.isMyProfile && this.state.canEdit ? (
+                          <DragUpload
+                              onChange={ProfileData.onCertificatesChange.bind(this)}
+                              isCert={true}
+                          />
+                      ) : null}
+                    </div>
+                    <div>
+                      <ProjectManager
+                          isMyProfile={this.state.isMyProfile}
+                          canEdit={this.state.canEdit}
+                          data={this.state.profile.certificates}
+                          changeList={this.changeList}
+                          themeCol={this.props.profile.primaryColour}
+                          type="certificates"
+                      />
+                    </div>
+                  </Descriptions>
                   <h2></h2>
                   <Descriptions title="Contacts" bordered>
-                    {this.state.profile && this.state.profile.contact && (
-                      <ContactDetails
-                        canEdit={this.state.canEdit}
-                        data={this.state.profile.contact}
-                        changeObj={ProfileData.setEditableObject.bind(this)}
-                      />
-                    )}
+                    <div>
+                      {this.state.profile && this.state.profile.contact && (
+                          <ContactDetails
+                              canEdit={this.state.canEdit}
+                              data={this.state.profile.contact}
+                              changeObj={ProfileData.setEditableObject.bind(this)}
+                          />
+                      )}
+                    </div>
                   </Descriptions>
                 </Content>
               </Typography>
