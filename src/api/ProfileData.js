@@ -224,6 +224,17 @@ export function setEditableStrArr(property, index, str) {
   temp[property][index] = str;
   this.setState({ profile: temp });
 }
+//Object Editor
+export function setEditableObject(property, subproperty, str, obj) {
+  var addChange = {};
+  addChange[property] = obj;
+  addChange[property][subproperty] = str;
+  console.log({ ...this.state.profileChanges, ...addChange });
+  this.setState({
+    profileChanges: { ...this.state.profileChanges, ...addChange },
+    profile: { ...this.state.profile, ...addChange },
+  });
+}
 
 //Currently used for skills in prof 5
 export function getElementsNew(lst, property) {

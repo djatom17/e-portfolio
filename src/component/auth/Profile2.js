@@ -7,6 +7,7 @@ import EducationManager from "../profileDisplays/EducationManager";
 import SocialManager from "../profileDisplays/SocialManager";
 import CareerManager from "../profileDisplays/CareerManager";
 import ProjectManager from "../profileDisplays/ProjectManager";
+import ContactDetails from "../profileDisplays/ContactDetails";
 import EditButton from "../profileDisplays/EditButton";
 import DragUpload from "../profileDisplays/DragUpload";
 import * as ProfileData from "../../api/ProfileData";
@@ -374,11 +375,13 @@ class Profile2 extends Component {
                 <Divider id="Contact" className="h9size" orientation="left">
                   Contact Information
                 </Divider>
-                {/* <Row className="mt-3 mx-4">
-                  <Col>
-                    {ProfileData.getElements(this.state.profile.social)}
-                  </Col>
-                </Row> */}
+                {this.state.profile && this.state.profile.contact && (
+                  <ContactDetails
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.contact}
+                    changeObj={ProfileData.setEditableObject.bind(this)}
+                  />
+                )}
               </Row>
               <Row className="mt-3 mx-4">
                 <Divider id="TimeZone" className="h9size" orientation="left">

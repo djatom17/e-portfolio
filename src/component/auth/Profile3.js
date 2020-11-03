@@ -164,7 +164,7 @@ class Profile3 extends Component {
                 isMyProfile={this.state.isMyProfile}
                 canEdit={this.state.canEdit}
                 data={this.state.profile.social}
-                changeObj={this.setEditablefieldName}
+                changeObj={ProfileData.setEditableObject.bind(this)}
               />
             )}
           </Col>
@@ -350,7 +350,7 @@ class Profile3 extends Component {
                     <ContactDetails
                       canEdit={this.state.canEdit}
                       data={this.state.profile.contact}
-                      changeObj={this.setEditablefieldName}
+                      changeObj={ProfileData.setEditableObject.bind(this)}
                     />
                   )}
                   <Title className="h1size">Time zone</Title>

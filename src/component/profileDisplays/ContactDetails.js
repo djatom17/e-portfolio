@@ -38,23 +38,32 @@ export class ContactDetails extends Component {
 
   // save changes to db
   saveChanges = () => {
-    if (this.state.editing === "email") {
-      this.setState({ email: this.state.editInputValue });
+    const { editing, editInputValue } = this.state;
+    if (editing === "email") {
+      this.setState({ email: editInputValue });
+      this.props.changeObj("contact", "email", editInputValue, this.props.data);
     }
-    if (this.state.editing === "phone") {
-      this.setState({ phone: this.state.editInputValue });
+    if (editing === "phone") {
+      this.setState({ phone: editInputValue });
+      this.props.changeObj("contact", "phone", editInputValue, this.props.data);
     }
-    if (this.state.editing === "address") {
-      this.setState({ address: this.state.editInputValue });
+    if (editing === "address") {
+      this.setState({ address: editInputValue });
+      this.props.changeObj(
+        "contact",
+        "address",
+        editInputValue,
+        this.props.data
+      );
     }
-    var newContact = {
-      email: this.state.email,
-      phone: this.state.phone,
-      address: this.state.address,
-    };
+    // var newContact = {
+    //   email: this.state.email,
+    //   phone: this.state.phone,
+    //   address: this.state.address,
+    // };
 
     this.setState({ editing: "", editInputValue: "" });
-    this.props.changeObj("contact", newContact);
+    // this.props.changeObj("contact", newContact);
   };
 
   render() {
@@ -66,7 +75,7 @@ export class ContactDetails extends Component {
             <Row gutter={16}>
               <Col>Email: </Col>
               <Col>
-                {editing == "email" ? (
+                {editing === "email" ? (
                   <Input
                     value={this.state.editInputValue}
                     ref={(input) => input && input.focus()}
@@ -78,7 +87,7 @@ export class ContactDetails extends Component {
                 )}
               </Col>
               <Col>
-                {editing == "email" ? null : (
+                {editing === "email" ? null : (
                   <Button
                     type="link"
                     icon={<EditOutlined />}
@@ -96,7 +105,7 @@ export class ContactDetails extends Component {
               {" "}
               <Col>Phone: </Col>{" "}
               <Col>
-                {editing == "phone" ? (
+                {editing === "phone" ? (
                   <Input
                     value={this.state.editInputValue}
                     ref={(input) => input && input.focus()}
@@ -108,7 +117,7 @@ export class ContactDetails extends Component {
                 )}
               </Col>
               <Col>
-                {editing == "phone" ? null : (
+                {editing === "phone" ? null : (
                   <Button
                     type="link"
                     icon={<EditOutlined />}
@@ -125,7 +134,7 @@ export class ContactDetails extends Component {
             <Row gutter={16}>
               <Col>Address: </Col>
               <Col>
-                {editing == "address" ? (
+                {editing === "address" ? (
                   <Input
                     value={this.state.editInputValue}
                     ref={(input) => input && input.focus()}
@@ -137,7 +146,7 @@ export class ContactDetails extends Component {
                 )}
               </Col>
               <Col>
-                {editing == "address" ? null : (
+                {editing === "address" ? null : (
                   <Button
                     type="link"
                     icon={<EditOutlined />}

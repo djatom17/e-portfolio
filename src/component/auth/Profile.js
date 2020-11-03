@@ -320,7 +320,7 @@ class Profile extends Component {
                       <ContactDetails
                         canEdit={this.state.canEdit}
                         data={this.state.profile.contact}
-                        changeObj={this.setEditablefieldName}
+                        changeObj={ProfileData.setEditableObject.bind(this)}
                       />
                     )}
                   </Descriptions>
