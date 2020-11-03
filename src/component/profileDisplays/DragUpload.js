@@ -120,11 +120,11 @@ class DragUpload extends Component {
     return (
       <Fragment>
         <Button type="primary" onClick={this.showModal}>
-          Add a new Project!
+          {this.props.isCert ? "Add a new Certificate!" : "Add a new Project!"}
         </Button>
         <Modal
           visible={this.state.visible}
-          title="Add New Project"
+          title={this.props.isCert ? "Add new Certificate" : "Add new Project"}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>
@@ -136,25 +136,49 @@ class DragUpload extends Component {
               loading={uploading}
               htmlType="submit"
               disabled={fileList.length === 0}
-              form="projectForm"
+              form={this.props.isCert ? "certForm" : "projectForm"}
             >
-              {uploading ? "Uploading" : "Add Project"}
+              {uploading
+                ? "Uploading"
+                : this.props.isCert
+                ? "Add Certificate"
+                : "Add Project"}
             </Button>,
           ]}
         >
-          <Form id="projectForm" name="Projects" onFinish={this.handleUpload}>
+          <Form
+            id={this.props.isCert ? "certForm" : "projectForm"}
+            name={this.props.isCert ? "Certificates" : "Projects"}
+            onFinish={this.handleUpload}
+          >
             <Form.Item
-              label="Project Name"
+              label={this.props.isCert ? "Certificate Name" : "Project Name"}
               name="name"
-              rules={[{ required: true, message: "Please name your project!" }]}
+              rules={[
+                {
+                  required: true,
+                  message: this.props.isCert
+                    ? "Please name your certificate"
+                    : "Please name your project!",
+                },
+              ]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              label="Project Description"
+              label={
+                this.props.isCert
+                  ? "Certificate Description"
+                  : "Project Description"
+              }
               name="description"
               rules={[
-                { required: true, message: "Please describe your project!" },
+                {
+                  required: true,
+                  message: this.props.isCert
+                    ? "Please describe your certificate"
+                    : "Please describe your project!",
+                },
               ]}
             >
               <Input.TextArea />
