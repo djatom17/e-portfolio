@@ -63,15 +63,11 @@ class Profile5 extends Component {
     //Size check.
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
-    //Authorisation check.
-    // this.setState({
-    //   layout: this.props.profile.layout,
-    //   visible: this.props.settingsVisible,
-    // });
     this.setState({
       layout: this.props.profile.layout,
       settingsVisible: this.props.settingsCancel,
     });
+    //Auth check
     this.props.isAuthenticated &&
     this.props.profile.userid &&
     this.props.user._id &&
