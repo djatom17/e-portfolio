@@ -82,18 +82,19 @@ export class SocialManager extends Component {
         this.props.data.twitter
       );
     }
-    if (name === "github")
+    if (name === "github") {
       this.setState({
         githubEnabled: e.target.checked,
       });
-    this.props.changeObj(
-      "social",
-      "github",
-      "isEnabled",
-      e.target.checked,
-      this.props.data,
-      this.props.data.github
-    );
+      this.props.changeObj(
+        "social",
+        "github",
+        "isEnabled",
+        e.target.checked,
+        this.props.data,
+        this.props.data.github
+      );
+    }
   };
 
   // save links
