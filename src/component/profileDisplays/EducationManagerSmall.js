@@ -120,7 +120,7 @@ export class EducationManagerSmall extends Component {
                         />
                       </Form.Item>
                       <Form.Item>
-                        DatePicker onChange={this.onChangeDate}
+                        <DatePicker onChange={this.onChangeDate}
                         picker="month" />
                       </Form.Item>
 

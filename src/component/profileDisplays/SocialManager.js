@@ -54,51 +54,102 @@ export class SocialManager extends Component {
     }
   }
 
-  // save
+  // save checks
+  saveChecks = (e, name) => {
+    if (name === "linkedin") {
+      this.setState({
+        linkedinEnabled: e.target.checked,
+      });
+      this.props.changeObj(
+        "social",
+        "linkedin",
+        "isEnabled",
+        e.target.checked,
+        this.props.data,
+        this.props.data.linkedin
+      );
+    }
+    if (name === "twitter") {
+      this.setState({
+        twitterEnabled: e.target.checked,
+      });
+      this.props.changeObj(
+        "social",
+        "twitter",
+        "isEnabled",
+        e.target.checked,
+        this.props.data,
+        this.props.data.twitter
+      );
+    }
+    if (name === "github") {
+      this.setState({
+        githubEnabled: e.target.checked,
+      });
+      this.props.changeObj(
+        "social",
+        "github",
+        "isEnabled",
+        e.target.checked,
+        this.props.data,
+        this.props.data.github
+      );
+    }
+  };
+
+  // save links
   saveChanges = () => {
-    // set inner objects
-    var newLinkedin = {
-      link: this.state.linkedinLink,
-      isEnabled: this.state.linkedinEnabled,
-    };
-    var newTwitter = {
-      link: this.state.twitterLink,
-      isEnabled: this.state.twitterEnabled,
-    };
-    var newGithub = {
-      link: this.state.githubLink,
-      isEnabled: this.state.githubEnabled,
-    };
+    const { editing, editInputValue } = this.state;
+    if (editing === "linkedin") {
+      this.setState({
+        editing: "none",
+        linkedinLink: editInputValue,
+        editInputValue: "",
+      });
+      // change only linkedin
+      this.props.changeObj(
+        "social",
+        "linkedin",
+        "link",
+        editInputValue,
+        this.props.data,
+        this.props.data.linkedin
+      );
+    }
 
-    // set outer object
-    var newSocial = {
-      linkedin: newLinkedin,
-      twitter: newTwitter,
-      github: newGithub,
-    };
+    if (editing == "twitter") {
+      this.setState({
+        editing: "none",
+        twitterLink: editInputValue,
+        editInputValue: "",
+      });
+      // change only twitter
+      this.props.changeObj(
+        "social",
+        "twitter",
+        "link",
+        editInputValue,
+        this.props.data,
+        this.props.data.twitter
+      );
+    }
 
-    this.props.changeObj("social", newSocial);
-  };
-
-  // check/uncheck linkedin
-  checkLinkedin = (e) => {
-    this.setState({
-      linkedinEnabled: e.target.checked,
-    });
-  };
-
-  // check/uncheck twitter
-  checkTwitter = (e) => {
-    this.setState({
-      twitterEnabled: e.target.checked,
-    });
-  };
-
-  // check/uncheck github
-  checkGithub = (e) => {
-    this.setState({
-      githubEnabled: e.target.checked,
-    });
+    if (editing == "github") {
+      this.setState({
+        editing: "none",
+        githubLink: editInputValue,
+        editInputValue: "",
+      });
+      // change only github
+      this.props.changeObj(
+        "social",
+        "github",
+        "link",
+        editInputValue,
+        this.props.data,
+        this.props.data.github
+      );
+    }
   };
 
   render() {
@@ -109,7 +160,7 @@ export class SocialManager extends Component {
           <Col>
             <Checkbox
               checked={this.state.linkedinEnabled}
-              onChange={this.checkLinkedin}
+              onChange={(e) => this.saveChecks(e, "linkedin")}
               style={{ position: "relative", top: "8px" }}
             />{" "}
           </Col>
@@ -128,11 +179,6 @@ export class SocialManager extends Component {
                 ref={(input) => input && input.focus()}
                 onChange={this.handleEditInputChange}
                 onPressEnter={() => {
-                  this.setState({
-                    editing: "none",
-                    linkedinLink: this.state.editInputValue,
-                    editInputValue: "",
-                  });
                   this.saveChanges();
                 }}
               />
@@ -154,7 +200,7 @@ export class SocialManager extends Component {
             {" "}
             <Checkbox
               checked={this.state.twitterEnabled}
-              onChange={this.checkTwitter}
+              onChange={(e) => this.saveChecks(e, "twitter")}
               style={{ position: "relative", top: "8px" }}
             />{" "}
           </Col>
@@ -174,11 +220,6 @@ export class SocialManager extends Component {
                 ref={(input) => input && input.focus()}
                 onChange={this.handleEditInputChange}
                 onPressEnter={() => {
-                  this.setState({
-                    editing: "none",
-                    twitterLink: this.state.editInputValue,
-                    editInputValue: "",
-                  });
                   this.saveChanges();
                 }}
               />
@@ -199,7 +240,7 @@ export class SocialManager extends Component {
           <Col>
             <Checkbox
               checked={this.state.githubEnabled}
-              onChange={this.checkGithub}
+              onChange={(e) => this.saveChecks(e, "github")}
               style={{ position: "relative", top: "8px" }}
             />{" "}
           </Col>
@@ -218,11 +259,6 @@ export class SocialManager extends Component {
                 ref={(input) => input && input.focus()}
                 onChange={this.handleEditInputChange}
                 onPressEnter={() => {
-                  this.setState({
-                    editing: "none",
-                    githubLink: this.state.editInputValue,
-                    editInputValue: "",
-                  });
                   this.saveChanges();
                 }}
               />

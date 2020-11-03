@@ -236,6 +236,20 @@ export function setEditableObject(property, subproperty, str, obj) {
   });
 }
 
+// Nested Object Editor
+export function setNestedEditableObject(property, sub, sub2, str, obj, obj2) {
+  var addChange = {};
+  addChange[property] = obj;
+  addChange[property][sub] = obj2;
+  addChange[property][sub][sub2] = str;
+  // this.setState({ someProperty: { ...this.state.someProperty, flag: false} });
+  console.log({ ...this.state.profileChanges, ...addChange });
+  this.setState({
+    profileChanges: { ...this.state.profileChanges, ...addChange },
+    profile: { ...this.state.profile, ...addChange },
+  });
+}
+
 //Currently used for skills in prof 5
 export function getElementsNew(lst, property) {
   if (lst) {
