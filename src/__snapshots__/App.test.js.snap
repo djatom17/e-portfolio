@@ -54,17 +54,7 @@ exports[`Front-end tests Profile Layout 5  when the user does not have authentic
                       </Base>
                     </Paragraph>
                     <Row justify=\\"center\\" className=\\"mt-n3\\">
-                      <div className=\\"ant-row ant-row-center mt-n3\\" style={{...}}>
-                        <SocialManager isMyProfile={false} canEdit={false} textColour=\\"white\\">
-                          <div>
-                            <Row>
-                              <div className=\\"ant-row\\" style={{...}}>
-                                 
-                              </div>
-                            </Row>
-                          </div>
-                        </SocialManager>
-                      </div>
+                      <div className=\\"ant-row ant-row-center mt-n3\\" style={{...}} />
                     </Row>
                   </div>
                   <div>
@@ -121,21 +111,6 @@ exports[`Front-end tests Profile Layout 5  when the user does not have authentic
                                         </ForwardRef(Tooltip)>
                                       </Tooltip>
                                     </MenuItem>
-                                    <MenuItem className=\\"modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={3} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"projects\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]}>
-                                      <Tooltip title={{...}} visible={false} placement=\\"right\\" overlayClassName=\\"ant-menu-inline-collapsed-tooltip\\" transitionName=\\"zoom-big-fast\\" mouseEnterDelay={0.1} mouseLeaveDelay={0.1} arrowPointAtCenter={false} autoAdjustOverflow={true}>
-                                        <ForwardRef(Tooltip) title={{...}} visible={false} placement=\\"right\\" overlayClassName=\\"ant-menu-inline-collapsed-tooltip\\" transitionName=\\"zoom-big-fast\\" mouseEnterDelay={0.1} mouseLeaveDelay={0.1} arrowPointAtCenter={false} autoAdjustOverflow={true} prefixCls=\\"ant-tooltip\\" getTooltipContainer={[undefined]} builtinPlacements={{...}} overlay=\\"\\" onVisibleChange={[Function: onVisibleChange]} onPopupAlign={[Function: onPopupAlign]} overlayInnerStyle={[undefined]} arrowContent={{...}}>
-                                          <Trigger popupClassName=\\"ant-menu-inline-collapsed-tooltip\\" prefixCls=\\"ant-tooltip\\" popup={[Function: getPopupElement]} action={{...}} builtinPlacements={{...}} popupPlacement=\\"right\\" popupAlign={{...}} getPopupContainer={[undefined]} onPopupVisibleChange={[Function: onVisibleChange]} afterPopupVisibleChange={[Function: noop]} popupTransitionName=\\"zoom-big-fast\\" popupAnimation={[undefined]} defaultPopupVisible={false} destroyPopupOnHide={false} autoDestroy={false} mouseLeaveDelay={0.1} popupStyle={{...}} mouseEnterDelay={0.1} title={{...}} visible={false} arrowPointAtCenter={false} autoAdjustOverflow={true} overlay=\\"\\" onPopupAlign={[Function: onPopupAlign]} arrowContent={{...}} popupVisible={false} getPopupClassNameFromAlign={[Function: returnEmptyString]} getDocument={[Function: returnDocument]} focusDelay={0} blurDelay={0.15} mask={false} maskClosable={true} showAction={{...}} hideAction={{...}}>
-                                            <Connect(MenuItem) className=\\"ant-menu-item-only-child modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={3} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"projects\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]} title={[undefined]} onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onFocus={[undefined]} onBlur={[undefined]}>
-                                              <MenuItem className=\\"ant-menu-item-only-child modified-item\\" mode=\\"vertical\\" level={1} inlineIndent={24} renderMenuItem={[Function (anonymous)]} rootPrefixCls=\\"ant-menu\\" index={3} parentMenu={{...}} manualRef={[Function: chainedFunction]} eventKey=\\"projects\\" active={false} multiple={[undefined]} onClick={[Function: onClick]} onItemHover={[Function (anonymous)]} motion={{...}} subMenuOpenDelay={0.1} subMenuCloseDelay={0.1} forceSubMenuRender={[undefined]} onOpenChange={[Function (anonymous)]} onDeselect={[Function (anonymous)]} onSelect={[Function (anonymous)]} builtinPlacements={{...}} itemIcon={[undefined]} expandIcon={[undefined]} openKeys={{...}} selectedKeys={{...}} triggerSubMenuAction=\\"hover\\" subMenuKey=\\"0-menu-\\" direction={[undefined]} title={[undefined]} onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onMouseEnter={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onFocus={[undefined]} onBlur={[undefined]} isSelected={false} store={{...}}>
-                                                <li className=\\"ant-menu-item ant-menu-item-only-child modified-item\\" onContextMenu={[undefined]} onMouseDown={[undefined]} onTouchStart={[undefined]} onFocus={[undefined]} onBlur={[undefined]} title={[undefined]} role=\\"menuitem\\" aria-disabled={[undefined]} onClick={[Function (anonymous)]} onMouseLeave={[Function (anonymous)]} onMouseEnter={[Function (anonymous)]} style={{...}}>
-                                                  Contacts
-                                                </li>
-                                              </MenuItem>
-                                            </Connect(MenuItem)>
-                                          </Trigger>
-                                        </ForwardRef(Tooltip)>
-                                      </Tooltip>
-                                    </MenuItem>
                                   </ul>
                                 </DOMWrap>
                               </SubPopupMenu>
@@ -183,101 +158,69 @@ exports[`Front-end tests Profile Layout 5  when the user does not have authentic
                               </Base>
                             </Paragraph>
                           </div>
+                          <div>
+                            <Title className=\\"h1size\\">
+                              <Base className=\\"h1size\\" component=\\"h1\\">
+                                <LocaleReceiver componentName=\\"Text\\">
+                                  <ResizeObserver onResize={[Function (anonymous)]} disabled={true}>
+                                    <Typography className=\\"h1size\\" style={{...}} component=\\"h1\\" aria-label={[undefined]} direction={[undefined]}>
+                                      <h1 className=\\"ant-typography h1size\\" aria-label={[undefined]} style={{...}} direction={[undefined]}>
+                                        Work Time Zone
+                                      </h1>
+                                    </Typography>
+                                  </ResizeObserver>
+                                </LocaleReceiver>
+                              </Base>
+                            </Title>
+                            <Paragraph className=\\"psize\\" editable={false}>
+                              <Base className=\\"psize\\" editable={false} component=\\"div\\">
+                                <LocaleReceiver componentName=\\"Text\\">
+                                  <ResizeObserver onResize={[Function (anonymous)]} disabled={true}>
+                                    <Typography className=\\"psize\\" style={{...}} component=\\"div\\" aria-label={[undefined]} direction={[undefined]}>
+                                      <div className=\\"ant-typography psize\\" aria-label={[undefined]} style={{...}} direction={[undefined]} />
+                                    </Typography>
+                                  </ResizeObserver>
+                                </LocaleReceiver>
+                              </Base>
+                            </Paragraph>
+                          </div>
                           <Title className=\\"h1size\\">
                             <Base className=\\"h1size\\" component=\\"h1\\">
                               <LocaleReceiver componentName=\\"Text\\">
                                 <ResizeObserver onResize={[Function (anonymous)]} disabled={true}>
                                   <Typography className=\\"h1size\\" style={{...}} component=\\"h1\\" aria-label={[undefined]} direction={[undefined]}>
                                     <h1 className=\\"ant-typography h1size\\" aria-label={[undefined]} style={{...}} direction={[undefined]}>
-                                      Work Time Zone
+                                      Contact Details
                                     </h1>
                                   </Typography>
                                 </ResizeObserver>
                               </LocaleReceiver>
                             </Base>
                           </Title>
+                          <div />
                           <Title className=\\"h1size\\">
                             <Base className=\\"h1size\\" component=\\"h1\\">
                               <LocaleReceiver componentName=\\"Text\\">
                                 <ResizeObserver onResize={[Function (anonymous)]} disabled={true}>
                                   <Typography className=\\"h1size\\" style={{...}} component=\\"h1\\" aria-label={[undefined]} direction={[undefined]}>
                                     <h1 className=\\"ant-typography h1size\\" aria-label={[undefined]} style={{...}} direction={[undefined]}>
-                                      Achievements
+                                      Certificates
                                     </h1>
                                   </Typography>
                                 </ResizeObserver>
                               </LocaleReceiver>
                             </Base>
                           </Title>
-                          <AchievementManager isMyProfile={false} canEdit={false} data={{...}} changeList={[Function: bound changeList]}>
-                            <div>
-                              <Paragraph className=\\"psize\\">
-                                <Base className=\\"psize\\" component=\\"div\\">
-                                  <LocaleReceiver componentName=\\"Text\\">
-                                    <ResizeObserver onResize={[Function (anonymous)]} disabled={true}>
-                                      <Typography className=\\"psize\\" style={{...}} component=\\"div\\" aria-label={[undefined]} direction={[undefined]}>
-                                        <div className=\\"ant-typography psize\\" aria-label={[undefined]} style={{...}} direction={[undefined]}>
-                                           
-                                          <Row>
-                                            <div className=\\"ant-row\\" style={{...}}>
-                                              <Col flex=\\"auto\\">
-                                                <div style={{...}} className=\\"ant-col\\">
-                                                  <Paragraph>
-                                                    <Base component=\\"div\\">
-                                                      <LocaleReceiver componentName=\\"Text\\">
-                                                        <ResizeObserver onResize={[Function (anonymous)]} disabled={true}>
-                                                          <Typography className=\\"\\" style={{...}} component=\\"div\\" aria-label={[undefined]} direction={[undefined]}>
-                                                            <div className=\\"ant-typography\\" aria-label={[undefined]} style={{...}} direction={[undefined]}>
-                                                              <span onDoubleClick={{...}}>
-                                                                Did something
-                                                              </span>
-                                                            </div>
-                                                          </Typography>
-                                                        </ResizeObserver>
-                                                      </LocaleReceiver>
-                                                    </Base>
-                                                  </Paragraph>
-                                                </div>
-                                              </Col>
-                                              <Col flex=\\"10px\\">
-                                                <div style={{...}} className=\\"ant-col\\" />
-                                              </Col>
-                                            </div>
-                                          </Row>
-                                          <Row>
-                                            <div className=\\"ant-row\\" style={{...}}>
-                                              <Col flex=\\"auto\\">
-                                                <div style={{...}} className=\\"ant-col\\">
-                                                  <Paragraph>
-                                                    <Base component=\\"div\\">
-                                                      <LocaleReceiver componentName=\\"Text\\">
-                                                        <ResizeObserver onResize={[Function (anonymous)]} disabled={true}>
-                                                          <Typography className=\\"\\" style={{...}} component=\\"div\\" aria-label={[undefined]} direction={[undefined]}>
-                                                            <div className=\\"ant-typography\\" aria-label={[undefined]} style={{...}} direction={[undefined]}>
-                                                              <span onDoubleClick={{...}}>
-                                                                And that
-                                                              </span>
-                                                            </div>
-                                                          </Typography>
-                                                        </ResizeObserver>
-                                                      </LocaleReceiver>
-                                                    </Base>
-                                                  </Paragraph>
-                                                </div>
-                                              </Col>
-                                              <Col flex=\\"10px\\">
-                                                <div style={{...}} className=\\"ant-col\\" />
-                                              </Col>
-                                            </div>
-                                          </Row>
-                                        </div>
-                                      </Typography>
-                                    </ResizeObserver>
-                                  </LocaleReceiver>
-                                </Base>
-                              </Paragraph>
-                            </div>
-                          </AchievementManager>
+                          <div />
+                          <div>
+                            <ProjectManager isMyProfile={false} canEdit={false} data={[undefined]} changeList={[Function: bound changeList]} themeCol={[undefined]} type=\\"certificates\\">
+                              <div>
+                                <Row>
+                                  <div className=\\"ant-row\\" style={{...}} />
+                                </Row>
+                              </div>
+                            </ProjectManager>
+                          </div>
                         </div>
                       </div>
                     </Col>

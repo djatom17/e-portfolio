@@ -250,6 +250,7 @@ describe("Front-end tests", () => {
     });
   });
 
+  //snapshot testing of layout 5
   describe("Profile Layout 5 ", () => {
     const prof = (
       <Profile5
@@ -272,21 +273,5 @@ describe("Front-end tests", () => {
       // prof5.getInstance().setState({ isMyProfile: false });
       expect(prof5.debug()).toMatchSnapshot();
     });
-
-    // it("Settings render?", () => {
-    //   const prof5 = shallow(<Provider store={store}>{prof} </Provider>);
-    //   expect(prof5.find("Settings").exists()).toBeTruthy();
-    //    expect(prof5.find(Settings)).toHaveLength(1);
-    //   expect(prof5.containsMatchingElement(<Settings />)).toEqual(true);
-    // });
-    // // it("when there the user has authentication", () => {
-    //   const prof5 = mount(
-    //     <Provider store={store}>
-    //       <Profile5 />{" "}
-    //     </Provider>
-    //   );
-    //   prof5.getInstance().setState({ isMyProfile: true });
-    //   expect(prof5).toMatchSnapshot();
-    // });
   });
 });
