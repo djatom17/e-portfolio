@@ -26,7 +26,7 @@ class DragUpload extends Component {
   handleUploadSuccess = () => {
     let countdown = 3;
     const successModal = Modal.success({
-      title: "Upload sucess!",
+      title: "Upload success!",
       content: `Your project has been uploaded! This notification will close in ${countdown} second${
         countdown === 1 ? "" : "s"
       }.`,
