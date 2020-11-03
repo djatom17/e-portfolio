@@ -164,7 +164,7 @@ class Profile3 extends Component {
                 isMyProfile={this.state.isMyProfile}
                 canEdit={this.state.canEdit}
                 data={this.state.profile.social}
-                changeObj={ProfileData.setEditableObject.bind(this)}
+                changeObj={ProfileData.setNestedEditableObject.bind(this)}
               />
             )}
           </Col>
