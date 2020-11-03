@@ -62,7 +62,10 @@ class PlaceholderProfile extends Component {
           ) : (
             React.createElement(
               this.components["prf" + this.state.profile.layout],
-              { profile: this.state.profile }
+              {
+                profile: this.state.profile,
+                layout: this.props.layout,
+              }
             )
           )
         ) : null}

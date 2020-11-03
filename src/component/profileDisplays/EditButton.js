@@ -75,12 +75,19 @@ export class EditButton extends Component {
       <Fragment>
         {this.props.isMyProfile ? (
           <Button
-            type="primary"
+            style={{
+              fontWeight: "bold",
+              fontSize: 16,
+              color: this.props.color ? this.props.color : "#40A9FF",
+            }}
+            type="link"
             data-toggle="collapse"
             data-target="#mobile-nav"
-            onClick={this.handleEditButtonClick}
+            onClick={() => this.handleEditButtonClick()}
           >
-            {this.props.canEdit ? "Done" : "Edit"}
+            {this.props.isMyProfile && this.props.canEdit
+              ? "Save"
+              : "Edit Profile"}
           </Button>
         ) : null}
       </Fragment>

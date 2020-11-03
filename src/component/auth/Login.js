@@ -73,7 +73,7 @@ class Login extends Component {
     };
 
     return (
-      <div className={"login body-height"}>
+      <div className={"login "}>
         <div className={"container"}>
           <div className={"row"}>
             <div className="col-mid-8 m-auto">
