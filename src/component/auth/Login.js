@@ -5,7 +5,11 @@ import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import { Redirect } from "react-router-dom";
 import GoogleButton from "./GoogleButton";
-import { Row } from "antd";
+import { Row, Form, Input, Button, Typography } from "antd";
+import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import "antd/dist/antd.css";
+
+const { Title, Paragraph } = Typography;
 
 class Login extends Component {
   state = {
@@ -55,14 +59,86 @@ class Login extends Component {
     const { isAuthenticated } = this.props;
     if (isAuthenticated) return <Redirect to="/my-profile" />;
 
+    const onFinish = (values) => {
+      const { email, password } = values;
+
+      const user = {
+        email,
+        password,
+      };
+      // console.log("Received values of form: ", user);
+
+      // Attempt to login
+      this.props.login(user);
+    };
+
     return (
       <div className={"login "}>
         <div className={"container"}>
           <div className={"row"}>
             <div className="col-mid-8 m-auto">
-              <h1 className="display-4 text-center">Login</h1>
-              <p className={"lead text-center"}>Log in and Start Flexing</p>
-              <form onSubmit={this.handleSubmit}>
+              <h1 className="display-4 text-center mt-5">Login</h1>
+              <Paragraph className={"lead text-center"}>
+                Log in and Start Flexing
+              </Paragraph>
+
+              <Form
+                name="normal_login"
+                className="login-form"
+                size="large"
+                initialValues={{
+                  remember: true,
+                }}
+                onFinish={onFinish}
+              >
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your Email!",
+                    },
+                  ]}
+                >
+                  <Input
+                    prefix={<MailOutlined className="site-form-item-icon" />}
+                    placeholder=" Email"
+                    onChange={this.handleChange("email")}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your Password!",
+                    },
+                  ]}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
+                    placeholder=" Password"
+                  />
+                </Form.Item>
+                <div className="mt-5">
+                  <Form.Item>
+                    <Button
+                      block
+                      type="primary"
+                      htmlType="submit"
+                      className="login-form-button"
+                    >
+                      Sign in
+                    </Button>
+                  </Form.Item>
+                  <Row justify="center">
+                    <GoogleButton />
+                  </Row>
+                </div>
+              </Form>
+
+              {/* <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                   <input
                     type={"email"}
@@ -84,10 +160,7 @@ class Login extends Component {
                   />
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
-              </form>
-              <Row justify="center" className="mt-4">
-                <GoogleButton />
-              </Row>
+              </form> */}
             </div>
           </div>
         </div>
