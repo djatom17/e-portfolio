@@ -201,8 +201,16 @@ class Profile3 extends Component {
           <Col>
             <h2>
               {ProfileData.getName(this.state.profile)}
-              {", "}
-              <small>[get job from db]</small>
+            
+              <small>
+                {", "}
+                {this.state.profile.workHistory &&
+                this.state.profile.workHistory[0]
+                  ? this.state.profile.workHistory[0].role +
+                    " - " +
+                    this.state.profile.workHistory[0].workplace
+                  : null}
+              </small>
             </h2>
           </Col>
         </Row>
