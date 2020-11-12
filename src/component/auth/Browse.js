@@ -175,11 +175,11 @@ class Browse extends Component {
           <Row justify="space-between" className="browse-social ml-4">
             <Col>
               <Row>
-                <SocialManager isMyProfile={false} canEdit={false} />
+                <SocialManager isMyProfile={false} canEdit={false}  data={profile.social}/>
               </Row>
             </Col>
             <Col className="browse-mail mt-2 mr-2">
-              <Paragraph
+              {profile.contact.email && <Paragraph
                 copyable={{
                   icon: [
                     <MailOutlined key="copy-icon" />,
@@ -188,8 +188,9 @@ class Browse extends Component {
                   tooltips: ["Copy email!"],
                 }}
               >
-                superfake@email.com
-              </Paragraph>
+                {profile.contact.email}
+              </Paragraph>}
+              
             </Col>
           </Row>
         </div>
