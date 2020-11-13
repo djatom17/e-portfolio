@@ -1,7 +1,7 @@
 /**
  * This file provides a schema for storing user profile's information
  *  on the MongoDB
- * 
+ *
  * @file Schema for Profile, consistent with profiles in Mongo
  * @author Team Ctrl-Alt-Elite
  * @copyright This material is made available to you by or on behalf
@@ -10,7 +10,7 @@
  * @exports Profile
  */
 const mongoose = require("mongoose");
-const FileSchema = require('./File');
+const FileSchema = require("./File");
 const WorkSchema = require("./Work");
 const SchoolSchema = require("./School");
 const SocialSchema = require("./Social");
@@ -19,10 +19,10 @@ const ContactSchema = require("./Contact");
 
 /**
  * MongoDB Schema to store all profile information of a user.
- * 
+ *
  * @param {String} firstName First name of the user.
  * @param {String} lastName Last name of the user.
- * @param {String[]} keySkills Array of key user skills. 
+ * @param {String[]} keySkills Array of key user skills.
  * @param {WorkSchema[]} workHistory Array of Work Object by User.
  * @param {SchoolSchema[]} education Array of user academic experiences.
  * @param {String} image filepath to user's profile picture on S3.
@@ -40,7 +40,7 @@ const ContactSchema = require("./Contact");
  * @param {String} timezone Timezone of user.
  * @param {Int} layout Option of user chosen profile display layout.
  * @param {ContactSchema} contact Contact details of user.
- * @param {Boolean} isNewUser Flag to indicate user has newly registered but 
+ * @param {Boolean} isNewUser Flag to indicate user has newly registered but
  *  has not set up profile information.
  */
 const ProfileSchema = new mongoose.Schema({
@@ -62,14 +62,17 @@ const ProfileSchema = new mongoose.Schema({
   },
   workHistory: [WorkSchema],
   education: [SchoolSchema],
-  image: String,
+  image: {
+    type: String,
+    default: "default.png",
+  },
   linkToProfile: {
     type: String,
     unique: true,
     required: true,
   },
   social: SocialSchema,
-  reference : [ReferenceSchema],
+  reference: [ReferenceSchema],
   primaryColour: {
     type: String,
     default: "#ffffff",
@@ -98,17 +101,17 @@ const ProfileSchema = new mongoose.Schema({
   },
   timezone: {
     type: String,
-    default: "GMT +8"
+    default: "GMT +8",
   },
   layout: {
     type: String,
-    default: "1",
+    default: "3",
   },
   contact: ContactSchema,
   isNewUser: {
     type: Boolean,
-    default: true,
-  } 
+    default: false,
+  },
 });
 
 module.exports = Profile = mongoose.model("profiles", ProfileSchema);

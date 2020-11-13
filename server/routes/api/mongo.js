@@ -64,7 +64,7 @@ mongorouter.get("/p/:ID", function (req, res, next) {
   if (isValidObjectId(req.params.ID)) {
     query = { _id: ObjectID(req.params.ID) };
   } else {
-    query = { linkToProfile: req.params.ID };
+    query = { linkToProfile: encodeURIComponent(req.params.ID) };
   }
 
   Profile.findOne(query, (err, profile) => {
@@ -251,7 +251,7 @@ function checkLink(req, res, next) {
           );
           return res.status(500).json({ error: err });
         }
-        
+
         //Found a conflicting profile
         if (profile) {
           console.log("Conflict link");

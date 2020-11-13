@@ -32,6 +32,7 @@ const User = require("../../models/User");
 // User to profile mapping Model
 const UserProfile = require("../../models/UserProfile");
 const Profile = require("../../models/Profile");
+const ContactSchema = require("../../models/Contact");
 
 /**
  * Authenticates a user when logging in.
@@ -195,6 +196,9 @@ userrouter.post("/register", (req, res, next) => {
               firstName: firstName,
               lastName: lastName,
               linkToProfile: encodeURIComponent(hashedEmail.replace(".", "")),
+              contact: {
+                email: user.email,
+              },
             });
             newProfile.save().then((profile) => {
               const newUserProfile = new UserProfile({
@@ -216,9 +220,10 @@ userrouter.post("/register", (req, res, next) => {
                       token,
                       profile: profile,
                       user: {
-                        id: user.id,
+                        _id: user.id,
                         name: user.name,
                         email: user.email,
+                        pid: profile.id,
                       },
                     });
                   }

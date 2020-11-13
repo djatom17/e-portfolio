@@ -97,6 +97,7 @@ class Login extends Component {
                     {
                       required: true,
                       message: "Please enter your Email!",
+                      type: "email",
                     },
                   ]}
                 >

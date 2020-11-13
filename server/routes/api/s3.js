@@ -95,19 +95,21 @@ s3router.post("/upload", auth, function (req, res, next) {
           mongo
             .getImageUrlOfUser(req.user.id)
             .then((success) => {
-              s3.deleteObject(
-                { Bucket: AWSBucket, Key: success.pfpUrl },
-                (e, response) => {
-                  if (e) {
-                    console.log(
-                      "[S3] Unable to delete previous profile picture."
-                    );
-                    return res.status(500).json({ error: e });
+              if (success.pfpUrl !== "default.png") {
+                s3.deleteObject(
+                  { Bucket: AWSBucket, Key: success.pfpUrl },
+                  (e, response) => {
+                    if (e) {
+                      console.log(
+                        "[S3] Unable to delete previous profile picture."
+                      );
+                      return res.status(500).json({ error: e });
+                    }
+                    console.log("[S3] Deleted previous profile picture.");
                   }
-                  console.log("[S3] Deleted previous profile picture.");
-                  return res.status(200).json({ fileUrl: hashName });
-                }
-              );
+                );
+              }
+              return res.status(200).json({ fileUrl: hashName });
             })
             .catch((e) => {
               return res.status(e.statusCode).json({ error: e });
