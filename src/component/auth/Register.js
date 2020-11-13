@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, Row, Col, Checkbox, Button, Typography } from "antd";
+import { Form, Input, Row, Col, Checkbox, Button, Typography, Alert} from "antd";
 import { MailOutlined, UserOutlined, LockOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
@@ -9,6 +9,25 @@ import { register } from "../../actions/authActions";
 const { Paragraph } = Typography;
 
 class Register extends Component {
+
+  state = {
+    email: "",
+    password: "",
+    msg: null,
+  };
+
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      // Check for sign up error
+      if (error.id === "REGISTER_FAIL") {
+        this.setState({ msg: error.msg.error });
+      } else {
+        this.setState({ msg: null });
+      }
+    }
+  }
+
   render() {
     const { isAuthenticated } = this.props;
     if (isAuthenticated) return <Redirect to="/my-profile" />;
@@ -140,11 +159,13 @@ class Register extends Component {
                   block
                   type="primary"
                   htmlType="submit"
-                  className="login-form-button mb-5"
+                  className="login-form-button mb-1"
                 >
                   Sign up
                 </Button>
               </Form.Item>
+              
+              {this.state.msg && <Alert message={this.state.msg} type="error" className="mb-5"/>}
             </div>
           </Form>
         </Col>

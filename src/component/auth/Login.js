@@ -5,7 +5,7 @@ import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import { Redirect } from "react-router-dom";
 import GoogleButton from "./GoogleButton";
-import { Row, Form, Input, Button, Typography } from "antd";
+import { Row, Form, Input, Button, Typography, Alert } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 
@@ -30,7 +30,7 @@ class Login extends Component {
     if (error !== prevProps.error) {
       // Check for login error
       if (error.id === "LOGIN_FAIL") {
-        this.setState({ msg: error.msg.msg });
+        this.setState({ msg: error.msg.error });
       } else {
         this.setState({ msg: null });
       }
@@ -136,32 +136,10 @@ class Login extends Component {
                   <Row justify="center">
                     <GoogleButton />
                   </Row>
+                  {this.state.msg && <Alert message={this.state.msg} type="error" className="mt-4"/>}
                 </div>
               </Form>
 
-              {/* <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                  <input
-                    type={"email"}
-                    className={"form-control form-control-lg"}
-                    placeholder="Email"
-                    name={"email"}
-                    // value={email}
-                    onChange={this.handleChange("email")}
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    type={"password"}
-                    className={"form-control form-control-lg"}
-                    placeholder="password"
-                    name={"password"}
-                    // value={password}
-                    onChange={this.handleChange("password")}
-                  />
-                </div>
-                <input type="submit" className="btn btn-info btn-block mt-4" />
-              </form> */}
             </div>
           </div>
         </div>
