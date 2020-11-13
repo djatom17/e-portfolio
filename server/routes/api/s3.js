@@ -22,7 +22,7 @@ const mongo = require("./mongo");
 const AWSBucket =
   process.env.NODE_ENV === "development"
     ? config.get("s3Bucket")
-    : process.env.S3_BUCKET;
+    : process.env.S3_BUCKET_NAME;
 const s3 = new AWS.S3({
   accessKeyId:
     process.env.NODE_ENV === "development"
