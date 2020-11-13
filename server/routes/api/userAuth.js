@@ -290,6 +290,23 @@ userrouter.post("/change-password", auth, (req, res, next) => {
   });
 });
 
+userrouter.post("/change-email", auth, (req, res, next) => {
+  User.findOneAndUpdate(
+    { _id: ObjectID(req.user.id) },
+    { $set: req.body },
+    { returnNewDocument: true, useFindAndModify: false }
+  ).then((updated_user) => {
+    if (!updated_user) {
+      return res
+        .status(500)
+        .json({ error: "[Mongoose] User update unsuccessful." });
+    } else {
+      console.log("[Mongoose] Successfully posted updates to MongoDB.");
+      res.status(204).json("Email changed successfully.");
+    }
+  });
+});
+
 /**
  * Checks if email change request exists for another user.
  *

@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ProfilePicture from "../profileDisplays/ProfilePicture";
 import AchievementManager from "../profileDisplays/AchievementManager";
+import CareerManager from "../profileDisplays/CareerManager";
 import SkillManager from "../profileDisplays/SkillManager";
-import Settings from "../profileDisplays/Settings";
-import SettingsButton from "../profileDisplays/SettingsButton";
+import SocialManager from "../profileDisplays/SocialManager";
+import EducationManager from "../profileDisplays/EducationManager";
+import ContactDetails from "../profileDisplays/ContactDetails";
 import EditButton from "../profileDisplays/EditButton";
 import DragUpload from "../profileDisplays/DragUpload";
+import ProjectManager from "../profileDisplays/ProjectManager";
 import * as ProfileData from "../../api/ProfileData";
 import { Row, Col, Typography, Button, Divider, Tabs } from "antd";
 import {
@@ -15,7 +18,7 @@ import {
   GithubOutlined,
 } from "@ant-design/icons";
 
-const { Paragraph } = Typography;
+const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
 
 // function for tabs
@@ -31,7 +34,7 @@ class Profile3 extends Component {
     inputValue: "",
     editInputIndex: -1,
     editInputValue: "",
-    loading: false,
+    // loading: false,
     pfpVisible: true,
     canEdit: false,
     isMyProfile: false,
@@ -43,12 +46,12 @@ class Profile3 extends Component {
     super();
     this.setEditablefieldName = ProfileData.setEditableStr.bind(this);
     this.setEditablefieldNameArr = ProfileData.setEditableStrArr.bind(this);
-    this.showModal = ProfileData.showModal.bind(this);
-    this.handleOk = ProfileData.handleOk.bind(this);
-    this.handleCancel = ProfileData.handleCancel.bind(this);
+    this.setEditableStr = ProfileData.setEditableStr.bind(this);
+    this.setEditableStrArr = ProfileData.setEditableStrArr.bind(this);
     this.changeLayout = ProfileData.changeLayout.bind(this);
     this.changeList = ProfileData.changeList.bind(this);
     this.resize = ProfileData.resize.bind(this);
+    this.themeCustom = ProfileData.themeCustom.bind(this);
   }
 
   componentDidMount() {
@@ -83,8 +86,16 @@ class Profile3 extends Component {
           <Col>
             <h2>
               {ProfileData.getName(this.state.profile)}
-              {", "}
-              <small>[get job from db]</small>
+
+              <small>
+                {", "}
+                {this.state.profile.workHistory &&
+                this.state.profile.workHistory[0]
+                  ? this.state.profile.workHistory[0].role +
+                    " - " +
+                    this.state.profile.workHistory[0].workplace
+                  : null}
+              </small>
             </h2>
           </Col>
           <Col className="mr-5">
@@ -103,9 +114,6 @@ class Profile3 extends Component {
                       })
                     }
                   />
-                </Col>
-                <Col>
-                  <SettingsButton showModal={this.showModal} />
                 </Col>
               </Row>
             ) : null}
@@ -135,32 +143,30 @@ class Profile3 extends Component {
             >
               {this.state.profile.about}
             </Paragraph>
-            {this.state.isMyProfile ? (
-              <Settings
-                handleOk={this.handleOk}
-                handleCancel={this.handleCancel}
-                showModal={this.showModal}
-                layout={this.state.layout}
-                visible={this.state.visible}
-                loading={this.state.loading}
+            <h4>My specialty-</h4>
+            <Paragraph
+              ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
+              editable={
+                this.state.canEdit
+                  ? {
+                      onChange: (fieldName) =>
+                        this.setEditablefieldName("specialty", fieldName),
+                      autoSize: { minRows: 1, maxRows: 5 },
+                    }
+                  : false
+              }
+            >
+              {this.state.profile.specialty}
+            </Paragraph>
+
+            {this.state.profile && this.state.profile.social && (
+              <SocialManager
+                isMyProfile={this.state.isMyProfile}
+                canEdit={this.state.canEdit}
+                data={this.state.profile.social}
+                changeObj={ProfileData.setNestedEditableObject.bind(this)}
               />
-            ) : null}
-          </Col>
-          <Col>
-            <Row>
-              <Button
-                type="link"
-                icon={<LinkedinOutlined />}
-                className="mt-3"
-              />
-            </Row>
-            <Row>
-              {" "}
-              <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
-            </Row>
-            <Row>
-              <Button type="link" icon={<GithubOutlined />} className="mt-3" />
-            </Row>
+            )}
           </Col>
         </Row>
       </div>
@@ -187,9 +193,6 @@ class Profile3 extends Component {
                     }
                   />
                 </Col>
-                <Col>
-                  <SettingsButton showModal={this.showModal} />
-                </Col>
               </Row>
             ) : null}
           </Col>
@@ -203,30 +206,25 @@ class Profile3 extends Component {
             </h2>
           </Col>
         </Row>
-        <Row gutter={8} justify="center">
+        <Row justify="center">
           <ProfilePicture
             image={this.state.profile.image}
             isMyProfile={this.state.isMyProfile}
             canEdit={this.state.canEdit}
             onPFPChange={ProfileData.handlePFPChange.bind(this)}
           />
-          <Col>
-            <Row>
-              <Button
-                type="link"
-                icon={<LinkedinOutlined />}
-                className="mt-3"
-              />
-            </Row>
-            <Row>
-              {" "}
-              <Button type="link" icon={<TwitterOutlined />} className="mt-3" />
-            </Row>
-            <Row>
-              <Button type="link" icon={<GithubOutlined />} className="mt-3" />
-            </Row>
-          </Col>
         </Row>
+        <Row justify="center">
+          {this.state.profile && this.state.profile.social && (
+            <SocialManager
+              isMyProfile={this.state.isMyProfile}
+              canEdit={this.state.canEdit}
+              data={this.state.profile.social}
+              changeObj={this.setEditablefieldName}
+            />
+          )}
+        </Row>
+
         <Row className="mx-3 mt-2">
           <Paragraph
             ellipsis={{ rows: 4, expandable: true, symbol: "more" }}
@@ -247,18 +245,26 @@ class Profile3 extends Component {
     );
 
     return (
-      <div>
+      <Row
+        style={{
+          background: this.state.profile.secondaryColour,
+          minHeight: "90vh",
+        }}
+      >
         <Col span={20} push={2}>
           <Typography
             component="div"
-            style={{ backgroundColor: "#ffffff", height: "auto" }}
+            style={{
+              backgroundColor: this.state.profile.primaryColour,
+              height: "auto",
+            }}
           >
             {!mobileView ? desktopHeader : mobileHeader}
-
             <Divider />
             <Row className=" my-4 ml-5">
               <Tabs onChange={callback} type="card">
                 <TabPane tab="Achievements" key="1">
+                  <Title className="h1size">Achievements</Title>
                   <AchievementManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
@@ -269,6 +275,7 @@ class Profile3 extends Component {
 
                 {/* Tab 2: skills  */}
                 <TabPane tab="Skills" key="2">
+                  <Title className="h1size">Key Skills</Title>
                   <SkillManager
                     isMyProfile={this.state.isMyProfile}
                     canEdit={this.state.canEdit}
@@ -276,28 +283,95 @@ class Profile3 extends Component {
                     changeList={this.changeList}
                   />
                 </TabPane>
-                <TabPane tab="Projects" key="3">
-                  <Typography.Title>Projects</Typography.Title>
-                  {this.state.isMyProfile && this.state.canEdit ? (
-                    <DragUpload
-                      onChange={ProfileData.onFileListChange.bind(this)}
+                <TabPane tab="Education" key="3">
+                  <Title className="h1size">Education</Title>
+                  <EducationManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.education}
+                    changeList={this.changeList}
+                    themeCol={this.props.profile.primaryColour}
+                  />
+                </TabPane>
+                <TabPane tab="Career" key="4" className="mb-3">
+                  <Title className="h1size">Experience</Title>
+                  <CareerManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.workHistory}
+                    changeList={this.changeList}
+                    themeCol={this.props.profile.primaryColour}
+                  />
+                </TabPane>
+                <TabPane tab="Projects" key="5">
+                  <Title className="h1size">Projects</Title>
+                  <div>
+                    {this.state.isMyProfile && this.state.canEdit ? (
+                      <DragUpload
+                        onChange={ProfileData.onProjectsChange.bind(this)}
+                        isCert={false}
+                      />
+                    ) : null}
+                  </div>
+                  <ProjectManager
+                    isMyProfile={this.state.isMyProfile}
+                    canEdit={this.state.canEdit}
+                    data={this.state.profile.filesAndDocs}
+                    changeList={this.changeList}
+                    themeCol={this.props.profile.primaryColour}
+                    type="filesAndDocs"
+                  />
+                </TabPane>
+                <TabPane tab="Certificates" key="6">
+                  <Title className="h1size">Certificates</Title>
+                  <div>
+                    {this.state.isMyProfile && this.state.canEdit ? (
+                      <DragUpload
+                        onChange={ProfileData.onCertificatesChange.bind(this)}
+                        isCert={true}
+                      />
+                    ) : null}
+                  </div>
+                  <div>
+                    <ProjectManager
+                      isMyProfile={this.state.isMyProfile}
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.certificates}
+                      changeList={this.changeList}
+                      themeCol={this.props.profile.primaryColour}
+                      type="certificates"
                     />
-                  ) : null}
-                  {ProfileData.getFiles(this.state.profile.filesAndDocs)}
+                  </div>
                 </TabPane>
-                <TabPane tab="Certificates" key="4">
-                  <Typography.Title>Certificates</Typography.Title>
-                </TabPane>
+                <TabPane tab="Contact Details" key="7">
+                  <Title className="h1size">Contact Details</Title>
 
-                <TabPane tab="Contact Details" key="5">
-                  <Typography.Title>Contact Details</Typography.Title>
-                  Content of Tab Pane 5
+                  {this.state.profile && this.state.profile.contact && (
+                    <ContactDetails
+                      canEdit={this.state.canEdit}
+                      data={this.state.profile.contact}
+                      changeObj={ProfileData.setEditableObject.bind(this)}
+                    />
+                  )}
+                  <Title className="h1size">Time zone</Title>
+                  <Paragraph
+                    className="psize"
+                    editable={
+                      this.state.isMyProfile && this.state.canEdit
+                        ? {
+                            onChange: (e) => this.setEditableStr("timezone", e),
+                          }
+                        : false
+                    }
+                  >
+                    {this.state.profile.timezone}
+                  </Paragraph>
                 </TabPane>
               </Tabs>
             </Row>
           </Typography>
         </Col>
-      </div>
+      </Row>
     );
   }
 }

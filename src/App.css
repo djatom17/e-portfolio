@@ -20,23 +20,23 @@ img {
   font-size: calc(12px + 2.5vw) !important;
 }
 
+.h9size {
+  font-size: calc(11px + 1.5vw) !important;
+}
+
 .psize {
   font-size: calc(8px + 0.8vw) !important;
 }
-
-/* nav and footer styles */
-
-.nav-height {
-  height: 7vh;
-}
-
-.body-height {
-  height: 89vh;
-  margin-bottom: -16px;
-}
-
+/* 
+nav and footer styles  */
 .footer-height {
   height: 4vh;
+}
+
+/* body styles*/
+
+.body-height {
+  min-height: 100%;
 }
 
 /* landing styles */
@@ -46,9 +46,9 @@ img {
   background: url("./img/option5-min.png") no-repeat;
   background-size: cover;
   background-position: center;
-  height: 89vh !important;
+  height: 90vh !important;
   /* margin-top: -24px; */
-  margin-bottom: -16px;
+  /* margin-bottom: -16px; */
 }
 
 .landing-inner {
@@ -110,6 +110,10 @@ img {
   border-radius: 0px !important;
 }
 
+.center4dan {
+  width: 100%;
+  text-align: center;
+}
 .browse-education {
   font-size: 20px;
 }
@@ -139,15 +143,6 @@ img {
 
 .about-page-text {
   font-size: 28px;
-}
-
-/* profile styles */
-
-.prof5 {
-  background-color: coral;
-  height: 100%;
-  width: 25vw;
-  margin-bottom: -16px;
 }
 
 .App {
@@ -180,9 +175,6 @@ img {
   border-bottom: 2px transparent !important;
   color: white !important;
 }
-.prof5-about {
-  width: 50vw;
-}
 
 .achievements-text {
   font-size: calc(8px + 0.8vw);
@@ -197,22 +189,6 @@ img {
 
 .skills-span {
   vertical-align: middle !important;
-}
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-.nb {
-  margin-top: -20px;
-}
-
-.li {
-  display: inline-block !important;
-}
-
-.about-page-text {
-  font-size: 28px;
 }
 
 .profile4 {
@@ -225,18 +201,6 @@ img {
   margin-bottom: 150px;
 }
 
-.landing-inner {
-  padding-top: 80px;
-}
-.dark-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 .profile4-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
@@ -246,84 +210,25 @@ img {
   height: 100%;
 }
 
-.card-form {
-  opacity: 0.9;
-}
-
-.latest-profiles-img {
-  width: 40px;
-  height: 40px;
-}
-
-.form-control::placeholder {
-  color: #bbb !important;
-}
-
-.browse-inner {
-  /* float: inline-end; */
-  display: inline-block;
-}
-
-.browse-profile-summary {
-  width: 100%;
-  height: 100%;
-  padding: 25px;
-  padding-top: 20px;
-  text-align: left;
-}
-
-.browse-name {
-  font-size: 30px;
-}
-
-.browse-details {
-  font-size: 20px;
-  line-height: 80%;
-}
-
-.about-page-text {
-  font-size: 28px;
-}
-
-.social-media-links {
-  float: left;
-  clear: left;
-}
-
-.tab-inner {
-  width: 1080px;
-}
-
 .profile-skills-text {
   font-size: 22px;
   font-weight: bold;
   color: rgb(1, 182, 199);
 }
 
-.nav > li {
-  display: inline-block;
-}
-
 /* profile styles */
 
 .prof5 {
-  background-color: coral;
+  /* background-color: coral; */
+  /* min-height: 85vh; */
   height: 100%;
   width: 25vw;
-  margin-bottom: -16px;
+  /* margin-bottom: -16px; */
 }
-
-.prof5-img {
-  padding: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 15vw;
-  text-align: center;
-}
-
-.modified-item:hover {
-  border-bottom: 2px transparent !important;
-  color: white !important;
+.prof5height {
+  min-height: 90vh;
+  height: 100%;
+  /* margin-bottom: -16px; */
 }
 
 .prof5-about {
@@ -335,33 +240,6 @@ img {
   top: 5px;
   position: absolute;
   z-index: 10;
-}
-
-.h1size {
-  font-size: calc(12px + 2.5vw) !important;
-}
-
-.psize {
-  font-size: calc(8px + 0.8vw) !important;
-}
-
-.achievements-text {
-  font-size: calc(8px + 0.8vw);
-}
-
-.skills-tag {
-  font-size: 20px;
-  height: 30px;
-  background-color: #0074e1;
-  color: white;
-}
-
-.skills-span {
-  vertical-align: middle !important;
-}
-.prof2-img {
-  height: 100%;
-  width: 100%;
 }
 
 .prof2-text-overlay {
@@ -377,4 +255,14 @@ img {
   padding: 10px;
   border: black !important;
   border-width: 2px !important;
+}
+
+.body-size {
+  min-height: 90vh;
+}
+.tabsStyl .ant-tabs-bar .ant-tabs-tab {
+  border-color: transparent;
+  background: transparent;
+  color: #28a9e1;
+  padding: 12 50px;
 }

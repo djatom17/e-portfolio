@@ -5,8 +5,15 @@ import { render } from "@testing-library/react";
 import App from "./App";
 import Profile5 from "./component/auth/Profile5";
 import ProfileData from "./api/ProfileData";
+import About from "./component/auth/About";
+import Footer from "./component/layout/Footer";
+import Landing from "./component/layout/Landing";
 import AchievementManager from "./component/profileDisplays/AchievementManager";
 import SkillManager from "./component/profileDisplays/SkillManager";
+import ProjectManager from "./component/profileDisplays/ProjectManager";
+import EducationManager from "./component/profileDisplays/EducationManager";
+import CareerManager from "./component/profileDisplays/CareerManager";
+import SoclialManager from "./component/profileDisplays/SocialManager";
 
 import EditButton from "./component/profileDisplays/EditButton";
 import { configure, mount } from "enzyme";
@@ -78,6 +85,130 @@ describe("Front-end tests", () => {
     });
   });
 
+  // Testing ProjectManager
+  describe("<ProjectManager /> component", () => {
+    it("should render", () => {
+      const project = mount(
+        <ProjectManager
+          isMyProfile={true}
+          canEdit={true}
+          data={[
+            {
+              name: "tester",
+              descrption: "This is a test",
+              url: "testurl.tst",
+            },
+          ]}
+          changeList={() => {
+            alert("function called");
+          }}
+        />
+      );
+      const value = project.find("Title").at(0).text();
+      expect(value).toEqual("tester");
+    });
+  });
+
+  // Testing CareerManager
+  describe("<CareerManager /> component", () => {
+    it("should render", () => {
+      const career = mount(
+        <CareerManager
+          isMyProfile={true}
+          canEdit={true}
+          data={[
+            {
+              role: "tester",
+              workplace: "testing place",
+              description: "This is a test",
+            },
+          ]}
+          changeList={() => {
+            alert("function called");
+          }}
+        />
+      );
+      const value = career.find("h4").at(0).text();
+      expect(value).toEqual("tester");
+    });
+  });
+
+  // Testing EducationManager
+  describe("<EducationManager /> component", () => {
+    it("should render", () => {
+      const education = mount(
+        <EducationManager
+          isMyProfile={true}
+          canEdit={true}
+          data={[
+            {
+              name: "tester",
+              institution: "testing school",
+              level: "highest",
+            },
+          ]}
+          changeList={() => {
+            alert("function called");
+          }}
+        />
+      );
+      const value = education.find("h4").at(0).text();
+      expect(value).toEqual("tester");
+    });
+  });
+
+  // Testing SoclialManager
+  describe("<SoclialManager /> component", () => {
+    it("should not render social link", () => {
+      const social = mount(
+        <SoclialManager
+          isMyProfile={true}
+          canEdit={true}
+          data={[
+            {
+              isMyProfile: false,
+              canEdit: false,
+              linkedinEnabled: true,
+              twitterEnabled: true,
+              githubEnabled: true,
+              linkedinLink: "blah.in",
+              twitterLink: "@CheckMeOut",
+              githubLink: "no",
+            },
+          ]}
+          changeList={() => {
+            alert("function called");
+          }}
+        />
+      );
+      expect(social.find("Button").exists()).toBeTruthy();
+    });
+    it("should not render social link", () => {
+      const social = mount(
+        <SoclialManager
+          isMyProfile={true}
+          canEdit={true}
+          data={[
+            {
+              isMyProfile: false,
+              canEdit: false,
+              linkedinEnabled: false,
+              twitterEnabled: false,
+              githubEnabled: false,
+              linkedinLink: "blah.in",
+              twitterLink: "@CheckMeOut",
+              githubLink: "no",
+            },
+          ]}
+          changeList={() => {
+            alert("function called");
+          }}
+        />
+      );
+      expect(social.find("Button").exists()).toBeTruthy();
+    });
+  });
+
   // testing EditButton
   describe("<Edit Button /> component", () => {
     it("should render as Done", () => {
@@ -110,6 +241,16 @@ describe("Front-end tests", () => {
     });
   });
 
+  //testing About page
+  describe("About page ", () => {
+    it("should render", () => {
+      const about = mount(<About />);
+      const value = about.find("h1").at(0).text();
+      expect(value).toEqual("We want to show you off!");
+    });
+  });
+
+  //snapshot testing of layout 5
   describe("Profile Layout 5 ", () => {
     const prof = (
       <Profile5
@@ -132,21 +273,5 @@ describe("Front-end tests", () => {
       // prof5.getInstance().setState({ isMyProfile: false });
       expect(prof5.debug()).toMatchSnapshot();
     });
-
-    // it("Settings render?", () => {
-    //   const prof5 = shallow(<Provider store={store}>{prof} </Provider>);
-    //   expect(prof5.find("Settings").exists()).toBeTruthy();
-    //    expect(prof5.find(Settings)).toHaveLength(1);
-    //   expect(prof5.containsMatchingElement(<Settings />)).toEqual(true);
-    // });
-    // // it("when there the user has authentication", () => {
-    //   const prof5 = mount(
-    //     <Provider store={store}>
-    //       <Profile5 />{" "}
-    //     </Provider>
-    //   );
-    //   prof5.getInstance().setState({ isMyProfile: true });
-    //   expect(prof5).toMatchSnapshot();
-    // });
   });
 });

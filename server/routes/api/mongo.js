@@ -121,12 +121,8 @@ mongorouter.post("/p-update/:ID", [auth, checkLink], function (req, res, next) {
   });
 });
 
-// Insert a profile's first-time login information.
-// User exists, but profile itself does not, yet.
-mongorouter.post("/p-insert", auth, function (req, res, next) {
-  // TODO: change this to preferably the user's brand-new profile page.
-  res.redirect("/");
-});
+//Inserting new profiles for admin
+mongorouter.post("/p-profile", function (req, res, next) {});
 
 /**
  * Filters/searches profiles based on the key skills that are stored.
@@ -197,9 +193,10 @@ mongorouter.get("/search", function (req, res, next) {
  *
  * @callback Requester~requestCallback
  * @param {string} uid  User ID of requestee in MongoDB.
+ * @param {Boolean} isRaw Flag to signal profile returned has full path appended or not.
  * @param {Requester~requestCallback} callback - The callback that handles the response.
  */
-const fetchProfileByUID = (uid, callback) => {
+const fetchProfileByUID = (uid, isRaw, callback) => {
   //Find mapping of UID to PID.
   mapUIDtoPID(uid, (err, userMap) => {
     if (err) {
@@ -214,7 +211,10 @@ const fetchProfileByUID = (uid, callback) => {
         return callback(err, null);
       }
       console.log("[Mongoose] Successfully fetched user profile.");
-      profile = appendProfilePaths(profile);
+      if (!isRaw) {
+        profile = appendProfilePaths(profile);
+      }
+
       profile.userid = uid;
       //Successful operation
       return callback(null, profile);
@@ -315,18 +315,29 @@ const mapUIDtoPID = (uid, callback) => {
  * @param {String} url The key for the file stored in S3
  * @param {String} desc File description written by user.
  * @param {String} uid User ID of file owner.
+ * @param {Boolean} isCert True if uploaded doc is a cert, false is projects.
  * @returns {Promise} Promise object representing successful creation of file
  *  entry in Profile.
  */
-const postUpload = (name, url, desc, uid) => {
+const postUpload = (name, filename, url, desc, uid, isCert) => {
   console.log("[Mongoose] Creating file entry");
   return new Promise((resolve, reject) => {
     // Find the profile corresponding to the user and retrieve it.
-    fetchProfileByUID(uid, (e, profile) => {
+    fetchProfileByUID(uid, true, (e, profile) => {
       if (!e && profile) {
         // Hydrate object received as it is lean.
         profile = Profile.hydrate(profile);
-        profile.filesAndDocs.push({ name, desc, url });
+        const newFileEntry = {
+          name: name,
+          filename: filename,
+          description: desc,
+          url: url,
+        };
+        if (isCert) {
+          profile.certificates.push(newFileEntry);
+        } else {
+          profile.filesAndDocs.push(newFileEntry);
+        }
         profile.save((err) => {
           if (err) {
             console.log("[Mongoose] File entry creation failed ", err);
@@ -349,7 +360,7 @@ const postUpload = (name, url, desc, uid) => {
 const getImageUrlOfUser = (uid) => {
   console.log("[Mongoose] Obtaining profile picture URL of user.");
   return new Promise((resolve, reject) => {
-    fetchProfileByUID(uid, (err, profile) => {
+    fetchProfileByUID(uid, true, (err, profile) => {
       if (!err && profile) {
         // Removing paths used by API ** REMOVE IF IMPLEMENTED BOOLEAN **
         const url = profile.image.substr(profile.image.lastIndexOf("/") + 1);
@@ -371,18 +382,26 @@ const getImageUrlOfUser = (uid) => {
  * @function [postDelete]
  * @param {String} url Stored filepath in File entry.
  * @param {String} uid User ID of requester.
+ * @param {Boolean} isCert True if doc is a cert, false is projects.
  * @returns {Promise} Promise object represents succesful removal of file entry
  *  from profile.
  */
-const postDelete = (url, uid) => {
+const postDelete = (url, uid, isCert) => {
   console.log("[Mongoose] Deleting file entry from user.");
   return new Promise((resolve, reject) => {
-    fetchProfileByUID(uid, (e, profile) => {
+    fetchProfileByUID(uid, true, (e, profile) => {
       if (!e && profile) {
         profile = Profile.hydrate(profile);
-        profile.filesAndDocs = profile.filesAndDocs.filter(
-          (item) => item.url !== url
-        );
+        //Determine correct file is removed.
+        if (isCert) {
+          profile.certificates = profile.certificates.filter(
+            (item) => item.url !== url
+          );
+        } else {
+          profile.filesAndDocs = profile.filesAndDocs.filter(
+            (item) => item.url !== url
+          );
+        }
         profile.save((err) => {
           if (err) {
             console.log("[Mongoose] File entry deletion failed ", err);
@@ -429,7 +448,6 @@ const appendProfilePaths = (profile) => {
   profile.linkToProfile =
     FILEPATH_PROFILE +
     (profile.linkToProfile ? profile.linkToProfile : profile._id);
-  profile.filesAndDocs.map((item) => (item.url = FILEPATH_S3 + item.url));
   return profile;
 };
 

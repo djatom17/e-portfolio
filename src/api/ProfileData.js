@@ -14,6 +14,10 @@ import { Typography, Button } from "antd";
 import { DeleteOutlined, PaperClipOutlined } from "@ant-design/icons";
 const { Paragraph } = Typography;
 
+export function getFileLink(url) {
+  return "/api/file/dl/" + url;
+}
+
 export function getFiles(files) {
   if (files) {
     return files.map((file) => (
@@ -48,17 +52,28 @@ export function getFileDownload(filename, fileLocation) {
 }
 
 // Handles the change of the file list when something new is uploaded.
-export function onFileListChange(name, url, description) {
+export function onProjectsChange(name, filename, url, description) {
   this.setState({
     profile: {
       ...this.state.profile,
       filesAndDocs: [
         ...this.state.profile.filesAndDocs,
-        { name, url, description },
+        { name, filename, url, description },
       ],
     },
   });
-  console.log(name, url, description);
+}
+
+export function onCertificatesChange(name, filename, url, description) {
+  this.setState({
+    profile: {
+      ...this.state.profile,
+      certificates: [
+        ...this.state.profile.certificates,
+        { name, filename, url, description },
+      ],
+    },
+  });
 }
 
 /**
@@ -168,11 +183,35 @@ export function changePassword(newPassword, token) {
       });
   }
 }
+/**
+ * Changes user email on the users database.
+ *
+ * Does not refresh user session nor log users out.
+ * Will only perform update operations if newEmail is not empty.
+ * newEmail should follow email attribute of User schema.
+ *
+ * @function [changeEmail]
+ * @see userAuth.js
+ * @param {Object} newEmail Email to be changed to.
+ * @param {String} token Auth token of user.
+ */
+export function changeEmail(newEmail, token) {
+  if (Object.keys(newEmail).length !== 0 && newEmail.constructor === Object) {
+    axios
+      .post("/api/auth/change-email", newEmail, {
+        headers: { "x-auth-token": token, "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  }
+}
 
 // Text Editor
 export function setEditableStr(property, str) {
   var addChange = {};
   addChange[property] = str;
+  console.log(str);
   this.setState({
     profileChanges: { ...this.state.profileChanges, ...addChange },
     profile: { ...this.state.profile, ...addChange },
@@ -184,6 +223,31 @@ export function setEditableStrArr(property, index, str) {
   var temp = { ...this.state.profile };
   temp[property][index] = str;
   this.setState({ profile: temp });
+}
+//Object Editor
+export function setEditableObject(property, subproperty, str, obj) {
+  var addChange = {};
+  addChange[property] = obj;
+  addChange[property][subproperty] = str;
+  console.log({ ...this.state.profileChanges, ...addChange });
+  this.setState({
+    profileChanges: { ...this.state.profileChanges, ...addChange },
+    profile: { ...this.state.profile, ...addChange },
+  });
+}
+
+// Nested Object Editor
+export function setNestedEditableObject(property, sub, sub2, str, obj, obj2) {
+  var addChange = {};
+  addChange[property] = obj;
+  addChange[property][sub] = obj2;
+  addChange[property][sub][sub2] = str;
+  // this.setState({ someProperty: { ...this.state.someProperty, flag: false} });
+  console.log({ ...this.state.profileChanges, ...addChange });
+  this.setState({
+    profileChanges: { ...this.state.profileChanges, ...addChange },
+    profile: { ...this.state.profile, ...addChange },
+  });
 }
 
 //Currently used for skills in prof 5
@@ -220,30 +284,81 @@ export function changeList(data, fieldName) {
 }
 
 //Modal  helper Functions
+// delete ?
 export function showModal() {
   this.setState({
     visible: true,
   });
 }
 
-export function handleOk(num, info) {
-  this.setState({ loading: true });
-  setTimeout(() => {
-    this.setState({ loading: false, visible: false });
-  }, 3000);
-
-  updateProfile(this.state.profile._id, { layout: num }, this.props.token);
-  window.location.reload();
-}
-
-export function handleCancel() {
-  this.setState({ visible: false });
+export function settingsCancel() {
+  this.setState({ settingsVisible: false });
 }
 
 export function changeLayout(str, info) {
   this.setState({ layout: str });
 }
+
+export function themeCustom(theme) {
+  var primCol;
+  var secCol;
+  switch (theme) {
+    case "1":
+      primCol = "#e9e9e9";
+      secCol = "#4273cf";
+      break;
+    case "2":
+      primCol = "#f0fffd";
+      secCol = "#6b2240";
+      break;
+    case "3":
+      primCol = "#e3ffea";
+      secCol = "#178534";
+      break;
+    case "4":
+      primCol = "#ffe8e8";
+      secCol = "#d44e4e";
+      break;
+    default:
+      primCol = "white";
+      secCol = "#e5e5e5";
+      break;
+  }
+  this.setState({ primaryColour: primCol, secondaryColour: secCol });
+}
+
 // End of modal Functions
+
+// Editable Card List Functions: Add, Delete and Edit
+
+/**
+ *
+ * Updates the values given object in the profile state variable for a card
+ * by removing elements as directed by the UI
+ *
+ * This change is passed on to the database to be updated
+ *
+ * @function [handleCloseCard]
+ * @param {String} fieldName - String name of the object in profile being modified e.g. "workplace".
+ * @param {Object} item - the object value to be deleted
+ * @param {String} keyFieldName - String name of the field to be used for comparison
+ *
+ */
+export function handleCloseCard(fieldName, item, keyFieldName) {
+  const field = this.props.data.filter(function (value) {
+    return value[keyFieldName] != item[keyFieldName];
+  });
+  let data = this.props.data;
+  data = field;
+  this.setState({
+    editInputIndex: -1,
+    editInputValue: "",
+  });
+  this.props.changeList(data, fieldName);
+  // this.setState({ editInputIndex: -1, editInputValue: "" });
+}
+
+// End Card List Functions
 
 // Editable List Helper Functions: Add, Delete and Edit.
 
@@ -358,6 +473,24 @@ export function saveInputRef(input) {
 // helper function to track input
 export function saveEditInputRef(input) {
   this.editInput = input;
+}
+
+/**
+ *
+ * Returns a formatted version of given object where specified date is converted to moment
+ *
+ *
+ * @function [formatDate]
+ * @param {object} obj the object where the date is to modified
+ * @param {String} inFieldName - String name of input date field
+ * @param {String} outFieldName - String name of output date field (to be added to the object)
+ *
+ */
+export function formatDate(obj, inFieldName, outFieldName) {
+  var moment = require("moment");
+  var moment_date = moment(obj[inFieldName]);
+  obj[outFieldName] = moment_date;
+  return obj;
 }
 
 /**

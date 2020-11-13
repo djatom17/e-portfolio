@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Row, Col, Typography, Input, Tag } from "antd";
+import { Row, Col, Typography, Input, Button } from "antd";
 import "antd/dist/antd.css";
-import { PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import * as ProfileData from "../../api/ProfileData";
 
 const { Title, Paragraph } = Typography;
@@ -36,90 +36,90 @@ export class AchievementManager extends Component {
     } = this.state;
     return (
       <div>
-        <Title>Achievements</Title>
-        <div>
-          <Paragraph>
-            {" "}
-            {this.props.data &&
-              this.props.data.map((item, index) => {
-                if (editInputIndex === index) {
-                  return (
-                    <Input.TextArea
-                      ref={this.saveEditInputRef}
-                      key={item}
-                      size="large"
-                      value={editInputValue}
-                      onChange={this.handleEditInputChange}
-                      onBlur={() => this.handleEditInputConfirm("achievements")}
-                      onPressEnter={() =>
-                        this.handleEditInputConfirm("achievements")
-                      }
-                    />
-                  );
-                }
-                const achievement = (
-                  <Row key={item}>
-                    <Col flex="auto">
-                      <Paragraph key={item}>
-                        <span
-                          onDoubleClick={(e) => {
-                            if (this.props.isMyProfile && this.props.canEdit) {
-                              this.setState(
-                                {
-                                  editInputIndex: index,
-                                  editInputValue: item,
-                                },
-                                () => {
-                                  this.editInput.focus();
-                                }
-                              );
-                            }
-                            e.preventDefault();
-                          }}
-                        >
-                          {item}
-                        </span>
-                      </Paragraph>
-                    </Col>
-                    <Col flex="10px">
-                      {this.props.isMyProfile && this.props.canEdit
-                        ? this.deleteButt("achievements", item)
-                        : null}
-                    </Col>
-                  </Row>
+        <Paragraph className="psize">
+          {" "}
+          {this.props.data &&
+            this.props.data.map((item, index) => {
+              if (editInputIndex === index) {
+                return (
+                  <Input.TextArea
+                    ref={this.saveEditInputRef}
+                    key={item}
+                    size="large"
+                    value={editInputValue}
+                    onChange={this.handleEditInputChange}
+                    onBlur={() => this.handleEditInputConfirm("achievements")}
+                    onPressEnter={() =>
+                      this.handleEditInputConfirm("achievements")
+                    }
+                  />
                 );
-                return achievement;
-              })}
-            {inputVisible && (
-              <Input
-                ref={this.saveInputRef}
-                type="text"
-                size="small"
-                value={inputValue}
-                onChange={this.handleInputChange}
-                onBlur={() => this.handleInputConfirm("achievements")}
-                onPressEnter={() => this.handleInputConfirm("achievements")}
-              />
-            )}
-            {!inputVisible && this.props.isMyProfile && this.props.canEdit && (
-              <Tag
-                className="site-tag-plus"
-                onClick={
-                  this.props.isMyProfile &&
-                  this.props.canEdit &&
-                  ((e) => {
-                    this.setState({ inputVisible: true }, () => {
-                      this.input.focus();
-                    });
-                    e.preventDefault();
-                  })
-                }
-              >
-                <PlusOutlined /> New Achievement
-              </Tag>
-            )}
-          </Paragraph>
-        </div>
+              }
+              const achievement = (
+                <Row key={item}>
+                  <Col flex="auto">
+                    <Paragraph key={item}>
+                      <span
+                        onDoubleClick={
+                          this.props.isMyProfile && this.props.canEdit
+                            ? (e) => {
+                                this.setState(
+                                  {
+                                    editInputIndex: index,
+                                    editInputValue: item,
+                                  },
+                                  () => {
+                                    this.editInput.focus();
+                                  }
+                                );
+                                e.preventDefault();
+                              }
+                            : null
+                        }
+                      >
+                        {item}
+                      </span>
+                    </Paragraph>
+                  </Col>
+                  <Col flex="10px">
+                    {this.props.isMyProfile && this.props.canEdit
+                      ? this.deleteButt("achievements", item)
+                      : null}
+                  </Col>
+                </Row>
+              );
+              return achievement;
+            })}
+          {inputVisible && (
+            <Input
+              ref={this.saveInputRef}
+              type="text"
+              size="small"
+              value={inputValue}
+              onChange={this.handleInputChange}
+              onBlur={() => this.handleInputConfirm("achievements")}
+              onPressEnter={() => this.handleInputConfirm("achievements")}
+            />
+          )}
+          {!inputVisible && this.props.isMyProfile && this.props.canEdit && (
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={
+                this.props.isMyProfile &&
+                this.props.canEdit &&
+                ((e) => {
+                  this.setState({ inputVisible: true }, () => {
+                    this.input.focus();
+                  });
+                  e.preventDefault();
+                })
+              }
+            >
+              New Achievement
+            </Button>
+          )}
+        </Paragraph>
       </div>
     );
   }

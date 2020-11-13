@@ -10,11 +10,11 @@ import Login from "./component/auth/Login";
 import Browse from "./component/auth/Browse";
 import MyProfile from "./component/auth/MyProfile";
 import About from "./component/auth/About";
-
 import PlaceholderProfile from "./component/auth/PlaceholderProfile";
 
 import { store } from "./store";
 import { loadUser } from "./actions/authActions";
+import { connect } from "react-redux";
 
 import "./App.css";
 
@@ -26,10 +26,11 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
+        <div className="App ">
           <Navbar />
-          <Route exact path="/" component={Landing} />
-          <div>
+
+          <div className="body-size">
+            <Route exact path="/" component={Landing} />
             <Route exact path="/browse" component={Browse} />
             <Route exact path="/profile/*" component={PlaceholderProfile} />
             <Route exact path="/my-profile" component={MyProfile} />
@@ -37,11 +38,16 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/about" component={About} />
           </div>
-          <Footer />
+          <Footer id="footer" />
         </div>
       </Router>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  token: state.auth.token,
+});
+
+export default connect(mapStateToProps, null)(App);
