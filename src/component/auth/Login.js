@@ -93,6 +93,7 @@ class Login extends Component {
               >
                 <Form.Item
                   name="email"
+                  
                   rules={[
                     {
                       required: true,

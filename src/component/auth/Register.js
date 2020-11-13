@@ -14,6 +14,7 @@ class Register extends Component {
     email: "",
     password: "",
     msg: null,
+    correctFullName: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -58,16 +59,25 @@ class Register extends Component {
             {/* Name */}
             <Form.Item
               name="name"
+              // validateStatus= {this.state.correctFullName ? null : "error"}
+              // help={this.state.correctFullName ? "" : "Please enter your first and last name."}
               rules={[
                 {
                   required: true,
                   message: "Please enter your name!",
-                },
+                }, { validator(rule, value, callback) {
+                  if (!value.includes(" ")) {
+                    callback("Please enter your first and last name.");
+        
+                  }
+                  callback();
+                }},
               ]}
             >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder=" Full Name"
+                // onChange={onChangeName}
               />
             </Form.Item>
 
