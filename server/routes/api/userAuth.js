@@ -12,7 +12,12 @@
 const express = require("express");
 const userrouter = express.Router();
 const bcrypt = require("bcryptjs");
-const config = require("config");
+const config =
+  process.env.NODE_ENV === "development" ? require("config") : null;
+const jwtSecret =
+  process.env.NODE_ENV === "development"
+    ? config.get("jwtSecret")
+    : process.env.JWT_SECRET;
 const jwt = require("jsonwebtoken");
 const auth = require("./auth");
 const { ObjectID } = require("mongodb");
@@ -26,6 +31,8 @@ const User = require("../../models/User");
 
 // User to profile mapping Model
 const UserProfile = require("../../models/UserProfile");
+const Profile = require("../../models/Profile");
+const ContactSchema = require("../../models/Contact");
 
 /**
  * Authenticates a user when logging in.
@@ -48,14 +55,14 @@ userrouter.post("/login", (req, res, next) => {
     email,
   }).then((user) => {
     if (!user)
-      return res.status(400).json({
-        error: "User does not exist.",
+      return res.status(401).json({
+        error: "Invalid credentials.",
       });
 
     // Validate password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (!isMatch)
-        return res.status(400).json({
+        return res.status(401).json({
           error: "Invalid credentials.",
         });
 
@@ -68,7 +75,7 @@ userrouter.post("/login", (req, res, next) => {
             {
               id: user.id,
             },
-            config.get("jwtSecret"),
+            jwtSecret,
             {
               expiresIn: 3600,
             },
@@ -119,7 +126,7 @@ userrouter.post("/google-login", (req, res, next) => {
                   {
                     id: user.id,
                   },
-                  config.get("jwtSecret"),
+                  jwtSecret,
                   {
                     expiresIn: 3600,
                   },
@@ -181,26 +188,49 @@ userrouter.post("/register", (req, res, next) => {
         if (err) throw err;
         newUser.password = hash;
         newUser.save().then((user) => {
-          jwt.sign(
-            {
-              id: user.id,
-            },
-            config.get("jwtSecret"),
-            {
-              expiresIn: 3600,
-            },
-            (err, token) => {
-              if (err) throw err;
-              res.status(200).json({
-                token,
-                user: {
-                  id: user.id,
-                  name: user.name,
-                  email: user.email,
-                },
+          const firstSpaceIndex = user.name.indexOf(" ");
+          const firstName = user.name.substr(0, firstSpaceIndex);
+          const lastName = user.name.substr(firstSpaceIndex + 1);
+          bcrypt.hash(user.email, salt, (err, hashedEmail) => {
+            const newProfile = new Profile({
+              firstName: firstName,
+              lastName: lastName,
+              linkToProfile: encodeURIComponent(hashedEmail.replace(".", "")),
+              contact: {
+                email: user.email,
+              },
+            });
+            newProfile.save().then((profile) => {
+              const newUserProfile = new UserProfile({
+                uid: user.id,
+                pid: profile.id,
               });
-            }
-          );
+              newUserProfile.save().then((userProfile) => {
+                jwt.sign(
+                  {
+                    id: user.id,
+                  },
+                  jwtSecret,
+                  {
+                    expiresIn: 3600,
+                  },
+                  (err, token) => {
+                    if (err) throw err;
+                    res.status(200).json({
+                      token,
+                      profile: profile,
+                      user: {
+                        _id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        pid: profile.id,
+                      },
+                    });
+                  }
+                );
+              });
+            });
+          });
         });
       });
     });

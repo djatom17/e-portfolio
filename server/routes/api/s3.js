@@ -12,16 +12,26 @@
 var express = require("express");
 var s3router = express.Router();
 var crypto = require("crypto");
-const config = require("config");
+const config =
+  process.env.NODE_ENV === "development" ? require("config") : null;
 const AWS = require("aws-sdk");
 const Busboy = require("busboy");
 const auth = require("./auth");
 const mongo = require("./mongo");
 
-const AWSBucket = config.get("s3Bucket");
+const AWSBucket =
+  process.env.NODE_ENV === "development"
+    ? config.get("s3Bucket")
+    : process.env.S3_BUCKET;
 const s3 = new AWS.S3({
-  accessKeyId: config.get("iamUser"),
-  secretAccessKey: config.get("iamSecret"),
+  accessKeyId:
+    process.env.NODE_ENV === "development"
+      ? config.get("iamUser")
+      : process.env.S3_USER,
+  secretAccessKey:
+    process.env.NODE_ENV === "development"
+      ? config.get("iamSecret")
+      : process.env.S3_SECRET,
 });
 
 /**
@@ -85,19 +95,21 @@ s3router.post("/upload", auth, function (req, res, next) {
           mongo
             .getImageUrlOfUser(req.user.id)
             .then((success) => {
-              s3.deleteObject(
-                { Bucket: AWSBucket, Key: success.pfpUrl },
-                (e, response) => {
-                  if (e) {
-                    console.log(
-                      "[S3] Unable to delete previous profile picture."
-                    );
-                    return res.status(500).json({ error: e });
+              if (success.pfpUrl !== "default.png") {
+                s3.deleteObject(
+                  { Bucket: AWSBucket, Key: success.pfpUrl },
+                  (e, response) => {
+                    if (e) {
+                      console.log(
+                        "[S3] Unable to delete previous profile picture."
+                      );
+                      return res.status(500).json({ error: e });
+                    }
+                    console.log("[S3] Deleted previous profile picture.");
                   }
-                  console.log("[S3] Deleted previous profile picture.");
-                  return res.status(200).json({ fileUrl: hashName });
-                }
-              );
+                );
+              }
+              return res.status(200).json({ fileUrl: hashName });
             })
             .catch((e) => {
               return res.status(e.statusCode).json({ error: e });

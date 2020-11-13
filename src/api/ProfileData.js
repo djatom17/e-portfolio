@@ -132,9 +132,9 @@ export function getName(profile) {
 
 /**
  * Pushes user profile changes onto the database.
- *
+ * 
  * Will not perform updates if profileChanges is empty.
- *
+ * 
  * @param {String} pid Profile ID of affected profile.
  * @param {Object} profileChanges Profile JSON schema of attribute changes.
  * @param {String} token Auth token of user.
@@ -159,11 +159,11 @@ export function updateProfile(pid, profileChanges, token) {
 
 /**
  * Changes user password on the users database.
- *
+ * 
  * Does not refresh user session nor log users out.
  * Will only perform update operations if newPassword is not empty.
  * newPassword should follow password attribute of User schema.
- *
+ * 
  * @function [changePassword]
  * @see userAuth.js
  * @param {Object} newPassword Password to be changed to.

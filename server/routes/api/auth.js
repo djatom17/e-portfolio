@@ -8,7 +8,12 @@
  * @requires config,jsonwebtoken
  * @exports auth
  */
-const config = require("config");
+
+const jwtSecret =
+  process.env.NODE_ENV === "development"
+    ? require("config").get("jwtSecret")
+    : process.env.JWT_SECRET;
+
 const jwt = require("jsonwebtoken");
 
 /**
@@ -35,13 +40,13 @@ function auth(req, res, next) {
 
   try {
     // Verify token
-    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    const decoded = jwt.verify(token, jwtSecret);
     // Add user from payload
     req.user = decoded;
     //Successful operation
     next();
   } catch (e) {
-    res.status(400).json({
+    res.status(401).json({
       error: "Token is not valid.",
     });
   }

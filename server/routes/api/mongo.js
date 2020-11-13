@@ -64,7 +64,7 @@ mongorouter.get("/p/:ID", function (req, res, next) {
   if (isValidObjectId(req.params.ID)) {
     query = { _id: ObjectID(req.params.ID) };
   } else {
-    query = { linkToProfile: req.params.ID };
+    query = { linkToProfile: encodeURIComponent(req.params.ID) };
   }
 
   Profile.findOne(query, (err, profile) => {
@@ -98,6 +98,12 @@ mongorouter.get("/p/:ID", function (req, res, next) {
  * @param {String} ID Profile ID must be listed in req.params.ID
  */
 mongorouter.post("/p-update/:ID", [auth, checkLink], function (req, res, next) {
+  console.log(
+    "[Mongoose] Updating profile",
+    req.params.ID,
+    "with new information."
+  );
+
   //Post updates to mongo
   Profile.findOneAndUpdate(
     { _id: ObjectID(req.params.ID) },
@@ -244,8 +250,8 @@ function checkLink(req, res, next) {
             "[Mongoose] Error in fetching " + req.params.ID + " from mongo."
           );
           return res.status(500).json({ error: err });
-          // TODO: res.send
         }
+
         //Found a conflicting profile
         if (profile) {
           console.log("Conflict link");
