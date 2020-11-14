@@ -371,12 +371,278 @@ Function calls to postUpload and postDelete in server/routes/api/mongo.js should
 
 Routes to profile or MongoDB are stored in server/routes/api/mongo.js. 
 
+| Route name     | /api/mongo/profiles                                                                   |
+|----------------|---------------------------------------------------------------------------------------|
+| Operation type | GET                                                                                   |
+| Description    | Returns an array of all profiles that has isNewUser=false in the collection profiles. |
+| Usage          | Used to fetch all profile entries to be displayed on the Browse page.                 |
+| Parameters     | -                                                                                     |
+| Success Code   | 200                                                                                   |
+| Other Code     | 500                                                                                   |
+
+
+<br>
+<br>
+<br>
+
+| Route name     | /api/mongo/p/{ID}                                                                                                       |
+|----------------|-------------------------------------------------------------------------------------------------------------------------|
+| Operation type | GET                                                                                                                     |
+| Description    | Take profile ID or linkToProfile as {ID}.  Returns the profile information corresponding to the profile ID in the path. |
+| Usage          | Used to fetch a profile based on the profile ID given.                                                                  |
+| Parameters     | In path: ID - profile ID or unique link of profile to fetch                                                             |
+| Success Code   | 200                                                                                                                     |
+| Other Code     | 204 (No profile was found), 500                                                                                         |
+
+<br>
+<br>
+<br>
+
+| Route name     | /api/mongo/search{query}                                                                                          |
+|----------------|-------------------------------------------------------------------------------------------------------------------|
+| Operation type | GET                                                                                                               |
+| Description    | Searches key skills of all profiles with or without filters. Returns an array of profiles that matches the query. |
+| Usage          | Search/Advanced search functionality on Browse page.                                                              |
+| Parameters     | In path: query - Encoded URI search query                                                                         |
+| Success Code   | 200                                                                                                               |
+| Other Code     | 500                                                                                                               |
+
+<br>
+<br>
+<br>
+
+| Route name     | /api/mongo/p-update/{ID}                                                                                                                                                                  |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Operation type | POST                                                                                                                                                                                      |
+| Description    | Used to save all profile changes made by users onto the database. Returns the updated profile entry in MongoDB profiles.                                                                  |
+| Usage          | Takes a JSON object of updated date fields in the request body and saves it to the profile instance in MongoDB.                                                                           |
+| Note           | Middlewares: Users must be authenticated with their token provided. If a change to linkToProfile is made, it will be validated by the checkLink function to ensure no duplicates of link. |
+| Parameters     | In path: ID - Profile ID of user only In header: x-auth-token - Valid token of user In body: Updated data fields for profiles in JSON format                                              |
+| Success Code   | 200                                                                                                                                                                                       |
+| Other Code     | 500                                                                                                                                                                                       |
+
+<br>
+
 #### My Profile Routes
+
+Generally used for operations for users’ own profile.
+
+| Route name     	| /api/my-profile/                                                                                                                                                                                	|
+|----------------	|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| Operation type 	| GET                                                                                                                                                                                             	|
+| Description    	| Fetches the user’s own profile entry post-login. Returns the user’s profile entry in MongoDB profiles.                                                                                          	|
+| Usage          	| Fetches the profile linked to the User ID given in user.id by calling fetchProfileByUID.                                                                                                        	|
+| Note           	| Middlewares: Users must be authenticated with their token provided. Setting the 2nd argument of fetchProfileByUID to true in this instance could corrupt the profile entry if used haphazardly. 	|
+| Parameters     	| In header: x-auth-token - Valid token of user                                                                                                                                                   	|
+| Success Code   	| 200                                                                                                                                                                                             	|
+| Other Code     	| 500                                                                                                                                                                                             	|
+
+
+<br>
 
 #### User Routes
 
+Used for performing account related operations and user credentials update. Found in server/routes/api/userAuth.js.
+
+| Route name     	| /api/auth/login                                                                                                                                                                                                               	|
+|----------------	|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| Operation type 	| POST                                                                                                                                                                                                                          	|
+| Description    	| Validates if a login credential given is valid then returns a signed token back to the user if valid.                                                                                                                         	|
+| Usage          	| Find the entry of matching email in users collection and then compare the given password with the hashed string.  If validated, sign and return a valid token back to the user and redirect the user to his/her profile page. 	|
+| Note           	| Token expires in 60 minutes after issue.                                                                                                                                                                                      	|
+| Parameters     	| In body: JSON object of email and password strings                                                                                                                                                                            	|
+| Success Code   	| 200                                                                                                                                                                                                                           	|
+| Other Code     	| 400 (Wrong request body), 401 (Invalid credentials), 500                                                                                                                                                                      	|
+
+<br>
+<br>
+<br>
+
+| Route name     	| /api/auth/google-login                                                                                                                                                                                              	|
+|----------------	|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| Operation type 	| POST                                                                                                                                                                                                                	|
+| Description    	| Login via Google.                                                                                                                                                                                                   	|
+| Usage          	| Login via Google’s API. Finds the registered email in users with the verified email returned by Google. If validated, sign and return a valid token back to the user and redirect the user to his/her profile page. 	|
+| Note           	| Ensure gmail used to login via Google is registered in users collection.                                                                                                                                            	|
+| Parameters     	| -                                                                                                                                                                                                                   	|
+| Success Code   	| 200                                                                                                                                                                                                                 	|
+| Other Code     	| 401 (Email not verified/ Google error) 
+
+
+<br>
+<br>
+<br>
+
+| Route name     	| /api/auth/google-login                                                                                                                                                                                              	|
+|----------------	|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| Operation type 	| POST                                                                                                                                                                                                                	|
+| Description    	| Login via Google.                                                                                                                                                                                                   	|
+| Usage          	| Login via Google’s API. Finds the registered email in users with the verified email returned by Google. If validated, sign and return a valid token back to the user and redirect the user to his/her profile page. 	|
+| Note           	| Ensure gmail used to login via Google is registered in users collection.                                                                                                                                            	|
+| Parameters     	| -                                                                                                                                                                                                                   	|
+| Success Code   	| 200                                                                                                                                                                                                                 	|
+| Other Code     	| 401 (Email not verified/ Google error)                                                                                                                                                                              	|
+<br>
+<br>
+<br>
+
+| Route name     	| /api/auth/user                                                                                                                              	|
+|----------------	|---------------------------------------------------------------------------------------------------------------------------------------------	|
+| Operation type 	| GET                                                                                                                                         	|
+| Description    	| Returns a user’s account information with profile ID appended.                                                                              	|
+| Usage          	| Finds the user’s entry in users collection by User ID. Fetches user’s profile ID and appends it to user account information and returns it. 	|
+| Note           	| Middleware: Users must be validated with the tokens provided.                                                                               	|
+| Parameters     	| In header: x-auth-token - valid user token                                                                                                  	|
+| Success Code   	| 200                                                                                                                                         	|
+| Other Code     	| 500                                                                                                                                         	|
+
+
+<br>
+
+#### S3 Routes
+
+Routes to perform operations to AWS S3 bucket. Generally stored in server/routes/api/s3.js. Ensure bucket credentials are correctly provided and linked in GitHub Secrets.
+
+| Route name     	| /api/s3/upload                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           	|
+|----------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| Operation type 	| POST                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	|
+| Description    	| Upload documents, certificates or profile pictures onto S3.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              	|
+| Usage          	| If “x-cert” is set, “x-pfp-upload” cannot be used, vice versa. Stores the upload entry on profiles via mongo.postUpload Profile picture: Finds existing profile picture path from profiles. Deletes current profile picture from S3 bucket if it is not the default profile picture and replaces the path. Certificate: Uploads file to S3. If successful, append the file entry to the users’ profile field certificates. Documents: Uploads file to S3. If successful, append the file entry to the users’ profile field filesAndDocs. 	|
+| Note           	| Middleware: Users must be validated with the tokens provided. Ensure the flag “x-cert” is set appropriately. “true” for certificate, “false” for documents.  Ensure the flag “x-pfp-upload” is set appropriately. “true” for profile pictures. Only one header can be set in each call. Changes must be tested alongside the postUpload function in server/routes/api/mongo.js.                                                                                                                                                          	|
+| Parameters     	| In header:  x-cert - Flag for signalling certificate or document upload x-pfp-upload - Flag for signalling profile picture upload and replacement x-auth-token - Valid user token In body: name - User-defined file name to be shown description - User-defined file description file - Metadata of file                                                                                                                                                                                                                                 	|
+| Success Code   	| 200                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      	|
+| Other Code     	| 500                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      	|
+
+<br>
+<br>
+<br>
+
+| Route name     	| /api/s3/remove/{file} 	|
+|----------------	|-----------------------	|
+| Operation type 	| POST                  	|
+
+<br>
+<br>
+<br>
+
+| Description  	| Removes documents or certificates from S3.                                                                                                                                                                                                                                                                                                                                                                                                            	|
+|--------------	|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| Usage        	| “x-cert” in the header must be set to “true” if deleting a certificate. By default false and it will attempt to remove the file from filesAndDocs, returning a failed operation if not found. Validation of file owner must be performed prior to deleting, which prevents removing other user’s documents without permission. After successful deletion of file data in AWS S3, removes the file/certificate entry from the user’s profile instance. 	|
+| Note         	| Middleware: Users must be validated with the tokens provided. Ensure the flag “x-cert” is set appropriately. “true” for certificate, “false” for documents.  File-to-be-deleted must be owned by the user requesting the operation via user token. Changes must be tested alongside the postDelete function in server/routes/api/mongo.js.                                                                                                            	|
+| Parameters   	| In path: file - path to file stored on S3, usually fetched from a File model’s url data field In header:  x-cert - Flag for signalling certificate or document upload x-auth-token - Valid user token                                                                                                                                                                                                                                                 	|
+| Success Code 	| 202                                                                                                                                                                                                                                                                                                                                                                                                                                                   	|
+| Other Code   	| 403 (File not owned by user), 500                                                                                                                                                                                                                                                                                                                                                                                                                     	|
+
+
+<br>
+
+
 ## Deployment Guidelines
+
+The deployment process for the product has been streamlined as much as possible to keep the development environment as comfortable as possible. 
+
+### Current deployment
+
+We deploy on Heroku, through a Docker container that is built within GitHub Actions. Any environment variables that need to be set are located in /server/config/development.json, and the corresponding names are mentioned in the “Fresh deploying” section below. This file has only been provided to pass on the required information to future developers. In an actual production scenario, this file must be deleted from the repository to keep the information secure. 
+
+If a developer wants access to the current repository, then they would need to be manually added as a collaborator.
+
+The Docker container is defined in **/Dockerfile**. This is a set of instructions that is used by Actions to create the container. 
+
+Extra code in the workflow ensures that a cache of each workflow is created on GitHub, and can be used later for faster deployment. The external tools used are: 
+ - actions/cache@v2
+ - docker/setup-buildx-action@v1
+ - docker/login-action@v1
+ - docker/build-push-action@v2
+
+The Actions workflow is run in two scenarios: 
+ - When a pull request is made, it only tests the code.
+ - When a pull request is merged, or a commit is made directly to master, it tests again, and if successful, it deploys the code.
+
+
+### Fresh deploying
+
+
+Steps to create a new instance/deployment of the product:
+
+ 1. Create an application on Heroku, and a repository on GitHub with any settings.
+ 2. (optional) Create two MongoDB Atlas databases, and obtain the access URIs - one is the production database and the other is the testing database. Make sure to set the access IP whitelist to 0.0.0.0 on both, as deployment on a free version of Heroku does not provide a static IP. This step is optional as the original database can be used, but is necessary if a fresh start is required.
+ 3. Obtain an API key for the application on Heroku.
+ 4. The following environment variables need to be set through Heroku’s Config Vars, and GitHub’s Secrets:
+   * JWT_SECRET (jwtSecret)
+   * MONGODB_URI (mongoURI)
+   * S3_BUCKET_NAME (s3Bucket)
+   * S3_SECRET (iamSecret)
+   * S3_USER (iamUser)
+ 5. In addition to the above, GitHub specifically needs some extra secrets: 
+   * HEROKU_API_KEY (the obtained API key)
+   * HEROKU_APP_NAME (the name of the Heroku application)
+   * HEROKU_EMAIL (the email ID used to create the Heroku account)
+   * MONGODB_TEST_URI (mongoTestURI)
+
+Once this is setup, to create an initial deployment, the workflow provided in /.github/workflows has to be run within GitHub Actions. This will automatically test, build, and deploy the product. Then the normal procedure of deployment will follow.
+
+
+### Local development
+
+
+There are multiple commands set up to facilitate localhost development. These are defined in /package.json.
+* npm run dev - This should be used almost at all times during development. It creates a temporary build, and runs the server. These instances get updated immediately on saving a file in the source code - and changes are reflected immediately.
+* npm test - This runs the tests for the frontend portion of the code. Use this to test against snapshots or to create new ones when required.
+
+There are more commands located in **/server/**, to facilitate additional tweaking, defined in **/server/package.json**:
+ * npm run localtest - This runs the tests for the backend/server using Mocha. The tests are run on the testing database.
+ * npm run localstart - This should only be used if testing the server with no requirement for frontend contents, otherwise it is covered by npm run dev above.
+
+The other commands that are present, are for deployment purposes only, and should not be changed unless necessary. These simply run the same commands but with different settings, making sure the application knows that it is on a production environment as opposed to a development or testing environment - thus correctly choosing whether to use the production or testing database.
+
 
 ## Product Changelog
 
+Note* The below table consists of only major releases/changes of the product and does not represent the entirety of the development process as followed by its definition. 
+
+| Date         | Type     | Description                                                 | Branch                          |
+|--------------|----------|-------------------------------------------------------------|---------------------------------|
+| Aug 26, 2020 | feature  | Explorable page for viewing                                 | joshDaniel/Frontend             |
+| Aug 31, 2020 | feature  | Server port for heroku                                      | aman/dockerDeploy               |
+| Sep 5, 2020  | bugfix   | Incorrect url path connect fix                              | master                          |
+| Sep 8, 2020  | feature  | Browse page                                                 | anjali-placeholder-pages        |
+| Sep 8, 2020  | buildfix | Decrease delay on page switch                               | joshDaniel/Frontend             |
+| Sep 9, 2020  | feature  | MongoDB Connection, server deployment                       | amanNicholas/DBBackend          |
+| Sep 10, 2020 | feature  | Description box                                             | Anjali-UI-skeleton              |
+| Sep 12, 2020 | feature  | Display image from server                                   | amanNicholas/DBBackend          |
+| Sep 13, 2020 | rework   | Enhanced visual for profile page                            | danielJoshAnjali/profileTouchUp |
+| Sep 17, 2020 | feature  | Axios for api calls and mongo api routes                    | master                          |
+| Sep 21, 2020 | feature  | Default user profile layout                                 | danielJoshAnjali/profileTouchUp |
+| Sep 22, 2020 | feature  | Retain login credential                                     | master                          |
+| Sep 22, 2020 | feature  | Additional 2 unique profile layout for users to choose      | joshAnjali/profile-presets      |
+| Sep 23, 2020 | feature  | Profile attribute Skills                                    | Anjali/profile-skills           |
+| Sep 24, 2020 | feature  | Login, myprofile feature                                    | amanNicholas/loginBackend       |
+| Sep 25, 2020 | feature  | File retrieval, img-upload                                  | aman/githubActions              |
+| Sep 30, 2020 | rework   | New look for all four profile layout                        | joshDanielAnjali/UI-rework      |
+| Oct 3, 2020  | feature  | Edit mode for all profiles                                  | joshDanielAnjali/UI-rework      |
+| Oct 5, 2020  | feature  | Heroku registry, docker layers for better server connection | aman/deployment                 |
+| Oct 7, 2020  | rework   | Edit procedure                                              | joshDanielAnjali/UI-rework      |
+| Oct 9, 2020  | rework   | Enhance profile layout and attribute showcase               | joshDanielAnjali/UI-rework      |
+| Oct 13, 2020 | feature  | More user attribute                                         | joshDanielAnjali/UI-rework      |
+| Oct 18, 2020 | feature  | Google login                                                | aman/googleAuth                 |
+| Oct 21, 2020 | feature  | File download from user profile                             | aman/uploadFrontend             |
+| Oct 23, 2020 | feature  | Colour customisation                                        | joshDanielAnjali/UI-rework      |
+| Oct 27, 2020 | rework   | Enhance profile layouts                                     | joshDanielAnjali/UI-rework      |
+| Oct 28, 2020 | rework   | Colour customisation                                        | josh/ColourCustomisation        |
+| Oct 29, 2020 | feature  | Social Media links and icons                                | master                          |
+| Oct 30, 2020 | bugfix   | Browse search issue                                         | joshDanielAnjali/UI-rework      |
+| Nov 1, 2020  | feature  | Project, education folder                                   | joshDanielAnjali/UI-rework      |
+| Nov 3, 2020  | bugfix   | Data retrieval error                                        | joshDanielAnjali/UI-rework      |
+
 ## License
+
+Elite portfolio is licensed under the MIT License
+
+Copyright © Control Alt Elite, Inc. and its affiliates
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the right to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
