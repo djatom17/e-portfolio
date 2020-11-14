@@ -7,11 +7,8 @@ This readme intends to document the development process to provide a good unders
 ## Table of Contents
 * [Team Members](#team-members)
 * [About the Artifact](#about-the-artifact)
-* [Technology Stack](#technology-stack)
-* [User Interface](#user-interface)
-* [Website Structure](#website-structure)
-* [Data Storage and Retrieval](#data-storage-and-retrieval)
-* [Dependencies](#dependencies)
+* [UI Guide](#ui-guide)
+
 
 ## Team Members
 
@@ -40,115 +37,66 @@ Each user should be able to:
   - Upload/edit Work and Education history
   - Upload/delete files such as certificates/academic papers etc.
   - Upload/delete social media links
+  - Bonus: Register for an account
+  
+## UI Guide
 
-## Technology Stack
+### Browse
 
-(describe stack)
-(possibly add diagram)
+#### Search Bar
+Search Bar -> Textbox -> OnClick -> Becomes focused and allows the user to type.  
+Search Bar -> Textbox -> OnBlur -> Becomes out of focus while retaining any text input.  
+Search Bar -> Search Button -> OnClick -> Executes the search query in text box.  
+Search Bar -> Advanced Search Button -> OnClick -> Pops open the advanced search modal.  
 
-(additional technologies used)
+#### Advanced Search Modal
+Search Bar -> Textbox -> OnClick -> Becomes focused and allows the user to type.  
+Search Bar -> Textbox -> OnBlur -> Becomes out of focus while retaining any text input.  
+Search Bar -> Search Button -> OnClick -> Executes the search query in text box.  
+Search Bar -> Advanced Search Button -> OnClick -> Pops open the advanced search modal.  
 
-## User Interface
- 
- The web-app UI is built using React JS components. We have built custom CSS styles to control the overall aesthetic of our pages. Here is a snippet of our *App.css* defining 
- styles for our browse page.
- 
- ```
- .browse-outer {
-  margin: auto;
-  width: 100%;
-  border: 2px solid #bbb;
-  padding: 10px;
-  overflow: auto;
-}
+#### Profile Card
+Search Bar -> Textbox -> OnClick -> Becomes focused and allows the user to type.  
+Search Bar -> Textbox -> OnBlur -> Becomes out of focus while retaining any text input.  
+Search Bar -> Search Button -> OnClick -> Executes the search query in text box.  
+Search Bar -> Advanced Search Button -> OnClick -> Pops open the advanced search modal.  
 
-.browse-profile-picture {
-  width: 240px;
-  height: 260px;
-  padding: 10px;
-  float: left;
-  clear: left;
-}
- ```
- 
- The UI consists of two kinds of components:
- 1. Site-wide components such as the navbar
- 2. Specific JS pages
- The former can be found in *layout* and the later can be found in *auth*.
- 
- <img src="readme_images/UI Directory.PNG" width='256'>
- 
- (more on components will be added once we have acquired them)
- 
-These components create all the pages the user can interact with:
-- Home Page - our landing page which prompts the user to log in or find out more.
-- Log in - allows a user to login to be able to edit their profile.
-- Browse - where all our users' summaries are displayed for visitors to see.
-- Profile - essentially the e-portfolio where a users' bio data, skills, work history and more are displayed in greater detail. 
-- About - a page that displays information about our product.
- 
-We have implemented a 4 profile page **presets** (like the early prototypes shown below) for our clients to choose from. 
- <p>
-  <img src="readme_images/Layout1.PNG" width='512'>
-  </p>
-  <p>
-  <img src="readme_images/Layout2.PNG" width='512'>
- </p>
+### Profile
 
+#### Profile Picture
+Search Bar -> Textbox -> OnClick -> Becomes focused and allows the user to type.  
+Search Bar -> Textbox -> OnBlur -> Becomes out of focus while retaining any text input.  
+Search Bar -> Search Button -> OnClick -> Executes the search query in text box.  
+Search Bar -> Advanced Search Button -> OnClick -> Pops open the advanced search modal.  
 
-## Data Storage and Retrieval
+#### About Text
+About Text -> Edit Icon -> onClick -> Convert text to textbox.  
+About Text -> Textbox -> onBlur -> Keep changes.  
+About Text -> Textbox -> onPressEnter -> Keep changes.  
 
-In order to display the data on a profile: the front-end, back-end and data storage services have to interact with each other.
+#### Social Media Bar
+Social Media Checkbox -> Determines whether given social media is displayed on profile. 
+Social Media Icon -> onDoubleClick -> Open textbox to edit url of social media.  
+Textbox -> onPressEnter -> Keep changes.  
 
-Starting from the back, this is how our infrastructure handles data storage and retrieval.
-1. Profile data is stored in:
-   - MongoDB if it is organised text data
-   - S3 bucket if it is a file ( eg. profile picture, academic document)
+#### Achievements
+Achievement Item -> OnDoubleClick -> Convert text to textbox.  
+Achievement Item -> Textbox -> onBlur -> Keep changes.  
+Achievement Item -> Textbox -> onPressEnter -> Keep changes.  
+Achievement Item -> Delete button -> onClick -> Remove achievement.  
+Add Button -> Add a new textbox for the user to add a new achievement.  
 
-2. Data is retrieved from the appropriate storage using Node JS requests. *Mongoose API* is used to communicate with MongoDB - for authentication and retrieving specific profiles.
-The code from *mongo.js* below shows an example interaction between the back-end and the database.
+#### Skills 
+Skill Item -> OnDoubleClick -> Convert text to textbox.  
+Skill Item -> Textbox -> onBlur -> Keep changes.  
+Skill Item -> Textbox -> onPressEnter -> Keep changes.  
+Skill Item -> X button -> onClick -> Remove skill.  
+Add Button -> Add a new textbox for the user to add a new skill.  
 
-```
-// Get all profiles
-mongorouter.get('/profiles', function(req, res, next) {
-  //get all profile entries from MongoDB.profiles
-  Profile.find().lean().exec((err, profiles) => {
-    if (err) return res.send("[Mongoose] Error in fetching profiles.");
-
-    console.log("[Mongoose] Fetched all profiles.");
-    res.send(profiles);
-  });
-});
-```
-
-3. The retrieved data is then process in React JS to be displayed appropriately on the web-app. 
-The code from *ProfileData.js* below shows an example of how functions are used to format the data.
-
-```
-export function getElements (lst)
-{
-    if(lst)
-    {
-        return lst.map((item, index) =>(
-        <p>{item}</p>
-        ));
-    }
-}
-```
-
-## Routing 
-
-Any request made for a page on the web-app is processed and served using Node JS and express. Express is the server framework we are using that handles requests pages based on their URLs. The code below is a snippet of routing from *app.js*.
-
-```
-// Handle React routing, return all requests to React app
-app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "/../build", "index.html"));
-});
-```
+#### Card
+Edit Icon -> Convert card to editable form.  
+Delete Icon -> Remove card.  
+Form -> Save Icon -> Keep changes.  
 
 
-## Dependencies
- 
- 
- 
+

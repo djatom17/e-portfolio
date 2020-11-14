@@ -232,7 +232,7 @@ export class EducationManagerSmall extends Component {
               );
             })}
 
-          {inputVisible ? (
+          {this.props.isMyProfile && this.props.canEdit && inputVisible ? (
             // inputVisible: add new education card
             <Card
               style={{

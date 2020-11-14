@@ -168,7 +168,7 @@ export class CareerManager extends Component {
                       <Form.Item name="description" label="Description">
                         <Input.TextArea
                           showCount
-                          maxLength={100}
+                          maxLength={1000}
                           placeholder="Add a description"
                         />
                       </Form.Item>
@@ -271,7 +271,7 @@ export class CareerManager extends Component {
               );
             })}
 
-          {inputVisible ? (
+          {this.props.isMyProfile && this.props.canEdit && inputVisible ? (
             // inputVisible: add new career card
             <Card
               style={{
@@ -326,7 +326,7 @@ export class CareerManager extends Component {
                 >
                   <Input.TextArea
                     showCount
-                    maxLength={100}
+                    maxLength={1000}
                     placeholder="Add a description"
                   />
                 </Form.Item>
