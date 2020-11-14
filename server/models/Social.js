@@ -24,7 +24,7 @@ const PlatformSchema = new Schema({
   isEnabled: {
     type: Boolean,
     required: true,
-    default: true,
+    default: false,
   },
 });
 
