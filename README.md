@@ -94,9 +94,9 @@ Skill Item -> X button -> onClick -> Remove skill.
 Add Button -> Add a new textbox for the user to add a new skill.  
 
 #### Card
-Edit Icon -> Convert card to editable form.
-Delete Icon -> Remove card.
-Form -> Save Icon -> Keep changes.
+Edit Icon -> Convert card to editable form.  
+Delete Icon -> Remove card.  
+Form -> Save Icon -> Keep changes.  
 
 
 
