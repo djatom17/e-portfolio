@@ -271,7 +271,7 @@ export class CareerManager extends Component {
               );
             })}
 
-          {inputVisible ? (
+          {this.props.isMyProfile && this.props.canEdit && inputVisible ? (
             // inputVisible: add new career card
             <Card
               style={{
