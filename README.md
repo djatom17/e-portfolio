@@ -45,18 +45,24 @@ Each user should be able to:
 ### Browse
 
 #### Search Bar
+<img src=./readme_images/ui7.png />
+
 Search Bar -> Textbox -> OnClick -> Becomes focused and allows the user to type.  
 Search Bar -> Textbox -> OnBlur -> Becomes out of focus while retaining any text input.  
 Search Bar -> Search Button -> OnClick -> Executes the search query in text box.  
 Search Bar -> Advanced Search Button -> OnClick -> Pops open the advanced search modal.  
 
 #### Advanced Search Modal
+<img src=./readme_images/ui6.png height=200/>
+
 Search Bar -> Textbox -> OnClick -> Becomes focused and allows the user to type.  
 Search Bar -> Textbox -> OnBlur -> Becomes out of focus while retaining any text input.  
 Search Bar -> Search Button -> OnClick -> Executes the search query in text box.  
 Search Bar -> Advanced Search Button -> OnClick -> Pops open the advanced search modal.  
 
 #### Profile Card
+<img src=./readme_images/ui5.png height=200/>
+
 Search Bar -> Textbox -> OnClick -> Becomes focused and allows the user to type.  
 Search Bar -> Textbox -> OnBlur -> Becomes out of focus while retaining any text input.  
 Search Bar -> Search Button -> OnClick -> Executes the search query in text box.  
@@ -76,11 +82,15 @@ About Text -> Textbox -> onBlur -> Keep changes.
 About Text -> Textbox -> onPressEnter -> Keep changes.  
 
 #### Social Media Bar
+
+<img src=./readme_images/ui1.png/>
 Social Media Checkbox -> Determines whether given social media is displayed on profile. 
 Social Media Icon -> onDoubleClick -> Open textbox to edit url of social media.  
 Textbox -> onPressEnter -> Keep changes.  
 
 #### Achievements
+<img src=./readme_images/u3.png height=200/>
+
 Achievement Item -> OnDoubleClick -> Convert text to textbox.  
 Achievement Item -> Textbox -> onBlur -> Keep changes.  
 Achievement Item -> Textbox -> onPressEnter -> Keep changes.  
@@ -88,6 +98,7 @@ Achievement Item -> Delete button -> onClick -> Remove achievement.
 Add Button -> Add a new textbox for the user to add a new achievement.  
 
 #### Skills 
+<img src=./readme_images/u4.png />
 Skill Item -> OnDoubleClick -> Convert text to textbox.  
 Skill Item -> Textbox -> onBlur -> Keep changes.  
 Skill Item -> Textbox -> onPressEnter -> Keep changes.  
@@ -95,6 +106,9 @@ Skill Item -> X button -> onClick -> Remove skill.
 Add Button -> Add a new textbox for the user to add a new skill.  
 
 #### Card
+
+<img src=./readme_images/u2.png height=200/>
+
 Edit Icon -> Convert card to editable form.  
 Delete Icon -> Remove card.  
 Form -> Save Icon -> Keep changes.  
