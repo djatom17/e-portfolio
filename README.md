@@ -58,7 +58,7 @@ Search Bar -> Advanced Search Button -> OnClick -> Pops open the advanced search
 
 #### Advanced Search Modal
 
-<img src=./readme_images/ui6.png height=200/>
+<img src=./readme_images/ui6.PNG height=200/>
 
 Search Bar -> Textbox -> OnClick -> Becomes focused and allows the user to type.  
 Search Bar -> Textbox -> OnBlur -> Becomes out of focus while retaining any text input.  
