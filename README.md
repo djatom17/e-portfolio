@@ -1,5 +1,6 @@
 # Elite Flex e-portfolio
 
+Deployed at https://e-port-folio.herokuapp.com
 IT Project (COMP30022) Semester 2, 2020
 
 ## About this readme
